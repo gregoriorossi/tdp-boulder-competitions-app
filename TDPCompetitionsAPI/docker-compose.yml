@@ -1,0 +1,22 @@
+services:
+  tdpcompetitionsapi:
+    image: ${DOCKER_REGISTRY-}tdpcompetitionsapi
+    build:
+      context: .
+      dockerfile: TDPCompetitionsAPI/Dockerfile
+    networks:
+    - tdpnetwork
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: tdpdbserver 
+    environment:
+      SA_PASSWORD: "TDPPassword.DEV2025!"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    networks:
+      - tdpnetwork
+
+networks:
+  tdpnetwork:

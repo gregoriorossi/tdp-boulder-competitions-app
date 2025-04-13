@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TDPCompetitionsAPI.Domain.Entities;
+using TDPCompetitionsAPI.Core.Entities;
 
 namespace TDPCompetitionsAPI.Infrastructure.Data
 {

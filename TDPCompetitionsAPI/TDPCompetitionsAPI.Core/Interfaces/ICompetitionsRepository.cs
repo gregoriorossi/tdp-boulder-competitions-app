@@ -1,4 +1,4 @@
-﻿namespace TDPCompetitionsAPI.Domain.Interfaces
+﻿namespace TDPCompetitionsAPI.Core.Interfaces
 {
     public interface ICompetitionsRepository
     {

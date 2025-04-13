@@ -1,4 +1,4 @@
-﻿namespace TDPCompetitionsAPI.Domain.Entities
+﻿namespace TDPCompetitionsAPI.Core.Entities
 {
     public class User
     {

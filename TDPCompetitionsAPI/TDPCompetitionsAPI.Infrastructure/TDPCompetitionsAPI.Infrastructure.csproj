@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TDPCompetitionsAPI.Domain\TDPCompetitionsAPI.Domain.csproj" />
+    <ProjectReference Include="..\TDPCompetitionsAPI.Core\TDPCompetitionsAPI.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

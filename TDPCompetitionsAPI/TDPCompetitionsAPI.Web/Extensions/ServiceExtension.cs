@@ -1,5 +1,5 @@
 ﻿using System.Runtime.CompilerServices;
-using TDPCompetitionsAPI.Domain.Interfaces;
+using TDPCompetitionsAPI.Core.Interfaces;
 using TDPCompetitionsAPI.Infrastructure.Repositories;
 
 namespace TDPCompetitionsAPI.Extensions

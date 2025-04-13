@@ -1,4 +1,4 @@
-﻿using TDPCompetitionsAPI.Domain.Interfaces;
+﻿using TDPCompetitionsAPI.Core.Interfaces;
 
 namespace TDPCompetitionsAPI.Infrastructure.Repositories
 {

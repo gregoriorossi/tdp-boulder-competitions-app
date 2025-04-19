@@ -1,14 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TDPCompetitionsAPI.Infrastructure.Models
 {
     [Table("Registration")]
-    public class Registration
+    public class Registration : BaseModel<int>
     {
-        [Key]
-        public string Id { get; set; }
-
         public string Name { get; set; } = string.Empty;
 
         public string Surname { get; set; } = string.Empty;
@@ -34,6 +30,7 @@ namespace TDPCompetitionsAPI.Infrastructure.Models
         public Gender Gender { get; set; }
 
         public List<Minor> Minors { get; set; } = new List<Minor>();
+
         public Competitor Competitor { get; set; }
     }
 }

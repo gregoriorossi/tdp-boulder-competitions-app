@@ -1,6 +1,8 @@
-﻿using System.Runtime.CompilerServices;
-using TDPCompetitionsAPI.Core.Interfaces;
+﻿using TDPCompetitionsAPI.Core.Interfaces.Repositories;
+using TDPCompetitionsAPI.Core.Interfaces.Services;
 using TDPCompetitionsAPI.Infrastructure.Repositories;
+using TDPCompetitionsAPI.Infrastructure.Interfaces;
+using TDPCompetitionsAPI.Services;
 
 namespace TDPCompetitionsAPI.Extensions
 {
@@ -15,8 +17,11 @@ namespace TDPCompetitionsAPI.Extensions
             services.AddScoped<ICompetitionsRepository, CompetitionsRepository>();
             #endregion
 
-            #region Mapper
+            #region Repositories
+            services.AddScoped<ICompetitionsService, CompetitionsService>();
             #endregion
+
+
 
             return services;
         }

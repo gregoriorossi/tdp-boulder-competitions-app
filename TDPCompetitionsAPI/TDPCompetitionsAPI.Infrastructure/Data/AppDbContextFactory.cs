@@ -15,9 +15,9 @@ namespace TDPCompetitionsAPI.Infrastructure.Data
                 .Build();
 
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-
+            Console.WriteLine($"Connection String {connectionString}");
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer("Server=localhost;Database=MyDb;Trusted_Connection=True;");
+            optionsBuilder.UseSqlServer(connectionString);
 
             return new AppDbContext(optionsBuilder.Options);
         }

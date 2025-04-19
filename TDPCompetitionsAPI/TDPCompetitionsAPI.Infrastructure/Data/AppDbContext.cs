@@ -7,9 +7,9 @@ namespace TDPCompetitionsAPI.Infrastructure.Data
     {
         public AppDbContext() : base() { }
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
-        public DbSet<Competition> Competitions { get; set; }
-        public DbSet<Registration> Registrations { get; set; }
-        public DbSet<Minor> Minor { get; set; }
-        public DbSet<Competitor> Competitors { get; set; }
+        internal DbSet<Competition> Competitions { get; set; }
+        internal DbSet<Registration> Registrations { get; set; }
+        internal DbSet<Minor> Minor { get; set; }
+        internal DbSet<Competitor> Competitors { get; set; }
     }
 }

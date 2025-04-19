@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TDPCompetitionsAPI.Core.Entities;
+using TDPCompetitionsAPI.Core.Interfaces.Services;
 
 namespace TDPCompetitionsAPI.Controllers
 {
@@ -8,17 +9,16 @@ namespace TDPCompetitionsAPI.Controllers
     public class CompetitionsController : ControllerBase
     {
         private readonly ILogger<CompetitionsController> _logger;
+        private readonly ICompetitionsService competitionsService;
 
-        public CompetitionsController(ILogger<CompetitionsController> logger)
+        public CompetitionsController(
+            ILogger<CompetitionsController> logger,
+            ICompetitionsService competitionsService)
         {
             _logger = logger;
+            this.competitionsService = competitionsService;
         }
 
-        [HttpGet]
-        public IActionResult Get()
-        {
-            var competitions = new List<Competition>();
-            return Ok(competitions);
-        }
+        
     }
 }

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TDPCompetitionsAPI.Infrastructure.Models
+﻿namespace TDPCompetitionsAPI.Infrastructure.Models
 {
-    public class Minor
+    public class Minor : BaseModel<int>
     {
         public string Name { get; set; } = string.Empty;
 
@@ -25,6 +19,7 @@ namespace TDPCompetitionsAPI.Infrastructure.Models
         public string BirthProvince { get; set; } = string.Empty;
 
         public Gender Gender { get; set; }
+
         public Competitor Competitor { get; set; }
     }
 }

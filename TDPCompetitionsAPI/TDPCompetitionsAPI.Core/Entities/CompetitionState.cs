@@ -1,4 +1,4 @@
-﻿namespace TDPCompetitionsAPI.Infrastructure.Models
+﻿namespace TDPCompetitionsAPI.Core.Entities
 {
     public enum CompetitionState
     {

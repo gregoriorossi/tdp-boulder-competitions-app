@@ -1,9 +1,8 @@
 ﻿namespace TDPCompetitionsAPI.Infrastructure.Models
 {
-    public enum CompetitionState
+    public enum Gender
     {
-        DRAFT,
-        ONGOING,
-        CLOSED
+        MALE,
+        FEMALE
     }
 }

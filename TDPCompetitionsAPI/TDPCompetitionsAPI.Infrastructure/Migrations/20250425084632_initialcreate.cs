@@ -15,8 +15,7 @@ namespace TDPCompetitionsAPI.Infrastructure.Migrations
                 name: "Competitions",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -42,7 +41,7 @@ namespace TDPCompetitionsAPI.Infrastructure.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Gender = table.Column<int>(type: "int", nullable: false),
                     IsMinor = table.Column<bool>(type: "bit", nullable: false),
-                    CompetitionId = table.Column<int>(type: "int", nullable: true),
+                    CompetitionId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     EntryDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdateDate = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },

@@ -1,10 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TDPCompetitionsAPI.Infrastructure.Models
 {
     [Table("Competitions")]
-    public class Competition : BaseModel<int>
+    public class Competition : BaseModel<Guid>
     {
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;

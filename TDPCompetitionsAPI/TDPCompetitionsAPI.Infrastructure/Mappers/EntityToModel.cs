@@ -11,6 +11,7 @@ namespace TDPCompetitionsAPI.Web.Mappers
         {
             return new Competition()
             {
+                Id = model.Id,
                 Title = model.Title,
                 Date = model.Date,
                 AreRankingsVisible = model.AreRankingsVisible,

@@ -3,7 +3,7 @@
 namespace TDPCompetitionsAPI.Web.Mappers
 {
     /// <summary>
-    /// ViewModel to Entity mapping
+    /// Entity from model mapping
     /// </summary>
     public static class ModelToEntity
     {
@@ -11,6 +11,7 @@ namespace TDPCompetitionsAPI.Web.Mappers
         {
             return new Core.Entities.Competition()
             {
+                Id = model.Id,  
                 Title = model.Title,
                 Date = model.Date,
                 AreRankingsVisible = model.AreRankingsVisible,
@@ -20,7 +21,6 @@ namespace TDPCompetitionsAPI.Web.Mappers
                 IsRegistrationOpen = model.IsRegistrationOpen,
                 Slug = model.Slug,
                 //State = model.State
-                
             };
         }
     }

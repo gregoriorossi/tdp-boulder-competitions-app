@@ -12,7 +12,7 @@ using TDPCompetitionsAPI.Infrastructure.Data;
 namespace TDPCompetitionsAPI.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250419175620_initialcreate")]
+    [Migration("20250425084632_initialcreate")]
     partial class initialcreate
     {
         /// <inheritdoc />
@@ -27,11 +27,9 @@ namespace TDPCompetitionsAPI.Infrastructure.Migrations
 
             modelBuilder.Entity("TDPCompetitionsAPI.Infrastructure.Models.Competition", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("AreRankingsVisible")
                         .HasColumnType("bit");
@@ -84,8 +82,8 @@ namespace TDPCompetitionsAPI.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CompetitionId")
-                        .HasColumnType("int");
+                    b.Property<Guid?>("CompetitionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTime?>("EntryDate")
                         .HasColumnType("datetime2");

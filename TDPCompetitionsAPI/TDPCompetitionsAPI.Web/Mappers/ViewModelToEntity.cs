@@ -20,5 +20,23 @@ namespace TDPCompetitionsAPI.Web.Mappers
                 Slug = slug
             };
         }
+
+        public static Competition UpdateCompetitionFromViewModel(UpdateCompetitionViewModel model)
+        {
+            string slug = SlugHelper.Generate(model.Title);
+
+            return new Competition()
+            {
+                Id = model.Id,
+                Title = model.Title,
+                Date = model.Date,
+                Slug = slug,
+                AreRankingsVisible = model.AreRankinsVisible,
+                Description = model.Description,
+                EmailBody = model.EmailBody,
+                EmailSubject = model.EmailSubject,
+                IsRegistrationOpen = model.IsRegistrationOpen
+            };
+        }
     }
 }

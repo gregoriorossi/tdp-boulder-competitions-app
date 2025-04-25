@@ -19,9 +19,9 @@ namespace TDPCompetitionsAPI.Infrastructure.Repositories
         public async Task<Core.Entities.Competition> Create(Core.Entities.Competition model)
         {
             var data = EntityToModel.CreateEntityFromModel(model);
-            await _dbContext.Set<Competition>().AddAsync(data);
+            var result = await _dbContext.Set<Competition>().AddAsync(data);
             await _dbContext.SaveChangesAsync();
-            return model;
+            return ModelToEntity.CreateModelFromEntity(result.Entity);
         }
 
         public async Task Delete(Core.Entities.Competition model)
@@ -39,9 +39,9 @@ namespace TDPCompetitionsAPI.Infrastructure.Repositories
             return result.Select(ModelToEntity.CreateModelFromEntity);
         }
 
-        public async Task<Core.Entities.Competition> GetById(string id)
+        public async Task<Core.Entities.Competition> GetById(Guid id)
         {
-            var data = await _dbContext.Set<Competition>().FindAsync(id);
+            var data = await _dbContext.Set<Competition>().AsNoTracking().FirstOrDefaultAsync(c => c.Id == id);
             if (data == null)
             {
                 throw new EntityNotFoundException($"{typeof(Core.Entities.Competition).Name} with id {id} not found");

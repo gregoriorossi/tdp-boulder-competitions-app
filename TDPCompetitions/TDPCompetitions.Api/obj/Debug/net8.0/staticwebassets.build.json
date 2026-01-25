@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "WJ6h4+LTbqbMugvKpg+pm60AnVBf7D7UCCcmZSQPD0Q=",
+  "Source": "TDPCompetitions.Api",
+  "BasePath": "_content/TDPCompetitions.Api",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

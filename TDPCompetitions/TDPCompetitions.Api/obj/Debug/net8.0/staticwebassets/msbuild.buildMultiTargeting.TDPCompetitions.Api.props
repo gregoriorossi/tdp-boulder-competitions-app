@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\TDPCompetitions.Api.props" />
+</Project>

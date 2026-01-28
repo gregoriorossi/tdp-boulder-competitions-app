@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDPCompetitions.Api", "TDPCompetitions.Api\TDPCompetitions.Api.csproj", "{33530D36-9CE7-466C-B2DF-AC884AE0B579}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TDPCompetitions.Api", "TDPCompetitions.Api\TDPCompetitions.Api.csproj", "{33530D36-9CE7-466C-B2DF-AC884AE0B579}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDPCompetitions.Core", "TDPCompetitions.Core\TDPCompetitions.Core.csproj", "{195EA532-31A7-4654-B0C0-DEA6084EDB3A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDPCompetitions.Infrastracture", "TDPCompetitions.Infrastracture\TDPCompetitions.Infrastracture.csproj", "{0E359004-6E5F-4DD7-8A7A-61E71977005C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{33530D36-9CE7-466C-B2DF-AC884AE0B579}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33530D36-9CE7-466C-B2DF-AC884AE0B579}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33530D36-9CE7-466C-B2DF-AC884AE0B579}.Release|Any CPU.Build.0 = Release|Any CPU
+		{195EA532-31A7-4654-B0C0-DEA6084EDB3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{195EA532-31A7-4654-B0C0-DEA6084EDB3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{195EA532-31A7-4654-B0C0-DEA6084EDB3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{195EA532-31A7-4654-B0C0-DEA6084EDB3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E359004-6E5F-4DD7-8A7A-61E71977005C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E359004-6E5F-4DD7-8A7A-61E71977005C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E359004-6E5F-4DD7-8A7A-61E71977005C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E359004-6E5F-4DD7-8A7A-61E71977005C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

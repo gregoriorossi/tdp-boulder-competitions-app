@@ -15,7 +15,7 @@ namespace TDPCompetitions.Infrastracture.Data
 
         public DbSet<Athlete> Athletes { get; set; }
 
-        public DbSet<ProblemGroup> ProblemGroups { get; set; }
+        public DbSet<ProblemsGroup> ProblemGroups { get; set; }
 
         public DbSet<Problem> Problems { get; set; }
 
@@ -55,7 +55,7 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.Property(r => r.CompetitionId).IsRequired();
             });
 
-            modelBuilder.Entity<ProblemGroup>(entity =>
+            modelBuilder.Entity<ProblemsGroup>(entity =>
             {
                 entity.HasKey(g => g.Id);
                 entity.Property(g => g.ColorCode).IsRequired();

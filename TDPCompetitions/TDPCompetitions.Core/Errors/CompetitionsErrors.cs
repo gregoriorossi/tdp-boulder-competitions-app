@@ -5,4 +5,9 @@
         public static readonly Error NotFound = new Error("CompetitionError.NotFound", "Competition not found");
         public static readonly Error SlugNotAvailable = new Error("CompetitionError.SlugNotAvailable", "Slug not available");
     }
+
+    public static class ProblemsGroupErrors
+    {
+        public static readonly Error NotFound = new Error("ProblemsGroup.NotFount", "ProblemsGroup not found");
+    }
 }

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TDPCompetitions.Api.ViewModels.Competitions
+namespace TDPCompetitions.Api.ViewModels.Editors
 {
     public class UpdateCompetitionVM
     {

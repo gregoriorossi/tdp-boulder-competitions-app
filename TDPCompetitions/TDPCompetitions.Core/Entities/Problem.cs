@@ -9,7 +9,7 @@ namespace TDPCompetitions.Core.Entities
 
         public Guid ProblemGroupId { get; set; }
 
-        public ProblemGroup Group { get; set; } = default!;
+        public ProblemsGroup Group { get; set; } = default!;
 
         public Guid CompetitionId { get; set; } = default!;
     }

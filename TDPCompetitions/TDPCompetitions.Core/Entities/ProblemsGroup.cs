@@ -2,8 +2,8 @@
 
 namespace TDPCompetitions.Core.Entities
 {
-    [Table("ProblemGroups")]
-    public class ProblemGroup : BaseEntity<Guid>
+    [Table("ProblemsGroups")]
+    public class ProblemsGroup : BaseEntity<Guid>
     {
         public int Order { get; set; }
 

@@ -13,9 +13,9 @@ namespace TDPCompetitions.Core.Entities
 
         public string Slug { get; set; } = default!;
 
-        public Guid BannerImageId { get; set; } = default!;
+        public Guid? BannerImageId { get; set; } = default!;
 
-        public File BannerImage { get; set; } = default!;
+        public File? BannerImage { get; set; } = default!;
 
         public bool RegistrationsOpen { get; set; }
 
@@ -25,13 +25,13 @@ namespace TDPCompetitions.Core.Entities
 
         public Guid? PrivacyAttachmentId { get; set; } = default!;
 
-        public File PrivacyAttachment { get; set; } = default!;
+        public File? PrivacyAttachment { get; set; } = default!;
 
         public CompetitionStatus Status { get; set; } = CompetitionStatus.DRAFT;
 
         public ICollection<Registration> Registrations { get; set; } = new List<Registration>();
 
-        public ICollection<ProblemGroup> ProblemGroups { get; set; } = new List<ProblemGroup>();
+        public ICollection<ProblemsGroup> ProblemGroups { get; set; } = new List<ProblemsGroup>();
 
         public ICollection<SpecialProblem> SpecialProblems { get; set; } = new List<SpecialProblem>();
     }

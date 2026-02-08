@@ -25,6 +25,8 @@ namespace TDPCompetitions.Infrastracture.Data
 
         public DbSet<SentSpecialProblem> SentSpecialProblems { get; set; }
 
+        public DbSet<Core.Entities.File> Files { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Competition>(entity =>
@@ -99,6 +101,11 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.Property(p => p.AthleteId).IsRequired();
                 entity.Property(p => p.CompetitionId).IsRequired();
                 entity.Property(p => p.SentAt).IsRequired();
+            });
+
+            modelBuilder.Entity<Core.Entities.File>(entity =>
+            {
+                entity.HasKey(f => f.Id);
             });
         }
     }

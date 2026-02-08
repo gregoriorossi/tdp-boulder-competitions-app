@@ -13,6 +13,8 @@ namespace TDPCompetitions.Core.Entities
 
         public string Slug { get; set; } = default!;
 
+        public Guid BannerImageId { get; set; } = default!;
+
         public File BannerImage { get; set; } = default!;
 
         public bool RegistrationsOpen { get; set; }
@@ -20,6 +22,10 @@ namespace TDPCompetitions.Core.Entities
         public DateTime Date {  get; set; } = default!;
 
         public string EmailText { get; set; } = default!;
+
+        public Guid? PrivacyAttachmentId { get; set; } = default!;
+
+        public File PrivacyAttachment { get; set; } = default!;
 
         public CompetitionStatus Status { get; set; } = CompetitionStatus.DRAFT;
 

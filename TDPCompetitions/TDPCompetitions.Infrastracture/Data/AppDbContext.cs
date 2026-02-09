@@ -89,7 +89,7 @@ namespace TDPCompetitions.Infrastracture.Data
             {
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.ProblemId).IsRequired();
-                entity.Property(p => p.AthleteId).IsRequired();
+                entity.Property(p => p.CompetitorId).IsRequired();
                 entity.Property(p => p.CompetitionId).IsRequired();
                 entity.Property(p => p.SentAt).IsRequired();
             });
@@ -98,7 +98,7 @@ namespace TDPCompetitions.Infrastracture.Data
             {
                 entity.HasKey(p => p.Id);
                 entity.Property(p => p.SpecialProblemId).IsRequired();
-                entity.Property(p => p.AthleteId).IsRequired();
+                entity.Property(p => p.CompetitorId).IsRequired();
                 entity.Property(p => p.CompetitionId).IsRequired();
                 entity.Property(p => p.SentAt).IsRequired();
             });

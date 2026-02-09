@@ -16,6 +16,11 @@ namespace TDPCompetitions.Infrastracture.Managers
             throw new NotImplementedException();
         }
 
+        public Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ProblemsGroup?> DeleteProblemGroupAsync(Guid id, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
@@ -26,7 +31,37 @@ namespace TDPCompetitions.Infrastracture.Managers
             throw new NotImplementedException();
         }
 
+        public Task<Problem?> GetProblemByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ProblemsGroup?> GetProblemGroupByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveSentProblem(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task RemoveSentSpecialProblemAsync(Guid id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SentProblem> SendProblemAsync(SentProblem send)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<SentSpecialProblem> SendSepcialProblemAsync(SentSpecialProblem send)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<Problem> UpdateProblem(Problem problem, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }

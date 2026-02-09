@@ -207,6 +207,41 @@ namespace TDPCompetitions.Api.Controllers
             ICollection<Problem> result = await _problemsManager.AddProblemsToGroupAsync(problems, cancellationToken);
             return Ok(Result<ICollection<Problem>>.Success(result));
         }
+
+        [HttpPatch]
+        [Route("problems/updateProblem")]
+        public async Task<IActionResult> UpdateProblem([FromBody] UpdateProblemVM model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            Problem? exists = await _problemsManager.GetProblemByIdAsync(model.Id, cancellationToken);
+            if (exists == null)
+            {
+                return Ok(Result<Problem>.Failure(ProblemErrors.NotFound));
+            }
+
+            Problem problem = ViewModelToEntity.UpdateProblemVMToProblem(model);
+            var result = await _problemsManager.UpdateProblem(problem, cancellationToken);
+            return Ok(Result<Problem>.Success(result)); 
+        }
+
+        [HttpDelete]
+        [Route("problems/deleteFromGroup/{id}")]
+        public async Task<IActionResult> DeleteProblemFromGroup(Guid id, CancellationToken cancellationToken)
+        {
+            Problem? problem = await _problemsManager.GetProblemByIdAsync(id, cancellationToken);
+            if (problem == null)
+            {
+                return Ok(Result<Problem>.Failure(ProblemErrors.NotFound));
+            }
+
+            await _problemsManager.DeleteProblemFromGroup(problem, cancellationToken);
+            return Ok();
+        }
+
         #endregion
     }
 }

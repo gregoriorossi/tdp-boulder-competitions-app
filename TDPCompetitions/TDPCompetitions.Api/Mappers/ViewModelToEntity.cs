@@ -1,4 +1,5 @@
 ﻿using TDPCompetitions.Api.Helpers;
+using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Core.Entities;
 
@@ -36,6 +37,28 @@ namespace TDPCompetitions.Api.Mappers
             }).ToList();
         }
 
+        internal static SentProblem SendProblemVMToSentProblem(SendProblemVM model)
+        {
+            return new SentProblem
+            {
+                ProblemId = model.ProblemId,
+                CompetitorId = model.CompetitorId,
+                CompetitionId   = model.CompetitionId,
+                SentAt = DateTime.Now
+            };
+        }
+
+        internal static SentSpecialProblem SendSpecialProblemVMToSentSpecialProblem(SendSpecialProblemVM model)
+        {
+            return new SentSpecialProblem
+            {
+                SpecialProblemId = model.SpecialProblemId,
+                CompetitorId = model.CompetitorId,
+                CompetitionId = model.CompetitionId,
+                SentAt = DateTime.Now
+            };
+        }
+
         internal static async Task<Competition> UpdateCompetitionVMToCompetitionAsync(UpdateCompetitionVM model)
         {
             string slug = SlugHelper.Generate(model.Title);
@@ -65,6 +88,17 @@ namespace TDPCompetitions.Api.Mappers
                 Id = model.Id,
                 ColorCode = model.ColorCode,
                 Order = model.Order,
+            };
+        }
+
+        internal static Problem UpdateProblemVMToProblem(UpdateProblemVM model)
+        {
+            return new Problem
+            {
+                Id = model.Id,
+                CompetitionId = model.CompetitionId,
+                Name = model.Name,
+                ProblemGroupId = model.ProblemGroupId
             };
         }
 

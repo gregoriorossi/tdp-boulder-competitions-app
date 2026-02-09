@@ -45,5 +45,10 @@ namespace TDPCompetitions.Infrastracture.Managers
         {
             throw new NotImplementedException();
         }
+
+        public Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

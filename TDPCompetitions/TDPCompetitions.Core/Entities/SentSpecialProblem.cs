@@ -7,7 +7,7 @@ namespace TDPCompetitions.Core.Entities
     {
         public Guid CompetitionId { get; set; }
 
-        public Guid AthleteId { get; set; }
+        public Guid CompetitorId { get; set; }
 
         public Guid SpecialProblemId { get; set; }
 

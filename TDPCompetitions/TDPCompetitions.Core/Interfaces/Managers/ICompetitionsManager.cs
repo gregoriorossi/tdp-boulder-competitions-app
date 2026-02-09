@@ -13,5 +13,6 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<bool> IsSlugAvailableAsync(Competition competition, CancellationToken cancellationToken);
         Task<Competition> UpdateAsync(Competition updateCompetition, CancellationToken cancellationToken);
         Task UpdateCompetitionStatusAsync(CompetitionStatus? status, CancellationToken cancellationToken);
+        Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId);
     }
 }

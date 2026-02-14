@@ -24,6 +24,63 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
+        [Route("register/{competitionId}")]
+        public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationVM model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            bool isAlreadyRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(model.Email, competitionId);
+            if (!isAlreadyRegistered)
+            {
+                return Ok(Result<Registration>.Failure(CompetitionsErrors.AlreadyRegistered));
+            }
+            Registration registration= ViewModelToEntity.AddRegistrationVMToRegistration(model, competitionId);
+            Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
+            
+            return Ok(Result<Registration>.Success(result));
+        }
+
+        [HttpDelete]
+        [Route("register/{registrationId}")]
+        public async Task<IActionResult> DeleteRegistration(Guid registrationId, CancellationToken cancellationToken)
+        {
+            Registration? registration = await _competitionsManager.GetRegistrationAsync(registrationId, cancellationToken);
+            if (registration == null)
+            {
+                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotRegistered));
+            }
+            
+            await _competitionsManager.DeleteRegistrationAsync(registration, cancellationToken);
+            return Ok(Result.Success());
+        }
+
+        [HttpPatch]
+        [Route("register/{competitorId}")]
+        public async Task <IActionResult> UpdateCompetitor(Guid competitorId, [FromBody] UpdateCompetitorVM model, CancellationToken cancellationToken)
+        {
+            Competitor? competitor = await _competitionsManager.GetCompetitorAsync(competitorId, cancellationToken);
+            if (competitor == null)
+            {
+                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotRegistered));
+            }
+
+            // controllo se un competitor è maggiorenne non può diventare minorenne e viceversa
+
+            Competitor competitorUpdated = ViewModelToEntity.UpdateCompetitorVMToCompetitor(model, competitor);
+            Competitor result = _competitionsManager.UpdateCompetitorAsync(competitorUpdated, cancellationToken);
+            return Ok(Result<Competitor>.Success(result));
+        }
+
+        [HttpPost]
         [Route("problems/send")]
         public async Task<IActionResult> SendProblem([FromBody] SendProblemVM model, CancellationToken cancellationToken)
         {
@@ -103,7 +160,7 @@ namespace TDPCompetitions.Api.Controllers
 
         private async Task<Result?> CanCompetitorSend(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
         {
-            Competition? competition = await _competitionsManager.GetByIdAsync(competitorId, cancellationToken);
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
                 return Result<Competition>.Failure(CompetitionsErrors.NotFound);
@@ -111,7 +168,7 @@ namespace TDPCompetitions.Api.Controllers
 
             if (competition.Status != CompetitionStatus.OPEN)
             {
-                return Result<Competition>.Failure(CompetitionsErrors.NotFound);
+                return Result<Competition>.Failure(CompetitionsErrors.NotOpen);
             }
 
             bool isRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(competitorId, competitionId);

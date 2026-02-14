@@ -1,7 +1,9 @@
-﻿using TDPCompetitions.Api.Helpers;
+﻿using TDPCompetitions.Api.Extensions;
+using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Core.Entities;
+using TDPCompetitions.Core.Enums;
 
 namespace TDPCompetitions.Api.Mappers
 {
@@ -37,13 +39,65 @@ namespace TDPCompetitions.Api.Mappers
             }).ToList();
         }
 
+        internal static Registration AddRegistrationVMToRegistration(AddRegistrationVM model, Guid competitionId)
+        {
+            Competitor competitor = AddRegistrationVMToCompetitor(model);
+            ICollection <Competitor> minors = model.Minors.Select(AddMinorVMToCompetitor).ToList();
+
+            return new Registration
+            {
+                CompetitionId = competitionId,
+                CreatedAt = DateTime.UtcNow,
+                Email = model.Email,
+                Competitor = competitor,
+                Minors = minors
+            };
+        }
+
+        private static Competitor AddRegistrationVMToCompetitor(AddRegistrationVM model)
+        {
+            return new Competitor
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsMinor = false,
+                Gender = model.Gender.IntToGender(),
+                BirthProvince = model.BirthProvince,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressProvince = model.AddressProvince,
+                AddressStreet = model.AddressStreet,
+                BirthDate = model.BirthDate,
+                BirthPlace = model.BirthPlace,
+                PhoneNumber = model.PhoneNumber
+            };
+        }
+
+        private static Competitor AddMinorVMToCompetitor(MinorVM model)
+        {
+            return new Competitor
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsMinor = false,
+                Gender = model.Gender.IntToGender(),
+                BirthProvince = model.BirthProvince,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressProvince = model.AddressProvince,
+                AddressStreet = model.AddressStreet,
+                BirthDate = model.BirthDate,
+                BirthPlace = model.BirthPlace
+            };
+        }
+
         internal static SentProblem SendProblemVMToSentProblem(SendProblemVM model)
         {
             return new SentProblem
             {
                 ProblemId = model.ProblemId,
                 CompetitorId = model.CompetitorId,
-                CompetitionId   = model.CompetitionId,
+                CompetitionId = model.CompetitionId,
                 SentAt = DateTime.Now
             };
         }
@@ -117,6 +171,23 @@ namespace TDPCompetitions.Api.Mappers
                 file.Data = ms.ToArray();
             }
             return file;
+        }
+
+        public static Competitor UpdateCompetitorVMToCompetitor(UpdateCompetitorVM model, Competitor competitor)
+        {
+            competitor.AddressCity = model.AddressCity;
+            competitor.AddressNumber = model.AddressNumber;
+            competitor.AddressStreet = model.AddressStreet; 
+            competitor.AddressProvince = model.AddressProvince;
+            competitor.BirthPlace = model.BirthPlace;
+            competitor.BirthDate = model.BirthDate;
+            competitor.BirthProvince = model.BirthProvince;
+            competitor.Gender = model.Gender.IntToGender();
+            competitor.FirstName = model.FirstName; 
+            competitor.LastName = model.LastName;   
+            competitor.PhoneNumber = model.PhoneNumber;
+
+            return competitor;
         }
 
         private static Guid? ParseGuid(string? guid)

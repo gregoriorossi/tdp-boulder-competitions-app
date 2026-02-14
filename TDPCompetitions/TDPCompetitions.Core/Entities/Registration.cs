@@ -12,5 +12,11 @@ namespace TDPCompetitions.Core.Entities
         public Guid CompetitionId { get; set; }
 
         public Competition Competition { get; set; } = null!;
+
+        public Guid CompetitorId { get; set; }
+
+        public Competitor Competitor { get; set; } = default!;
+
+        public ICollection<Competitor> Minors { get; set; } = [];
     }
 }

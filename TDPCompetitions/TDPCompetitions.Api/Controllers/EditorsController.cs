@@ -1,11 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TDPCompetitions.Api.Helpers;
+using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Errors;
 using TDPCompetitions.Core.Interfaces.Managers;
+using TDPCompetitions.Core.Models;
 
 namespace TDPCompetitions.Api.Controllers
 {
@@ -66,7 +67,7 @@ namespace TDPCompetitions.Api.Controllers
                 return BadRequest();
             }
 
-            var status = CompetitionsHelper.IntToStatus(model.Status);
+            var status = model.Status.IntToStatus();
             if (status == null)
             {
                 return BadRequest();
@@ -240,6 +241,37 @@ namespace TDPCompetitions.Api.Controllers
 
             await _problemsManager.DeleteProblemFromGroup(problem, cancellationToken);
             return Ok();
+        }
+
+        #endregion
+
+        #region Competitors
+        [HttpGet]
+        [Route("competition/{competitionId}/rankings")]
+        public async Task<IActionResult> GetRanking(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, cancellationToken);
+            return Ok(Result<ICollection<RankingCompetitor>>.Success(ranking));
+        }
+
+        [HttpGet]
+        [Route("competition/{competitionId}/competitors")]
+        public async Task<IActionResult> GetCompetitors(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            ICollection<Competitor> competitors = await _competitionsManager.GetCompetitorsAsync(competitionId, cancellationToken);
+            return Ok(Result<ICollection<Competitor>>.Success(competitors));
         }
 
         #endregion

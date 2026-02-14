@@ -6,6 +6,7 @@
         public static readonly Error SlugNotAvailable = new Error("CompetitionError.SlugNotAvailable", "Slug not available");
         public static readonly Error NotOpen = new Error("CompetitionError.NotOpen", "Competition not open");
         public static readonly Error NotRegistered = new Error("CompetitionError.NotRegistered", "Competitor not registered");
+        public static readonly Error AlreadyRegistered = new Error("CompetitionError.AlreadyRegistered", "Competitor is registered already");
     }
 
     public static class ProblemsGroupErrors

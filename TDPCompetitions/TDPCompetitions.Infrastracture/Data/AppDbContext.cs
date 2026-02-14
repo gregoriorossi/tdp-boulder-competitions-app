@@ -13,7 +13,7 @@ namespace TDPCompetitions.Infrastracture.Data
 
         public DbSet<Registration> Registrations { get; set; }
 
-        public DbSet<Athlete> Athletes { get; set; }
+        public DbSet<Competitor> Competitors { get; set; }
 
         public DbSet<ProblemsGroup> ProblemGroups { get; set; }
 
@@ -53,6 +53,15 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.Property(r => r.CreatedAt).IsRequired();
                 entity.Property(r => r.Email).IsRequired();
                 entity.Property(r => r.CompetitionId).IsRequired();
+                entity.HasOne(r => r.Competition)
+                    .WithMany(c => c.Registrations)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(r => r.Competitor)
+                    .WithOne(c => c.Registration)
+                    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasMany(r => r.Minors)
+                    .WithOne(c => c.Registration)
+                    .OnDelete(DeleteBehavior.Cascade);
             });
 
             modelBuilder.Entity<ProblemsGroup>(entity =>
@@ -80,9 +89,11 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.Property(g => g.CompetitionId).IsRequired();
             });
 
-            modelBuilder.Entity<Athlete>(entity =>
+            modelBuilder.Entity<Competitor>(entity =>
             {
-                // todo
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.FirstName).IsRequired();
+                entity.Property(c => c.LastName).IsRequired();
             });
 
             modelBuilder.Entity<SentProblem>(entity =>

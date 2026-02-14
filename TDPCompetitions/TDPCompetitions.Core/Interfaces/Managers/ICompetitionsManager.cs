@@ -13,14 +13,14 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<Competition?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
         Task<bool> IsSlugAvailableAsync(Competition competition, CancellationToken cancellationToken);
         Task<Competition> UpdateAsync(Competition updateCompetition, CancellationToken cancellationToken);
-        Task UpdateCompetitionStatusAsync(CompetitionStatus? status, CancellationToken cancellationToken);
-        Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId);
-        Task<bool> IsCompetitorRegisteredAsync(string competitorEmail, Guid competitionId);
+        Task<Competition> UpdateCompetitionStatusAsync(Guid competitionId, CompetitionStatus status, CancellationToken cancellationToken);
+        Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId, CancellationToken cancellationToken);
+        Task<bool> IsCompetitorRegisteredAsync(string competitorEmail, Guid competitionId, CancellationToken cancellationToken);
         Task<Registration> AddRegistrationAsync(Registration registration, CancellationToken cancellationToken);
         Task<Registration?> GetRegistrationAsync(Guid registrationId, CancellationToken cancellationToken);
         Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken);
         Task<Competitor?> GetCompetitorAsync(Guid competitorId, CancellationToken cancellationToken);
-        Competitor UpdateCompetitorAsync(Competitor competitorUpdated, CancellationToken cancellationToken);
+        Task<Competitor> UpdateCompetitorAsync(Competitor competitorUpdated, CancellationToken cancellationToken);
         Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, CancellationToken cancellationToken);
         Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken);
     }

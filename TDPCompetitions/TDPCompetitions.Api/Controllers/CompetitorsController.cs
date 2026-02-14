@@ -38,7 +38,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(Result<Registration>.Failure(CompetitionsErrors.NotFound));
             }
 
-            bool isAlreadyRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(model.Email, competitionId);
+            bool isAlreadyRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(model.Email, competitionId, cancellationToken);
             if (!isAlreadyRegistered)
             {
                 return Ok(Result<Registration>.Failure(CompetitionsErrors.AlreadyRegistered));
@@ -75,8 +75,8 @@ namespace TDPCompetitions.Api.Controllers
 
             // controllo se un competitor è maggiorenne non può diventare minorenne e viceversa
 
-            Competitor competitorUpdated = ViewModelToEntity.UpdateCompetitorVMToCompetitor(model, competitor);
-            Competitor result = _competitionsManager.UpdateCompetitorAsync(competitorUpdated, cancellationToken);
+            Competitor competitorUpdated = ViewModelToEntity.UpdateCompetitorVMToCompetitor(competitorId, model);
+            Competitor result = await _competitionsManager.UpdateCompetitorAsync(competitorUpdated, cancellationToken);
             return Ok(Result<Competitor>.Success(result));
         }
 
@@ -171,7 +171,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Result<Competition>.Failure(CompetitionsErrors.NotOpen);
             }
 
-            bool isRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(competitorId, competitionId);
+            bool isRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(competitorId, competitionId, cancellationToken);
             if (!isRegistered)
             {
                 return Result<Competition>.Failure(CompetitionsErrors.NotRegistered);

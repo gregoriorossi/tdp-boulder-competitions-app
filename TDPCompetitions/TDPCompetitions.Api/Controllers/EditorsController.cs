@@ -4,6 +4,7 @@ using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Core.Entities;
+using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
 using TDPCompetitions.Core.Interfaces.Managers;
 using TDPCompetitions.Core.Models;
@@ -67,7 +68,7 @@ namespace TDPCompetitions.Api.Controllers
                 return BadRequest();
             }
 
-            var status = model.Status.IntToStatus();
+            CompetitionStatus? status = model.Status.IntToStatus();
             if (status == null)
             {
                 return BadRequest();
@@ -79,7 +80,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
             }
 
-            await _competitionsManager.UpdateCompetitionStatusAsync(status, cancellationToken);
+            await _competitionsManager.UpdateCompetitionStatusAsync(model.CompetitionId, (CompetitionStatus) status , cancellationToken);
             return Ok();
         }
 

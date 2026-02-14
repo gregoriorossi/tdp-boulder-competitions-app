@@ -173,19 +173,23 @@ namespace TDPCompetitions.Api.Mappers
             return file;
         }
 
-        public static Competitor UpdateCompetitorVMToCompetitor(UpdateCompetitorVM model, Competitor competitor)
+        public static Competitor UpdateCompetitorVMToCompetitor(Guid competitiorId, UpdateCompetitorVM model)
         {
-            competitor.AddressCity = model.AddressCity;
-            competitor.AddressNumber = model.AddressNumber;
-            competitor.AddressStreet = model.AddressStreet; 
-            competitor.AddressProvince = model.AddressProvince;
-            competitor.BirthPlace = model.BirthPlace;
-            competitor.BirthDate = model.BirthDate;
-            competitor.BirthProvince = model.BirthProvince;
-            competitor.Gender = model.Gender.IntToGender();
-            competitor.FirstName = model.FirstName; 
-            competitor.LastName = model.LastName;   
-            competitor.PhoneNumber = model.PhoneNumber;
+            var competitor = new Competitor
+            {
+                Id = competitiorId,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressStreet = model.AddressStreet,
+                AddressProvince = model.AddressProvince,
+                BirthPlace = model.BirthPlace,
+                BirthDate = model.BirthDate,
+                BirthProvince = model.BirthProvince,
+                Gender = model.Gender.IntToGender(),
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                PhoneNumber = model.PhoneNumber
+            };
 
             return competitor;
         }

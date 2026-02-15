@@ -14,7 +14,16 @@ builder.Services.AddControllers();
 builder.Services.RegisterService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "ALL", policy =>
+    {
+        policy
+        .AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
 var app = builder.Build();
 
 app.AddInMemoryDatabaseMockContent();
@@ -27,6 +36,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("ALL");
 
 app.UseAuthorization();
 

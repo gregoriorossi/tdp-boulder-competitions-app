@@ -3,6 +3,7 @@ using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Editors;
+using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
@@ -27,6 +28,18 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         #region Competitions
+        [HttpGet]
+        [Route("competition/all")]
+        public async Task<IActionResult> GetAllCompetitions(CancellationToken cancellationToken)
+        {
+            ICollection<Competition> competitions = await _competitionsManager.GetAllCompetitionsAsync(cancellationToken);
+            ICollection<GetAllCompetitionsResponse> competitionsResponse = competitions
+                .Select(c => new GetAllCompetitionsResponse(c))
+                .OrderByDescending(c => c.Date)
+                .ToList();
+            return Ok(Result<ICollection<GetAllCompetitionsResponse>>.Success(competitionsResponse));
+        }
+
         [HttpGet]
         [Route("competition/getById/{id}")]
         public async Task<IActionResult> GetCompetitionById(Guid id, CancellationToken cancellationToken)
@@ -138,8 +151,10 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
             }
 
-            var result = await _problemsManager.GetByCompetitionIdAsync(competitionId, cancellationToken);
-            return base.Ok(Result<ICollection<ProblemsGroup>>.Success(result));
+            var groupsProblems = await _problemsManager.GetProblemsGroupsByCompetitionIdAsync(competitionId, cancellationToken);
+            var specialProblems = await _problemsManager.GetSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            var response = new GetProblemsResponse(groupsProblems, specialProblems);
+            return Ok(Result<GetProblemsResponse>.Success(response));
         }
 
         [HttpPost]

@@ -43,11 +43,18 @@ namespace TDPCompetitions.Infrastracture.Managers
             await _problemsRepository.DeleteProblemsGroupAsync(group, cancellationToken);
         }
 
-        public async Task<ICollection<ProblemsGroup>> GetByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
+        public async Task<ICollection<ProblemsGroup>> GetProblemsGroupsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
         {
             Expression<Func<ProblemsGroup, bool>> whereFn = g => g.CompetitionId == competitionId;
             ICollection<ProblemsGroup> result = await _problemsRepository.GetAllProblemsGroupsAsync(whereFn, cancellationToken);
             return result.OrderBy(g => g.Order).ToList();
+        }
+
+        public async Task<ICollection<SpecialProblem>> GetSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Expression<Func<SpecialProblem, bool>> whereFn = g => g.CompetitionId == competitionId;
+            ICollection<SpecialProblem> result = await _problemsRepository.GetAllSpecialProblemsAsync(whereFn, cancellationToken);
+            return result.OrderBy(g => g.Name).ToList();
         }
 
         public async Task<Problem?> GetProblemByIdAsync(Guid id, CancellationToken cancellationToken)

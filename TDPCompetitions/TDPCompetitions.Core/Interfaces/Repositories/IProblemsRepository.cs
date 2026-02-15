@@ -20,7 +20,9 @@ namespace TDPCompetitions.Core.Interfaces.Repositories
         Task<ICollection<Problem>> GetAllAsync(Expression<Func<Problem, bool>> whereFn, CancellationToken cancellationToken);
 
         Task<ICollection<ProblemsGroup>> GetAllProblemsGroupsAsync(Expression<Func<ProblemsGroup, bool>> whereFn, CancellationToken cancellationToken);
-
+        
+        Task<ICollection<SpecialProblem>> GetAllSpecialProblemsAsync(Expression<Func<SpecialProblem, bool>> whereFn, CancellationToken cancellationToken);
+        
         Task<SentProblem?> GetSentProblemByIdAsync(Guid id, CancellationToken cancellationToken);
 
         Task<SentSpecialProblem?> GetSentSpecialProblemByIdAsync(Guid id, CancellationToken cancellationToken);

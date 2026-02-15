@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Linq.Expressions;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Interfaces.Repositories;
@@ -63,6 +64,14 @@ namespace TDPCompetitions.Infrastracture.Repositories
         public async Task<ICollection<ProblemsGroup>> GetAllProblemsGroupsAsync(Expression<Func<ProblemsGroup, bool>> whereFn, CancellationToken cancellationToken)
         {
             return await _appDbContext.ProblemsGroups
+                       .Where(whereFn)
+                       .Include(g => g.Problems)
+                       .ToListAsync(cancellationToken);
+        }
+
+        public async Task<ICollection<SpecialProblem>> GetAllSpecialProblemsAsync(Expression<Func<SpecialProblem, bool>> whereFn, CancellationToken cancellationToken)
+        {
+            return await _appDbContext.SpecialProblems
                        .Where(whereFn)
                        .ToListAsync(cancellationToken);
         }

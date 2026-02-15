@@ -56,12 +56,24 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.HasOne(r => r.Competition)
                     .WithMany(c => c.Registrations)
                     .OnDelete(DeleteBehavior.Cascade);
-                entity.HasOne(r => r.Competitor)
-                    .WithOne(c => c.Registration)
-                    .OnDelete(DeleteBehavior.Cascade);
+                //entity.HasOne(r => r.Competitor)
+                //    .WithOne(c => c.Registration)
+                //    .OnDelete(DeleteBehavior.Cascade);
                 entity.HasMany(r => r.Minors)
-                    .WithOne(c => c.Registration)
+                    .WithOne()
+                    .HasForeignKey("MinorRegistrationId")
                     .OnDelete(DeleteBehavior.Cascade);
+            });
+
+            modelBuilder.Entity<Competitor>(entity =>
+            {
+                entity.HasKey(c => c.Id);
+                entity.Property(c => c.FirstName).IsRequired();
+                entity.Property(c => c.LastName).IsRequired();
+                entity.HasOne(c => c.Registration)
+                .WithOne(r => r.Competitor)
+                .HasForeignKey<Registration>(r => r.CompetitorId);
+
             });
 
             modelBuilder.Entity<ProblemsGroup>(entity =>
@@ -87,13 +99,6 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.HasKey(g => g.Id);
                 entity.Property(g => g.Name).IsRequired();
                 entity.Property(g => g.CompetitionId).IsRequired();
-            });
-
-            modelBuilder.Entity<Competitor>(entity =>
-            {
-                entity.HasKey(c => c.Id);
-                entity.Property(c => c.FirstName).IsRequired();
-                entity.Property(c => c.LastName).IsRequired();
             });
 
             modelBuilder.Entity<SentProblem>(entity =>

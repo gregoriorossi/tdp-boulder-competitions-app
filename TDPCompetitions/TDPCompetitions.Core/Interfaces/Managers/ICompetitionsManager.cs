@@ -6,6 +6,7 @@ namespace TDPCompetitions.Core.Interfaces.Managers
 {
     public interface ICompetitionsManager
     {
+        Task<ICollection<Competition>> GetAllCompetitionsAsync(CancellationToken cancellationToken);
         Task<bool> CompetitionExists(Guid id, CancellationToken cancellationToken);
         Task<Competition> AddAsync(Competition competition, CancellationToken cancellationToken);
         Task DeleteAsync(Competition competition, CancellationToken cancellationToken);

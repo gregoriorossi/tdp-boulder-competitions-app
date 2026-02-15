@@ -17,6 +17,13 @@ namespace TDPCompetitions.Infrastracture.Managers
             _competitionsRepository = competitionsRepository;
         }
 
+        public async Task<ICollection<Competition>> GetAllCompetitionsAsync(CancellationToken cancellationToken)
+        {
+            Expression<Func<Competition, bool>> whereFn = c => true;
+            ICollection<Competition> competitions = await _competitionsRepository.GetAllAsync(whereFn, cancellationToken);
+            return competitions;
+        }
+
         public async Task<bool> CompetitionExists(Guid id, CancellationToken cancellationToken)
         {
             Expression<Func<Competition, bool>> whereFn = (c) => c.Id == id;

@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using TDPCompetitions.Api;
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Infrastracture.Data;
 
@@ -15,6 +16,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.AddInMemoryDatabaseMockContent();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

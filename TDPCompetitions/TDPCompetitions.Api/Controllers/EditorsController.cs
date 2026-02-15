@@ -151,7 +151,7 @@ namespace TDPCompetitions.Api.Controllers
                 return BadRequest();
             }
             ProblemsGroup group = ViewModelToEntity.AddProblemGroupToProblemGroup(model);
-            ProblemsGroup result = await _problemsManager.AddProblemGroupAsync(group, cancellationToken);
+            ProblemsGroup result = await _problemsManager.AddProblemsGroupAsync(group, cancellationToken);
             return base.Ok(Result<ProblemsGroup>.Success(result));
         }
 
@@ -165,7 +165,7 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             ProblemsGroup group = ViewModelToEntity.UpdateProblemGroupVMToProblemGroup(model);
-            ProblemsGroup? exists = await _problemsManager.GetProblemGroupByIdAsync(group.Id, cancellationToken);
+            ProblemsGroup? exists = await _problemsManager.GetProblemsGroupByIdAsync(group.Id, cancellationToken);
             if (exists == null)
             {
                 return Ok(Result<ProblemsGroup>.Failure(ProblemsGroupErrors.NotFound));
@@ -180,13 +180,13 @@ namespace TDPCompetitions.Api.Controllers
         [Route("problems/deleteGroup/{id}")]
         public async Task<IActionResult> DeleteProblemGroup(Guid id, CancellationToken cancellationToken)
         {
-            ProblemsGroup? group = await _problemsManager.GetProblemGroupByIdAsync(id, cancellationToken);
+            ProblemsGroup? group = await _problemsManager.GetProblemsGroupByIdAsync(id, cancellationToken);
             if (group == null)
             {
                 return Ok(Result<ProblemsGroup>.Failure(ProblemsGroupErrors.NotFound));
             }
 
-            await _problemsManager.DeleteProblemGroupAsync(id, cancellationToken);
+            await _problemsManager.DeleteProblemsGroupAsync(group, cancellationToken);
             return Ok(Result<bool>.Success(true));
         }
 
@@ -199,7 +199,7 @@ namespace TDPCompetitions.Api.Controllers
                 return BadRequest();
             }
 
-            ProblemsGroup? group = await _problemsManager.GetProblemGroupByIdAsync(model.GroupId, cancellationToken);
+            ProblemsGroup? group = await _problemsManager.GetProblemsGroupByIdAsync(model.GroupId, cancellationToken);
             if (group == null)
             {
                 return Ok(Result<ProblemsGroup>.Failure(ProblemsGroupErrors.NotFound));
@@ -226,7 +226,7 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             Problem problem = ViewModelToEntity.UpdateProblemVMToProblem(model);
-            var result = await _problemsManager.UpdateProblem(problem, cancellationToken);
+            var result = await _problemsManager.UpdateProblemAsync(problem, cancellationToken);
             return Ok(Result<Problem>.Success(result)); 
         }
 

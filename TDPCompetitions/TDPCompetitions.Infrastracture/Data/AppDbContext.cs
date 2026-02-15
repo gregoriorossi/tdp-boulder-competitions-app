@@ -15,7 +15,7 @@ namespace TDPCompetitions.Infrastracture.Data
 
         public DbSet<Competitor> Competitors { get; set; }
 
-        public DbSet<ProblemsGroup> ProblemGroups { get; set; }
+        public DbSet<ProblemsGroup> ProblemsGroups { get; set; }
 
         public DbSet<Problem> Problems { get; set; }
 

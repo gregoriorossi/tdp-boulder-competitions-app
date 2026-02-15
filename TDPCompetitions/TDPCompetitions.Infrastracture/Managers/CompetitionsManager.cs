@@ -96,14 +96,14 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId, CancellationToken cancellationToken)
         {
             Expression<Func<Competitor, bool>> whereFn = c => c.Id == competitorId && c.CompetitionId == competitionId;
-            ICollection<Competitor> result = await _competitionsRepository.GetCompetitorsAsync(whereFn, cancellationToken);
+            ICollection<Competitor> result = await _competitionsRepository.GetAllCompetitorsAsync(whereFn, cancellationToken);
             return result.Count > 0;
         }
 
         public async Task<bool> IsCompetitorRegisteredAsync(string competitorEmail, Guid competitionId, CancellationToken cancellationToken)
         {
             Expression<Func<Registration, bool>> whereFn = c => c.Email.ToLower() == competitorEmail.ToLower();
-            ICollection<Registration> result = await _competitionsRepository.GetRegistrationsAsync(whereFn, cancellationToken);
+            ICollection<Registration> result = await _competitionsRepository.GetAllRegistrationsAsync(whereFn, cancellationToken);
             return result.Count > 0;
         }
 
@@ -116,7 +116,7 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task<Registration?> GetRegistrationAsync(Guid registrationId, CancellationToken cancellationToken)
         {
             Expression<Func<Registration, bool>> whereFn = r => r.Id == registrationId;
-            ICollection<Registration> result = await _competitionsRepository.GetRegistrationsAsync(whereFn, cancellationToken);
+            ICollection<Registration> result = await _competitionsRepository.GetAllRegistrationsAsync(whereFn, cancellationToken);
             return result.FirstOrDefault();
         }
 
@@ -128,7 +128,7 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task<Competitor?> GetCompetitorAsync(Guid competitorId, CancellationToken cancellationToken)
         {
             Expression<Func<Competitor, bool>> whereFn = c => c.Id == competitorId;
-            Competitor? competitor = await _competitionsRepository.GetAllCompetitors(whereFn, cancellationToken);
+            Competitor? competitor = (await _competitionsRepository.GetAllCompetitorsAsync(whereFn, cancellationToken)).FirstOrDefault();
             return competitor;
         }
 
@@ -164,7 +164,7 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken)
         {
             Expression<Func<Competitor, bool>> whereFn = c => c.CompetitionId == competitionId;
-            ICollection<Competitor> competitors = await _competitionsRepository.GetCompetitorsAsync(whereFn, cancellationToken);
+            ICollection<Competitor> competitors = await _competitionsRepository.GetAllCompetitorsAsync(whereFn, cancellationToken);
 
             return competitors
                 .OrderBy(c => c.LastName)

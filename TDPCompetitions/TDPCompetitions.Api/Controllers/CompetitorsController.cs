@@ -96,7 +96,7 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             SentProblem send = ViewModelToEntity.SendProblemVMToSentProblem(model);
-            SentProblem result = await _problemsManager.SendProblemAsync(send);
+            SentProblem result = await _problemsManager.SendProblemAsync(send, cancellationToken);
             return Ok(Result<SentProblem>.Success(result));
         }
 
@@ -115,7 +115,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(canSend);
             }
 
-            await _problemsManager.RemoveSentProblem(model.Id, cancellationToken);    
+            await _problemsManager.DeleteSentProblem(model.Id, cancellationToken);    
             return Ok();
         }
 
@@ -135,7 +135,7 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             SentSpecialProblem send = ViewModelToEntity.SendSpecialProblemVMToSentSpecialProblem(model);
-            SentSpecialProblem result = await _problemsManager.SendSepcialProblemAsync(send);
+            SentSpecialProblem result = await _problemsManager.SendSpecialProblemAsync(send, cancellationToken);
             return Ok(Result<SentSpecialProblem>.Success(result));
         }
 
@@ -154,7 +154,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(canSend);
             }
 
-            await _problemsManager.RemoveSentSpecialProblemAsync(model.Id, cancellationToken);
+            await _problemsManager.DeleteSentSpecialProblemAsync(model.Id, cancellationToken);
             return Ok();
         }
 

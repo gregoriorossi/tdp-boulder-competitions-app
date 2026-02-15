@@ -1,54 +1,72 @@
-﻿using System.Linq.Expressions;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Interfaces.Repositories;
+using TDPCompetitions.Infrastracture.Data;
 
 namespace TDPCompetitions.Infrastracture.Repositories
 {
     public class CompetitionsRepository : ICompetitionsRepository
     {
-        public Task<Competition> AddAsync(Competition competition, CancellationToken cancellationToken)
+        private readonly AppDbContext _appDbContext;
+
+        public CompetitionsRepository(AppDbContext appDbContext)
         {
-            throw new NotImplementedException();
+            _appDbContext = appDbContext;
+        }
+        public async Task<Competition> AddAsync(Competition competition, CancellationToken cancellationToken)
+        {
+            await _appDbContext.Competitions.AddAsync(competition);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return competition;
         }
 
-        public Task<Registration> AddRegistration(Registration registration, CancellationToken cancellationToken)
+        public async Task<Registration> AddRegistration(Registration registration, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _appDbContext.Registrations.AddAsync(registration);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return registration;
         }
 
-        public Task DeleteAsync(Competition competition, CancellationToken cancellationToken)
+        public async Task DeleteAsync(Competition competition, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            _appDbContext.Competitions.Remove(competition);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public Task<ICollection<Competition>> GetAllAsync(Expression<Func<Competition, bool>> whereFn, CancellationToken cancellationToken)
+        public async Task<ICollection<Competition>> GetAllAsync(Expression<Func<Competition, bool>> whereFn, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Competitions
+                .Where(whereFn)
+                .ToListAsync(cancellationToken);
         }
 
-        public Task<Competitor?> GetAllCompetitors(Expression<Func<Competitor, bool>> whereFn, CancellationToken cancellationToken)
+        public async Task<ICollection<Competitor>> GetAllCompetitorsAsync(Expression<Func<Competitor, bool>> whereFn, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Competitors
+                .Where(whereFn)
+                .ToListAsync(cancellationToken);
         }
 
-        public Task<ICollection<Competitor>> GetCompetitorsAsync(Expression<Func<Competitor, bool>> whereFn, CancellationToken cancellationToken)
+        public async Task<ICollection<Registration>> GetAllRegistrationsAsync(Expression<Func<Registration, bool>> whereFn, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            return await _appDbContext.Registrations
+               .Where(whereFn)
+               .ToListAsync(cancellationToken);
         }
 
-        public Task<ICollection<Registration>> GetRegistrationsAsync(Expression<Func<Registration, bool>> whereFn, CancellationToken cancellationToken)
+        public async Task<Competition> UpdateCompetitionAsync(Competition competition, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            _appDbContext.Competitions.Update(competition);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return competition;
         }
 
-        public Task<Competition> UpdateCompetitionAsync(Competition competition, CancellationToken cancellationToken)
+        public async Task<Competitor> UpdateCompetitorAsync(Competitor competitor, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<Competitor> UpdateCompetitorAsync(Competitor competitor, CancellationToken cancellationToken)
-        {
-            throw new NotImplementedException();
+            _appDbContext.Competitors.Update(competitor);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return competitor;  
         }
     }
 }

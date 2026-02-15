@@ -1,74 +1,131 @@
-﻿using TDPCompetitions.Core.Entities;
+﻿using System.Linq.Expressions;
+using TDPCompetitions.Core.Entities;
+using TDPCompetitions.Core.Exceptions;
 using TDPCompetitions.Core.Interfaces.Managers;
+using TDPCompetitions.Core.Interfaces.Repositories;
 
 namespace TDPCompetitions.Infrastracture.Managers
 {
     public class ProblemsManager : IProblemsManager
     {
-        public Task<ProblemsGroup> AddProblemGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)
+        private readonly IProblemsRepository _problemsRepository;
+
+        public ProblemsManager(IProblemsRepository problemsRepository)
         {
-            //gestire l'ordine
-            throw new NotImplementedException();
+            _problemsRepository = problemsRepository;
         }
 
-        public Task<ICollection<Problem>> AddProblemsToGroupAsync(ICollection<Problem> problems, CancellationToken cancellationToken)
+        public async Task<ProblemsGroup> AddProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Expression<Func<ProblemsGroup, bool>> whereFn = g => g.CompetitionId == group.CompetitionId;
+            int maxOrder = (await _problemsRepository.GetAllProblemsGroupsAsync(whereFn, cancellationToken))
+                    .Max(g => g.Order);
+
+            group.Order = maxOrder;
+
+            ProblemsGroup result = await _problemsRepository.AddProblemsGroupAsync(group, cancellationToken);
+            return result;
         }
 
-        public Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken)
+        public async Task<ICollection<Problem>> AddProblemsToGroupAsync(ICollection<Problem> problems, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            ICollection<Problem> result = await _problemsRepository.AddProblemsToGroupAsync(problems, cancellationToken);
+            return result;
         }
 
-        public Task<ProblemsGroup?> DeleteProblemGroupAsync(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _problemsRepository.DeleteProblemFromGroup(problem, cancellationToken);
         }
 
-        public Task<ICollection<ProblemsGroup>> GetByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
+        public async Task DeleteProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _problemsRepository.DeleteProblemsGroupAsync(group, cancellationToken);
         }
 
-        public Task<Problem?> GetProblemByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<ICollection<ProblemsGroup>> GetByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Expression<Func<ProblemsGroup, bool>> whereFn = g => g.CompetitionId == competitionId;
+            ICollection<ProblemsGroup> result = await _problemsRepository.GetAllProblemsGroupsAsync(whereFn, cancellationToken);
+            return result.OrderBy(g => g.Order).ToList();
         }
 
-        public Task<ProblemsGroup?> GetProblemGroupByIdAsync(Guid id, CancellationToken cancellationToken)
+        public async Task<Problem?> GetProblemByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Expression<Func<Problem, bool>> whereFn = p => p.Id == id;
+            ICollection<Problem> problems = await _problemsRepository.GetAllAsync(whereFn, cancellationToken);
+            return problems.FirstOrDefault();
         }
 
-        public Task RemoveSentProblem(Guid id, CancellationToken cancellationToken)
+        public async Task<ProblemsGroup?> GetProblemsGroupByIdAsync(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Expression<Func<ProblemsGroup, bool>> whereFn = g => g.Id == id;
+            ICollection<ProblemsGroup> groups = await _problemsRepository.GetAllProblemsGroupsAsync(whereFn, cancellationToken);
+            return groups.FirstOrDefault();
         }
 
-        public Task RemoveSentSpecialProblemAsync(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteSentProblem(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            SentProblem? problem = await _problemsRepository.GetSentProblemByIdAsync(id, cancellationToken);
+            if (problem != null)
+            {
+                await _problemsRepository.DeleteSentProblemAsync(problem, cancellationToken);
+            }
         }
 
-        public Task<SentProblem> SendProblemAsync(SentProblem send)
+        public async Task DeleteSentSpecialProblemAsync(Guid id, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            SentSpecialProblem? problem = await _problemsRepository.GetSentSpecialProblemByIdAsync(id, cancellationToken);
+            if (problem != null)
+            {
+                await _problemsRepository.DeleteSentSpecialProblemAsync(problem, cancellationToken);
+            }
         }
 
-        public Task<SentSpecialProblem> SendSepcialProblemAsync(SentSpecialProblem send)
+        public async Task<SentProblem> SendProblemAsync(SentProblem send, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            SentProblem result = await _problemsRepository.SendProblemAsync(send, cancellationToken);
+            return result;
         }
 
-        public Task<Problem> UpdateProblem(Problem problem, CancellationToken cancellationToken)
+        public async Task<SentSpecialProblem> SendSpecialProblemAsync(SentSpecialProblem send, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            SentSpecialProblem result = await _problemsRepository.SendSpecialProblemAsync(send, cancellationToken);
+            return result;
         }
 
-        public Task<ProblemsGroup> UpdateProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)
+        public async Task<Problem> UpdateProblemAsync(Problem updatedProblem, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            var problem = await GetProblemByIdAsync(updatedProblem.Id, cancellationToken) ?? throw new ProblemNotFoundException(updatedProblem.Id);
+            problem.Name = updatedProblem.Name;
+
+            Problem result = await _problemsRepository.UpdateProblemAsync(problem, cancellationToken);
+            return result;
+        }
+
+        public async Task<ProblemsGroup> UpdateProblemsGroupAsync(ProblemsGroup updatedGroup, CancellationToken cancellationToken)
+        {
+            var group = await GetProblemsGroupByIdAsync(updatedGroup.Id, cancellationToken) ?? throw new ProblemsGroupNotFoundException(updatedGroup.Id);
+            int oldOrder = group.Order;
+            int newOrder = updatedGroup.Order;
+
+            group.ColorCode = updatedGroup.ColorCode;
+            group.Order = updatedGroup.Order;
+
+
+            if (oldOrder != newOrder)
+            {
+                Expression<Func<ProblemsGroup, bool>> whereFn = g => g.Order == newOrder && g.CompetitionId == updatedGroup.CompetitionId;
+                ProblemsGroup? groupToSwitch = (await _problemsRepository.GetAllProblemsGroupsAsync(whereFn, cancellationToken)).FirstOrDefault();
+                if (groupToSwitch != null)
+                {
+                    groupToSwitch.Order = oldOrder;
+                    await _problemsRepository.UpdateProblemsGroupAsync(groupToSwitch, cancellationToken);
+                }
+            }
+
+            ProblemsGroup result = await _problemsRepository.UpdateProblemsGroupAsync(group, cancellationToken);
+            return result;
         }
     }
 }

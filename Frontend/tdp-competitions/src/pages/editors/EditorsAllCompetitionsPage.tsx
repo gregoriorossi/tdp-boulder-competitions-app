@@ -125,7 +125,7 @@ export function EditorsAllCompetitionsPage() {
 			confirmBtnLabel={STRINGS.Delete}
 			content={STRINGS.Dialogs.DeleteCompetition.Content}
 			onCancel={() => { setDeleteFormDialogOpen(false) }}
-			onClose={() => { setDeleteFormDialogOpen(false) }}
+			onClose={() => { setDeleteFormDialogOpen(false) }} 
 			onConfirm={onDeleteCompetitionHandler} />
 
 		<NewCompetitionModal

@@ -18,4 +18,5 @@ export interface IGetAllCompetitionsResponse {
 
 export interface IAddCompetitionRequest {
 	title: string;
+	date: Date;
 }

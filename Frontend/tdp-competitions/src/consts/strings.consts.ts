@@ -2,7 +2,7 @@
 
 export const STRINGS = {
 	Pages: {
-		EditorsAllCompetitionsPage: {
+		EditorsAllCompetitionsPage: { 
 			Title: 'Tutte le gare',
 			NewCompetition: 'Nuova gara',
 			NoCompetitionsAvailable: 'Nessuna gara disponibile',
@@ -10,16 +10,21 @@ export const STRINGS = {
 				TitleColumn: 'Titolo',
 				DateColumn: 'Data',
 				ActiveColumn: 'Attivo'
-			},
+			}, 
 		}
 	},
 	Modals: {
 		NewCompetition: {
 			Title: "Crea una nuova gara",
+			Fields: {
+				Title: "Nome",
+				Date: "Data"
+			},
 			Errors: {
 				Title: "Il nome della form è obbligatorio",
 				TitleLength: "Il titolo deve essere lungo almeno 5 caratteri",
-				Date: "La data è obbligatoria"
+				Date: "La data è obbligatoria",
+				DateValid: "Inserisci una data valida"
 			}
 		}
 	},

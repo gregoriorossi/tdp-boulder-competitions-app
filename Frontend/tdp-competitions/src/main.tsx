@@ -9,6 +9,10 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { EditorsAllCompetitionsPage } from './pages/editors/EditorsAllCompetitionsPage';
 import classNames from './App.module.scss';
 
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'; 
+
+
 const router = createBrowserRouter([
 	{
 		path: '/editors',
@@ -36,7 +40,9 @@ createRoot(document.getElementById('root')!).render(
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
-					<RouterProvider router={router} />
+					<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
+						<RouterProvider router={router} />
+					</LocalizationProvider>
 				</ThemeProvider>
 			</QueryClientProvider>
 		</StrictMode>

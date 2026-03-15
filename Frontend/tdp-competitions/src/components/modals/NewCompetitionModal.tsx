@@ -1,12 +1,17 @@
-import *  as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { STRINGS } from "../../consts/strings.consts";
 import { Alert, Box, Button, CircularProgress, TextField } from "@mui/material";
 import { useAddCompetition } from "../../queries/competitions.queries";
 import { ErrorMessage } from "../ErrorMessage";
 import classNames from "../../App.module.scss";
 import { BaseModal, type IBaseModalProps } from "./BaseModal";
+import { addCompetitionSchema } from "../../form-schemas/competitions.schemas";
+import type { Dayjs } from 'dayjs';
+import dayjs from "dayjs";
+import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+
+
 const FormStrings = STRINGS.Modals.NewCompetition;
 
 interface INewCompetitionModalProps extends IBaseModalProps {
@@ -15,28 +20,23 @@ interface INewCompetitionModalProps extends IBaseModalProps {
 
 interface INewCompetitionFields {
 	title: string;
+	date: Date;
 }
 
-const schema = yup.object({
-	title: yup.string()
-		.min(5, FormStrings.Errors.TitleLength)
-		.required(FormStrings.Errors.Title),
-	//date: yup.date().required()
-});
-
 export function NewCompetitionModal(props: INewCompetitionModalProps) {
-	const { handleSubmit, register, formState: { errors } } = useForm({
-		resolver: yupResolver(schema)
+	const { handleSubmit, register, control, formState: { errors }, reset } = useForm({
+		resolver: yupResolver(addCompetitionSchema)
 	});
 
 	const { data: addCompetitionResponse, error, mutateAsync: addCompetitionAsync, isPending } = useAddCompetition();
 
 	const onSubmit = async (data: INewCompetitionFields): Promise<void> => {
-		console.log(data);
-		await addCompetitionAsync(data.title);
+		if (isPending) return;
 
-		if (addCompetitionResponse?.isSuccess) {
+		const result = await addCompetitionAsync({ title: data.title, date: data.date });
+		if (result?.isSuccess) {
 			props.onCreated();
+			reset();
 		}
 	}
 
@@ -49,12 +49,35 @@ export function NewCompetitionModal(props: INewCompetitionModalProps) {
 			onSubmit={handleSubmit(onSubmit)}>
 
 			<TextField
-				label="Nome"
+				label={FormStrings.Fields.Title}
 				{...register("title")}
 				error={!!errors.title}
 				helperText={errors.title?.message} />
 
-
+			<Controller
+				name="date"
+				control={control}
+				render={
+					({ field }) => {
+						const dayJsValue: Dayjs | null = field.value ? dayjs(field.value) : null;
+						return (
+							<DateTimePicker
+								label={FormStrings.Fields.Date}
+								value={dayJsValue}
+								onChange={(newValue) => {
+									field.onChange(newValue ? newValue.toDate() : null);
+								}}
+								slotProps={{
+									textField: {
+										error: !!errors.date,
+										helperText: errors.date?.message as string | undefined,
+										fullWidth: true
+									}
+								}}
+								ampm={false}
+								format="DD/MM/YYYY HH:mm" />
+						)
+					}} />
 
 			{
 				isPending &&
@@ -74,5 +97,5 @@ export function NewCompetitionModal(props: INewCompetitionModalProps) {
 				{STRINGS.Create}
 			</Button>
 		</Box>
-	</BaseModal>
+	</BaseModal >
 }

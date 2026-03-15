@@ -5,6 +5,11 @@ import type { IResponse } from "../models/api.models";
 import type { ICompetition } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 
+interface IUseAddCompetitionMutation {
+	title: string,
+	date: Date
+}
+
 export const useCompetitions = (): UseQueryResult<IResponse<ICompetition[]>> => {
 	return useQuery({
 		queryKey: [...queryKeys.competitions.all],
@@ -21,7 +26,7 @@ export const useCompetitions = (): UseQueryResult<IResponse<ICompetition[]>> => 
 
 export const useAddCompetition = () => {
 	return useMutation({
-		mutationFn: (title: string) => CompetitionsService.add(title),
+		mutationFn: (data: IUseAddCompetitionMutation) => CompetitionsService.add(data.title, data.date),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.competitions.all })
 		}

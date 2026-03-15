@@ -3,7 +3,6 @@ using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Core.Entities;
-using TDPCompetitions.Core.Enums;
 
 namespace TDPCompetitions.Api.Mappers
 {
@@ -15,6 +14,7 @@ namespace TDPCompetitions.Api.Mappers
             return new Competition
             {
                 Title = model.Title,
+                Date = model.Date,
                 Slug = slug
             };
         }

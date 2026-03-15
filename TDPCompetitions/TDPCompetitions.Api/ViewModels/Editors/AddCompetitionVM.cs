@@ -6,5 +6,8 @@ namespace TDPCompetitions.Api.ViewModels.Editors
     {
         [Required, StringLength(maximumLength: 100, MinimumLength = 5)]
         public string Title { get; set; } = default!;
+
+        [Required]
+        public DateTime Date { get; set; } = default!;
     }
 }

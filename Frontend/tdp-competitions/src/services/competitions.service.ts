@@ -9,9 +9,10 @@ export default class CompetitionsService {
 		return data.data as IResponse<IGetAllCompetitionsResponse[]>;
 	}
 
-	public static add = async (title: string): Promise<IResponse<ICompetition>> => {
+	public static add = async (title: string, date: Date): Promise<IResponse<ICompetition>> => {
 		const payload: IAddCompetitionRequest = {
-			title
+			title,
+			date
 		};
 
 		const data = await editorsApi.post(EditorsEndpoints.addCompetition, payload);

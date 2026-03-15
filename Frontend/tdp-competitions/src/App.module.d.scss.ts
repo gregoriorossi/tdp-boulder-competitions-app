@@ -6,6 +6,12 @@ declare const classNames: {
   readonly editorPageContainer: "editorPageContainer";
   readonly editorsAllCompetitionsPage: "editorsAllCompetitionsPage";
   readonly actionsSection: "actionsSection";
+  readonly editorsCompetitionPage: "editorsCompetitionPage";
+  readonly tab: "tab";
+  readonly manageProblems: "manageProblems";
+  readonly specialProblems: "specialProblems";
+  readonly problemsContainer: "problemsContainer";
+  readonly specialProblem: "specialProblem";
   readonly react: "react";
   readonly card: "card";
   readonly "read-the-docs": "read-the-docs";

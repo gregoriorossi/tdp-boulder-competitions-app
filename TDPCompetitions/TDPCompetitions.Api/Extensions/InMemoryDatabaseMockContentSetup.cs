@@ -465,6 +465,20 @@ namespace TDPCompetitions.Api.Extensions
             // Collezioni pronte da persistere con EF Core
             var problemGroups = new List<ProblemsGroup> { group1, group2, group3, group4, group5, group6 };
 
+            var specialProblem1 = new SpecialProblem
+            {
+                Competition = null!,
+                CompetitionId = competitionId,
+                Name= "Trofeo pazzesco"
+            };
+
+            var specialProblem2 = new SpecialProblem
+            {
+                Competition = null!,
+                CompetitionId = competitionId,
+                Name = "Trofeo mirabolante"
+            };
+
             // Se ti serve anche l’elenco piatto di tutti i Problem per un AddRange dedicato:
             var allProblems = new List<Problem>();
             allProblems.AddRange(group1.Problems);
@@ -476,6 +490,9 @@ namespace TDPCompetitions.Api.Extensions
 
             context.ProblemsGroups.AddRange(problemGroups);
             context.Problems.AddRange(allProblems);
+
+            context.SpecialProblems.Add(specialProblem1);
+            context.SpecialProblems.Add(specialProblem2);
 
             context.SaveChanges();
         }

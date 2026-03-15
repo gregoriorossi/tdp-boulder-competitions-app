@@ -58,6 +58,45 @@
     }
 }
 
+.editorsCompetitionPage {
+    display: flex;
+    flex-direction: column;
+
+    .tab {
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .manageProblems {
+
+        .header {
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+            margin-top: 1rem;
+        }
+
+        .specialProblems {
+            .problemsContainer {
+                display: flex;
+                flex-direction: row;
+                justify-content: start;
+
+                .specialProblem { 
+                    border-radius: 10px;
+                    border: solid 2px black;
+                    padding: 0.25rem 0.5rem;
+                    margin-right: 10px;
+                }
+            }
+        }
+
+        .problems {
+        }
+    }
+}
+
 .logo {
     height: 6em;
     padding: 1.5em;

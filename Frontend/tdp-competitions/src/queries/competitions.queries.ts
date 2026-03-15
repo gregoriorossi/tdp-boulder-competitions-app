@@ -2,7 +2,7 @@ import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-quer
 import { queryClient, queryKeys } from "../api/queryClient";
 import CompetitionsService from "../services/competitions.service";
 import type { IResponse } from "../models/api.models";
-import type { ICompetition } from "../models/competitions.models";
+import type { ICompetition, ICompetitionProblems } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 
 interface IUseAddCompetitionMutation {
@@ -33,6 +33,13 @@ export const useAddCompetition = () => {
 	});
 }
 
+export const useCompetitionById = (id: string): UseQueryResult<IResponse<ICompetition>> => {
+	return useQuery({
+		queryKey: [...queryKeys.competitions.byId(id)],
+		queryFn: () => CompetitionsService.getById(id)
+	});
+}
+
 export const useDeleteCompetition = () => {
 	return useMutation({
 		mutationFn: (id: string) => CompetitionsService.delete(id),
@@ -42,3 +49,9 @@ export const useDeleteCompetition = () => {
 	});
 }
 
+export const useProblemsByCompetitionId = (id: string): UseQueryResult<IResponse<ICompetitionProblems>> => {
+	return useQuery({
+		queryKey: [...queryKeys.problems.byCompetitionId(id)],
+		queryFn: () => CompetitionsService.getProblemsByCompetitionId(id)
+	});
+}

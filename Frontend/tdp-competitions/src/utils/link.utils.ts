@@ -1,7 +1,7 @@
 export class LinkUtils {
 
 	public static IdToRelativeUrl = (id: string) => {
-		return `/editors/competitions/${id}`;
+		return `/editors/competition/${id}`;
 	}
 
 	public static SlugToPublicFormUrl = (slug: string): string => {

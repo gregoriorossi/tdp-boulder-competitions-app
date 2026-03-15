@@ -1,7 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { STRINGS } from "../../consts/strings.consts";
-import { Alert, Box, Button, CircularProgress, TextField } from "@mui/material";
+import { Alert, Box, Button, TextField } from "@mui/material";
 import { useAddCompetition } from "../../queries/competitions.queries";
 import { ErrorMessage } from "../ErrorMessage";
 import classNames from "../../App.module.scss";
@@ -10,6 +10,7 @@ import { addCompetitionSchema } from "../../form-schemas/competitions.schemas";
 import type { Dayjs } from 'dayjs';
 import dayjs from "dayjs";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
+import { Spinner } from "../Spinner";
 
 
 const FormStrings = STRINGS.Modals.NewCompetition;
@@ -80,10 +81,7 @@ export function NewCompetitionModal(props: INewCompetitionModalProps) {
 					}} />
 
 			{
-				isPending &&
-				<div className={classNames.horizontallyCentered}>
-					<CircularProgress />
-				</div>
+				isPending && <Spinner />
 			}
 
 			{

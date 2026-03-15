@@ -11,6 +11,19 @@ export const STRINGS = {
 				DateColumn: 'Data',
 				ActiveColumn: 'Attivo'
 			}, 
+		},
+		EditorCompetitionPage: {
+			Tabs: {
+				Info: 'Informazioni',
+				Problems: 'Blocchi',
+				Registrations: 'Registrazioni',
+				Rankings: 'Classifiche'
+			},
+			ManageProblems: {
+				SpecialProblems: 'Blocchi premio',
+				Problems: 'Blocchi',
+				NewSpecialProblem: 'Nuovo blocco premio'
+			}
 		}
 	},
 	Modals: {
@@ -37,7 +50,8 @@ export const STRINGS = {
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',
 	Cancel: 'Annulla',
 	Create: 'Crea',
-	Delete: 'Elimina'
+	Delete: 'Elimina',
+	Edit: 'Modifica'
 }
 
 interface IErrorStrings {

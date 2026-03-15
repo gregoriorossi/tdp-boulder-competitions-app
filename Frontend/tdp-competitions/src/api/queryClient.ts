@@ -11,6 +11,11 @@ export const queryClient = new QueryClient({
 
 export const queryKeys = {
 	competitions: {
-		all: ["competitions"] as const
+		all: ["competitions"] as const,
+		byId: (id: string) => ["competition-id", id],
+		bySlug: (slug: string) => ["competition-slug", slug]
+	},
+	problems: {
+		byCompetitionId: (id: string) => ["problems-competition-id", id]
 	}
 };

@@ -1,3 +1,4 @@
+import { Alert } from "@mui/material";
 import { ERROR_STRINGS, STRINGS } from "../consts/strings.consts";
 
 interface IErrorMessageProps {
@@ -6,7 +7,7 @@ interface IErrorMessageProps {
 
 export function ErrorMessage(props: IErrorMessageProps) {
 	const message: string = ERROR_STRINGS[props.errorCode] ?? STRINGS.GenericError;
-	return <span>
+	return <Alert severity="error">
 		{message}
-	</span>;
+	</Alert>;
 }

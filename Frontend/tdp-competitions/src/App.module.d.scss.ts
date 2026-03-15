@@ -1,9 +1,20 @@
 declare const classNames: {
+  readonly layout: "layout";
+  readonly editorsPageWrapper: "editorsPageWrapper";
+  readonly header: "header";
   readonly logo: "logo";
+  readonly editorPageContainer: "editorPageContainer";
+  readonly editorsAllCompetitionsPage: "editorsAllCompetitionsPage";
+  readonly actionsSection: "actionsSection";
   readonly react: "react";
   readonly card: "card";
   readonly "read-the-docs": "read-the-docs";
   readonly greenIcon: "greenIcon";
   readonly redIcon: "redIcon";
+  readonly horizontallyCentered: "horizontallyCentered";
+  readonly modal: "modal";
+  readonly modalHeader: "modalHeader";
+  readonly modalBody: "modalBody";
+  readonly form: "form";
 };
 export = classNames;

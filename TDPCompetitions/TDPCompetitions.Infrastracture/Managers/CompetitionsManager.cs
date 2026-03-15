@@ -60,7 +60,7 @@ namespace TDPCompetitions.Infrastracture.Managers
         {
             Competition? result = await GetBySlugAsync(competition.Slug, cancellationToken);
 
-            bool sameCompetition = result?.Slug == competition.Slug;
+            bool sameCompetition = result?.Id == competition.Id;
             bool slugExists = result != null;
             return !slugExists || sameCompetition;
         }

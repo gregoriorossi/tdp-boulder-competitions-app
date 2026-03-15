@@ -15,3 +15,7 @@ export interface IGetAllCompetitionsResponse {
 	date: string;
 	status: number;
 }
+
+export interface IAddCompetitionRequest {
+	title: string;
+}

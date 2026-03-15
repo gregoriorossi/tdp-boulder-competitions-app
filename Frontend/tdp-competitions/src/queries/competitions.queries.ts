@@ -1,11 +1,39 @@
-import { type UseQueryResult, useQuery } from "@tanstack/react-query";
-import { queryKeys } from "../api/queryClient";
+import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-query";
+import { queryClient, queryKeys } from "../api/queryClient";
 import CompetitionsService from "../services/competitions.service";
-import type { IGetAllCompetitionsResponse, IResponse } from "../models/api.models";
+import type { IResponse } from "../models/api.models";
+import type { ICompetition } from "../models/competitions.models";
+import CompetitionsMappers from "../mappers/competitions.mappers";
 
-export const useCompetitions = (): UseQueryResult<IResponse<IGetAllCompetitionsResponse[]>> => {
+export const useCompetitions = (): UseQueryResult<IResponse<ICompetition[]>> => {
 	return useQuery({
 		queryKey: [...queryKeys.competitions.all],
-		queryFn: () => CompetitionsService.getAllCompetitions()
+		queryFn: async (): Promise<IResponse<ICompetition[]>> => {
+			const result = await CompetitionsService.getAllCompetitions();
+
+			return {
+				...result,
+				value: (result?.value ?? []).map(c => CompetitionsMappers.ToICompetition(c))
+			};
+		}
 	});
 }
+
+export const useAddCompetition = () => {
+	return useMutation({
+		mutationFn: (title: string) => CompetitionsService.add(title),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitions.all })
+		}
+	});
+}
+
+export const useDeleteCompetition = () => {
+	return useMutation({
+		mutationFn: (id: string) => CompetitionsService.delete(id),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitions.all })
+		}
+	});
+}
+

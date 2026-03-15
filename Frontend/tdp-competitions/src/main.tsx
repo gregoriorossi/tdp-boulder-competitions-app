@@ -7,6 +7,7 @@ import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './api/queryClient';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { EditorsAllCompetitionsPage } from './pages/editors/EditorsAllCompetitionsPage';
+import classNames from './App.module.scss';
 
 const router = createBrowserRouter([
 	{
@@ -31,11 +32,13 @@ const theme = createTheme({
 });
 
 createRoot(document.getElementById('root')!).render(
-	<StrictMode>
-		<QueryClientProvider client={queryClient}>
-			<ThemeProvider theme={theme}>
-				<RouterProvider router={router } />
-			</ThemeProvider>
-		</QueryClientProvider>
-	</StrictMode>,
+	<div className={classNames.layout}>
+		<StrictMode>
+			<QueryClientProvider client={queryClient}>
+				<ThemeProvider theme={theme}>
+					<RouterProvider router={router} />
+				</ThemeProvider>
+			</QueryClientProvider>
+		</StrictMode>
+	</div>,
 )

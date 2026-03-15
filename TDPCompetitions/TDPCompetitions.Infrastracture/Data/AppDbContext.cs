@@ -56,9 +56,9 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.HasOne(r => r.Competition)
                     .WithMany(c => c.Registrations)
                     .OnDelete(DeleteBehavior.Cascade);
-                //entity.HasOne(r => r.Competitor)
-                //    .WithOne(c => c.Registration)
-                //    .OnDelete(DeleteBehavior.Cascade);
+                entity.HasOne(r => r.Competitor)
+                    .WithOne(c => c.Registration)
+                    .OnDelete(DeleteBehavior.Cascade);
                 entity.HasMany(r => r.Minors)
                     .WithOne()
                     .HasForeignKey("MinorRegistrationId")

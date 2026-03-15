@@ -8,8 +8,8 @@ namespace TDPCompetitions.Core.Entities
     public class Competition : BaseEntity<Guid>
     {
         public string Title { get; set; } = default!;
-        
-        public string Description { get; set; } = default!;
+
+        public string Description { get; set; } = string.Empty;
 
         public string Slug { get; set; } = default!;
 
@@ -21,7 +21,7 @@ namespace TDPCompetitions.Core.Entities
 
         public DateTime Date {  get; set; } = default!;
 
-        public string EmailText { get; set; } = default!;
+        public string EmailText { get; set; } = string.Empty;
 
         public Guid? PrivacyAttachmentId { get; set; } = default!;
 

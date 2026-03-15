@@ -1,4 +1,4 @@
-import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, ButtonGroup, Button, Alert } from "@mui/material";
+import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, ButtonGroup, Button, Alert, styled, tableCellClasses } from "@mui/material";
 import { Link } from "react-router-dom";
 import { useCompetitions, useDeleteCompetition } from "../../queries/competitions.queries";
 import { STRINGS } from "../../consts/strings.consts";
@@ -18,6 +18,25 @@ import ConfirmationDialog from "../../components/ConfirmationDialog";
 import { NewCompetitionModal } from "../../components/modals/NewCompetitionModal";
 
 const PageStrings = STRINGS.Pages.EditorsAllCompetitionsPage;
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
+	[`&.${tableCellClasses.head}`]: {
+		backgroundColor: theme.palette.common.black,
+		color: theme.palette.common.white,
+	},
+	[`&.${tableCellClasses.body}`]: {
+		fontSize: 14,
+	},
+}));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+	'&:nth-of-type(odd)': {
+		backgroundColor: theme.palette.action.hover,
+	},
+	'&:last-child td, &:last-child th': {
+		border: 0,
+	},
+}));
 
 export function EditorsAllCompetitionsPage() {
 	const { data: response, isLoading, error } = useCompetitions();
@@ -79,26 +98,26 @@ export function EditorsAllCompetitionsPage() {
 					<Table>
 						<TableHead>
 							<TableRow>
-								<TableCell colSpan={5}>{PageStrings.Table.TitleColumn}</TableCell>
-								<TableCell colSpan={3}>{PageStrings.Table.DateColumn}</TableCell>
-								<TableCell colSpan={2}>{PageStrings.Table.ActiveColumn}</TableCell>
-								<TableCell colSpan={2} />
+								<StyledTableCell colSpan={5}>{PageStrings.Table.TitleColumn}</StyledTableCell>
+								<StyledTableCell colSpan={3}>{PageStrings.Table.DateColumn}</StyledTableCell>
+								<StyledTableCell colSpan={2}>{PageStrings.Table.ActiveColumn}</StyledTableCell>
+								<StyledTableCell colSpan={2} />
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{
 								response?.value
 									.map((competition, idx) => (
-										<TableRow key={idx}>
-											<TableCell colSpan={5}>{competition.title}</TableCell>
-											<TableCell colSpan={3}>
+										<StyledTableRow key={idx}>
+											<StyledTableCell colSpan={5}>{competition.title}</StyledTableCell>
+											<StyledTableCell colSpan={3}>
 												{DateUtils.ToDateTime(competition.date)}
-											</TableCell>
-											<TableCell colSpan={2}>{competition.isOpen
+											</StyledTableCell>
+											<StyledTableCell colSpan={2}>{competition.isOpen
 												? <CheckIcon className={classNames.greenIcon} />
 												: <DoNotDisturbIcon className={classNames.redIcon} />}
-											</TableCell>
-											<TableCell colSpan={2} align="right">
+											</StyledTableCell>
+											<StyledTableCell colSpan={2} align="right">
 												<ButtonGroup variant="contained" aria-label="Azioni form">
 													<Link to={LinkUtils.IdToRelativeUrl(competition.id)}>
 														<Button title="Dettagli"><CreateIcon /></Button>
@@ -108,8 +127,8 @@ export function EditorsAllCompetitionsPage() {
 														<DeleteIcon />
 													</Button>
 												</ButtonGroup>
-											</TableCell>
-										</TableRow>
+											</StyledTableCell>
+										</StyledTableRow>
 									))
 							}
 						</TableBody>
@@ -125,7 +144,7 @@ export function EditorsAllCompetitionsPage() {
 			confirmBtnLabel={STRINGS.Delete}
 			content={STRINGS.Dialogs.DeleteCompetition.Content}
 			onCancel={() => { setDeleteFormDialogOpen(false) }}
-			onClose={() => { setDeleteFormDialogOpen(false) }} 
+			onClose={() => { setDeleteFormDialogOpen(false) }}
 			onConfirm={onDeleteCompetitionHandler} />
 
 		<NewCompetitionModal

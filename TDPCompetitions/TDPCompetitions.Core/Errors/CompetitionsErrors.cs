@@ -18,4 +18,9 @@
     {
         public static readonly Error NotFound = new Error("Problem.NotFount", "Problem not found");
     }
+
+    public static class SpecialProblemErrors
+    {
+        public static readonly Error NotFound = new Error("SpecialProblem.NotFount", "Special Problem not found");
+    }
 }

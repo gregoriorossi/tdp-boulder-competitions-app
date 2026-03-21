@@ -12,7 +12,10 @@ export const EditorsEndpoints = {
 	deleteProblemsGroup: (id: string) => `/Editors/problems/deleteGroup/${id}`,
 	addProblemToGroup: `/Editors/problems/addToGroup`,
 	updateProblem: `/Editors/problems/updateProblem`,
-	deleteProblem: (id: string) => `/Editors/problems/deleteFromGroup/${id}`
+	deleteProblem: (id: string) => `/Editors/problems/deleteFromGroup/${id}`,
+	addSpecialProblem: '/Editors/problems/specialProblem',
+	updateSpecialProblem: '/Editors/problems/specialProblem',
+	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`,
 };
 
 export const CompetitorsEndpoints = {

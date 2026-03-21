@@ -2,7 +2,7 @@ import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-quer
 import { queryClient, queryKeys } from "../api/queryClient";
 import CompetitionsService from "../services/competitions.service";
 import type { IResponse } from "../models/api.models";
-import type { ICompetition, ICompetitionProblems } from "../models/competitions.models";
+import type { ICompetition, ICompetitionProblems, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 
 interface IUseAddCompetitionMutation {
@@ -55,3 +55,31 @@ export const useProblemsByCompetitionId = (id: string): UseQueryResult<IResponse
 		queryFn: () => CompetitionsService.getProblemsByCompetitionId(id)
 	});
 }
+
+export const useAddSpecialProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (problem: ISpecialProblem) => CompetitionsService.addSpecialProblem(problem),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
+
+export const useUpdateSpecialProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (problem: ISpecialProblem) => CompetitionsService.updateSpecialProblem(problem),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
+
+export const useDeleteSpecialProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (problem: ISpecialProblem) => CompetitionsService.deleteSpecialProblem(problem.id),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
+

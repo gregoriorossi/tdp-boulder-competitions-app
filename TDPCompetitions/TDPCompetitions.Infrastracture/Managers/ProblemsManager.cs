@@ -43,6 +43,24 @@ namespace TDPCompetitions.Infrastracture.Managers
             await _problemsRepository.DeleteProblemsGroupAsync(group, cancellationToken);
         }
 
+        public async Task<SpecialProblem?> GetSpecialProblemByIdAsync(Guid id, CancellationToken cancellationToken)
+        {
+            Expression<Func<SpecialProblem, bool>> whereFn = p => p.Id == id;
+            ICollection<SpecialProblem> result = await _problemsRepository.GetAllSpecialProblemsAsync(whereFn, cancellationToken);
+            return result.FirstOrDefault();
+        }
+
+        public async Task<SpecialProblem> AddSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken)
+        {
+            var result = await _problemsRepository.AddSpecialProblemAsync(problem, cancellationToken);
+            return result;  
+        }
+
+        public async Task DeleteSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken)
+        {
+            await _problemsRepository.DeleteSpecialProblemAsync(problem, cancellationToken);
+        }
+
         public async Task<ICollection<ProblemsGroup>> GetProblemsGroupsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
         {
             Expression<Func<ProblemsGroup, bool>> whereFn = g => g.CompetitionId == competitionId;
@@ -79,7 +97,6 @@ namespace TDPCompetitions.Infrastracture.Managers
                 await _problemsRepository.DeleteSentProblemAsync(problem, cancellationToken);
             }
         }
-
         public async Task DeleteSentSpecialProblemAsync(Guid id, CancellationToken cancellationToken)
         {
             SentSpecialProblem? problem = await _problemsRepository.GetSentSpecialProblemByIdAsync(id, cancellationToken);
@@ -132,6 +149,15 @@ namespace TDPCompetitions.Infrastracture.Managers
             }
 
             ProblemsGroup result = await _problemsRepository.UpdateProblemsGroupAsync(group, cancellationToken);
+            return result;
+        }
+
+        public async Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem updatedProblem, CancellationToken cancellationToken)
+        {
+            var problem = await GetSpecialProblemByIdAsync(updatedProblem.Id, cancellationToken) ?? throw new SpecialProblemNotFoundException(updatedProblem.Id);
+            problem.Name = updatedProblem.Name;
+
+            SpecialProblem result = await _problemsRepository.UpdateSpecialProblemAsync(problem, cancellationToken);
             return result;
         }
     }

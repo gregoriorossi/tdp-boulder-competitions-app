@@ -29,10 +29,10 @@ export function NewCompetitionModal(props: INewCompetitionModalProps) {
 		resolver: yupResolver(addCompetitionSchema)
 	});
 
-	const { data: addCompetitionResponse, error, mutateAsync: addCompetitionAsync, isPending } = useAddCompetition();
+	const { data: addCompetitionResponse, error, mutateAsync: addCompetitionAsync, addSpecialProblemIsPending } = useAddCompetition();
 
 	const onSubmit = async (data: INewCompetitionFields): Promise<void> => {
-		if (isPending) return;
+		if (addSpecialProblemIsPending) return;
 
 		const result = await addCompetitionAsync({ title: data.title, date: data.date });
 		if (result?.isSuccess) {
@@ -81,7 +81,7 @@ export function NewCompetitionModal(props: INewCompetitionModalProps) {
 					}} />
 
 			{
-				isPending && <Spinner />
+				addSpecialProblemIsPending && <Spinner />
 			}
 
 			{
@@ -91,7 +91,7 @@ export function NewCompetitionModal(props: INewCompetitionModalProps) {
 				</Alert>
 			}
 
-			<Button type="submit" variant="contained" disabled={isPending}>
+			<Button type="submit" variant="contained" disabled={addSpecialProblemIsPending}>
 				{STRINGS.Create}
 			</Button>
 		</Box>

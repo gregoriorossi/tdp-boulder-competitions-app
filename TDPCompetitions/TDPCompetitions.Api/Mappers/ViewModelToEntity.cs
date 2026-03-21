@@ -2,6 +2,7 @@
 using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Editors;
+using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Core.Entities;
 
 namespace TDPCompetitions.Api.Mappers
@@ -99,6 +100,26 @@ namespace TDPCompetitions.Api.Mappers
                 CompetitorId = model.CompetitorId,
                 CompetitionId = model.CompetitionId,
                 SentAt = DateTime.Now
+            };
+        }
+
+        internal static SpecialProblem AddSpecialProblemVMToSpecialProblem(AddSpecialProblemVM model)
+        {
+            return new SpecialProblem
+            {
+                Name = model.Name,
+                CompetitionId = model.CompetitionId
+            };
+        }
+
+
+        internal static SpecialProblem UpdateSpecialProblemVMToSpecialProblem(UpdateSpecialProblemVM model)
+        {
+            return new SpecialProblem
+            {
+                Id = model.Id,
+                Name = model.Name,
+                CompetitionId = model.CompetitionId
             };
         }
 

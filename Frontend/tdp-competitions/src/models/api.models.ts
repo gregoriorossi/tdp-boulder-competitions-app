@@ -20,3 +20,13 @@ export interface IAddCompetitionRequest {
 	title: string;
 	date: Date;
 }
+
+export interface IAddSpecialProblemRequest {
+	name: string;
+	competitionId: string;
+}
+
+export interface IUpdateSpecialProblemRequest {
+	name: string;
+	competitionId: string;
+}

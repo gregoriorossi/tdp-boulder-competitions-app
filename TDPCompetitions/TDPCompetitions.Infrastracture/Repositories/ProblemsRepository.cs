@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Linq.Expressions;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Interfaces.Repositories;
@@ -51,6 +50,19 @@ namespace TDPCompetitions.Infrastracture.Repositories
         public async Task DeleteSentSpecialProblemAsync(SentSpecialProblem send, CancellationToken cancellationToken)
         {
             _appDbContext.SentSpecialProblems.Remove(send);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<SpecialProblem> AddSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken)
+        {
+            await _appDbContext.SpecialProblems.AddAsync(problem);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return problem;
+        }
+
+        public async Task DeleteSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken)
+        {
+            _appDbContext.SpecialProblems.Remove(problem);
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
@@ -112,6 +124,13 @@ namespace TDPCompetitions.Infrastracture.Repositories
             _appDbContext.ProblemsGroups.Update(group);
             await _appDbContext.SaveChangesAsync(cancellationToken);
             return group;
+        }
+
+        public async Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken)
+        {
+            _appDbContext.SpecialProblems.Update(problem);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return problem;
         }
     }
 }

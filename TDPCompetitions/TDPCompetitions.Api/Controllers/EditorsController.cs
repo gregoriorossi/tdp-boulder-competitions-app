@@ -3,6 +3,7 @@ using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Editors;
+using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
@@ -257,6 +258,66 @@ namespace TDPCompetitions.Api.Controllers
 
             await _problemsManager.DeleteProblemFromGroup(problem, cancellationToken);
             return Ok();
+        }
+
+        [HttpPost]
+        [Route("problems/specialProblem")]
+        public async Task<IActionResult> AddSpecialProblem([FromBody] AddSpecialProblemVM model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            bool competitionExists = await _competitionsManager.CompetitionExists(model.CompetitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            SpecialProblem problem = ViewModelToEntity.AddSpecialProblemVMToSpecialProblem(model);
+            var result = await _problemsManager.AddSpecialProblemAsync(problem, cancellationToken);
+            return Ok(Result<SpecialProblemResponse>.Success(new SpecialProblemResponse(result)));
+        }
+
+        [HttpPatch]
+        [Route("problems/specialProblem")]
+        public async Task<IActionResult> UpdateSpecialProblem([FromBody] UpdateSpecialProblemVM model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            bool competitionExists = await _competitionsManager.CompetitionExists(model.CompetitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            var problemResult = await _problemsManager.GetSpecialProblemByIdAsync(model.Id, cancellationToken);
+            if (problemResult == null)
+            {
+                return Ok(Result<SpecialProblem>.Failure(SpecialProblemErrors.NotFound));
+            }
+
+            SpecialProblem problem = ViewModelToEntity.UpdateSpecialProblemVMToSpecialProblem(model);
+            var result = await _problemsManager.UpdateSpecialProblemAsync(problem, cancellationToken);
+            return Ok(Result<SpecialProblemResponse>.Success(new SpecialProblemResponse(result)));
+        }
+
+        [HttpDelete]
+        [Route("problems/specialProblem/{id}")]
+        public async Task<IActionResult> DeleteSpecialProblem(Guid id, CancellationToken cancellationToken)
+        {
+            SpecialProblem? problem = await _problemsManager.GetSpecialProblemByIdAsync(id, cancellationToken);
+            if (problem == null)
+            {
+                return Ok(Result<SpecialProblem>.Failure(SpecialProblemErrors.NotFound));  
+            }
+
+            await _problemsManager.DeleteSpecialProblemAsync(problem, cancellationToken);
+            return Ok(Result<SpecialProblem>.Success());
         }
 
         #endregion

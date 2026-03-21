@@ -43,7 +43,7 @@ export function EditorsAllCompetitionsPage() {
 	const [deleteFormDialogOpen, setDeleteFormDialogOpen] = React.useState<boolean>(false);
 	const [addCompetitionModalOpen, setAddCompetitionModalOpen] = React.useState<boolean>(false);
 	const [selectedCompetitionId, setSelectedCompetitionId] = React.useState<string | null>(null);
-	const { data: deleteResponse, error: errorDelete, mutateAsync: deleteCompetitionAsync, isPending: isDeletePending } = useDeleteCompetition();
+	const { data: deleteResponse, error: errorDelete, mutateAsync: deleteCompetitionAsync, addSpecialProblemIsPending: isDeletePending } = useDeleteCompetition();
 
 	const onDeleteClick = (competitionId: string): void => {
 		setSelectedCompetitionId(competitionId);
@@ -79,12 +79,12 @@ export function EditorsAllCompetitionsPage() {
 
 			{
 				(error || (!response?.isSuccess && !isLoading)) &&
-				<Alert severity="error"><ErrorMessage errorCode={response?.error?.code ?? ""} /></Alert>
+				<ErrorMessage errorCode={response?.error?.code ?? ""} />
 			}
 
 			{
 				(errorDelete || (deleteResponse && !deleteResponse.value && !isLoading)) &&
-				<Alert severity="error"><ErrorMessage errorCode={deleteResponse?.error?.code ?? ""} /></Alert>
+				<ErrorMessage errorCode={deleteResponse?.error?.code ?? ""} />
 			}
 
 			{

@@ -8,6 +8,9 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<ICollection<Problem>> AddProblemsToGroupAsync(ICollection<Problem> problems, CancellationToken cancellationToken);
         Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken);
         Task DeleteProblemsGroupAsync(ProblemsGroup id, CancellationToken cancellationToken);
+        Task<SpecialProblem?> GetSpecialProblemByIdAsync(Guid id, CancellationToken cancellationToken);
+        Task<SpecialProblem> AddSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
+        Task DeleteSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
         Task<ICollection<ProblemsGroup>> GetProblemsGroupsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
         Task<Problem?> GetProblemByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<ProblemsGroup?> GetProblemsGroupByIdAsync(Guid id, CancellationToken cancellationToken);
@@ -17,6 +20,7 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<SentSpecialProblem> SendSpecialProblemAsync(SentSpecialProblem send, CancellationToken cancellationToken);
         Task<Problem> UpdateProblemAsync(Problem problem, CancellationToken cancellationToken);
         Task<ProblemsGroup> UpdateProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken);
+        Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
         Task<ICollection<SpecialProblem>> GetSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
     }
 }

@@ -5,5 +5,9 @@ export const Errors = {
         NotOpen: "CompetitionError.NotOpen",
         NotRegistered: "CompetitionError.NotRegistered",
         AlreadyRegistered: "CompetitionError.AlreadyRegistered"
-	}
+    },
+    SpecialProblems: {
+        NotFound: "SpecialProblem.NotFount"
+    },
+    Generic: "Generic"
 }

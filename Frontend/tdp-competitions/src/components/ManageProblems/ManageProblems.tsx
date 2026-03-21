@@ -6,6 +6,8 @@ import { Spinner } from "../Spinner";
 import AddIcon from '@mui/icons-material/Add';
 import { SpecialProblem } from "./SpecialProblem";
 import { Button } from "@mui/material";
+import { SpecialProblemFormModal } from "../modals/SpecialProblemFormModal";
+import { useState } from "react";
 const SectionStrings = STRINGS.Pages.EditorCompetitionPage.ManageProblems;
 
 interface IManageProblemsProps {
@@ -15,6 +17,7 @@ interface IManageProblemsProps {
 export function ManageProblems(props: IManageProblemsProps) {
 
 	const { data: response, isLoading: isGetProblemsLoading, error } = useProblemsByCompetitionId(props.competitionId);
+	const [isSpecialProblemModalOpen, setIsSpecialProblemModalOpen] = useState<boolean>(false);
 
 	if (isGetProblemsLoading) {
 		return <Spinner />;
@@ -27,7 +30,7 @@ export function ManageProblems(props: IManageProblemsProps) {
 	return <div className={classNames.manageProblems}>
 		<div className={classNames.header}>
 			<Button
-				onClick={() => { }}
+				onClick={() => setIsSpecialProblemModalOpen(true)}
 				variant="contained"
 				endIcon={<AddIcon />}>
 				{SectionStrings.NewSpecialProblem}
@@ -53,5 +56,11 @@ export function ManageProblems(props: IManageProblemsProps) {
 				}
 			</div>
 		</div>
+
+		<SpecialProblemFormModal
+			open={isSpecialProblemModalOpen}
+			onUpdate={() => setIsSpecialProblemModalOpen(false)}
+			competitionId={props.competitionId}
+			onClose={() => setIsSpecialProblemModalOpen(false)} />
 	</div>
 }

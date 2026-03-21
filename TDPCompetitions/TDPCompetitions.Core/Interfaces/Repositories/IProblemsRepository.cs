@@ -17,6 +17,10 @@ namespace TDPCompetitions.Core.Interfaces.Repositories
 
         Task DeleteSentSpecialProblemAsync(SentSpecialProblem id, CancellationToken cancellationToken);
 
+        Task<SpecialProblem> AddSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
+
+        Task DeleteSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
+
         Task<ICollection<Problem>> GetAllAsync(Expression<Func<Problem, bool>> whereFn, CancellationToken cancellationToken);
 
         Task<ICollection<ProblemsGroup>> GetAllProblemsGroupsAsync(Expression<Func<ProblemsGroup, bool>> whereFn, CancellationToken cancellationToken);
@@ -34,5 +38,7 @@ namespace TDPCompetitions.Core.Interfaces.Repositories
         Task<Problem> UpdateProblemAsync(Problem problem, CancellationToken cancellationToken);
 
         Task<ProblemsGroup> UpdateProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken);
+
+        Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
     }
 }

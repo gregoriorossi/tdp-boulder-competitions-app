@@ -49,6 +49,24 @@ export const useDeleteCompetition = () => {
 	});
 }
 
+export const useUpdateProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (problem: ISpecialProblem) => CompetitionsService.updateProblem(problem),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
+
+export const useDeleteProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (problem: ISpecialProblem) => CompetitionsService.deleteProblem(problem.id),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
+
 export const useProblemsByCompetitionId = (id: string): UseQueryResult<IResponse<ICompetitionProblems>> => {
 	return useQuery({
 		queryKey: [...queryKeys.problems.byCompetitionId(id)],

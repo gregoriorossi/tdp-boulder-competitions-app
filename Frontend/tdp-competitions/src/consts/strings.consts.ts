@@ -22,7 +22,8 @@ export const STRINGS = {
 			ManageProblems: {
 				SpecialProblems: 'Blocchi premio',
 				Problems: 'Blocchi',
-				NewSpecialProblem: 'Nuovo blocco premio'
+				NewSpecialProblem: 'Nuovo blocco premio',
+				NewProblemGroup: 'Nuovo gruppo'
 			}
 		}
 	},
@@ -50,6 +51,15 @@ export const STRINGS = {
 				Title: 'Il nome del blocco è obbligatorio',
 				TitleLength: "Il nome del blocco deve essere lungo almeno 5 caratteri",
 			}
+		},
+		Problem: {
+			Title: 'Modifica blocco',
+			Fields: {
+				Title: "Nome"
+			},
+			Errors: {
+				Title: "Il nome del blocco è obbligatorio"
+			}
 		}
 	},
 	Dialogs: {
@@ -60,13 +70,26 @@ export const STRINGS = {
 		DeleteSpecialProblem: {
 			Title: (title: string) => `Vuoi eliminare il blocco ${title}?`,
 			Content: 'Una volta eliminato il blocco e i dati associati verranno persi'
+		},
+		DeleteProblem: {
+			Title: (title: string) => `Vuoi eliminare il blocco ${title}?`,
+			Content: 'Una volta eliminato il blocco e i dati associati verranno persi'
 		}
+	},
+	ColorCodes: {
+		White: '#FFFFFF',
+		Blue: '#0000FF',
+		Green: '#00FF00',
+		Yellow: '#FFFF00',
+		Red: '#FF0000',
+		Black: '#000000',
 	},
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',
 	Cancel: 'Annulla',
 	Create: 'Crea',
 	Delete: 'Elimina',
-	Edit: 'Modifica'
+	Edit: 'Modifica',
+	Save: 'Salva'
 }
 
 interface IErrorStrings {

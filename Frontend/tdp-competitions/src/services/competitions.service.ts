@@ -49,4 +49,14 @@ export default class CompetitionsService {
 		const data = await editorsApi.delete(EditorsEndpoints.deleteSpecialProblem(id));
 		return data.data as IResponse<boolean>;
 	}
+
+	public static updateProblem = async (problem: IUpdateSpecialProblemRequest): Promise<IResponse<ISpecialProblem>> => {
+		const data = await editorsApi.patch(EditorsEndpoints.updateProblem, problem);
+		return data.data as IResponse<ISpecialProblem>;
+	}
+
+	public static deleteProblem = async (id: string): Promise<IResponse<boolean>> => {
+		const data = await editorsApi.delete(EditorsEndpoints.deleteProblem(id));
+		return data.data as IResponse<boolean>;
+	}
 }

@@ -505,7 +505,7 @@ namespace TDPCompetitions.Api.Extensions
                 problems.Add(new Problem
                 {
                     Id = Guid.NewGuid(),
-                    Name = $"{colorPrefix}-{i}",
+                    Name = $"{i}",
                     ProblemGroupId = groupId,
                     Group = null!,
                     CompetitionId = competitionId

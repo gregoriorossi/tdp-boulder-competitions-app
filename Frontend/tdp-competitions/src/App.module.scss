@@ -40,9 +40,7 @@
     }
 
     .editorPageContainer {
-        /*display: flex;
-        flex-direction: row;
-        justify-content: end;*/
+       
     }
 }
 
@@ -93,6 +91,22 @@
         }
 
         .problems {
+            .group {
+                display: block;
+                margin-bottom: 1rem;
+
+                .problem {
+                    display: inline-block;
+                    border-radius: 5px;
+                    padding: 1rem 2rem;
+                    margin-right: 10px;
+                    border: 1px solid;
+                    &:hover {
+                        cursor: pointer;
+                        box-shadow: inset 0 0 50px rgb(173, 173, 173, 0.5);
+                    }
+                }
+            }
         }
     }
 }

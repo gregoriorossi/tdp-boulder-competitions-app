@@ -1,4 +1,4 @@
-import { Alert, Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import classNames from "../../App.module.scss";
 import { STRINGS } from "../../consts/strings.consts";
 import { specialProblemSchema } from "../../form-schemas/competitions.schemas";
@@ -21,6 +21,7 @@ interface ISpecialProblemFormModalProps extends IBaseModalProps {
 interface ISpecialProblemFormFields {
 	title: string;
 }
+
 export function SpecialProblemFormModal(props: ISpecialProblemFormModalProps) {
 	const { specialProblem, open, onClose, competitionId } = props;
 	const { handleSubmit, register, formState: { errors }, reset } = useForm({
@@ -32,10 +33,9 @@ export function SpecialProblemFormModal(props: ISpecialProblemFormModalProps) {
 
 	const { data: addSpecialProblemResponse, error: addSpecialProblemError, mutateAsync: addSpecialProblemMutateAsync, isPending: addSpecialProblemIsPending } = useAddSpecialProblem(competitionId);
 	const { data: updateSpecialProblemResponse, error: updateSpecialProblemError, mutateAsync: updateSpecialProblemMutateAsync, isPending: updateSpecialProblemIsPending } = useUpdateSpecialProblem(competitionId);
-	console.log("pending 1", addSpecialProblemIsPending);
-	console.log("pending 2", updateSpecialProblemIsPending);
+
 	const onSubmit = async (data: ISpecialProblemFormFields): Promise<void> => {
-		if (addSpecialProblemIsPending) return;
+		if (addSpecialProblemIsPending || updateSpecialProblemIsPending) return;
 
 		const specialProblemPayload: ISpecialProblem = {
 			name: data.title,
@@ -77,7 +77,10 @@ export function SpecialProblemFormModal(props: ISpecialProblemFormModalProps) {
 				<ErrorMessage errorCode={errorCode ?? ''} />
 			}
 
-			<Button type="submit" variant="contained" disabled={addSpecialProblemIsPending}>
+			<Button
+				type="submit"
+				variant="contained"
+				disabled={addSpecialProblemIsPending || updateSpecialProblemIsPending}>
 				{buttonTxt}
 			</Button>
 		</Box>

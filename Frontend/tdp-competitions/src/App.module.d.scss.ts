@@ -3,7 +3,6 @@ declare const classNames: {
   readonly editorsPageWrapper: "editorsPageWrapper";
   readonly header: "header";
   readonly logo: "logo";
-  readonly editorPageContainer: "editorPageContainer";
   readonly editorsAllCompetitionsPage: "editorsAllCompetitionsPage";
   readonly actionsSection: "actionsSection";
   readonly editorsCompetitionPage: "editorsCompetitionPage";
@@ -12,6 +11,9 @@ declare const classNames: {
   readonly specialProblems: "specialProblems";
   readonly problemsContainer: "problemsContainer";
   readonly specialProblem: "specialProblem";
+  readonly problems: "problems";
+  readonly group: "group";
+  readonly problem: "problem";
   readonly react: "react";
   readonly card: "card";
   readonly "read-the-docs": "read-the-docs";

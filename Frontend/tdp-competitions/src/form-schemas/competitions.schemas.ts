@@ -3,6 +3,7 @@ import { STRINGS } from "../consts/strings.consts";
 
 const AddCompetitionStrings = STRINGS.Modals.NewCompetition;
 const SpecialProblemStrings = STRINGS.Modals.SpecialProblem;
+const ProblemsStrings = STRINGS.Modals.Problem;
 
 export const addCompetitionSchema = yup.object({
 	title: yup.string()
@@ -26,4 +27,9 @@ export const specialProblemSchema = yup.object({
 	title: yup.string()
 		.min(5, SpecialProblemStrings.Errors.TitleLength)
 		.required(SpecialProblemStrings.Errors.Title)
+});
+
+export const problemSchema = yup.object({
+	title: yup.string()
+		.required(ProblemsStrings.Errors.Title)
 })

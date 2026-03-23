@@ -23,7 +23,8 @@ export const STRINGS = {
 				SpecialProblems: 'Blocchi premio',
 				Problems: 'Blocchi',
 				NewSpecialProblem: 'Nuovo blocco premio',
-				NewProblemGroup: 'Nuovo gruppo'
+				NewProblemGroup: 'Nuovo gruppo',
+				EditProblemsGroups: 'Gestisci gruppi'
 			}
 		}
 	},
@@ -60,6 +61,9 @@ export const STRINGS = {
 			Errors: {
 				Title: "Il nome del blocco è obbligatorio"
 			}
+		},
+		EditProblemsGroups: {
+			Title: 'Gestisci gruppi'
 		}
 	},
 	Dialogs: {
@@ -74,6 +78,10 @@ export const STRINGS = {
 		DeleteProblem: {
 			Title: (title: string) => `Vuoi eliminare il blocco ${title}?`,
 			Content: 'Una volta eliminato il blocco e i dati associati verranno persi'
+		},
+		DeleteProblemsGroup: {
+			Title: `Vuoi eliminare il gruppo?`,
+			Content: 'Una volta eliminato il gruppo i blocchi associati verranno persi'
 		}
 	},
 	ColorCodes: {
@@ -89,7 +97,9 @@ export const STRINGS = {
 	Create: 'Crea',
 	Delete: 'Elimina',
 	Edit: 'Modifica',
-	Save: 'Salva'
+	Save: 'Salva',
+	MoveUp: 'Sposta su',
+	MoveDown: 'Sposta giù'
 }
 
 interface IErrorStrings {

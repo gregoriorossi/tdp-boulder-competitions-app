@@ -172,38 +172,28 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("problems/updateGroup")]
-        public async Task<IActionResult> UpdateProblemsGroup([FromBody] UpdateProblemsGroupVM model, CancellationToken cancellationToken)
+        [Route("problems/groups")]
+        public async Task<IActionResult> UpdateProblemsGroups(UpdateProblemsGroupsVM model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            ProblemsGroup group = ViewModelToEntity.UpdateProblemGroupVMToProblemGroup(model);
-            ProblemsGroup? exists = await _problemsManager.GetProblemsGroupByIdAsync(group.Id, cancellationToken);
-            if (exists == null)
+            bool competitionExists = await _competitionsManager.CompetitionExists(model.CompetitionId, cancellationToken);
+            if (!competitionExists)
             {
-                return Ok(Result<ProblemsGroup>.Failure(ProblemsGroupErrors.NotFound));
+                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
             }
 
-            ProblemsGroup result = await _problemsManager.UpdateProblemsGroupAsync(group, cancellationToken);
-            return Ok(Result<ProblemsGroup>.Success(result));
+            ICollection<ProblemsGroup> groups = ViewModelToEntity
+                .UpdateProblemGroupsVMToProblemGroups(model)
+                .Where(g => g.CompetitionId == model.CompetitionId).ToList();
+             
+            ICollection<ProblemsGroup> result = await _problemsManager.UpdateProblemsGroupsAsync(groups, model.CompetitionId, cancellationToken);
+            var response = result.Select(g => new ProblemsGroupVM(g)).ToList();
+            return Ok(Result<ICollection<ProblemsGroupVM>>.Success(response));
 
-        }
-
-        [HttpDelete]
-        [Route("problems/deleteGroup/{id}")]
-        public async Task<IActionResult> DeleteProblemGroup(Guid id, CancellationToken cancellationToken)
-        {
-            ProblemsGroup? group = await _problemsManager.GetProblemsGroupByIdAsync(id, cancellationToken);
-            if (group == null)
-            {
-                return Ok(Result<ProblemsGroup>.Failure(ProblemsGroupErrors.NotFound));
-            }
-
-            await _problemsManager.DeleteProblemsGroupAsync(group, cancellationToken);
-            return Ok(Result<bool>.Success(true));
         }
 
         [HttpPost]

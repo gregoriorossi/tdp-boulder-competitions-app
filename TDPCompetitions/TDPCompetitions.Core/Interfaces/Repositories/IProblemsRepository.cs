@@ -11,8 +11,6 @@ namespace TDPCompetitions.Core.Interfaces.Repositories
 
         Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken);
 
-        Task DeleteProblemsGroupAsync(ProblemsGroup id, CancellationToken cancellationToken);
-
         Task DeleteSentProblemAsync(SentProblem id, CancellationToken cancellationToken);
 
         Task DeleteSentSpecialProblemAsync(SentSpecialProblem id, CancellationToken cancellationToken);

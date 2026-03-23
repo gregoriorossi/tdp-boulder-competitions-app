@@ -1,4 +1,4 @@
-import { Box, Button, IconButton, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import { BaseModal, type IBaseModalProps } from "./BaseModal";
 import type { IProblem } from "../../models/competitions.models";
 import classNames from "../../App.module.scss";

@@ -146,10 +146,6 @@
     padding: 2em;
 }
 
-.read-the-docs {
-    color: #888;
-}
-
 .greenIcon {
     color: #0be60b;
 }
@@ -189,4 +185,29 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+}
+
+.editProblemsGroupsModal {
+    .group {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+
+        .square {
+            height: 50px;
+            width: 50px;
+            display: inline-block;
+            border: 1px solid;
+        }
+
+        .actions {
+            display: flex;
+            flex-direction: row;
+
+            .actionIcon {
+                min-width: auto;
+            }
+        }
+    }
 }

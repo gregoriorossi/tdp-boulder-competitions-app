@@ -35,12 +35,6 @@ namespace TDPCompetitions.Infrastracture.Repositories
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
-        public async Task DeleteProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)
-        {
-            _appDbContext.ProblemsGroups.Remove(group);
-            await _appDbContext.SaveChangesAsync(cancellationToken);
-        }
-
         public async Task DeleteSentProblemAsync(SentProblem send, CancellationToken cancellationToken)
         {
             _appDbContext.SentProblems.Remove(send);

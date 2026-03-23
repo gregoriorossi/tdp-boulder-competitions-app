@@ -16,7 +16,6 @@ declare const classNames: {
   readonly problem: "problem";
   readonly react: "react";
   readonly card: "card";
-  readonly "read-the-docs": "read-the-docs";
   readonly greenIcon: "greenIcon";
   readonly redIcon: "redIcon";
   readonly horizontallyCentered: "horizontallyCentered";
@@ -24,5 +23,9 @@ declare const classNames: {
   readonly modalHeader: "modalHeader";
   readonly modalBody: "modalBody";
   readonly form: "form";
+  readonly editProblemsGroupsModal: "editProblemsGroupsModal";
+  readonly square: "square";
+  readonly actions: "actions";
+  readonly actionIcon: "actionIcon";
 };
 export = classNames;

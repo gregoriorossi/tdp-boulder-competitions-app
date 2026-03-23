@@ -1,7 +1,7 @@
 import { useState } from "react";
 import classNames from "../../App.module.scss";
 import type { IProblem } from "../../models/competitions.models";
-import { getBorderColor, getTextColor } from "../../utils/colors.utils";
+import { getBorderColor, getTextColor } from "../../utils/problems.utils";
 import { ProblemFormModal } from "../modals/ProblemFormModal";
 
 interface IProblemProps {

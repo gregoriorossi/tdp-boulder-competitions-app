@@ -9,10 +9,14 @@ namespace TDPCompetitions.Infrastracture.Managers
     public class ProblemsManager : IProblemsManager
     {
         private readonly IProblemsRepository _problemsRepository;
+        private readonly ICompetitionsManager _competitionsManager;
 
-        public ProblemsManager(IProblemsRepository problemsRepository)
+        public ProblemsManager(
+            IProblemsRepository problemsRepository,
+            ICompetitionsManager competitionsManager)
         {
             _problemsRepository = problemsRepository;
+            _competitionsManager = competitionsManager;
         }
 
         public async Task<ProblemsGroup> AddProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)
@@ -36,11 +40,6 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken)
         {
             await _problemsRepository.DeleteProblemFromGroup(problem, cancellationToken);
-        }
-
-        public async Task DeleteProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)
-        {
-            await _problemsRepository.DeleteProblemsGroupAsync(group, cancellationToken);
         }
 
         public async Task<SpecialProblem?> GetSpecialProblemByIdAsync(Guid id, CancellationToken cancellationToken)
@@ -127,29 +126,48 @@ namespace TDPCompetitions.Infrastracture.Managers
             return result;
         }
 
-        public async Task<ProblemsGroup> UpdateProblemsGroupAsync(ProblemsGroup updatedGroup, CancellationToken cancellationToken)
+        public async Task<ICollection<ProblemsGroup>> UpdateProblemsGroupsAsync(ICollection<ProblemsGroup> updatedGroups, Guid competitionId, CancellationToken cancellationToken)
         {
-            var group = await GetProblemsGroupByIdAsync(updatedGroup.Id, cancellationToken) ?? throw new ProblemsGroupNotFoundException(updatedGroup.Id);
-            int oldOrder = group.Order;
-            int newOrder = updatedGroup.Order;
-
-            group.ColorCode = updatedGroup.ColorCode;
-            group.Order = updatedGroup.Order;
-
-
-            if (oldOrder != newOrder)
+            Expression<Func<ProblemsGroup, bool>> whereFn = g => g.CompetitionId == competitionId;
+            ICollection<ProblemsGroup> groups = await _problemsRepository.GetAllProblemsGroupsAsync(whereFn, cancellationToken);
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
             {
-                Expression<Func<ProblemsGroup, bool>> whereFn = g => g.Order == newOrder && g.CompetitionId == updatedGroup.CompetitionId;
-                ProblemsGroup? groupToSwitch = (await _problemsRepository.GetAllProblemsGroupsAsync(whereFn, cancellationToken)).FirstOrDefault();
-                if (groupToSwitch != null)
+                throw new CompetitionNotFoundException(competitionId);
+            }
+
+            var updatedIds = updatedGroups.Where(g => g.Id != Guid.Empty)
+                                    .Select(g => g.Id)
+                                    .ToHashSet();
+
+            foreach (var group in groups)
+            {
+                if (!updatedIds.Contains(group.Id))
                 {
-                    groupToSwitch.Order = oldOrder;
-                    await _problemsRepository.UpdateProblemsGroupAsync(groupToSwitch, cancellationToken);
+                    competition.ProblemGroups.Remove(group);
                 }
             }
 
-            ProblemsGroup result = await _problemsRepository.UpdateProblemsGroupAsync(group, cancellationToken);
-            return result;
+            var newGroups = updatedGroups.Where(g => g.Id == Guid.Empty).ToList();
+            newGroups.ForEach(g =>
+            {
+                g.Id = Guid.NewGuid();
+                competition.ProblemGroups.Add(g);   
+            });
+
+
+            var existingGroupsById = competition.ProblemGroups.ToDictionary(f => f.Id);
+            foreach (var updatedSection in updatedGroups.ToList())
+            {
+                if (existingGroupsById.TryGetValue(updatedSection.Id, out var groupToUpdate))
+                {
+                    groupToUpdate.ColorCode = updatedSection.ColorCode;
+                    groupToUpdate.Order = updatedSection.Order;
+                }
+            }
+
+            await _competitionsManager.UpdateAsync(competition, cancellationToken);
+            return competition.ProblemGroups;
         }
 
         public async Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem updatedProblem, CancellationToken cancellationToken)

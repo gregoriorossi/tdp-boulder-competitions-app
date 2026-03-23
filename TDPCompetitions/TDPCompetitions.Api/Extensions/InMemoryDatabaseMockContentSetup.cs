@@ -395,7 +395,7 @@ namespace TDPCompetitions.Api.Extensions
             var group1 = new ProblemsGroup
             {
                 Id = group1Id,
-                Order = 1,
+                Order = 0,
                 ColorCode = "#FFFFFF", // bianco
                 CompetitionId = competitionId,
                 Competition = null!,
@@ -405,7 +405,7 @@ namespace TDPCompetitions.Api.Extensions
             var group2 = new ProblemsGroup
             {
                 Id = group2Id,
-                Order = 2,
+                Order = 1,
                 ColorCode = "#0000FF", // blu
                 CompetitionId = competitionId,
                 Competition = null!,
@@ -415,7 +415,7 @@ namespace TDPCompetitions.Api.Extensions
             var group3 = new ProblemsGroup
             {
                 Id = group3Id,
-                Order = 3,
+                Order = 2,
                 ColorCode = "#00FF00", // verde
                 CompetitionId = competitionId,
                 Competition = null!,
@@ -425,7 +425,7 @@ namespace TDPCompetitions.Api.Extensions
             var group4 = new ProblemsGroup
             {
                 Id = group4Id,
-                Order = 4,
+                Order = 3,
                 ColorCode = "#FF0000", // rosso
                 CompetitionId = competitionId,
                 Competition = null!,
@@ -435,7 +435,7 @@ namespace TDPCompetitions.Api.Extensions
             var group5 = new ProblemsGroup
             {
                 Id = group5Id,
-                Order = 5,
+                Order = 4,
                 ColorCode = "#FFFF00", // giallo
                 CompetitionId = competitionId,
                 Competition = null!,
@@ -445,7 +445,7 @@ namespace TDPCompetitions.Api.Extensions
             var group6 = new ProblemsGroup
             {
                 Id = group6Id,
-                Order = 6,
+                Order = 5,
                 ColorCode = "#000000", // nero
                 CompetitionId = competitionId,
                 Competition = null!,
@@ -500,7 +500,7 @@ namespace TDPCompetitions.Api.Extensions
         private static List<Problem> MakeProblems(Guid groupId, string colorPrefix, Guid competitionId)
         {
             var problems = new List<Problem>(capacity: 7);
-            for (int i = 1; i <= 7; i++)
+            for (int i = 0; i <= 6; i++)
             {
                 problems.Add(new Problem
                 {

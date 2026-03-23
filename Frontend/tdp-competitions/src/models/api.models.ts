@@ -30,3 +30,15 @@ export interface IUpdateSpecialProblemRequest {
 	name: string;
 	competitionId: string;
 }
+
+export interface IUpdateProblemsGroupsRequest {
+	competitionId: string;
+	groups: IUpdateProblemGroup[];
+}
+
+interface IUpdateProblemGroup {
+	id?: string;
+	colorCode: string;
+	competitionId: string;
+	order: number;
+}

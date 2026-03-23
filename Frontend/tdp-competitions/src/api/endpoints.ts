@@ -9,7 +9,7 @@ export const EditorsEndpoints = {
 	getCompetitors: (id: string) => `/Editors/competition/${id}/rankings`,
 	getProblemsByCompetitionId: (id: string) => `/Editors/problems/get/${id}`,
 	addProblemsGroup: `/Editors/problems/addGroup`,
-	deleteProblemsGroup: (id: string) => `/Editors/problems/deleteGroup/${id}`,
+	updateProblemsGroups: '/Editors/problems/groups',
 	addProblemToGroup: `/Editors/problems/addToGroup`,
 	updateProblem: `/Editors/problems/updateProblem`,
 	deleteProblem: (id: string) => `/Editors/problems/deleteFromGroup/${id}`,

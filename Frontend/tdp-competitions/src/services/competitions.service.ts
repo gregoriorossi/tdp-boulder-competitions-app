@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IResponse, IUpdateSpecialProblemRequest } from "../models/api.models";
-import type { ICompetition, ICompetitionProblems, ISpecialProblem } from "../models/competitions.models";
+import type { IAddCompetitionRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IResponse, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
+import type { ICompetition, ICompetitionProblems, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 
 export default class CompetitionsService {
 
@@ -57,6 +57,16 @@ export default class CompetitionsService {
 
 	public static deleteProblem = async (id: string): Promise<IResponse<boolean>> => {
 		const data = await editorsApi.delete(EditorsEndpoints.deleteProblem(id));
+		return data.data as IResponse<boolean>;
+	}
+
+	public static updateGroups = async (competitionId: string, groups: IProblemsGroup[]): Promise<IResponse<boolean>> => {
+		const payload: IUpdateProblemsGroupsRequest = { 
+			competitionId: competitionId,
+			groups: groups
+		};
+
+		const data = await editorsApi.patch(EditorsEndpoints.updateProblemsGroups, payload);
 		return data.data as IResponse<boolean>;
 	}
 }

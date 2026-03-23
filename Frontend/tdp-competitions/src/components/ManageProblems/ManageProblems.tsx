@@ -8,7 +8,10 @@ import { SpecialProblem } from "./SpecialProblem";
 import { Button } from "@mui/material";
 import { SpecialProblemFormModal } from "../modals/SpecialProblemFormModal";
 import { useState } from "react";
+import EditIcon from '@mui/icons-material/Edit';
 import { ProblemGroup } from "./ProblemGroup";
+import { EditProblemsGroupsModal } from "../modals/EditProblemsGroupsModal";
+import { sortProblemsGroups } from "../../utils/problems.utils";
 const SectionStrings = STRINGS.Pages.EditorCompetitionPage.ManageProblems;
 
 interface IManageProblemsProps {
@@ -20,7 +23,7 @@ export function ManageProblems(props: IManageProblemsProps) {
 	const { data: response, isLoading: isGetProblemsLoading, error } = useProblemsByCompetitionId(props.competitionId);
 	const [isSpecialProblemModalOpen, setIsSpecialProblemModalOpen] = useState<boolean>(false);
 	const [isGroupModalOpen, setIsGroupModalOpen] = useState<boolean>(false);
-	
+
 	if (isGetProblemsLoading) {
 		return <Spinner />;
 	}
@@ -31,6 +34,12 @@ export function ManageProblems(props: IManageProblemsProps) {
 
 	return <div className={classNames.manageProblems}>
 		<div className={classNames.header}>
+			<Button
+				onClick={() => setIsGroupModalOpen(true)}
+				variant="contained"
+				endIcon={<EditIcon />}>
+				{SectionStrings.EditProblemsGroups}
+			</Button>&nbsp;
 			<Button
 				onClick={() => setIsSpecialProblemModalOpen(true)}
 				variant="contained"
@@ -48,8 +57,8 @@ export function ManageProblems(props: IManageProblemsProps) {
 			<h3>{SectionStrings.SpecialProblems}</h3>
 			<div className={classNames.problemsContainer}>
 				{
-					response?.value.specialProblems.map((p, idx) =>
-						<SpecialProblem problem={p} key={idx} />)
+					response?.value.specialProblems.map((p) =>
+						<SpecialProblem problem={p} key={p.id} />)
 				}
 			</div>
 		</div>
@@ -58,12 +67,18 @@ export function ManageProblems(props: IManageProblemsProps) {
 			<div>
 				{
 					response?.value.problemsGroups
-						.sort((g1, g2) => g1.order > g2.order ? 1 : -1)
-						.map((g, idx) =>
-							<ProblemGroup key={idx} group={g} />)
+						.sort(sortProblemsGroups)
+						.map((g) =>
+							<ProblemGroup key={g.id} group={g} />)
 				}
 			</div>
 		</div>
+
+		<EditProblemsGroupsModal
+			open={isGroupModalOpen}
+			competitionId={props.competitionId}
+			groups={response?.value.problemsGroups ?? []}
+			onClose={() => setIsGroupModalOpen(false)} />
 
 		<SpecialProblemFormModal
 			open={isSpecialProblemModalOpen}

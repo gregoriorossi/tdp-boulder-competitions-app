@@ -156,14 +156,15 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static ProblemsGroup UpdateProblemGroupVMToProblemGroup(UpdateProblemsGroupVM model)
+        internal static ICollection<ProblemsGroup> UpdateProblemGroupsVMToProblemGroups(UpdateProblemsGroupsVM model)
         {
-            return new ProblemsGroup
+            return model.Groups.Select(group =>  new ProblemsGroup
             {
-                Id = model.Id,
-                ColorCode = model.ColorCode,
-                Order = model.Order,
-            };
+                Id = group.Id,
+                ColorCode = group.ColorCode,
+                Order = group.Order,
+                CompetitionId = group.CompetitionId
+            }).ToList();
         }
 
         internal static Problem UpdateProblemVMToProblem(UpdateProblemVM model)

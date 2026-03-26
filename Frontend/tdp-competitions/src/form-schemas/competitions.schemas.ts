@@ -32,4 +32,10 @@ export const specialProblemSchema = yup.object({
 export const problemSchema = yup.object({
 	title: yup.string()
 		.required(ProblemsStrings.Errors.Title)
-})
+});
+
+export const problemGroupSchema = (colors: string[]) => {
+	return yup.object({
+		colorCode: yup.string().oneOf(colors).required(STRINGS.Forms.AddProblemsGroup.Errors.Color)
+	});
+}

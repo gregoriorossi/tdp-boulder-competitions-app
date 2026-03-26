@@ -31,9 +31,9 @@ namespace TDPCompetitions.Infrastracture.Managers
             return result;
         }
 
-        public async Task<ICollection<Problem>> AddProblemsToGroupAsync(ICollection<Problem> problems, CancellationToken cancellationToken)
+        public async Task<Problem> AddProblemToGroupAsync(Problem problem, CancellationToken cancellationToken)
         {
-            ICollection<Problem> result = await _problemsRepository.AddProblemsToGroupAsync(problems, cancellationToken);
+            Problem result = await _problemsRepository.AddProblemToGroupAsync(problem, cancellationToken);
             return result;
         }
 
@@ -149,12 +149,10 @@ namespace TDPCompetitions.Infrastracture.Managers
             }
 
             var newGroups = updatedGroups.Where(g => g.Id == Guid.Empty).ToList();
-            newGroups.ForEach(g =>
+            newGroups.ForEach(async (g) =>
             {
-                g.Id = Guid.NewGuid();
-                competition.ProblemGroups.Add(g);   
+                competition.ProblemGroups.Add(g);
             });
-
 
             var existingGroupsById = competition.ProblemGroups.ToDictionary(f => f.Id);
             foreach (var updatedSection in updatedGroups.ToList())

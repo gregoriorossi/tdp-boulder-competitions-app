@@ -2,7 +2,7 @@ import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-quer
 import { queryClient, queryKeys } from "../api/queryClient";
 import CompetitionsService from "../services/competitions.service";
 import type { IResponse } from "../models/api.models";
-import type { ICompetition, ICompetitionProblems, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import type { ICompetition, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 
 interface IUseAddCompetitionMutation {
@@ -58,10 +58,18 @@ export const useUpdateGroups = (competitionId: string) => {
 	});
 }
 
+export const useAddProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (request: IProblem) => CompetitionsService.addProblem(request),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
 
 export const useUpdateProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: ISpecialProblem) => CompetitionsService.updateProblem(problem),
+		mutationFn: (problem: IProblem) => CompetitionsService.updateProblem(problem),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}

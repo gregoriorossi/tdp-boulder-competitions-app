@@ -55,6 +55,7 @@ export const STRINGS = {
 		},
 		Problem: {
 			Title: 'Modifica blocco',
+			TitleNew: 'Nuovo blocco',
 			Fields: {
 				Title: "Nome"
 			},
@@ -64,6 +65,15 @@ export const STRINGS = {
 		},
 		EditProblemsGroups: {
 			Title: 'Gestisci gruppi'
+		}
+	},
+	Forms: {
+		AddProblemsGroup: {
+			Title: 'Nuovo gruppo',
+			ChooseColor: 'Scegli un colore',
+			Errors: {
+				Color: 'Il colore è obbligatorio'
+			}
 		}
 	},
 	Dialogs: {
@@ -91,8 +101,17 @@ export const STRINGS = {
 		Yellow: '#FFFF00',
 		Red: '#FF0000',
 		Black: '#000000',
+		Orange: '#FFA500',
+		Brown: '#A52A2A',
+		Cyan: '#00FFFF',
+		Magenta: '#FF00FF',
+		Gray: '#808080',
+		LightGray: '#D3D3D3',
+		Navy: '#000080',
+		Teal: '#008080'
 	},
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',
+	Add: 'Aggiungi',
 	Cancel: 'Annulla',
 	Create: 'Crea',
 	Delete: 'Elimina',
@@ -109,3 +128,4 @@ export const ERROR_STRINGS: IErrorStrings = {};
 ERROR_STRINGS[Errors.Competitions.SlugNotAvailable] = 'Esiste già una gara con lo stesso nome';
 ERROR_STRINGS[Errors.Competitions.NotFound] = 'Competizione non trovata';
 ERROR_STRINGS[Errors.SpecialProblems.NotFound] = "Blocco non trovato";
+

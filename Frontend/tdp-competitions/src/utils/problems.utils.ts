@@ -25,3 +25,25 @@ export function getBorderColor(color: string): string {
 export function sortProblemsGroups(g1: IProblemsGroup, g2: IProblemsGroup): number {
 	return g1.order > g2.order ? 1 : -1;
 }
+
+export function getSelectableColors(allColors: string[], selectedProblemsGroups: IProblemsGroup[]): string[] {
+	const selectedColors: string[] = selectedProblemsGroups.map(g => g.colorCode);
+	return allColors.filter(c => !selectedColors.includes(c));
+}
+
+export const allColors: string[] = [
+	ColorCodes.White,
+	ColorCodes.Blue,
+	ColorCodes.Green,
+	ColorCodes.Yellow,
+	ColorCodes.Red,
+	ColorCodes.Black,
+	ColorCodes.Orange,
+	ColorCodes.Brown,
+	ColorCodes.Cyan,
+	ColorCodes.Magenta,
+	ColorCodes.Gray,
+	ColorCodes.LightGray,
+	ColorCodes.Navy,
+	ColorCodes.Teal
+];

@@ -21,12 +21,23 @@ export interface IAddCompetitionRequest {
 	date: Date;
 }
 
+export interface IAddProblemRequest {
+	name: string;
+	competitionId: string;
+	problemsGroupId: string;
+}
+
 export interface IAddSpecialProblemRequest {
 	name: string;
 	competitionId: string;
 }
 
 export interface IUpdateSpecialProblemRequest {
+	name: string;
+	competitionId: string;
+}
+
+export interface IUpdateProblemRequest {
 	name: string;
 	competitionId: string;
 }

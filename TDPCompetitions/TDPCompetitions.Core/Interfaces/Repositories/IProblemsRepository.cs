@@ -7,7 +7,7 @@ namespace TDPCompetitions.Core.Interfaces.Repositories
     {
         Task<ProblemsGroup> AddProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken);
 
-        Task<ICollection<Problem>> AddProblemsToGroupAsync(ICollection<Problem> problems, CancellationToken cancellationToken);
+        Task<Problem> AddProblemToGroupAsync(Problem problems, CancellationToken cancellationToken);
 
         Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken);
 

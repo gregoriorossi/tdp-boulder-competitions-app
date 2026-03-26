@@ -19,7 +19,7 @@ export interface ICompetitionProblems {
 }
 
 export interface IProblemsGroup {
-	id: string
+	id?: string
 	order: number
 	colorCode: string
 	competitionId: string
@@ -27,7 +27,7 @@ export interface IProblemsGroup {
 }
 
 export interface IProblem {
-	id: string
+	id?: string
 	name: string
 	problemGroupId: string
 	competitionId: string

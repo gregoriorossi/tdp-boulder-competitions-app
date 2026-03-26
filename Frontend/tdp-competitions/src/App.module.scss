@@ -40,7 +40,6 @@
     }
 
     .editorPageContainer {
-       
     }
 }
 
@@ -67,21 +66,20 @@
     }
 
     .manageProblems {
-
-        .header {
-            display: flex;
-            flex-direction: row;
-            justify-content: end;
-            margin-top: 1rem;
-        }
-
         .specialProblems {
+
+            .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+            }
+
             .problemsContainer {
                 display: flex;
                 flex-direction: row;
                 justify-content: start;
 
-                .specialProblem { 
+                .specialProblem {
                     border-radius: 10px;
                     border: solid 2px black;
                     padding: 0.25rem 0.5rem;
@@ -91,9 +89,42 @@
         }
 
         .problems {
+
+            .header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                h3 {
+                    flex: 1;
+                }
+            }
+
             .group {
                 display: block;
                 margin-bottom: 1rem;
+
+                .colorMarkerContainer {
+                    display: inline-block;
+                    vertical-align: middle;
+
+                    .colorMarker {
+                        width: 40px;
+                        height: 40px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        margin-right: 10px;
+                        border: 1px solid;
+                        border-radius: 5px;
+                        cursor: pointer;
+                        
+                        .addIcon {
+                            width: 30px;
+                            height: 30px;
+                        }
+                    }
+                }
 
                 .problem {
                     display: inline-block;
@@ -101,6 +132,7 @@
                     padding: 1rem 2rem;
                     margin-right: 10px;
                     border: 1px solid;
+
                     &:hover {
                         cursor: pointer;
                         box-shadow: inset 0 0 50px rgb(173, 173, 173, 0.5);
@@ -180,7 +212,7 @@
         display: block;
     }
 }
- 
+
 .form {
     display: flex;
     flex-direction: column;
@@ -188,26 +220,51 @@
 }
 
 .editProblemsGroupsModal {
-    .group {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
+    .groupsList {
+        max-height: 450px;
+        overflow-y:  auto;
+        margin-top: 10px;
 
-        .square {
-            height: 50px;
-            width: 50px;
-            display: inline-block;
-            border: 1px solid;
-        }
-
-        .actions {
+        .group {
             display: flex;
             flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
 
-            .actionIcon {
-                min-width: auto;
+            .square {
+                height: 50px;
+                width: 50px;
+                display: inline-block;
+                border: 1px solid;
+            }
+
+            .actions {
+                display: flex;
+                flex-direction: row;
+
+                .actionIcon {
+                    min-width: auto;
+                }
             }
         }
+    }
+}
+
+.addProblemsGroup {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .select {
+        flex: 1;
+    }
+}
+
+.colorOption {
+    justify-content: center !important;
+
+    .colorLabel {
+        height: 30px!important;
+        width: 50%;
     }
 }

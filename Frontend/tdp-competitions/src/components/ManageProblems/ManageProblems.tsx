@@ -33,28 +33,16 @@ export function ManageProblems(props: IManageProblemsProps) {
 	}
 
 	return <div className={classNames.manageProblems}>
-		<div className={classNames.header}>
-			<Button
-				onClick={() => setIsGroupModalOpen(true)}
-				variant="contained"
-				endIcon={<EditIcon />}>
-				{SectionStrings.EditProblemsGroups}
-			</Button>&nbsp;
-			<Button
-				onClick={() => setIsSpecialProblemModalOpen(true)}
-				variant="contained"
-				endIcon={<AddIcon />}>
-				{SectionStrings.NewSpecialProblem}
-			</Button>&nbsp;
-			<Button
-				onClick={() => setIsGroupModalOpen(true)}
-				variant="contained"
-				endIcon={<AddIcon />}>
-				{SectionStrings.NewProblemGroup}
-			</Button>
-		</div>
 		<div className={classNames.specialProblems}>
-			<h3>{SectionStrings.SpecialProblems}</h3>
+			<div className={classNames.header}>
+				<h3>{SectionStrings.SpecialProblems}</h3>
+				<Button
+					onClick={() => setIsSpecialProblemModalOpen(true)}
+					variant="contained"
+					endIcon={<AddIcon />}>
+					{SectionStrings.NewSpecialProblem}
+				</Button>
+			</div>
 			<div className={classNames.problemsContainer}>
 				{
 					response?.value.specialProblems.map((p) =>
@@ -63,7 +51,15 @@ export function ManageProblems(props: IManageProblemsProps) {
 			</div>
 		</div>
 		<div className={classNames.problems}>
-			<h3>{SectionStrings.Problems}</h3>
+			<div className={classNames.header}>
+				<h3>{SectionStrings.Problems}</h3>
+				<Button
+					onClick={() => setIsGroupModalOpen(true)}
+					variant="contained"
+					endIcon={<EditIcon />}>
+					{SectionStrings.EditProblemsGroups}
+				</Button>&nbsp;
+			</div>
 			<div>
 				{
 					response?.value.problemsGroups

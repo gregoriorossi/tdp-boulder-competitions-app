@@ -22,11 +22,11 @@ namespace TDPCompetitions.Infrastracture.Repositories
             return group;
         }
 
-        public async Task<ICollection<Problem>> AddProblemsToGroupAsync(ICollection<Problem> problems, CancellationToken cancellationToken)
+        public async Task<Problem> AddProblemToGroupAsync(Problem problem, CancellationToken cancellationToken)
         {
-            await _appDbContext.Problems.AddRangeAsync(problems);
+            await _appDbContext.Problems.AddAsync(problem);
             await _appDbContext.SaveChangesAsync(cancellationToken);
-            return problems;
+            return problem;
         }
 
         public async Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken)

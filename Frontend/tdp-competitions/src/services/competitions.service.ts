@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IResponse, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
-import type { ICompetition, ICompetitionProblems, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IResponse, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
+import type { ICompetition, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 
 export default class CompetitionsService {
 
@@ -50,9 +50,19 @@ export default class CompetitionsService {
 		return data.data as IResponse<boolean>;
 	}
 
-	public static updateProblem = async (problem: IUpdateSpecialProblemRequest): Promise<IResponse<ISpecialProblem>> => {
+	public static addProblem = async (problem: IProblem): Promise<IResponse<IProblem>> => {
+		const payload: IAddProblemRequest = {
+			competitionId: problem.competitionId,
+			name: problem.name,
+			problemsGroupId: problem.problemGroupId
+		};
+		const data = await editorsApi.post(EditorsEndpoints.addProblemToGroup, payload);
+		return data.data as IResponse<IProblem>;
+	}
+
+	public static updateProblem = async (problem: IUpdateProblemRequest): Promise<IResponse<IProblem>> => {
 		const data = await editorsApi.patch(EditorsEndpoints.updateProblem, problem);
-		return data.data as IResponse<ISpecialProblem>;
+		return data.data as IResponse<IProblem>;
 	}
 
 	public static deleteProblem = async (id: string): Promise<IResponse<boolean>> => {
@@ -61,7 +71,7 @@ export default class CompetitionsService {
 	}
 
 	public static updateGroups = async (competitionId: string, groups: IProblemsGroup[]): Promise<IResponse<boolean>> => {
-		const payload: IUpdateProblemsGroupsRequest = { 
+		const payload: IUpdateProblemsGroupsRequest = {
 			competitionId: competitionId,
 			groups: groups
 		};

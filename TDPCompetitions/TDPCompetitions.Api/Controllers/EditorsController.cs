@@ -198,22 +198,22 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpPost]
         [Route("problems/addToGroup")]
-        public async Task<IActionResult> AddProblemsToGroup([FromBody] AddProblemsToGroupVM model, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddProblemToGroup(AddProblemToGroupVM model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            ProblemsGroup? group = await _problemsManager.GetProblemsGroupByIdAsync(model.GroupId, cancellationToken);
+            ProblemsGroup? group = await _problemsManager.GetProblemsGroupByIdAsync(model.ProblemsGroupId, cancellationToken);
             if (group == null)
             {
                 return Ok(Result<ProblemsGroup>.Failure(ProblemsGroupErrors.NotFound));
             }
 
-            ICollection<Problem> problems = ViewModelToEntity.AddProblemsToGroupVMToProblems(model, group.CompetitionId); ;
-            ICollection<Problem> result = await _problemsManager.AddProblemsToGroupAsync(problems, cancellationToken);
-            return Ok(Result<ICollection<Problem>>.Success(result));
+            Problem problem = ViewModelToEntity.AddProblemToGroupVMToProblem(model); ;
+            Problem result = await _problemsManager.AddProblemToGroupAsync(problem, cancellationToken);
+            return Ok(Result<AddProblemToGroupResponse>.Success(new AddProblemToGroupResponse(result)));
         }
 
         [HttpPatch]

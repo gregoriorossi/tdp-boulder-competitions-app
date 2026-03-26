@@ -30,14 +30,14 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static ICollection<Problem> AddProblemsToGroupVMToProblems(AddProblemsToGroupVM model, Guid competitionId)
+        internal static Problem AddProblemToGroupVMToProblem(AddProblemToGroupVM model)
         {
-            return model.Problems.Select(p => new Problem
+            return new Problem
             {
-                CompetitionId = competitionId,
-                ProblemGroupId = model.GroupId,
-                Name = p.Name
-            }).ToList();
+                CompetitionId = model.CompetitionId,
+                ProblemGroupId = model.ProblemsGroupId,
+                Name = model.Name
+            };
         }
 
         internal static Registration AddRegistrationVMToRegistration(AddRegistrationVM model, Guid competitionId)

@@ -10,6 +10,7 @@ import { useUpdateGroups } from "../../queries/competitions.queries";
 import { Spinner } from "../Spinner";
 import { ErrorMessage } from "../ErrorMessage";
 import { Errors } from "../../consts/errors.consts";
+import { AddProblemGroup } from "../ManageProblems/AddProblemGroup";
 
 const FormStrings = STRINGS.Modals.EditProblemsGroups;
 
@@ -35,7 +36,7 @@ export function EditProblemsGroupsModal(props: IEditProblemsGroupsModalProps) {
 	const onDeleted = (group: IProblemsGroup): void => {
 		const newGroups = groups
 			.filter(g => g.id !== group.id)
-			.map((g, idx) => ({ ...g, order: idx}));
+			.map((g, idx) => ({ ...g, order: idx }));
 		setGroups(newGroups);
 	}
 
@@ -43,6 +44,10 @@ export function EditProblemsGroupsModal(props: IEditProblemsGroupsModalProps) {
 		setGroups(props.groups);
 		onClose();
 		updateReset();
+	}
+
+	const onAdd = (group: IProblemsGroup): void => {
+		setGroups([...groups, group]);
 	}
 
 	const onSave = async () => {
@@ -65,8 +70,14 @@ export function EditProblemsGroupsModal(props: IEditProblemsGroupsModalProps) {
 		open={open}
 		onClose={onModalClose}>
 
+		<AddProblemGroup
+			competitionId={competitionId}
+			onAdd={onAdd}
+			order={groups.length}
+			selectedGroups={groups} />
+
 		<Box className={classNames.form}>
-			<List>
+			<List className={classNames.groupsList}>
 				{groups
 					.sort(sortProblemsGroups)
 					.map((g, idx) =>

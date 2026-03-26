@@ -13,6 +13,9 @@ declare const classNames: {
   readonly specialProblem: "specialProblem";
   readonly problems: "problems";
   readonly group: "group";
+  readonly colorMarkerContainer: "colorMarkerContainer";
+  readonly colorMarker: "colorMarker";
+  readonly addIcon: "addIcon";
   readonly problem: "problem";
   readonly react: "react";
   readonly card: "card";
@@ -24,8 +27,13 @@ declare const classNames: {
   readonly modalBody: "modalBody";
   readonly form: "form";
   readonly editProblemsGroupsModal: "editProblemsGroupsModal";
+  readonly groupsList: "groupsList";
   readonly square: "square";
   readonly actions: "actions";
   readonly actionIcon: "actionIcon";
+  readonly addProblemsGroup: "addProblemsGroup";
+  readonly select: "select";
+  readonly colorOption: "colorOption";
+  readonly colorLabel: "colorLabel";
 };
 export = classNames;

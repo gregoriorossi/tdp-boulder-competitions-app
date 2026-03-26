@@ -5,7 +5,7 @@ namespace TDPCompetitions.Core.Interfaces.Managers
     public interface IProblemsManager
     {
         Task<ProblemsGroup> AddProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken);
-        Task<ICollection<Problem>> AddProblemsToGroupAsync(ICollection<Problem> problems, CancellationToken cancellationToken);
+        Task<Problem> AddProblemToGroupAsync(Problem problems, CancellationToken cancellationToken);
         Task DeleteProblemFromGroup(Problem problem, CancellationToken cancellationToken);
         Task<SpecialProblem?> GetSpecialProblemByIdAsync(Guid id, CancellationToken cancellationToken);
         Task<SpecialProblem> AddSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);

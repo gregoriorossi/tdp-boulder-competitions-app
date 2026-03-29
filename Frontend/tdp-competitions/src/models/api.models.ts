@@ -53,3 +53,28 @@ interface IUpdateProblemGroup {
 	competitionId: string;
 	order: number;
 }
+
+export interface IRegistrationResponse {
+	createdAt: string;
+	email: string;
+	competitionId: string;
+	competitor: ICompetitorResponse;
+	minors: ICompetitorResponse[];
+}
+
+export interface ICompetitorResponse {
+	firstName: string;
+	lastName: string;
+	birthDate: string;
+	gender: number;
+	birthPlace: string;
+	birthProvince: string;
+	addressCity: string;
+	addressProvince: string;
+	addressStreet: string;
+	addressNumber: string;
+	phoneNumber: string;
+	isMinor: boolean;
+	competitionId: string;
+	registrationId: string;
+}

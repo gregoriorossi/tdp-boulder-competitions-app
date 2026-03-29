@@ -17,5 +17,8 @@ export const queryKeys = {
 	},
 	problems: {
 		byCompetitionId: (id: string) => ["problems-competition-id", id]
+	},
+	registrations: {
+		byCompetitionId: (id: string) => ["registrations-competitionid", id]
 	}
 };

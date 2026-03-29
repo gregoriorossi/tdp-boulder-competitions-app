@@ -13,10 +13,16 @@ export enum CompetitionStatus {
 	CLOSED = 2
 }
 
+export enum Gender {
+	MALE = 0, 
+	FEMALE = 1
+}
+
 export interface ICompetitionProblems {
 	problemsGroups: IProblemsGroup[];
 	specialProblems: ISpecialProblem[];
 }
+
 
 export interface IProblemsGroup {
 	id?: string
@@ -37,4 +43,29 @@ export interface ISpecialProblem {
 	id: string
 	name: string
 	competitionId: string
+}
+
+export interface IRegistration {
+	createdAt: Date;
+	email: string;
+	competitionId: string;
+	competitor: ICompetitor;
+	minors: ICompetitor[];
+}
+
+export interface ICompetitor {
+	firstName: string;
+	lastName: string;
+	birthDate: Date;
+	gender: number;
+	birthPlace: string;
+	birthProvince: string;
+	addressCity: string;
+	addressProvince: string;
+	addressStreet: string;
+	addressNumber: string;
+	phoneNumber: string;
+	isMinor: boolean;
+	competitionId: string;
+	registrationId: string;
 }

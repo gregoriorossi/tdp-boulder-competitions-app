@@ -1,6 +1,6 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IResponse, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
+import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IRegistrationResponse, IResponse, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
 import type { ICompetition, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 
 export default class CompetitionsService {
@@ -33,6 +33,11 @@ export default class CompetitionsService {
 	public static getProblemsByCompetitionId = async (id: string): Promise<IResponse<ICompetitionProblems>> => {
 		const data = await editorsApi.get(EditorsEndpoints.getProblemsByCompetitionId(id));
 		return data.data as IResponse<ICompetitionProblems>;
+	}
+
+	public static getRegistrationsByCompetitionId = async (id: string): Promise<IResponse<IRegistrationResponse[]>> => {
+		const data = await editorsApi.get(EditorsEndpoints.getRegistrationsByCompetitionId(id));
+		return data.data as IResponse<IRegistrationResponse[]>;
 	}
 
 	public static addSpecialProblem = async (problem: IAddSpecialProblemRequest): Promise<IResponse<ISpecialProblem>> => {

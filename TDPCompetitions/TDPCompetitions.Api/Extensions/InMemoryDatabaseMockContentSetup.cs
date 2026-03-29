@@ -170,10 +170,6 @@ namespace TDPCompetitions.Api.Extensions
                 Minors = new List<Competitor> { minor11, minor12 },
                 Competition = null!
             };
-            // back-reference
-            adult1.Registration = reg1;
-            minor11.Registration = reg1;
-            minor12.Registration = reg1;
 
 
             // ---------- REGISTRAZIONE 2 ----------
@@ -234,8 +230,6 @@ namespace TDPCompetitions.Api.Extensions
                 Minors = new List<Competitor> { minor21 },
                 Competition = null!
             };
-            adult2.Registration = reg2;
-            minor21.Registration = reg2;
 
 
             // ---------- REGISTRAZIONE 3 ----------
@@ -318,9 +312,6 @@ namespace TDPCompetitions.Api.Extensions
                 Minors = new List<Competitor> { minor31, minor32 },
                 Competition = null!
             };
-            adult3.Registration = reg3;
-            minor31.Registration = reg3;
-            minor32.Registration = reg3;
 
 
             // ---------- REGISTRAZIONE 4 ----------
@@ -381,8 +372,41 @@ namespace TDPCompetitions.Api.Extensions
                 Minors = new List<Competitor> { minor41 },
                 Competition = null!
             };
-            adult4.Registration = reg4;
-            minor41.Registration = reg4;
+
+            var reg5Id = Guid.Parse("e4f203a4-9c47-43ca-9c3f-5c3c6f1c0d44");
+            var adult5Id = Guid.Parse("4f71be31-5030-404f-9e5f-51612c9d4d04");
+
+            var adult5 = new Competitor
+            {
+                Id = adult5Id,
+                FirstName = "Giorgio",
+                LastName = "Marchi",
+                BirthDate = new DateTime(1975, 2, 3),
+                Gender = Gender.MALE,
+                BirthPlace = "Pioverno",
+                BirthProvince = "UD",
+                AddressCity = "Udine",
+                AddressProvince = "UD",
+                AddressStreet = "Via Cavour",
+                AddressNumber = "21",
+                PhoneNumber = "+39 347 3333333",
+                IsMinor = false,
+                CompetitionId = competitionId,
+                RegistrationId = reg5Id,
+                Competition = null!,
+                Registration = null!
+            };
+
+            var reg5 = new Registration
+            {
+                Id = reg5Id,
+                CreatedAt = new DateTime(2026, 1, 10, 11, 20, 0, DateTimeKind.Local),
+                Email = "giorgio.marchi@example.com",
+                CompetitionId = competitionId,
+                CompetitorId = adult5Id,
+                Competitor = adult5,
+                Competition = null!
+            };
 
             // GUID fissi per i gruppi (facile da usare anche in HasData)
             var group1Id = Guid.Parse("11111111-1111-1111-1111-111111111111"); // bianco
@@ -455,7 +479,7 @@ namespace TDPCompetitions.Api.Extensions
           
 
             context.Competitions.AddRange([competition1, competition2, competition3, competition4]);
-            context.Registrations.AddRange([reg1, reg2, reg3, reg4]);
+            context.Registrations.AddRange([reg1, reg2, reg3, reg4, reg5]);
             context.Competitors.AddRange([
                 adult1, minor11, minor12,
                 adult2, minor21,

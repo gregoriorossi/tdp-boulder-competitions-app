@@ -11,6 +11,7 @@ import { useState } from "react";
 import { STRINGS } from "../../consts/strings.consts";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { ManageProblems } from "../../components/ManageProblems/ManageProblems";
+import { ManageRegistrations } from "../../components/ManageRegistrations/ManageRegistrations";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 enum TabValues {
@@ -41,15 +42,15 @@ export function EditorsCompetitionPage() {
 
 	return <EditorsPageWrapper title={competition?.title}>
 		<div className={classNames.editorsCompetitionPage}>
-			<div>
-				<Tabs value={tabValue}
-					onChange={(_e, value) => setTabValue(value)}>
-					<Tab className={classNames.tab} label={PageStrings.Tabs.Info} />
-					<Tab className={classNames.tab} label={PageStrings.Tabs.Problems} />
-					<Tab className={classNames.tab} label={PageStrings.Tabs.Registrations} />
-					<Tab className={classNames.tab} label={PageStrings.Tabs.Rankings} />
-				</Tabs>
-			</div>
+
+			<Tabs value={tabValue}
+				className={classNames.tabs}
+				onChange={(_e, value) => setTabValue(value)}>
+				<Tab className={classNames.tab} label={PageStrings.Tabs.Info} />
+				<Tab className={classNames.tab} label={PageStrings.Tabs.Problems} />
+				<Tab className={classNames.tab} label={PageStrings.Tabs.Registrations} />
+				<Tab className={classNames.tab} label={PageStrings.Tabs.Rankings} />
+			</Tabs>
 
 			{
 				error && <ErrorMessage errorCode="" />
@@ -57,6 +58,9 @@ export function EditorsCompetitionPage() {
 
 			{
 				tabValue === TabValues.PROBLEMS && <ManageProblems competitionId={competition.id} />
+			}
+			{
+				tabValue === TabValues.REGISTRATIONS && <ManageRegistrations competitionId={competition.id} />
 			}
 		</div>
 	</EditorsPageWrapper>;

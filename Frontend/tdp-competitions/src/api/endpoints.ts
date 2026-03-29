@@ -8,6 +8,7 @@ export const EditorsEndpoints = {
 	getRankings: (id: string) => `/Editors/competition/${id}/competitors`,
 	getCompetitors: (id: string) => `/Editors/competition/${id}/rankings`,
 	getProblemsByCompetitionId: (id: string) => `/Editors/problems/get/${id}`,
+	getRegistrationsByCompetitionId: (id: string) => `/Editors/competition/${id}/registrations`,
 	addProblemsGroup: `/Editors/problems/addGroup`,
 	updateProblemsGroups: '/Editors/problems/groups',
 	addProblemToGroup: `/Editors/problems/addToGroup`,

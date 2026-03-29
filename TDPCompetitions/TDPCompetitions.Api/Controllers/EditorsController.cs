@@ -138,6 +138,19 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<bool>.Success(true));
         }
 
+        [HttpGet]
+        [Route("competition/{id}/registrations")]
+        public async Task<IActionResult> GetRegistrations(Guid id, CancellationToken cancellationToken)
+        {
+            bool competitionExists = await _competitionsManager.CompetitionExists(id, cancellationToken);
+            if (!competitionExists)
+            {
+                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            var registrations = await _competitionsManager.GetRegistrationsAsync(id, cancellationToken);
+            return Ok(Result<ICollection<RegistrationVM>>.Success(registrations.Select(r => new RegistrationVM(r)).ToList()));
+        }
         #endregion
 
 

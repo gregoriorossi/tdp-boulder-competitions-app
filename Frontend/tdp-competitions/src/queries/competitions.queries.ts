@@ -2,7 +2,7 @@ import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-quer
 import { queryClient, queryKeys } from "../api/queryClient";
 import CompetitionsService from "../services/competitions.service";
 import type { IResponse } from "../models/api.models";
-import type { ICompetition, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import type { ICompetition, ICompetitionProblems, IProblem, IProblemsGroup, IRegistration, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 
 interface IUseAddCompetitionMutation {
@@ -89,6 +89,20 @@ export const useProblemsByCompetitionId = (id: string): UseQueryResult<IResponse
 	return useQuery({
 		queryKey: [...queryKeys.problems.byCompetitionId(id)],
 		queryFn: () => CompetitionsService.getProblemsByCompetitionId(id)
+	});
+}
+
+export const useRegistrationsByCompetitionsId = (id: string): UseQueryResult<IResponse<IRegistration[]>> => {
+	return useQuery({
+		queryKey: [...queryKeys.registrations.byCompetitionId(id)],
+		queryFn: async (): Promise<IResponse<IRegistration[]>> => {
+			const result = await CompetitionsService.getRegistrationsByCompetitionId(id);
+
+			return {
+				...result,
+				value: (result?.value ?? []).map(c => CompetitionsMappers.ToIRegistration(c))
+			};
+		}
 	});
 }
 

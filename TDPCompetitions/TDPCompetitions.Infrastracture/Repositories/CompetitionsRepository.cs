@@ -51,6 +51,8 @@ namespace TDPCompetitions.Infrastracture.Repositories
         public async Task<ICollection<Registration>> GetAllRegistrationsAsync(Expression<Func<Registration, bool>> whereFn, CancellationToken cancellationToken)
         {
             return await _appDbContext.Registrations
+                .Include(r => r.Competitor)
+                .Include(r => r.Minors)
                .Where(whereFn)
                .ToListAsync(cancellationToken);
         }

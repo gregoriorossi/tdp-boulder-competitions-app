@@ -16,6 +16,7 @@ import { Spinner } from "../../components/Spinner";
 import React from "react";
 import ConfirmationDialog from "../../components/ConfirmationDialog";
 import { NewCompetitionModal } from "../../components/modals/NewCompetitionModal";
+import { Errors } from "../../consts/errors.consts";
 
 const PageStrings = STRINGS.Pages.EditorsAllCompetitionsPage;
 
@@ -123,7 +124,7 @@ export function EditorsAllCompetitionsPage() {
 														<Button title="Dettagli"><CreateIcon /></Button>
 													</Link>
 
-													<Button title="Cancella" onClick={() => onDeleteClick(competition.id)}>
+													<Button title={STRINGS.Delete} onClick={() => onDeleteClick(competition.id)}>
 														<DeleteIcon />
 													</Button>
 												</ButtonGroup>
@@ -142,6 +143,8 @@ export function EditorsAllCompetitionsPage() {
 			title={STRINGS.Dialogs.DeleteCompetition.Title}
 			cancelBtnLabel={STRINGS.Cancel}
 			confirmBtnLabel={STRINGS.Delete}
+			isLoading={isDeletePending}
+			error={errorDelete ? Errors.Generic : ''}
 			content={STRINGS.Dialogs.DeleteCompetition.Content}
 			onCancel={() => { setDeleteFormDialogOpen(false) }}
 			onClose={() => { setDeleteFormDialogOpen(false) }}

@@ -178,5 +178,12 @@ namespace TDPCompetitions.Infrastracture.Managers
                 .ThenBy(c => c.FirstName)
                 .ToList();
         }
+
+        public async Task<ICollection<Registration>> GetRegistrationsAsync(Guid id, CancellationToken cancellationToken)
+        {
+            Expression<Func<Registration, bool>> whereFn = r => r.CompetitionId == id;
+            var result = await _competitionsRepository.GetAllRegistrationsAsync(whereFn, cancellationToken);
+            return result;
+        }
     }
 }

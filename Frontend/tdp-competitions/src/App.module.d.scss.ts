@@ -6,6 +6,7 @@ declare const classNames: {
   readonly editorsAllCompetitionsPage: "editorsAllCompetitionsPage";
   readonly actionsSection: "actionsSection";
   readonly editorsCompetitionPage: "editorsCompetitionPage";
+  readonly tabs: "tabs";
   readonly tab: "tab";
   readonly manageProblems: "manageProblems";
   readonly specialProblems: "specialProblems";
@@ -17,6 +18,10 @@ declare const classNames: {
   readonly colorMarker: "colorMarker";
   readonly addIcon: "addIcon";
   readonly problem: "problem";
+  readonly manageRegistrations: "manageRegistrations";
+  readonly table: "table";
+  readonly registrationRow: "registrationRow";
+  readonly hasMinors: "hasMinors";
   readonly react: "react";
   readonly card: "card";
   readonly greenIcon: "greenIcon";

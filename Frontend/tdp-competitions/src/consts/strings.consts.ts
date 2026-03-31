@@ -25,6 +25,14 @@ export const STRINGS = {
 				NewSpecialProblem: 'Nuovo blocco premio',
 				NewProblemGroup: 'Nuovo gruppo',
 				EditProblemsGroups: 'Gestisci gruppi'
+			},
+			ManageRegistrations: {
+				Table: {
+					Name: 'Nome',
+					Email: 'Email',
+					BirthDate: 'Data di nascita',
+					Minors: 'Minori'
+				}
 			}
 		}
 	},
@@ -81,6 +89,14 @@ export const STRINGS = {
 			Title: 'Vuoi eliminare la gara?',
 			Content: 'Una volta eliminata la gara non sarà più accedibile e i dati verranno persi'
 		},
+		DeleteCompetitor: {
+			Title: (fullName: string) => `Vuoi eliminare la registrazione di ${fullName}?`,
+			Content: 'Una volta eliminata, non sarà possibile recuperare i dati associati alla persona'
+		},
+		DeleteRegistration: {
+			Title: (email: string) => `Vuoi eliminare la registrazione di ${email}?`,
+			Content: 'Una volta eliminata, non sarà possibile recuperare i dati associati alla persona e ai minori legati alla prenotazione'
+		},
 		DeleteSpecialProblem: {
 			Title: (title: string) => `Vuoi eliminare il blocco ${title}?`,
 			Content: 'Una volta eliminato il blocco e i dati associati verranno persi'
@@ -115,6 +131,7 @@ export const STRINGS = {
 	Cancel: 'Annulla',
 	Create: 'Crea',
 	Delete: 'Elimina',
+	Details: 'Dettagli',
 	Edit: 'Modifica',
 	Save: 'Salva',
 	MoveUp: 'Sposta su',
@@ -128,4 +145,7 @@ export const ERROR_STRINGS: IErrorStrings = {};
 ERROR_STRINGS[Errors.Competitions.SlugNotAvailable] = 'Esiste già una gara con lo stesso nome';
 ERROR_STRINGS[Errors.Competitions.NotFound] = 'Competizione non trovata';
 ERROR_STRINGS[Errors.SpecialProblems.NotFound] = "Blocco non trovato";
+ERROR_STRINGS[Errors.Registrations.NotFound] = "Registrazione non trovata";
+ERROR_STRINGS[Errors.Competitors.NotFound] = "Atleta non trovato";
+ERROR_STRINGS[Errors.Competitors.AdultDelete] = "Per eliminare un adulto è necessario eliminare l'intera registrazione";
 

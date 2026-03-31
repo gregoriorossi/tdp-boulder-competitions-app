@@ -92,20 +92,6 @@ export const useProblemsByCompetitionId = (id: string): UseQueryResult<IResponse
 	});
 }
 
-export const useRegistrationsByCompetitionsId = (id: string): UseQueryResult<IResponse<IRegistration[]>> => {
-	return useQuery({
-		queryKey: [...queryKeys.registrations.byCompetitionId(id)],
-		queryFn: async (): Promise<IResponse<IRegistration[]>> => {
-			const result = await CompetitionsService.getRegistrationsByCompetitionId(id);
-
-			return {
-				...result,
-				value: (result?.value ?? []).map(c => CompetitionsMappers.ToIRegistration(c))
-			};
-		}
-	});
-}
-
 export const useAddSpecialProblem = (competitionId: string) => {
 	return useMutation({
 		mutationFn: (problem: ISpecialProblem) => CompetitionsService.addSpecialProblem(problem),
@@ -132,4 +118,3 @@ export const useDeleteSpecialProblem = (competitionId: string) => {
 		}
 	});
 }
-

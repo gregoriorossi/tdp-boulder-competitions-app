@@ -20,7 +20,7 @@ export function SpecialProblem(props: ISpecialProblemProps) {
 	const [isProblemModalOpen, setIsProblemModalOpen] = useState<boolean>(false);
 
 	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	const { error: deleteError, addSpecialProblemIsPending: deleteIsPending, mutateAsync: deleteMutateAsync } = useDeleteSpecialProblem(problem.competitionId);
+	const { error: deleteError, isPending: deleteIsPending, mutateAsync: deleteMutateAsync } = useDeleteSpecialProblem(problem.competitionId);
 
 	const onDeleteHandler = async (problem: ISpecialProblem) => {
 		try {
@@ -33,7 +33,7 @@ export function SpecialProblem(props: ISpecialProblemProps) {
 			setErrorMessage(data.error?.code ?? null);
 		} catch (e) {
 			console.log(e);
-			setErrorMessage(Errors.Generic)
+			setErrorMessage(Errors.Generic);
 		}
 	}
 

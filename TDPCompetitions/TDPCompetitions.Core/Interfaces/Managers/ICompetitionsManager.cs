@@ -25,5 +25,6 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, CancellationToken cancellationToken);
         Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken);
         Task<ICollection<Registration>> GetRegistrationsAsync(Guid id, CancellationToken cancellationToken);
+        Task DeleteCompetitorAsync(Competitor competitor, CancellationToken cancellationToken);
     }
 }

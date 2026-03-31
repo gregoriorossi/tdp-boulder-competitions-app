@@ -55,6 +55,7 @@ interface IUpdateProblemGroup {
 }
 
 export interface IRegistrationResponse {
+	id: string;
 	createdAt: string;
 	email: string;
 	competitionId: string;
@@ -63,6 +64,7 @@ export interface IRegistrationResponse {
 }
 
 export interface ICompetitorResponse {
+	id: string;
 	firstName: string;
 	lastName: string;
 	birthDate: string;

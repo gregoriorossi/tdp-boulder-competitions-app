@@ -38,6 +38,7 @@ export default class CompetitionsMappers {
 
 	public static ToIRegistration = (value: IRegistrationResponse): IRegistration => {
 		return {
+			id: value.id,
 			competitionId: value.competitionId,
 			competitor: this.ToCompetitor(value.competitor),
 			createdAt: new Date(value.createdAt),
@@ -48,6 +49,7 @@ export default class CompetitionsMappers {
 
 	public static ToCompetitor = (value: ICompetitorResponse): ICompetitor => {
 		return {
+			id: value.id,
 			addressCity: value.addressCity,
 			addressNumber: value.addressNumber,
 			addressProvince: value.addressProvince,

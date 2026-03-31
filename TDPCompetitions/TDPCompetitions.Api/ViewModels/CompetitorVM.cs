@@ -1,10 +1,13 @@
-﻿using TDPCompetitions.Core.Entities;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 
 namespace TDPCompetitions.Api.ViewModels
 {
     public class CompetitorVM
     {
+        public Guid Id { get; set; }
+
         public string FirstName { get; set; } = default!;
 
         public string LastName { get; set; } = default!;
@@ -35,6 +38,7 @@ namespace TDPCompetitions.Api.ViewModels
 
         public CompetitorVM(Competitor competitor)
         {
+            Id = competitor.Id;
             FirstName = competitor.FirstName;
             LastName = competitor.LastName;
             BirthDate = competitor.BirthDate;

@@ -1,10 +1,12 @@
 import { Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from "@mui/material";
-import { useRegistrationsByCompetitionsId } from "../../queries/competitions.queries";
 import { ErrorMessage } from "../ErrorMessage";
 import { Spinner } from "../Spinner";
 import { RegistrationRow } from "./RegistrationRow";
 import { sortRegistrations } from "../../utils/competitions.utils";
 import classNames from "../../App.module.scss";
+import { useRegistrationsByCompetitionsId } from "../../queries/registrations.queries";
+import { STRINGS } from "../../consts/strings.consts";
+const ManageRegistraionsStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations;
 
 interface IManageRegistrationsProps {
 	competitionId: string;
@@ -35,10 +37,10 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 		<Table className={classNames.table}>
 			<TableHead>
 				<TableRow>
-					<StyledTableCell>Nome</StyledTableCell>
-					<StyledTableCell>Email</StyledTableCell>
-					<StyledTableCell>Data di nascita</StyledTableCell>
-					<StyledTableCell>Minori</StyledTableCell>
+					<StyledTableCell>{ManageRegistraionsStrings.Table.Name}</StyledTableCell>
+					<StyledTableCell>{ManageRegistraionsStrings.Table.Email}</StyledTableCell>
+					<StyledTableCell>{ManageRegistraionsStrings.Table.BirthDate}</StyledTableCell>
+					<StyledTableCell>{ManageRegistraionsStrings.Table.Minors}</StyledTableCell>
 					<StyledTableCell />
 				</TableRow>
 			</TableHead>

@@ -355,5 +355,40 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         #endregion
+
+        #region Registrations
+        [HttpDelete]
+        [Route("registrations/{id}")]
+        public async Task<IActionResult> DeleteRegistration(Guid id, CancellationToken cancellationToken)
+        {
+            Registration? registration = await _competitionsManager.GetRegistrationAsync(id, cancellationToken);
+            if (registration == null)
+            {
+                return Ok(Result<Registration>.Failure(RegistrationsErrors.NotFound));
+            }
+
+            await _competitionsManager.DeleteRegistrationAsync(registration, cancellationToken);
+            return Ok(Result<bool>.Success(true));
+        }
+
+        [HttpDelete]
+        [Route("registrations/competitor/{id}")]
+        public async Task<IActionResult> DeleteCompetitor(Guid id, CancellationToken cancellationToken)
+        {
+            Competitor? competitor = await _competitionsManager.GetCompetitorAsync(id, cancellationToken);
+            if (competitor == null)
+            {
+                return Ok(Result<Competitor>.Failure(CompetitorsErrors.NotFound));
+            }
+            
+            if (!competitor.IsMinor)
+            {
+                return Ok(Result<Competitor>.Failure(CompetitorsErrors.AdultDelete));
+            }
+
+            await _competitionsManager.DeleteCompetitorAsync(competitor, cancellationToken);
+            return Ok(Result<bool>.Success(true));
+        }
+        #endregion
     }
 }

@@ -46,6 +46,7 @@ export interface ISpecialProblem {
 }
 
 export interface IRegistration {
+	id: string;
 	createdAt: Date;
 	email: string;
 	competitionId: string;
@@ -54,6 +55,7 @@ export interface IRegistration {
 }
 
 export interface ICompetitor {
+	id: string;
 	firstName: string;
 	lastName: string;
 	birthDate: Date;

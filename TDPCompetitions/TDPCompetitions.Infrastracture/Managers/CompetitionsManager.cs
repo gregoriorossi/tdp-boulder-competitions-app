@@ -127,9 +127,9 @@ namespace TDPCompetitions.Infrastracture.Managers
             return result.FirstOrDefault();
         }
 
-        public Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken)
+        public async Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            await _competitionsRepository.DeleteRegistrationAsync(registration, cancellationToken);
         }
 
         public async Task<Competitor?> GetCompetitorAsync(Guid competitorId, CancellationToken cancellationToken)
@@ -163,7 +163,7 @@ namespace TDPCompetitions.Infrastracture.Managers
             return result;
         }
 
-        public Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, CancellationToken cancellationToken)
+        public async Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, CancellationToken cancellationToken)
         {
             throw new NotImplementedException();
         }
@@ -184,6 +184,11 @@ namespace TDPCompetitions.Infrastracture.Managers
             Expression<Func<Registration, bool>> whereFn = r => r.CompetitionId == id;
             var result = await _competitionsRepository.GetAllRegistrationsAsync(whereFn, cancellationToken);
             return result;
+        }
+
+        public async Task DeleteCompetitorAsync(Competitor competitor, CancellationToken cancellationToken)
+        {
+            await _competitionsRepository.DeleteCompetitorAsync(competitor, cancellationToken);
         }
     }
 }

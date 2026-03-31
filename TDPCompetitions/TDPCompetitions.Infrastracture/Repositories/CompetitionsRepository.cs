@@ -34,6 +34,18 @@ namespace TDPCompetitions.Infrastracture.Repositories
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 
+        public async Task DeleteCompetitorAsync(Competitor competitor, CancellationToken cancellationToken)
+        {
+            _appDbContext.Competitors.Remove(competitor);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken)
+        {
+            _appDbContext.Registrations.Remove(registration);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
+
         public async Task<ICollection<Competition>> GetAllAsync(Expression<Func<Competition, bool>> whereFn, CancellationToken cancellationToken)
         {
             return await _appDbContext.Competitions

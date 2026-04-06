@@ -1,5 +1,6 @@
 import *  as yup from "yup";
 import { STRINGS } from "../consts/strings.consts";
+import { converDateInForm } from "../utils/date.utils";
 
 const AddCompetitionStrings = STRINGS.Modals.NewCompetition;
 const SpecialProblemStrings = STRINGS.Modals.SpecialProblem;
@@ -11,15 +12,7 @@ export const addCompetitionSchema = yup.object({
 		.required(AddCompetitionStrings.Errors.Title),
 	date: yup.date()
 		.required(AddCompetitionStrings.Errors.Date)
-		.transform((_value, originalValue) => {
-			// per Day.js
-			if (originalValue && typeof originalValue === 'object' && originalValue.$d instanceof Date) {
-				return originalValue.$d;
-			}
-
-			const asDate = new Date(originalValue);
-			return isNaN(asDate.getTime()) ? undefined : asDate;
-		})
+		.transform(converDateInForm)
 		.typeError(AddCompetitionStrings.Errors.DateValid)
 });
 

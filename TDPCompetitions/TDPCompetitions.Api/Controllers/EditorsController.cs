@@ -2,6 +2,7 @@
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
+using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
@@ -357,6 +358,32 @@ namespace TDPCompetitions.Api.Controllers
         #endregion
 
         #region Registrations
+        [HttpPost]
+        [Route("registrations/{competitionId}")]
+        public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationVM model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            bool isAlreadyRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(model.Email, competitionId, cancellationToken);
+            if (isAlreadyRegistered)
+            {
+                return Ok(Result<Registration>.Failure(RegistrationsErrors.AlreadyRegistered));
+            }
+            Registration registration = ViewModelToEntity.AddRegistrationVMToRegistration(model, competitionId);
+            Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
+
+            return Ok(Result<RegistrationVM>.Success(new RegistrationVM(result)));
+        }
+
         [HttpDelete]
         [Route("registrations/{id}")]
         public async Task<IActionResult> DeleteRegistration(Guid id, CancellationToken cancellationToken)

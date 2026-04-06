@@ -147,6 +147,13 @@
     }
 
     .manageRegistrations {
+        .actionsContainer {
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+            justify-content: end;
+        }
+
         .table {
             .registrationRow {
 
@@ -216,6 +223,8 @@
     border: 2px solid #000;
     box-shadow: 24px;
     padding: 2rem;
+    max-height: 80vh;
+    overflow-y: auto;
 
     .modalHeader {
         h2 {
@@ -282,4 +291,8 @@
         height: 30px!important;
         width: 50%;
     }
+}
+
+.registrationModal {
+    
 }

@@ -19,6 +19,7 @@ declare const classNames: {
   readonly addIcon: "addIcon";
   readonly problem: "problem";
   readonly manageRegistrations: "manageRegistrations";
+  readonly actionsContainer: "actionsContainer";
   readonly table: "table";
   readonly registrationRow: "registrationRow";
   readonly hasMinors: "hasMinors";

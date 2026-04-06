@@ -26,7 +26,7 @@ export function AddProblemGroup(props: IAddProblemGroupProps) {
 
 
 	const colors = getSelectableColors(allColors, selectedGroups);
-	const { control, handleSubmit, formState: { errors }, reset, resetField } = useForm({
+	const { control, handleSubmit, formState: { errors }, reset } = useForm({
 		resolver: yupResolver(problemGroupSchema(colors))
 	});
 

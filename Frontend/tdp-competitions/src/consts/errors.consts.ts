@@ -2,12 +2,12 @@ export const Errors = {
 	Competitions: {
         NotFound: "CompetitionError.NotFound",
         SlugNotAvailable:"CompetitionError.SlugNotAvailable",
-        NotOpen: "CompetitionError.NotOpen",
-        NotRegistered: "CompetitionError.NotRegistered",
-        AlreadyRegistered: "CompetitionError.AlreadyRegistered"
+        NotOpen: "CompetitionError.NotOpen"
     },
     Registrations: {
-        NotFound: "Registrations.NotFound"
+        NotFound: "RegistrationsError.NotFound",
+        NotRegistered: "RegistrationsError.NotRegistered",
+        AlreadyRegistered: "RegistrationsError.AlreadyRegistered"
     },
     Competitors: {
         NotFound: "Competitors.NotFound",

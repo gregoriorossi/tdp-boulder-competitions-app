@@ -13,6 +13,7 @@ import React from "react";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { Errors } from "../../consts/errors.consts";
 import { useDeleteRegistration } from "../../queries/registrations.queries";
+import { RegistrationModal } from "../modals/RegistrationModal";
 
 interface IRegistrationRowProps {
 	registration: IRegistration;
@@ -21,6 +22,7 @@ interface IRegistrationRowProps {
 export function RegistrationRow(props: IRegistrationRowProps) {
 	const { registration } = props;
 	const [isOpen, setIsOpen] = useState<boolean>(true);
+	const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState<boolean>(false);
 	const [deleteRegistrationDialogOpen, setDeleteRegistrationDialogOpen] = React.useState<boolean>(false);
 	const { error: deleteError, mutateAsync: deleteRegistrationAsync, isPending: isDeletePending } = useDeleteRegistration(registration.competitionId);
 	const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
@@ -54,8 +56,12 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 			<TableCell>{hasMinors ? registration.minors.length : "No"}</TableCell>
 			<TableCell>
 				<ButtonGroup variant="contained">
-					<Button title={STRINGS.Details}><CreateIcon /></Button>
-					<Button title={STRINGS.Delete} onClick={(e) => { e.stopPropagation(); setDeleteRegistrationDialogOpen(true); }}>
+					<Button title={STRINGS.Details}
+						onClick={(e) => { e.stopPropagation(); setIsRegistrationModalOpen(true); }}>
+						<CreateIcon />
+					</Button>
+					<Button title={STRINGS.Delete}
+						onClick={(e) => { e.stopPropagation(); setDeleteRegistrationDialogOpen(true); }}>
 						<DeleteIcon />
 					</Button>
 					<Button title={STRINGS.Details}><Articlecon /></Button>
@@ -80,6 +86,14 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 				</TableRow>
 			</Collapse>
 		}
+
+		<RegistrationModal
+			open={isRegistrationModalOpen}
+			onAdded={() => { }}
+			onUpdated={() => { }}
+			registration={registration}
+			competitionId={registration.competitionId}
+			onClose={() => setIsRegistrationModalOpen(false)} />
 
 		<ConfirmationDialog
 			isOpen={deleteRegistrationDialogOpen}

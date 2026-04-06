@@ -89,9 +89,4 @@ export default class CompetitionsService {
 		const data = await editorsApi.delete(EditorsEndpoints.deleteCompetitor(id));
 		return data.data as IResponse<boolean>;
 	}
-
-	public static deleteRegistration = async (id: string): Promise<IResponse<boolean>> => {
-		const data = await editorsApi.delete(EditorsEndpoints.deleteRegistration(id));
-		return data.data as IResponse<boolean>;
-	}
 }

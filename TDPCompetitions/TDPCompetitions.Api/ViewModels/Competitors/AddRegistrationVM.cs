@@ -48,9 +48,6 @@ namespace TDPCompetitions.Api.ViewModels.Competitors
         public DateTime BirthDate { get; set; }
 
         [Required]
-        public string Email { get; set; } = default!;
-
-        [Required]
         public int Gender { get; set; }
 
         public string BirthPlace { get; set; } = default!;

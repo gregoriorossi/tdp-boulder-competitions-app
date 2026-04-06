@@ -18,6 +18,8 @@ export enum Gender {
 	FEMALE = 1
 }
 
+export const GENDERS: number[] = [Gender.MALE, Gender.FEMALE];
+
 export interface ICompetitionProblems {
 	problemsGroups: IProblemsGroup[];
 	specialProblems: ISpecialProblem[];
@@ -40,7 +42,7 @@ export interface IProblem {
 }
 
 export interface ISpecialProblem {
-	id: string
+	id?: string
 	name: string
 	competitionId: string
 }

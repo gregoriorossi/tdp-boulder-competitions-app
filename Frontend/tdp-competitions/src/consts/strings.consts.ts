@@ -27,6 +27,7 @@ export const STRINGS = {
 				EditProblemsGroups: 'Gestisci gruppi'
 			},
 			ManageRegistrations: {
+				NewRegistration: 'Aggiungi registrazione',
 				Table: {
 					Name: 'Nome',
 					Email: 'Email',
@@ -82,6 +83,30 @@ export const STRINGS = {
 			Errors: {
 				Color: 'Il colore è obbligatorio'
 			}
+		},
+		Registration: {
+			TitleNew: 'Aggiungi registrazione',
+			TitleEdit: (fullName: string) => `Vuoi eliminare la prenotazione di ${fullName}?`,
+			Fields: {
+				FirstName: 'Nome',
+				LastName: 'Cognome',
+				Email: 'Email',
+				BirthDate: 'Data di nascita',
+				Gender: 'Genere',
+				BirthPlace: 'Luogo di nascita',
+				BirthProvince: 'Provincia di nascita',
+				AddressCity: 'Città di residenza',
+				AddressProvince: 'Provincia di residenza',
+				AddressStreet: 'Via di residenza',
+				AddressNumber: 'Numero civico di residenza',
+				PhoneNumber: 'Numero di telefono'
+			},
+			Errors: {
+				Email: 'Il valore inserito deve essere una email'
+			}
+		},
+		Minor: {
+
 		}
 	},
 	Dialogs: {
@@ -135,7 +160,14 @@ export const STRINGS = {
 	Edit: 'Modifica',
 	Save: 'Salva',
 	MoveUp: 'Sposta su',
-	MoveDown: 'Sposta giù'
+	MoveDown: 'Sposta giù',
+	Male: 'Uomo',
+	Female: 'Donna',
+	Errors: {
+		DateInvalid: 'Inserire una data valida',
+		MinLength: (num: number) => `Il campo deve contenere almeno ${num} caratteri`,
+		Mandatory: 'Campo obbligatorio',
+	}
 }
 
 interface IErrorStrings {
@@ -146,6 +178,8 @@ ERROR_STRINGS[Errors.Competitions.SlugNotAvailable] = 'Esiste già una gara con 
 ERROR_STRINGS[Errors.Competitions.NotFound] = 'Competizione non trovata';
 ERROR_STRINGS[Errors.SpecialProblems.NotFound] = "Blocco non trovato";
 ERROR_STRINGS[Errors.Registrations.NotFound] = "Registrazione non trovata";
+ERROR_STRINGS[Errors.Registrations.AlreadyRegistered] = "Utente già registrato";
+ERROR_STRINGS[Errors.Registrations.NotRegistered] = "Utente non registrato";
 ERROR_STRINGS[Errors.Competitors.NotFound] = "Atleta non trovato";
 ERROR_STRINGS[Errors.Competitors.AdultDelete] = "Per eliminare un adulto è necessario eliminare l'intera registrazione";
 

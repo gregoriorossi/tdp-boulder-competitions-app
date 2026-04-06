@@ -38,10 +38,15 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(Result<Registration>.Failure(CompetitionsErrors.NotFound));
             }
 
+            if (!competition.RegistrationsOpen)
+            {
+                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotOpen));
+            }
+
             bool isAlreadyRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(model.Email, competitionId, cancellationToken);
             if (!isAlreadyRegistered)
             {
-                return Ok(Result<Registration>.Failure(CompetitionsErrors.AlreadyRegistered));
+                return Ok(Result<Registration>.Failure(RegistrationsErrors.AlreadyRegistered));
             }
             Registration registration= ViewModelToEntity.AddRegistrationVMToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
@@ -56,7 +61,7 @@ namespace TDPCompetitions.Api.Controllers
             Registration? registration = await _competitionsManager.GetRegistrationAsync(registrationId, cancellationToken);
             if (registration == null)
             {
-                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotRegistered));
+                return Ok(Result<Registration>.Failure(RegistrationsErrors.NotRegistered));
             }
             
             await _competitionsManager.DeleteRegistrationAsync(registration, cancellationToken);
@@ -70,7 +75,7 @@ namespace TDPCompetitions.Api.Controllers
             Competitor? competitor = await _competitionsManager.GetCompetitorAsync(competitorId, cancellationToken);
             if (competitor == null)
             {
-                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotRegistered));
+                return Ok(Result<Registration>.Failure(RegistrationsErrors.NotRegistered));
             }
 
             // controllo se un competitor è maggiorenne non può diventare minorenne e viceversa
@@ -174,7 +179,7 @@ namespace TDPCompetitions.Api.Controllers
             bool isRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(competitorId, competitionId, cancellationToken);
             if (!isRegistered)
             {
-                return Result<Competition>.Failure(CompetitionsErrors.NotRegistered);
+                return Result<Competition>.Failure(RegistrationsErrors.NotRegistered);
             }
 
             return null;

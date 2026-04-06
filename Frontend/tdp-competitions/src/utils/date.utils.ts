@@ -25,3 +25,13 @@ export class DateUtils {
 		return formatter.format(date);
 	}
 }
+
+export const converDateInForm = (_value, originalValue) => {
+	// per Day.js
+	if (originalValue && typeof originalValue === 'object' && originalValue.$d instanceof Date) {
+		return originalValue.$d;
+	}
+
+	const asDate = new Date(originalValue);
+	return isNaN(asDate.getTime()) ? undefined : asDate;
+}

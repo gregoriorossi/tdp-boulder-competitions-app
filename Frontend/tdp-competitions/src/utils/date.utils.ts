@@ -26,12 +26,12 @@ export class DateUtils {
 	}
 }
 
-export const converDateInForm = (_value, originalValue) => {
+export const converDateInForm = (_value: string, originalValue) => {
 	// per Day.js
 	if (originalValue && typeof originalValue === 'object' && originalValue.$d instanceof Date) {
 		return originalValue.$d;
 	}
 
-	const asDate = new Date(originalValue);
+	const asDate = new Date(originalValue as string);
 	return isNaN(asDate.getTime()) ? undefined : asDate;
 }

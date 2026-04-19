@@ -1,4 +1,4 @@
-import { Button, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled, tableCellClasses } from "@mui/material";
+import { Button } from "@mui/material";
 import { ErrorMessage } from "../ErrorMessage";
 import { Spinner } from "../Spinner";
 import { RegistrationRow } from "./RegistrationRow";
@@ -15,16 +15,6 @@ interface IManageRegistrationsProps {
 	competitionId: string;
 }
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-	[`&.${tableCellClasses.head}`]: {
-		backgroundColor: theme.palette.common.black,
-		color: theme.palette.common.white,
-	},
-	[`&.${tableCellClasses.body}`]: {
-		fontSize: 14,
-	},
-}));
-
 export function ManageRegistrations(props: IManageRegistrationsProps) {
 	const { competitionId } = props;
 	const { data: response, isLoading, error } = useRegistrationsByCompetitionsId(competitionId);
@@ -39,7 +29,7 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 	}
 
 	return <div className={classNames.manageRegistrations}>
-		<div className={classNames.actionsContainer }>
+		<div className={classNames.actionsContainer}>
 			<Button
 				onClick={() => setIsRegistrationModalOpen(true)}
 				variant="contained"
@@ -48,32 +38,25 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 			</Button>
 		</div>
 
-		<TableContainer component={Paper}>
-		[rifare la tabella con flex]
-			<Table className={classNames.table}>
-				<TableHead>
-					<TableRow>
-						<StyledTableCell>{ManageRegistraionsStrings.Table.Name}</StyledTableCell>
-						<StyledTableCell>{ManageRegistraionsStrings.Table.Email}</StyledTableCell>
-						<StyledTableCell>{ManageRegistraionsStrings.Table.BirthDate}</StyledTableCell>
-						<StyledTableCell>{ManageRegistraionsStrings.Table.Minors}</StyledTableCell>
-						<StyledTableCell />
-					</TableRow>
-				</TableHead>
-				<TableBody>
-					{
-						response?.value
-							.sort(sortRegistrations)
-							.map(r => <RegistrationRow registration={r} key={r.email} />)
-					}
-				</TableBody>
-			</Table>
-			<RegistrationModal
-				open={isRegistrationModalOpen}
-				onAdded={() => { }}
-				onUpdated={() => { }}
-				competitionId={competitionId}
-				onClose={() => setIsRegistrationModalOpen(false)} />
-		</TableContainer>
+		<div className={classNames.table} role="table">
+			<div className={`${classNames.row} ${classNames.header}`}>
+				<div>{ManageRegistraionsStrings.Table.Name}</div>
+				<div>{ManageRegistraionsStrings.Table.Email}</div>
+				<div>{ManageRegistraionsStrings.Table.BirthDate}</div>
+				<div>{ManageRegistraionsStrings.Table.Minors}</div>
+			</div>
+
+			{
+				response?.value
+					.sort(sortRegistrations)
+					.map(r => <RegistrationRow registration={r} key={r.email} />)
+			}
+		</div>
+		<RegistrationModal
+			open={isRegistrationModalOpen}
+			onAdded={() => { }}
+			onUpdated={() => { }}
+			competitionId={competitionId}
+			onClose={() => setIsRegistrationModalOpen(false)} />
 	</div>;
 }

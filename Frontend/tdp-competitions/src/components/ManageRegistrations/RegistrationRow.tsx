@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Collapse, TableCell, TableRow } from "@mui/material";
+import { Box, Button, ButtonGroup, Collapse } from "@mui/material";
 import { useState } from "react";
 import type { IRegistration } from "../../models/competitions.models";
 import { BuildFullName } from "../../utils/competitions.utils";
@@ -48,13 +48,13 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 	const errorMessageStr: string | null = errorMessage ?? (deleteError ? Errors.Generic : null);
 
 	return <>
-		<TableRow className={`${classNames.registrationRow} ${hasMinors ? classNames.hasMinors : ''}`}
+		<div className={`${classNames.row} ${hasMinors ? classNames.hasMinors : ''}`}
 			onClick={() => setIsOpen(!isOpen)}>
-			<TableCell>{fullName}</TableCell>
-			<TableCell>{registration.email}</TableCell>
-			<TableCell>{DateUtils.ToDateOnly(registration.competitor.birthDate)}</TableCell>
-			<TableCell>{hasMinors ? registration.minors.length : "No"}</TableCell>
-			<TableCell>
+			<div>{fullName}</div>
+			<div>{registration.email}</div>
+			<div>{DateUtils.ToDateOnly(registration.competitor.birthDate)}</div>
+			<div>{hasMinors ? registration.minors.length : "No"}</div>
+			<div>
 				<ButtonGroup variant="contained">
 					<Button title={STRINGS.Details}
 						onClick={(e) => { e.stopPropagation(); setIsRegistrationModalOpen(true); }}>
@@ -66,14 +66,14 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 					</Button>
 					<Button title={STRINGS.Details}><Articlecon /></Button>
 				</ButtonGroup>
-			</TableCell>
-		</TableRow>
+			</div>
+		</div>
 
 		{
 			hasMinors &&
 			<Collapse in={isOpen} unmountOnExit>
-				<TableRow>
-					<TableCell>
+				<div>
+					<div>
 						<Box>
 							{
 								registration.minors
@@ -82,8 +82,8 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 										key={`${idx}-${m.lastName}-${m.firstName}`} />)
 							}
 						</Box>
-					</TableCell>
-				</TableRow>
+					</div>
+				</div>
 			</Collapse>
 		}
 

@@ -21,8 +21,9 @@ declare const classNames: {
   readonly manageRegistrations: "manageRegistrations";
   readonly actionsContainer: "actionsContainer";
   readonly table: "table";
-  readonly registrationRow: "registrationRow";
+  readonly row: "row";
   readonly hasMinors: "hasMinors";
+  readonly minorRow: "minorRow";
   readonly react: "react";
   readonly card: "card";
   readonly greenIcon: "greenIcon";

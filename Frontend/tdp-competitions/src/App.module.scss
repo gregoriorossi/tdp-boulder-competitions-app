@@ -155,10 +155,38 @@
         }
 
         .table {
-            .registrationRow {
+            width: 100%;
+
+            .row {
+                display: grid;
+                grid-template-columns: repeat(5, 1fr);
+                margin: 0;
+                padding: 1rem;
+                background-color: #f7f7f7;
+                
+                & > div {
+                    text-align: left;
+                    align-items: center;
+                }
+
+                &.header {
+                    background-color: black;
+                    color: white;
+                }
 
                 &.hasMinors {
                     cursor: pointer;
+                }
+            }
+
+            .minorRow {
+                display: flex;
+                grid-template-columns: repeat(3, auto);
+                margin: 1rem 2rem;
+                background-color: white;
+
+                & > div {
+                    padding-left: 1rem;
                 }
             }
         }
@@ -246,7 +274,7 @@
 .editProblemsGroupsModal {
     .groupsList {
         max-height: 450px;
-        overflow-y:  auto;
+        overflow-y: auto;
         margin-top: 10px;
 
         .group {
@@ -288,11 +316,10 @@
     justify-content: center !important;
 
     .colorLabel {
-        height: 30px!important;
+        height: 30px !important;
         width: 50%;
     }
 }
 
 .registrationModal {
-    
 }

@@ -23,6 +23,8 @@ namespace TDPCompetitions.Core.Entities
 
         public string EmailText { get; set; } = string.Empty;
 
+        public string PrivacyText { get; set; } = string.Empty;
+        
         public Guid? PrivacyAttachmentId { get; set; } = default!;
 
         public File? PrivacyAttachment { get; set; } = default!;

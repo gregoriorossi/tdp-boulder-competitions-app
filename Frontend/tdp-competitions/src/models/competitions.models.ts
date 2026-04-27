@@ -7,6 +7,21 @@ export interface ICompetition {
 	isOpen: boolean;
 }
 
+export interface ICompetitionInfo {
+	id: string;
+	title: string;
+	description: string;
+	slug: string;
+	bannerImageId: string | null;
+	registrationsOpen: boolean;
+	date: Date;
+	emailText: string;
+	privacyText: string;
+	privacyAttachmentId: string | null;
+	status: CompetitionStatus;
+	isOpen: boolean;
+}
+
 export enum CompetitionStatus {
 	DRAFT = 0,
 	OPEN = 1,
@@ -72,4 +87,17 @@ export interface ICompetitor {
 	isMinor: boolean;
 	competitionId: string;
 	registrationId: string;
+}
+
+export interface ICompetitionInfoForm {
+	title: string;
+	description?: string | undefined;
+	registrationsOpen: boolean;
+	date: Date;
+	emailText: string;
+	privacyAttachmentText?: string | undefined;
+	privacyAttacymentId?: string | null;
+	privacyAttachment?: File | null | undefined;
+	bannerImage?: File | null | undefined;
+	bannerImageId?: string | null;
 }

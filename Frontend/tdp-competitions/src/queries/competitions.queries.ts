@@ -1,8 +1,8 @@
 import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "../api/queryClient";
 import CompetitionsService from "../services/competitions.service";
-import type { IResponse } from "../models/api.models";
-import type { ICompetition, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import type { IResponse, IUpdateCompetitionRequest } from "../models/api.models";
+import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 
 interface IUseAddCompetitionMutation {
@@ -33,10 +33,25 @@ export const useAddCompetition = () => {
 	});
 }
 
-export const useCompetitionById = (id: string): UseQueryResult<IResponse<ICompetition>> => {
+export const useCompetitionById = (id: string): UseQueryResult<IResponse<ICompetitionInfo>> => {
 	return useQuery({
 		queryKey: [...queryKeys.competitions.byId(id)],
-		queryFn: () => CompetitionsService.getById(id)
+		queryFn: async () => {
+			const result = await CompetitionsService.getById(id);
+			return {
+				...result,
+				value: CompetitionsMappers.ToICompetitionInfo(result.value)
+			}
+		}
+	});
+}
+
+export const useUpdateCompetition = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (competetitionInfo: IUpdateCompetitionRequest) => CompetitionsService.updateCompetitionInfo(competetitionInfo),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
 	});
 }
 

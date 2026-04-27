@@ -9,6 +9,7 @@ import { STRINGS } from "../../consts/strings.consts";
 import { RegistrationModal } from "../modals/RegistrationModal";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
+import ArticleIcon from '@mui/icons-material/Article';
 const ManageRegistraionsStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations;
 
 interface IManageRegistrationsProps {
@@ -30,6 +31,12 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 
 	return <div className={classNames.manageRegistrations}>
 		<div className={classNames.actionsContainer}>
+			<Button
+				onClick={() => { }}
+				variant="contained"
+				endIcon={<ArticleIcon />}>
+				{ManageRegistraionsStrings.PrintAll}
+			</Button>&nbsp;
 			<Button
 				onClick={() => setIsRegistrationModalOpen(true)}
 				variant="contained"

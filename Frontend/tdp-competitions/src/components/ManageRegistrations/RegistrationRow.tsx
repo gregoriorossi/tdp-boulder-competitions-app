@@ -64,7 +64,7 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 						onClick={(e) => { e.stopPropagation(); setDeleteRegistrationDialogOpen(true); }}>
 						<DeleteIcon />
 					</Button>
-					<Button title={STRINGS.Details}><Articlecon /></Button>
+					<Button title={STRINGS.Print}><Articlecon /></Button>
 				</ButtonGroup>
 			</div>
 		</div>

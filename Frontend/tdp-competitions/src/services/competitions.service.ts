@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IRegistrationResponse, IResponse, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
-import type { ICompetition, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IResponse, IUpdateCompetitionRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
+import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 
 export default class CompetitionsService {
 
@@ -10,9 +10,9 @@ export default class CompetitionsService {
 		return data.data as IResponse<IGetAllCompetitionsResponse[]>;
 	}
 
-	public static getById = async (id: string): Promise<IResponse<ICompetition>> => {
+	public static getById = async (id: string): Promise<IResponse<IGetCompetitionResponse>> => {
 		const data = await editorsApi.get(EditorsEndpoints.getCompetitionById(id));
-		return data.data as IResponse<ICompetition>;
+		return data.data as IResponse<IGetCompetitionResponse>;
 	}
 
 	public static add = async (title: string, date: Date): Promise<IResponse<ICompetition>> => {
@@ -23,6 +23,11 @@ export default class CompetitionsService {
 
 		const data = await editorsApi.post(EditorsEndpoints.addCompetition, payload);
 		return data.data as IResponse<ICompetition>;
+	}
+
+	public static updateCompetitionInfo = async (competition: IUpdateCompetitionRequest): Promise<IResponse<ICompetitionInfo>> => {
+		const data = await editorsApi.patch(EditorsEndpoints.updateCompetition(competition.id), competition);
+		return data.data as IResponse<ICompetitionInfo>;
 	}
 
 	public static delete = async (id: string): Promise<IResponse<boolean>> => {

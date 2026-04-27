@@ -28,6 +28,7 @@ export const STRINGS = {
 			},
 			ManageRegistrations: {
 				NewRegistration: 'Aggiungi registrazione',
+				PrintAll: 'Stampa delibere',
 				Table: {
 					Name: 'Nome',
 					Email: 'Email',
@@ -45,7 +46,7 @@ export const STRINGS = {
 				Date: "Data"
 			},
 			Errors: {
-				Title: "Il nome della form è obbligatorio",
+				Title: "Il titolo della gara è obbligatorio",
 				TitleLength: "Il titolo deve essere lungo almeno 5 caratteri",
 				Date: "La data è obbligatoria",
 				DateValid: "Inserisci una data valida"
@@ -86,7 +87,7 @@ export const STRINGS = {
 		},
 		Registration: {
 			TitleNew: 'Aggiungi registrazione',
-			TitleEdit: (fullName: string) => `Vuoi eliminare la prenotazione di ${fullName}?`,
+			TitleEdit: (fullName: string) => `Vuoi modificare la prenotazione di ${fullName}?`,
 			Fields: {
 				FirstName: 'Nome',
 				LastName: 'Cognome',
@@ -107,7 +108,25 @@ export const STRINGS = {
 		},
 		Minor: {
 
-		}
+		},
+		Competition: {
+			Fields: {
+				Title: "Titolo",
+				Date: "Data",
+				Description: "Descrizione dell'evento",
+				EmailText: "Testo email",
+				RegistrationsOpen: "Registrazioni",
+				BannerImage: "Immagine di copertina",
+				PrivacyAttachment: 'Allegato privacy',
+				PrivacyText: 'Testo informativa privacy'
+			},
+			Errors: {
+				Title: "Il titolo della gara è obbligatorio",
+				TitleLength: "Il titolo deve essere lungo almeno 5 caratteri",
+				Date: "La data è obbligatoria",
+				DateValid: "Inserisci una data valida"
+			}
+		},
 	},
 	Dialogs: {
 		DeleteCompetition: {
@@ -133,6 +152,10 @@ export const STRINGS = {
 		DeleteProblemsGroup: {
 			Title: `Vuoi eliminare il gruppo?`,
 			Content: 'Una volta eliminato il gruppo i blocchi associati verranno persi'
+		},
+		DeleteBannerImage: {
+			Title: 'Vuoi cancellare l\'immagine di copertina?',
+			Content: ''
 		}
 	},
 	ColorCodes: {
@@ -156,17 +179,24 @@ export const STRINGS = {
 	Cancel: 'Annulla',
 	Create: 'Crea',
 	Delete: 'Elimina',
+	Document: 'Documento',
 	Details: 'Dettagli',
+	Print: 'Stampa',
 	Edit: 'Modifica',
 	Save: 'Salva',
 	MoveUp: 'Sposta su',
 	MoveDown: 'Sposta giù',
 	Male: 'Uomo',
 	Female: 'Donna',
+	OpenPlural: 'Aperte',
+	ClosedPlural: 'Chiuse',
+	SupportedImageFormats: 'Formati supportati: JPG, PNG. (Max. 3MB)',
 	Errors: {
 		DateInvalid: 'Inserire una data valida',
 		MinLength: (num: number) => `Il campo deve contenere almeno ${num} caratteri`,
 		Mandatory: 'Campo obbligatorio',
+		ImageTooLarge: (limit: string) => `L'immagine non può superare ${limit}`,
+		FileTooLarge: (limit: string) => `Il file non può superare ${limit}`,
 	}
 }
 

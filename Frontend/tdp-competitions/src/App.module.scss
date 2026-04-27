@@ -40,6 +40,69 @@
     }
 
     .editorPageContainer {
+
+        .competitionForm {
+            width: 60%;
+
+            @media (max-width: 992px) {
+                width: 100%;
+            }
+
+            .registrationsToggle {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .textEditor {
+                min-height: 200px;
+            }
+
+            .bannerImage {
+                display: flex;
+                flex-direction: row;
+
+                .preview {
+                    width: 250px;
+                    background-repeat: no-repeat;
+                    background-size: cover;
+                    aspect-ratio: 16 / 9;
+                    position: relative;
+                    
+                    .deleteButton {
+                        position: absolute;
+                        top: 5px;
+                        right: 5px;
+                        background-color: rgba(0,0,0,0.6);
+                    }
+                }
+            }
+
+            .saveButtonContainer {
+                display: flex;
+                flex-direction: row;
+                justify-content: end;
+            }
+        }
+    }
+
+    .imagePicker {
+
+        .actions {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .deleteButtonContainer {
+            text-align: right;
+        }
+    }
+
+    .filesPicker {
+        .filePreview {
+            display: block;
+        }
     }
 }
 
@@ -322,4 +385,9 @@
 }
 
 .registrationModal {
+}
+
+.fullWidth {
+    width: 100%;
+    display: block;
 }

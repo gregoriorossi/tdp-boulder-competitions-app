@@ -16,9 +16,37 @@ export interface IGetAllCompetitionsResponse {
 	status: number;
 }
 
+export interface IGetCompetitionResponse {
+	title: string;
+	description: string;
+	slug: string;
+	bannerImageId: string | null;
+	registrationsOpen: boolean;
+	date: Date;
+	emailText: string;
+	privacyText: string;
+	privacyAttachmentId: string | null;
+	status: number;
+	id: string;
+}
+
 export interface IAddCompetitionRequest {
 	title: string;
 	date: Date;
+}
+
+export interface IUpdateCompetitionRequest {
+	id: string;
+	title: string;
+	description: string | undefined;
+	bannerImageId: string | null | undefined;
+	bannerImage: File | null | undefined;
+	registrationsOpen: boolean;
+	date: Date;
+	emailText: string;
+	privacyText: string | undefined;
+	privacyAttachmentId: string | null | undefined;
+	privacyAttachment: File | null | undefined;
 }
 
 export interface IAddProblemRequest {

@@ -12,6 +12,7 @@ import { STRINGS } from "../../consts/strings.consts";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { ManageProblems } from "../../components/ManageProblems/ManageProblems";
 import { ManageRegistrations } from "../../components/ManageRegistrations/ManageRegistrations";
+import { ManageCompetition } from "../../components/ManageCompetition/ManageCompetition";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 enum TabValues {
@@ -56,6 +57,9 @@ export function EditorsCompetitionPage() {
 				error && <ErrorMessage errorCode="" />
 			}
 
+			{
+				tabValue === TabValues.INFO && <ManageCompetition competitionId={competition.id} />
+			}
 			{
 				tabValue === TabValues.PROBLEMS && <ManageProblems competitionId={competition.id} />
 			}

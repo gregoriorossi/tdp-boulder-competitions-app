@@ -1,5 +1,5 @@
-import type { ICompetitorResponse, IGetAllCompetitionsResponse, IRegistrationResponse } from "../models/api.models";
-import { CompetitionStatus, type ICompetition, type IRegistration, type ICompetitor, Gender } from "../models/competitions.models";
+import type { ICompetitorResponse, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IUpdateCompetitionRequest } from "../models/api.models";
+import { CompetitionStatus, type ICompetition, type IRegistration, type ICompetitor, Gender, type ICompetitionInfo, type ICompetitionInfoForm } from "../models/competitions.models";
 
 export default class CompetitionsMappers {
 	public static ToICompetition = (data: IGetAllCompetitionsResponse): ICompetition => {
@@ -11,6 +11,25 @@ export default class CompetitionsMappers {
 			status: status,
 			date: new Date(data.date),
 			isOpen: status === CompetitionStatus.OPEN
+		};
+	}
+
+	public static ToICompetitionInfo = (data: IGetCompetitionResponse): ICompetitionInfo => {
+		const status = this.numberToCompetitionStatus(data.status);
+
+		return {
+			id: data.id,
+			registrationsOpen: data.registrationsOpen,
+			title: data.title,
+			status: status,
+			date: new Date(data.date),
+			isOpen: status === CompetitionStatus.OPEN,
+			bannerImageId: data.bannerImageId,
+			description: data.description,
+			emailText: data.emailText,
+			privacyAttachmentId: data.privacyAttachmentId,
+			privacyText: data.privacyText,
+			slug: data.slug
 		};
 	}
 
@@ -28,7 +47,7 @@ export default class CompetitionsMappers {
 	}
 
 	public static numberToGender = (value: number): Gender => {
-		switch(value) {
+		switch (value) {
 			case 0:
 				return Gender.MALE;
 			default:
@@ -64,6 +83,22 @@ export default class CompetitionsMappers {
 			lastName: value.lastName,
 			phoneNumber: value.phoneNumber,
 			registrationId: value.registrationId
+		};
+	}
+
+	public static ToIUpdateCompetitionRequest = (id: string, competition: ICompetitionInfoForm): IUpdateCompetitionRequest => {
+		return {
+			bannerImageId: competition.bannerImageId,
+			bannerImage: competition.bannerImage,
+			date: competition.date,
+			description: competition.description,
+			emailText: competition.emailText,
+			id: id,
+			privacyAttachment: competition.privacyAttachment,
+			privacyAttachmentId: competition.privacyAttacymentId,
+			privacyText: competition.privacyAttachmentText,
+			title: competition.title,
+			registrationsOpen: competition.registrationsOpen
 		};
 	}
 }

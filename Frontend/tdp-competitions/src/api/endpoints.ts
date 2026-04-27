@@ -2,7 +2,7 @@ export const EditorsEndpoints = {
 	getAllCompetitions: '/Editors/competition/all',
 	getCompetitionById: (id: string) => `/Editors/competition/getById/${id}`,
 	addCompetition: '/Editors/competition/add',
-	updateCompetition: '/Editors/competition/update',
+	updateCompetition: (id: string) => `/Editors/competition/${id}`,
 	updateCompetitionStatus: '/Editors/competition/updateStatus',
 	deleteCompetition: (id: string) => `/Editors/competition/delete/${id}`,
 	getRankings: (id: string) => `/Editors/competition/${id}/competitors`,

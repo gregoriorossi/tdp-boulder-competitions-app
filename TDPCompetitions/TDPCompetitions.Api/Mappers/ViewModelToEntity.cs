@@ -145,6 +145,7 @@ namespace TDPCompetitions.Api.Mappers
                 Id = model.Id,
                 Title = model.Title,
                 Description = model.Description,
+                PrivacyText = model.PrivacyText,
                 Slug = slug,
                 BannerImageId = model.BannerImageId,
                 BannerImage = bannerImage,

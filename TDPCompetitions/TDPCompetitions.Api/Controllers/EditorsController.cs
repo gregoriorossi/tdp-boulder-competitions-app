@@ -48,8 +48,8 @@ namespace TDPCompetitions.Api.Controllers
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(id, cancellationToken);
             var result = competition == null
-                ? Result<Competition>.Failure(CompetitionsErrors.NotFound)
-                : Result<Competition>.Success(competition);
+                ? Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound)
+                : Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(competition));
 
             return Ok(result);
         }
@@ -100,8 +100,8 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("competition/update")]
-        public async Task<IActionResult> UpdateCompetition([FromBody] UpdateCompetitionVM model, CancellationToken cancellationToken)
+        [Route("competition/{id}")]
+        public async Task<IActionResult> UpdateCompetition(Guid id, [FromBody] UpdateCompetitionVM model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -109,7 +109,7 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             Competition updateCompetition = await ViewModelToEntity.UpdateCompetitionVMToCompetitionAsync(model);
-            bool competitionExists = await _competitionsManager.CompetitionExists(updateCompetition.Id, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(id, cancellationToken);
             if (!competitionExists)
             {
                 return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));

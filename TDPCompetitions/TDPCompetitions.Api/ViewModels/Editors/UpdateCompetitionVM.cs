@@ -12,8 +12,6 @@ namespace TDPCompetitions.Api.ViewModels.Editors
 
         public string Description { get; set; } = default!;
 
-        public string Slug { get; set; } = default!;
-
         public Guid? BannerImageId { get; set; }
 
         public IFormFile? BannerImage { get; set; } = default!;
@@ -23,6 +21,8 @@ namespace TDPCompetitions.Api.ViewModels.Editors
         public DateTime Date { get; set; } = default!;
 
         public string EmailText { get; set; } = default!;
+
+        public string PrivacyText { get; set; } = default!;
 
         public Guid? PrivacyAttachmentId { get; set; } = default!;
 

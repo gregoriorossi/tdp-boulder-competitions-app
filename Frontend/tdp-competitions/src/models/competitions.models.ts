@@ -92,7 +92,7 @@ export interface ICompetitor {
 export interface ICompetitionInfoForm {
 	title: string;
 	description?: string | undefined;
-	registrationsOpen: boolean;
+	registrationsOpen?: boolean | undefined;
 	date: Date;
 	emailText: string;
 	privacyAttachmentText?: string | undefined;

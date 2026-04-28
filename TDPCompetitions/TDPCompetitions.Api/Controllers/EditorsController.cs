@@ -101,7 +101,7 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpPatch]
         [Route("competition/{id}")]
-        public async Task<IActionResult> UpdateCompetition(Guid id, [FromBody] UpdateCompetitionVM model, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateCompetition(Guid id, [FromForm] UpdateCompetitionVM model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -122,7 +122,7 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             Competition result = await _competitionsManager.UpdateAsync(updateCompetition, cancellationToken);
-            return Ok(Result<Competition>.Success(result));
+            return Ok(Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(result)));
         }
 
         [HttpDelete]

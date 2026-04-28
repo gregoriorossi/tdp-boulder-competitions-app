@@ -26,7 +26,30 @@ export default class CompetitionsService {
 	}
 
 	public static updateCompetitionInfo = async (competition: IUpdateCompetitionRequest): Promise<IResponse<ICompetitionInfo>> => {
-		const data = await editorsApi.patch(EditorsEndpoints.updateCompetition(competition.id), competition);
+		const formData = new FormData();
+		formData.append('id', competition.id);
+		formData.append('title', competition.title);
+		formData.append('description', competition.description ?? '');
+		formData.append('registrationsOpen', competition.registrationsOpen ? 'true' : 'false');
+		formData.append('date', competition.date.toISOString());
+		formData.append('emailText', competition.emailText);
+		formData.append('privacyText', competition.privacyText ?? '');
+
+		if (competition?.bannerImage) {
+			formData.append('bannerImage', competition?.bannerImage, competition.bannerImage?.name);
+		}
+
+		if (competition?.privacyAttachment) {
+			formData.append('privacyAttachment', competition?.privacyAttachment, competition.privacyAttachment?.name);
+		}
+		console.log("competition", competition);
+		console.log("formdata", formData);
+		const data = await editorsApi.patch(EditorsEndpoints.updateCompetition(competition.id), formData, {
+			headers: {
+				'Content-Type': 'multipart/form-data'
+			}
+		});
+
 		return data.data as IResponse<ICompetitionInfo>;
 	}
 

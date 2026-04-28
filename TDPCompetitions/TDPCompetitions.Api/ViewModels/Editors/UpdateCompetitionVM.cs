@@ -26,6 +26,6 @@ namespace TDPCompetitions.Api.ViewModels.Editors
 
         public Guid? PrivacyAttachmentId { get; set; } = default!;
 
-        public IFormFile PrivacyAttachment { get; set; } = default!;
+        public IFormFile? PrivacyAttachment { get; set; } = default!;
     }
 }

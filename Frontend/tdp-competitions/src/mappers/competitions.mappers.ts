@@ -89,16 +89,16 @@ export default class CompetitionsMappers {
 	public static ToIUpdateCompetitionRequest = (id: string, competition: ICompetitionInfoForm): IUpdateCompetitionRequest => {
 		return {
 			bannerImageId: competition.bannerImageId,
-			bannerImage: competition.bannerImage,
+			bannerImage: competition?.bannerImage ?? null,
 			date: competition.date,
 			description: competition.description,
 			emailText: competition.emailText,
 			id: id,
-			privacyAttachment: competition.privacyAttachment,
+			privacyAttachment: competition?.privacyAttachment ?? null,
 			privacyAttachmentId: competition.privacyAttacymentId,
 			privacyText: competition.privacyAttachmentText,
 			title: competition.title,
-			registrationsOpen: competition.registrationsOpen
+			registrationsOpen: competition.registrationsOpen ?? false
 		};
 	}
 }

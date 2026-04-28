@@ -83,6 +83,7 @@ namespace TDPCompetitions.Infrastracture.Managers
             competition.BannerImageId = updateCompetition.BannerImageId;
             competition.PrivacyAttachmentId = updateCompetition.PrivacyAttachmentId;
             competition.PrivacyAttachment = updateCompetition.PrivacyAttachment;
+            competition.PrivacyText = updateCompetition.PrivacyText;
             Competition result = await _competitionsRepository.UpdateCompetitionAsync(competition, cancellationToken);
             return result;
         }

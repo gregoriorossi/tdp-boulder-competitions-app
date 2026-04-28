@@ -1,4 +1,4 @@
-import { Button, Chip, FormControl, FormControlLabel, FormLabel, Grid, IconButton, Switch, TextField } from "@mui/material";
+import { Button, Chip, FormControl, FormControlLabel, FormLabel, Grid, IconButton, Switch, TextField, Typography } from "@mui/material";
 import type { ICompetitionInfo, ICompetitionInfoForm } from "../../models/competitions.models";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -77,7 +77,7 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 
 	console.log("errors", errors);
 	const onSubmit = async (formData: ICompetitionInfoForm): Promise<void> => {
-		console.log("on submit");
+		console.log("on submit", formData);
 		const data = CompetitionsMappers.ToIUpdateCompetitionRequest(competition.id, formData);
 		await updateCompetitionMutateAsync(data);
 	}
@@ -96,7 +96,6 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 			defaultValue={competition.title} />
 
 		<div className={classNames.fullWidth}>
-
 			<FormControl className={classNames.registrationsToggle}>
 				<Controller
 					name="registrationsOpen"
@@ -122,23 +121,30 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 					)}
 				/>
 			</FormControl>
-
 		</div>
 
 		<Controller
 			name='bannerImage'
 			control={control}
 			render={({ field }) => {
-
 				const previewImage = field?.value ? URL.createObjectURL(field.value) : null;
 
 				return (
 					<div className={`${classNames.fullWidth} ${classNames.bannerImage}`}>
-						<ImagePicker
-							fieldLabel={CompetitionStrings.Fields.BannerImage}
-							imageUrl={bannerImageUrl}
-							image={field?.value ?? null}
-							onChange={onBannerImageChange} />
+						<div>
+							<ImagePicker
+								fieldLabel={CompetitionStrings.Fields.BannerImage}
+								imageUrl={bannerImageUrl}
+								image={field?.value ?? null}
+								onChange={onBannerImageChange} />
+
+							{errors.bannerImage && (
+								<Typography variant="caption" color="error">
+									{errors.bannerImage.message}
+								</Typography>
+							)}
+						</div>
+
 
 						{
 							(previewImage || bannerImageUrl) &&
@@ -167,22 +173,29 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				({ field }) => {
 					const dayJsValue: Dayjs | null = field.value ? dayjs(field.value) : null;
 					return (
-						<DateTimePicker
-							label={CompetitionStrings.Fields.Date}
-							className={classNames.fullWidth}
-							value={dayJsValue}
-							onChange={(newValue) => {
-								field.onChange(newValue ? newValue.toDate() : null);
-							}}
-							slotProps={{
-								textField: {
-									error: !!errors.date,
-									helperText: errors.date?.message as string | undefined,
-									fullWidth: true
-								}
-							}}
-							ampm={false}
-							format="DD/MM/YYYY HH:mm" />
+						<div className={classNames.fullWidth}>
+							<DateTimePicker
+								label={CompetitionStrings.Fields.Date}
+								value={dayJsValue}
+								onChange={(newValue) => {
+									field.onChange(newValue ? newValue.toDate() : null);
+								}}
+								slotProps={{
+									textField: {
+										error: !!errors.date,
+										helperText: errors.date?.message as string | undefined,
+										fullWidth: true
+									}
+								}}
+								ampm={false}
+								format="DD/MM/YYYY HH:mm" />
+
+							{errors.date && (
+								<Typography variant="caption" color="error">
+									{errors.date.message}
+								</Typography>
+							)}
+						</div>
 					)
 				}} />
 
@@ -195,15 +208,22 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				control={control}
 				defaultValue={competition.description}
 				render={({ field: { value, onChange } }) => (
-					<RichTextEditor
-						ref={rteRef}
-						extensions={[StarterKit]}
-						className={`${classNames.fullWidth} ${classNames.textEditor}`}
-						content={value}
-						onUpdate={({ editor }) => {
-							onChange(editor.getHTML())
-						}}
-						renderControls={() => (textEditorMenuControls)} />
+					<>
+						<RichTextEditor
+							ref={rteRef}
+							extensions={[StarterKit]}
+							className={`${classNames.fullWidth} ${classNames.textEditor}`}
+							content={value}
+							onUpdate={({ editor }) => {
+								onChange(editor.getHTML())
+							}}
+							renderControls={() => (textEditorMenuControls)} />
+						{errors.description && (
+							<Typography variant="caption" color="error">
+								{errors.description.message}
+							</Typography>
+						)}
+					</>
 				)} />
 		</FormControl>
 
@@ -216,15 +236,23 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				control={control}
 				defaultValue={competition.emailText}
 				render={({ field: { value, onChange } }) => (
-					<RichTextEditor
-						ref={rteRef}
-						extensions={[StarterKit]}
-						content={value}
-						className={`${classNames.fullWidth} ${classNames.textEditor}`}
-						onUpdate={({ editor }) => {
-							onChange(editor.getHTML())
-						}}
-						renderControls={() => (textEditorMenuControls)} />
+					<>
+						<RichTextEditor
+							ref={rteRef}
+							extensions={[StarterKit]}
+							content={value}
+							className={`${classNames.fullWidth} ${classNames.textEditor}`}
+							onUpdate={({ editor }) => {
+								onChange(editor.getHTML())
+							}}
+							renderControls={() => (textEditorMenuControls)} />
+						{errors.emailText && (
+							<Typography variant="caption" color="error">
+								{errors.emailText.message}
+							</Typography>
+						)}
+					</>
+
 				)} />
 		</FormControl>
 
@@ -238,15 +266,22 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				control={control}
 				defaultValue={competition.privacyText}
 				render={({ field: { value, onChange } }) => (
-					<RichTextEditor
-						ref={rteRef}
-						extensions={[StarterKit]}
-						content={value}
-						className={`${classNames.fullWidth} ${classNames.textEditor}`}
-						onUpdate={({ editor }) => {
-							onChange(editor.getHTML())
-						}}
-						renderControls={() => (textEditorMenuControls)} />
+					<>
+						<RichTextEditor
+							ref={rteRef}
+							extensions={[StarterKit]}
+							content={value}
+							className={`${classNames.fullWidth} ${classNames.textEditor}`}
+							onUpdate={({ editor }) => {
+								onChange(editor.getHTML())
+							}}
+							renderControls={() => (textEditorMenuControls)} />
+						{errors.privacyAttachmentText && (
+							<Typography variant="caption" color="error">
+								{errors.privacyAttachmentText.message}
+							</Typography>
+						)}
+					</>
 				)} />
 		</FormControl>
 
@@ -263,7 +298,6 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 						onChange={onPrivacyAttachmentChange} />
 				</div>
 			}} />
-
 
 		{
 			updateCompetitionIsPending && <Spinner />

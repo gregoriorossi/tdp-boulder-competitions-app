@@ -27,5 +27,5 @@ export const CompetitorsEndpoints = {
 };
 
 export const FilesEndpoints = {
-	get: (id: string) => `/Files/${id}`,
+	get: (id: string) => import.meta.env.VITE_API_URL + `/Files/${id}`,
 };

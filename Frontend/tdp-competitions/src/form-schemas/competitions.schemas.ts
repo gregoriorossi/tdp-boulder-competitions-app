@@ -27,7 +27,7 @@ export const updateCompetitionSchema = yup.object({
 	description: yup.string(),
 	emailText: yup.string()
 		.required(),
-	registrationsOpen: yup.boolean().required(),
+	registrationsOpen: yup.boolean(),
 	date: yup.date()
 		.required(UpdateCompetitionStrings.Errors.Date)
 		.transform(converDateInForm)

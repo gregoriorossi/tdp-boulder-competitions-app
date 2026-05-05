@@ -1,9 +1,10 @@
 import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "../api/queryClient";
 import CompetitionsService from "../services/competitions.service";
-import type { IResponse, IUpdateCompetitionRequest } from "../models/api.models";
+import type { IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
 import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
+import CompetitorsService from "../services/competitors.service";
 
 interface IUseAddCompetitionMutation {
 	title: string,
@@ -40,7 +41,20 @@ export const useCompetitionById = (id: string): UseQueryResult<IResponse<ICompet
 			const result = await CompetitionsService.getById(id);
 			return {
 				...result,
-				value: CompetitionsMappers.ToICompetitionInfo(result.value)
+				value: result.value ? CompetitionsMappers.ToICompetitionInfo(result.value) : null
+			}
+		}
+	});
+}
+
+export const useCompetitionBySlug = (slug: string): UseQueryResult<IResponse<ICompetitionInfo>> => {
+	return useQuery({
+		queryKey: [...queryKeys.competitions.bySlug(slug)],
+		queryFn: async () => {
+			const result = await CompetitorsService.getBySlug(slug);
+			return {
+				...result,
+				value: result.value ? CompetitionsMappers.ToICompetitionInfo(result.value) : null
 			}
 		}
 	});
@@ -53,6 +67,15 @@ export const useUpdateCompetition = (competitionId: string) => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
 	});
+}
+
+export const useUpdateCompetitionStatus = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (request: IUpdateCompetitionStatusRequest) => CompetitionsService.updateCompetitionStatus(request),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitions.byId(competitionId) })
+		}
+	})
 }
 
 export const useDeleteCompetition = () => {

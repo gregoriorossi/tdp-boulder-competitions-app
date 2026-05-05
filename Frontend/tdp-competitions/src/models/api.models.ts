@@ -1,5 +1,5 @@
 export interface IResponse<T> {
-	value: T;
+	value: T | null;
 	isSuccess: boolean;
 	isFailure: boolean;
 	error?: {
@@ -33,6 +33,11 @@ export interface IGetCompetitionResponse {
 export interface IAddCompetitionRequest {
 	title: string;
 	date: Date;
+}
+
+export interface IUpdateCompetitionStatusRequest {
+	competitionId: string;
+	status: number;
 }
 
 export interface IUpdateCompetitionRequest {

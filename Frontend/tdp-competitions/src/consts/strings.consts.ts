@@ -1,4 +1,5 @@
-﻿import { Errors } from "./errors.consts";
+﻿import { CompetitionStatus } from "../models/competitions.models";
+import { Errors } from "./errors.consts";
 
 export const STRINGS = {
 	Pages: {
@@ -13,6 +14,15 @@ export const STRINGS = {
 			}, 
 		},
 		EditorCompetitionPage: {
+			Actions: {
+				GetPublicUrl: 'Copia l\'url',
+				ClickToCopy: 'Clicca qui per copiare',
+				UrlCopied: 'Url copiato negli appunti!',
+				ToDraft: 'Riporta a bozza',
+				Start: 'Inizia gara',
+				Close: 'Chiudi gara',
+				Reopen: 'Riapri gara'
+			},
 			Tabs: {
 				Info: 'Informazioni',
 				Problems: 'Blocchi',
@@ -36,6 +46,9 @@ export const STRINGS = {
 					Minors: 'Minori'
 				}
 			}
+		},
+		RegistrationPage: {
+			RegistrationsClosed: 'Registrazioni chiuse, al momento non è possibile registrarsi alla gara.'
 		}
 	},
 	Modals: {
@@ -156,6 +169,19 @@ export const STRINGS = {
 		DeleteBannerImage: {
 			Title: 'Vuoi cancellare l\'immagine di copertina?',
 			Content: ''
+		},
+		UpdateStatus: {
+			Title: (title: string, status: CompetitionStatus) => {
+				switch (status) {
+					case CompetitionStatus.DRAFT:
+						return `Vuoi mettere in stato bozza la gara ${title}?`;
+					case CompetitionStatus.OPEN:
+						return `Vuoi iniziare la gara ${title}?`;
+					case CompetitionStatus.CLOSED:
+						return `Vuoi chiudere la gara ${title}?`;
+				}
+			},
+			Content: 'La modifica è reversibile è puoi tornare indietro se necessario'
 		}
 	},
 	ColorCodes: {
@@ -174,9 +200,15 @@ export const STRINGS = {
 		Navy: '#000080',
 		Teal: '#008080'
 	},
+	CompetitionStatus: {
+		Draft: 'Bozza',
+		Open: 'Aperta',
+		Closed: 'Chiusa'
+	},
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',
 	Add: 'Aggiungi',
 	Cancel: 'Annulla',
+	Confirm: 'Conferma',
 	Create: 'Crea',
 	Delete: 'Elimina',
 	Document: 'Documento',

@@ -122,6 +122,12 @@
     display: flex;
     flex-direction: column;
 
+    .actionsContainer {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
     .tabs {
         margin-bottom: 20px;
 
@@ -253,6 +259,15 @@
                 }
             }
         }
+    }
+}
+
+.registrationsPage {
+    .banner {
+        width: 100%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        aspect-ratio: 5;
     }
 }
 
@@ -390,4 +405,18 @@
 .fullWidth {
     width: 100%;
     display: block;
+}
+
+.copyUrl {
+    cursor: pointer;
+    text-align: center;
+    padding: 1rem;
+
+    h5 {
+        margin: 0;
+    }
+
+    &:hover {
+        background-color: #ff8f0014
+    }
 }

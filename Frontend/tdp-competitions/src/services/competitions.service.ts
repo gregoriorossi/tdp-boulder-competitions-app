@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
-import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IResponse, IUpdateCompetitionRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
-import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import { CompetitorsEndpoints, EditorsEndpoints } from "../api/endpoints";
+import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
+import type { CompetitionStatus, ICompetition, ICompetitionInfo, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 
 export default class CompetitionsService {
 
@@ -51,6 +51,16 @@ export default class CompetitionsService {
 		});
 
 		return data.data as IResponse<ICompetitionInfo>;
+	}
+
+	public static updateCompetitionStatus = async (request: IUpdateCompetitionStatusRequest): Promise<IResponse<boolean>> => {
+		const payload: IUpdateCompetitionStatusRequest = {
+			competitionId: request.competitionId,
+			status: request.status
+		};
+
+		const data = await editorsApi.patch(EditorsEndpoints.updateCompetitionStatus, payload);
+		return data.data as IResponse<boolean>;
 	}
 
 	public static delete = async (id: string): Promise<IResponse<boolean>> => {

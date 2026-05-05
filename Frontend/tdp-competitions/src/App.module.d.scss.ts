@@ -19,6 +19,7 @@ declare const classNames: {
   readonly editorsAllCompetitionsPage: "editorsAllCompetitionsPage";
   readonly actionsSection: "actionsSection";
   readonly editorsCompetitionPage: "editorsCompetitionPage";
+  readonly actionsContainer: "actionsContainer";
   readonly tabs: "tabs";
   readonly tab: "tab";
   readonly manageProblems: "manageProblems";
@@ -32,11 +33,12 @@ declare const classNames: {
   readonly addIcon: "addIcon";
   readonly problem: "problem";
   readonly manageRegistrations: "manageRegistrations";
-  readonly actionsContainer: "actionsContainer";
   readonly table: "table";
   readonly row: "row";
   readonly hasMinors: "hasMinors";
   readonly minorRow: "minorRow";
+  readonly registrationsPage: "registrationsPage";
+  readonly banner: "banner";
   readonly react: "react";
   readonly card: "card";
   readonly greenIcon: "greenIcon";
@@ -55,5 +57,6 @@ declare const classNames: {
   readonly colorOption: "colorOption";
   readonly colorLabel: "colorLabel";
   readonly fullWidth: "fullWidth";
+  readonly copyUrl: "copyUrl";
 };
 export = classNames;

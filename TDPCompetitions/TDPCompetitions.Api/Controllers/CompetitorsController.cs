@@ -2,6 +2,7 @@
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Competitors;
+using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
@@ -10,6 +11,7 @@ using TDPCompetitions.Core.Interfaces.Managers;
 namespace TDPCompetitions.Api.Controllers
 {
     [ApiController]
+    [Route(Constants.DefaultApiRoute)]
     public class CompetitorsController : ControllerBase
     {
         private readonly IProblemsManager _problemsManager;
@@ -21,6 +23,18 @@ namespace TDPCompetitions.Api.Controllers
         {
             _problemsManager = problemsManager;
             _competitionsManager = competitionsManager;
+        }
+
+        [HttpGet]
+        [Route("competition/getBySlug/{slug}")]
+        public async Task<IActionResult> GetCompetitionBySlug(string slug, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetBySlugAsync(slug, cancellationToken);
+            var result = competition == null
+                ? Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound)
+                : Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(competition));
+
+            return Ok(result);
         }
 
         [HttpPost]

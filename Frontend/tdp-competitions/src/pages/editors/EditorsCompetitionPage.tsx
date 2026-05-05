@@ -3,16 +3,17 @@ import { EditorsPageWrapper } from "./EditorsPageWrapper";
 import { Routes } from "../../consts/routes.consts";
 import { useCompetitionById } from "../../queries/competitions.queries";
 import { Errors } from "../../consts/errors.consts";
-import type { ICompetition } from "../../models/competitions.models";
+import { type ICompetitionInfo } from "../../models/competitions.models";
 import { Spinner } from "../../components/Spinner";
 import classNames from "../../App.module.scss";
-import { Tab, Tabs } from "@mui/material";
+import {  Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { STRINGS } from "../../consts/strings.consts";
 import { ErrorMessage } from "../../components/ErrorMessage";
 import { ManageProblems } from "../../components/ManageProblems/ManageProblems";
 import { ManageRegistrations } from "../../components/ManageRegistrations/ManageRegistrations";
 import { ManageCompetition } from "../../components/ManageCompetition/ManageCompetition";
+import { ActionsContainer } from "../../components/ManageCompetition/ActionsContainer";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 enum TabValues {
@@ -35,15 +36,15 @@ export function EditorsCompetitionPage() {
 		return;
 	}
 
-	const competition: ICompetition = response?.value as ICompetition;
+	const competition: ICompetitionInfo = response?.value as ICompetitionInfo;
 
 	if (isLoading) {
 		return <Spinner />
 	}
 
-	return <EditorsPageWrapper title={competition?.title}>
+	return <EditorsPageWrapper title={competition?.title} status={competition?.status }>
 		<div className={classNames.editorsCompetitionPage}>
-
+			<ActionsContainer competition={competition!} />
 			<Tabs value={tabValue}
 				className={classNames.tabs}
 				onChange={(_e, value) => setTabValue(value)}>

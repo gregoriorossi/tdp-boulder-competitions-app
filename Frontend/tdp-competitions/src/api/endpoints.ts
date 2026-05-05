@@ -23,7 +23,7 @@ export const EditorsEndpoints = {
 };
 
 export const CompetitorsEndpoints = {
-
+	getCompetitionBySlug: (slug: string) => `/Competitors/competition/getBySlug/${slug}`,
 };
 
 export const FilesEndpoints = {

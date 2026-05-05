@@ -5,6 +5,6 @@ export class LinkUtils {
 	}
 
 	public static SlugToPublicFormUrl = (slug: string): string => {
-		return `${import.meta.env.VITE_BASE_URL}/form/${slug}`;
+		return `${import.meta.env.VITE_BASE_URL}/gara/${slug}`;
 	}
 }

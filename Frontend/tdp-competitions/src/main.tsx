@@ -12,6 +12,7 @@ import classNames from './App.module.scss';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'; 
 import { EditorsCompetitionPage } from './pages/editors/EditorsCompetitionPage';
+import { RegistrationPage } from './pages/competitors/RegistrationPage';
 
 
 const router = createBrowserRouter([
@@ -22,6 +23,10 @@ const router = createBrowserRouter([
 	{
 		path: '/editors/competition/:id',
 		element: <EditorsCompetitionPage />
+	},
+	{
+		path: '/gara/:slug',
+		element: <RegistrationPage />
 	},
 	{
 		path: '*',

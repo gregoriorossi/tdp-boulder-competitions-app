@@ -3,7 +3,7 @@ import { CompetitionStatus, type ICompetitionInfo } from "../../models/competiti
 import classNames from "../../App.module.scss";
 import { STRINGS } from "../../consts/strings.consts";
 import { useUpdateCompetitionStatus } from "../../queries/competitions.queries";
-import { useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import ConfirmationDialog from "../ConfirmationDialog";
 import { Errors } from "../../consts/errors.consts";
 import { Button } from "@mui/material";
@@ -18,90 +18,121 @@ interface IActionsContainerProps {
 	competition: ICompetitionInfo;
 }
 
-
+type ActionConfig = {
+	toStatus: CompetitionStatus;
+	title: string;
+	color: "success" | "error" | "warning";
+	icon: React.ReactNode;
+	label: string;
+};
 
 export function ActionsContainer(props: IActionsContainerProps) {
 	const { competition } = props;
 
-	const { error: updateStatusError, mutateAsync: updateStatusMutateAsync, isPending: updateStatusIsPending } = useUpdateCompetitionStatus(competition.id);
-	const [confirmationDialogOpen, setConfirmationDialogOpen] = useState<boolean>(false);
-	const [newStatus, setNewStatus] = useState<CompetitionStatus | null>(null);
+	const { error, mutateAsync, isPending } = useUpdateCompetitionStatus(competition.id);
 
-	const onButtonClick = (newStatus: CompetitionStatus): void => {
-		setConfirmationDialogOpen(true);
-		setNewStatus(newStatus);
-	}
+	const [dialog, setDialog] = useState<{
+		open: boolean;
+		newStatus: CompetitionStatus | null;
+	}>({ open: false, newStatus: null });
 
-	const onUpdateHandler = async (): Promise<void> => {
-		await updateStatusMutateAsync({
+
+
+	const openDialog = useCallback((newStatus: CompetitionStatus) => {
+		setDialog({ open: true, newStatus });
+	}, []);
+
+	const closeDialog = useCallback(() => {
+		setDialog({ open: false, newStatus: null });
+	}, []);
+
+	const actionsByStatus: Record<CompetitionStatus, ActionConfig[]> = useMemo(
+		() => ({
+			[CompetitionStatus.DRAFT]: [
+				{
+					toStatus: CompetitionStatus.OPEN,
+					title: PageStrings.Actions.Start,
+					color: "success",
+					icon: <PlayCircleFilledWhiteIcon />,
+					label: PageStrings.Actions.Start,
+				},
+			],
+			[CompetitionStatus.OPEN]: [
+				{
+					toStatus: CompetitionStatus.CLOSED,
+					title: PageStrings.Actions.Close,
+					color: "error",
+					icon: <StopCircleIcon />,
+					label: PageStrings.Actions.Close,
+				},
+				{
+					toStatus: CompetitionStatus.DRAFT,
+					title: PageStrings.Actions.ToDraft,
+					color: "warning",
+					icon: <ModeEditIcon />,
+					label: PageStrings.Actions.ToDraft,
+				},
+			],
+			[CompetitionStatus.CLOSED]: [
+				{
+					toStatus: CompetitionStatus.OPEN,
+					title: PageStrings.Actions.Reopen,
+					color: "success",
+					icon: <RestartAltIcon />,
+					label: PageStrings.Actions.Reopen,
+				},
+			],
+		}),
+		[]
+	);
+
+	const currentActions = actionsByStatus[competition.status] ?? [];
+
+	const onConfirm = useCallback(async () => {
+		if (dialog.newStatus === null) return;
+
+		await mutateAsync({
 			competitionId: competition.id,
-			status: newStatus!
+			status: dialog.newStatus,
 		});
-		setConfirmationDialogOpen(false);
-		setNewStatus(null);
-	}
 
-	const errorMessageStr: string | null = updateStatusError ? Errors.Generic : null;
+		closeDialog();
+	}, [dialog.newStatus, mutateAsync, competition.id, closeDialog]);
+
+	const errorMessageStr: string | null = error ? Errors.Generic : null;
+
+	const dialogTitle = dialog.newStatus !== null
+			? STRINGS.Dialogs.UpdateStatus.Title(competition.title, dialog.newStatus)
+			: "";
 
 	return <div className={classNames.actionsContainer}>
-		<CopyUrlButton competitionSlug={props.competition.slug} />
+		<CopyUrlButton competitionSlug={competition.slug} />
+
 		<div>
-			{
-				competition.status === CompetitionStatus.DRAFT &&
+			{currentActions.map((a, idx) => (
 				<Button
-					title={PageStrings.Actions.Start}
+					key={`${a.toStatus}-${idx}`}
+					title={a.title}
 					variant="contained"
-					color="success"
-					onClick={() => onButtonClick(CompetitionStatus.OPEN)}>
-					<PlayCircleFilledWhiteIcon />&nbsp;
-					{PageStrings.Actions.Start}
+					color={a.color}
+					onClick={() => openDialog(a.toStatus)}
+					sx={{ mr: 1 }}>
+					{a.icon}&nbsp;{a.label}
 				</Button>
-			}
-
-			{
-				competition.status === CompetitionStatus.OPEN &&
-				<>
-					<Button
-						title={PageStrings.Actions.Close}
-						variant="contained"
-						color="error"
-						onClick={() => onButtonClick(CompetitionStatus.CLOSED)}>
-						<StopCircleIcon />&nbsp;
-						{PageStrings.Actions.Close}
-					</Button>&nbsp;
-					<Button
-						title={PageStrings.Actions.ToDraft}
-						variant="contained"
-						color="warning"
-						onClick={() => onButtonClick(CompetitionStatus.DRAFT)}>
-						<ModeEditIcon />&nbsp;
-						{PageStrings.Actions.ToDraft}
-					</Button></>
-			}
-
-			{
-				competition.status === CompetitionStatus.CLOSED &&
-				<Button
-					title={PageStrings.Actions.Reopen}
-					variant="contained"
-					color="success"
-					onClick={() => onButtonClick(CompetitionStatus.OPEN)}>
-					<RestartAltIcon />&nbsp;
-					{PageStrings.Actions.Reopen}
-				</Button>
-			}
+			))}
 		</div>
 
 		<ConfirmationDialog
-			isOpen={confirmationDialogOpen}
-			title={STRINGS.Dialogs.UpdateStatus.Title(competition.title, newStatus!)}
+			isOpen={dialog.open}
+			title={dialogTitle}
 			cancelBtnLabel={STRINGS.Cancel}
 			confirmBtnLabel={STRINGS.Confirm}
-			isLoading={updateStatusIsPending}
+			isLoading={isPending}
 			error={errorMessageStr}
 			content={STRINGS.Dialogs.UpdateStatus.Content}
-			onCancel={() => { setConfirmationDialogOpen(false) }}
-			onClose={() => { setConfirmationDialogOpen(false) }}
-			onConfirm={() => onUpdateHandler()} />
+			onCancel={closeDialog}
+			onClose={closeDialog}
+			onConfirm={onConfirm}
+		/>
 	</div>;
 }

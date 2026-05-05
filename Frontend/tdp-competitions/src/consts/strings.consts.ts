@@ -27,7 +27,8 @@ export const STRINGS = {
 				Info: 'Informazioni',
 				Problems: 'Blocchi',
 				Registrations: 'Registrazioni',
-				Rankings: 'Classifiche'
+				Rankings: 'Classifiche',
+				Results: 'Risultati'
 			},
 			ManageProblems: {
 				SpecialProblems: 'Blocchi premio',

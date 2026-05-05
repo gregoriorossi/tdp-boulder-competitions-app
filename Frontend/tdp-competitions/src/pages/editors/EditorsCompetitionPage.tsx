@@ -20,7 +20,8 @@ enum TabValues {
 	INFO = 0,
 	PROBLEMS = 1,
 	REGISTRATIONS = 2,
-	RANKINGS = 3
+	RESULTS = 3,
+	RANKINGS = 4
 }
 
 export function EditorsCompetitionPage() {
@@ -51,6 +52,7 @@ export function EditorsCompetitionPage() {
 				<Tab className={classNames.tab} label={PageStrings.Tabs.Info} />
 				<Tab className={classNames.tab} label={PageStrings.Tabs.Problems} />
 				<Tab className={classNames.tab} label={PageStrings.Tabs.Registrations} />
+				<Tab className={classNames.tab} label={PageStrings.Tabs.Results} />
 				<Tab className={classNames.tab} label={PageStrings.Tabs.Rankings} />
 			</Tabs>
 

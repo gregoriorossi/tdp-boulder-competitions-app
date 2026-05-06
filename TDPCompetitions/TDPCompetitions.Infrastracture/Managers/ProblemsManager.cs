@@ -176,5 +176,17 @@ namespace TDPCompetitions.Infrastracture.Managers
             SpecialProblem result = await _problemsRepository.UpdateSpecialProblemAsync(problem, cancellationToken);
             return result;
         }
+
+        public async Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
+        {
+            IEnumerable<SentProblem> result = await _problemsRepository.GetSentProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            return result;
+        }
+
+        public async Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
+        {
+            IEnumerable<SentSpecialProblem> result = await _problemsRepository.GetSentSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            return result;
+        }
     }
 }

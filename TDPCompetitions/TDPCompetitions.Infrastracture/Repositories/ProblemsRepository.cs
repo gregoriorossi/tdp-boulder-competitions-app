@@ -126,5 +126,21 @@ namespace TDPCompetitions.Infrastracture.Repositories
             await _appDbContext.SaveChangesAsync(cancellationToken);
             return problem;
         }
+
+        public async Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Expression<Func<SentProblem, bool>> whereFn = sp => sp.CompetitionId == competitionId;
+            return await _appDbContext.SentProblems
+             .Where(whereFn)
+             .ToListAsync(cancellationToken);
+        }
+
+        public async Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Expression<Func<SentSpecialProblem, bool>> whereFn = sp => sp.CompetitionId == competitionId;
+            return await _appDbContext.SentSpecialProblems
+             .Where(whereFn)
+             .ToListAsync(cancellationToken);
+        }
     }
 }

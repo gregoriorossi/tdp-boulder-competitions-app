@@ -480,7 +480,7 @@ namespace TDPCompetitions.Api.Extensions
                 Problems = MakeProblems(group6Id, "Nero", competitionId)
             };
 
-          
+
 
             context.Competitions.AddRange([competition1, competition2, competition3, competition4]);
             context.Registrations.AddRange([reg1, reg2, reg3, reg4, reg5]);
@@ -495,13 +495,15 @@ namespace TDPCompetitions.Api.Extensions
 
             var specialProblem1 = new SpecialProblem
             {
+                Id = new Guid("c196954d-b3ad-4369-8643-e0f47980f631"),
                 Competition = null!,
                 CompetitionId = competitionId,
-                Name= "Trofeo pazzesco"
+                Name = "Trofeo pazzesco"
             };
 
             var specialProblem2 = new SpecialProblem
             {
+                Id = new Guid("4d02ea85-5f5f-4afc-a6fc-86f75e06a235"),
                 Competition = null!,
                 CompetitionId = competitionId,
                 Name = "Trofeo mirabolante"
@@ -522,6 +524,21 @@ namespace TDPCompetitions.Api.Extensions
             context.SpecialProblems.Add(specialProblem1);
             context.SpecialProblems.Add(specialProblem2);
 
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[0].Problems.ToArray()[0].Id, CompetitorId = minor21.Id, SentAt = new DateTime(2026, 1, 20, 10, 1, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[1].Problems.ToArray()[4].Id, CompetitorId = adult2.Id, SentAt = new DateTime(2026, 1, 20, 11, 23, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[4].Problems.ToArray()[3].Id, CompetitorId = adult3.Id, SentAt = new DateTime(2026, 1, 20, 10, 44, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[0].Problems.ToArray()[3].Id, CompetitorId = minor31.Id, SentAt = new DateTime(2026, 1, 20, 10, 43, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[1].Problems.ToArray()[5].Id, CompetitorId = adult2.Id, SentAt = new DateTime(2026, 1, 20, 10, 34, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[3].Problems.ToArray()[1].Id, CompetitorId = minor21.Id, SentAt = new DateTime(2026, 1, 20, 10, 3, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[5].Problems.ToArray()[1].Id, CompetitorId = minor12.Id, SentAt = new DateTime(2026, 1, 20, 10, 43, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[1].Problems.ToArray()[1].Id, CompetitorId = adult4.Id, SentAt = new DateTime(2026, 1, 20, 10, 32, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[3].Problems.ToArray()[4].Id, CompetitorId = adult4.Id, SentAt = new DateTime(2026, 1, 20, 10, 11, 0) });
+            context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[3].Problems.ToArray()[1].Id, CompetitorId = minor32.Id, SentAt = new DateTime(2026, 1, 20, 10, 32, 0) });
+
+            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult2.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 3, 0) });
+            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult4.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 25, 0) });
+            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult3.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 12, 0) });
+            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult2.Id, SpecialProblemId = specialProblem2.Id, SentAt = new DateTime(2026, 1, 20, 11, 3, 0) });
             context.SaveChanges();
         }
 

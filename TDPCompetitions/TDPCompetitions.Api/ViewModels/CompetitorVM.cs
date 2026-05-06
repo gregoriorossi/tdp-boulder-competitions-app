@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using TDPCompetitions.Core.Entities;
+﻿using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 
 namespace TDPCompetitions.Api.ViewModels

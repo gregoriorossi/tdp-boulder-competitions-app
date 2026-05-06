@@ -21,5 +21,7 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<ICollection<ProblemsGroup>> UpdateProblemsGroupsAsync(ICollection<ProblemsGroup> groups, Guid competitionId, CancellationToken cancellationToken);
         Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
         Task<ICollection<SpecialProblem>> GetSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
+        Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
+        Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
     }
 }

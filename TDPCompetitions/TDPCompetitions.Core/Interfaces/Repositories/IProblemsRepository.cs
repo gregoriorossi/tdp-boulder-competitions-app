@@ -38,5 +38,9 @@ namespace TDPCompetitions.Core.Interfaces.Repositories
         Task<ProblemsGroup> UpdateProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken);
 
         Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
+
+        Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
+
+        Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
     }
 }

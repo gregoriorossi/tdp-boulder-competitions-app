@@ -417,5 +417,33 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<bool>.Success(true));
         }
         #endregion
+
+        #region Results
+        [HttpGet]
+        [Route("results/{competitionId}")]
+        public async Task<IActionResult> GetResults(Guid competitionId, CancellationToken cancellationToken)
+        {
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            IEnumerable<Competitor> competitors = await _competitionsManager.GetCompetitorsAsync(competitionId, cancellationToken);
+            var problems = await _problemsManager.GetProblemsGroupsByCompetitionIdAsync(competitionId, cancellationToken);
+            var specialProblems = await _problemsManager.GetSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            IEnumerable<SentProblem> sentProblems = await _problemsManager.GetSentProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            IEnumerable<SentSpecialProblem> sentSpecialProblems = await _problemsManager.GetSentSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+
+            return Ok(Result<object>.Success(new GetResultsResponse
+            {
+                Competitors = competitors.Select(c => new GetResultsCompetitionVM(c)),
+                ProblemsGroups = problems.Select(p => new ProblemsGroupsResponse(p)),
+                SpecialProblems = specialProblems.Select(sp => new SpecialProblemResponse(sp)),
+                SentProblems = sentProblems,
+                SentSpecialProblem = sentSpecialProblems
+            }));
+        }
+        #endregion
     }
 }

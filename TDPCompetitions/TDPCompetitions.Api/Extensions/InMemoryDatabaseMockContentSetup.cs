@@ -535,10 +535,12 @@ namespace TDPCompetitions.Api.Extensions
             context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[3].Problems.ToArray()[4].Id, CompetitorId = adult4.Id, SentAt = new DateTime(2026, 1, 20, 10, 11, 0) });
             context.SentProblems.Add(new SentProblem { CompetitionId = competition4.Id, ProblemId = problemGroups[3].Problems.ToArray()[1].Id, CompetitorId = minor32.Id, SentAt = new DateTime(2026, 1, 20, 10, 32, 0) });
 
-            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult2.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 3, 0) });
-            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult4.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 25, 0) });
+            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult4.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 3, 0) });
+            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult2.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 25, 0) });
             context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult3.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 12, 0) });
             context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult2.Id, SpecialProblemId = specialProblem2.Id, SentAt = new DateTime(2026, 1, 20, 11, 3, 0) });
+            context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = minor12.Id, SpecialProblemId = specialProblem2.Id, SentAt = new DateTime(2026, 1, 20, 10, 43, 0) });
+
             context.SaveChanges();
         }
 

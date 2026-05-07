@@ -430,18 +430,16 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             IEnumerable<Competitor> competitors = await _competitionsManager.GetCompetitorsAsync(competitionId, cancellationToken);
-            var problems = await _problemsManager.GetProblemsGroupsByCompetitionIdAsync(competitionId, cancellationToken);
+            var problemsGoups = await _problemsManager.GetProblemsGroupsByCompetitionIdAsync(competitionId, cancellationToken);
             var specialProblems = await _problemsManager.GetSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
             IEnumerable<SentProblem> sentProblems = await _problemsManager.GetSentProblemsByCompetitionIdAsync(competitionId, cancellationToken);
             IEnumerable<SentSpecialProblem> sentSpecialProblems = await _problemsManager.GetSentSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
 
-            return Ok(Result<object>.Success(new GetResultsResponse
+            return Ok(Result<GetResultsResponse>.Success(new GetResultsResponse
             {
-                Competitors = competitors.Select(c => new GetResultsCompetitionVM(c)),
-                ProblemsGroups = problems.Select(p => new ProblemsGroupsResponse(p)),
-                SpecialProblems = specialProblems.Select(sp => new SpecialProblemResponse(sp)),
-                SentProblems = sentProblems,
-                SentSpecialProblem = sentSpecialProblems
+                Competitors = competitors.Select(c => new GetResultsCompetitionVM(c, sentProblems, sentSpecialProblems)),
+                ProblemsGroups = problemsGoups.Select(p => new ProblemsGroupsResponse(p)),
+                SpecialProblems = specialProblems.Select(sp => new GetResultsSpecialProblemVM(sp, sentSpecialProblems, competitors)),
             }));
         }
         #endregion

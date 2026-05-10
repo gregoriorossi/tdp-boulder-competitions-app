@@ -7,6 +7,7 @@ export const EditorsEndpoints = {
 	deleteCompetition: (id: string) => `/Editors/competition/delete/${id}`,
 	getRankings: (id: string) => `/Editors/competition/${id}/competitors`,
 	getCompetitors: (id: string) => `/Editors/competition/${id}/rankings`,
+	getResultsByCompetitionId: (id: string) => `/Editors/results/${id}`,
 	deleteCompetitor: (id: string) => `/Editors/registrations/competitor/${id}`,
 	getProblemsByCompetitionId: (id: string) => `/Editors/problems/get/${id}`,
 	getRegistrationsByCompetitionId: (id: string) => `/Editors/competition/${id}/registrations`,
@@ -19,7 +20,7 @@ export const EditorsEndpoints = {
 	deleteProblem: (id: string) => `/Editors/problems/deleteFromGroup/${id}`,
 	addSpecialProblem: '/Editors/problems/specialProblem',
 	updateSpecialProblem: '/Editors/problems/specialProblem',
-	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`,
+	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`
 };
 
 export const CompetitorsEndpoints = {

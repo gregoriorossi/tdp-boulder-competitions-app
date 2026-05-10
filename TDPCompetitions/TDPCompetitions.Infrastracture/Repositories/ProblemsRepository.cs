@@ -71,7 +71,7 @@ namespace TDPCompetitions.Infrastracture.Repositories
         {
             return await _appDbContext.ProblemsGroups
                        .Where(whereFn)
-                       .Include(g => g.Problems)
+                       .Include(g => g.Problems.OrderBy(p => p.Name))
                        .ToListAsync(cancellationToken);
         }
 

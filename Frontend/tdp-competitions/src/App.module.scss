@@ -68,7 +68,7 @@
                     background-size: cover;
                     aspect-ratio: 16 / 9;
                     position: relative;
-                    
+
                     .deleteButton {
                         position: absolute;
                         top: 5px;
@@ -82,6 +82,53 @@
                 display: flex;
                 flex-direction: row;
                 justify-content: end;
+            }
+        }
+
+        .manageResults {
+            .specialProblems {
+                display: flex;
+                flex-direction: row;
+                justify-content: start;
+
+                .specialProblem {
+                    border-radius: 10px;
+                    border: solid 2px #EEF527;
+                    padding: 0.25rem 0.5rem;
+                    margin-right: 10px;
+                    background-color: #EEF527;
+                    margin-right: 10px;
+                    color: black;
+
+                    h4 {
+                        margin: 0;
+                    }
+                }
+            }
+
+            .competitors {
+                margin-top: 2rem;
+
+                .table {
+                    max-height: 450px;
+
+                    .stickyCell {
+                        position: sticky;
+                        left: 0;
+                        background-color: white;
+                        z-index: 3;
+                    }
+
+                    .problem {
+                        padding: 5px;
+                        text-align: center;
+
+                        span {
+                            padding: 1rem;
+                            border: 1px solid;
+                        }
+                    }
+                }
             }
         }
     }
@@ -232,7 +279,7 @@
                 margin: 0;
                 padding: 1rem;
                 background-color: #f7f7f7;
-                
+
                 & > div {
                     text-align: left;
                     align-items: center;

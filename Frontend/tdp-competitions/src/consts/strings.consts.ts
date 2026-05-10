@@ -1,4 +1,5 @@
-﻿import { CompetitionStatus } from "../models/competitions.models";
+﻿import { CompetitionStatus, type IGetResultsFirstSentBy } from "../models/competitions.models";
+import { DateUtils } from "../utils/date.utils";
 import { Errors } from "./errors.consts";
 
 export const STRINGS = {
@@ -45,6 +46,15 @@ export const STRINGS = {
 					Email: 'Email',
 					BirthDate: 'Data di nascita',
 					Minors: 'Minori'
+				}
+			},
+			ManageResults: {
+				NotSent: 'Non chiuso',
+				SentBy: (sentBy: IGetResultsFirstSentBy) => `${sentBy.firstName} ${sentBy.lastName}`,
+				SentAt: (sentBy: IGetResultsFirstSentBy) => {
+					const date = new Date(sentBy.sentAt);
+					const dateStr = DateUtils.ToDateTime(date);
+					return `${dateStr}`
 				}
 			}
 		},

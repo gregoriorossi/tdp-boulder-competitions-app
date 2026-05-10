@@ -29,7 +29,7 @@ export enum CompetitionStatus {
 }
 
 export enum Gender {
-	MALE = 0, 
+	MALE = 0,
 	FEMALE = 1
 }
 
@@ -100,4 +100,56 @@ export interface ICompetitionInfoForm {
 	privacyAttachment?: File | null | undefined;
 	bannerImage?: File | null | undefined;
 	bannerImageId?: string | null;
+}
+
+
+export interface IGetResultsResponse {
+	competitors: IGetResultsCompetitior[];
+	problemsGroups: IGetResultsProblemsGroup[];
+	specialProblems: IGetResultsSpecialProblem[];
+}
+
+export interface IGetResultsCompetitior {
+	id: string;
+	firstName: string;
+	lastName: string;
+	birthDate: string;
+	sentProblems: string[];
+	sentSpecialProblems: IGetResultsSentSpecialProblem[];
+}
+
+export interface IGetResultsSentSpecialProblem {
+	competitionId: string;
+	competitorId: string;
+	specialProblemId: string;
+	sentAt: string;
+	id: string;
+}
+
+export interface IGetResultsProblemsGroup {
+	id: string;
+	order: number;
+	colorCode: string;
+	competitionId: string;
+	problems: IGetResultsProblem[];
+}
+
+export interface IGetResultsProblem {
+	id: string;
+	name: string;
+	problemGroupId: string;
+	competitionId: string;
+}
+
+export interface IGetResultsSpecialProblem {
+	id: string;
+	name: string;
+	firstSentBy: IGetResultsFirstSentBy;
+}
+
+export interface IGetResultsFirstSentBy {
+	id: string;
+	firstName: string;
+	lastName: string;
+	sentAt: string;
 }

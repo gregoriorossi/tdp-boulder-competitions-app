@@ -28,7 +28,7 @@ export function ManageProblems(props: IManageProblemsProps) {
 		return <Spinner />;
 	}
 
-	if (error || response?.isFailure) {
+	if (error || response?.isFailure || !response?.value) {
 		return <ErrorMessage errorCode={response?.error?.code ?? ''} />
 	}
 

@@ -1,9 +1,9 @@
 import editorsApi from "../api/axios";
-import { CompetitorsEndpoints, EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
-import type { CompetitionStatus, ICompetition, ICompetitionInfo, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import { EditorsEndpoints } from "../api/endpoints";
+import type { IAddCompetitionRequest, IAddProblemRequest, IAddRegistrationRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
+import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISpecialProblem } from "../models/competitions.models";
 
-export default class CompetitionsService {
+export default class EditorsService {
 
 	public static getAllCompetitions = async (): Promise<IResponse<IGetAllCompetitionsResponse[]>> => {
 		const data = await editorsApi.get(EditorsEndpoints.getAllCompetitions);
@@ -126,5 +126,20 @@ export default class CompetitionsService {
 	public static deleteCompetitor = async (id: string): Promise<IResponse<boolean>> => {
 		const data = await editorsApi.delete(EditorsEndpoints.deleteCompetitor(id));
 		return data.data as IResponse<boolean>;
+	}
+
+	public static addRegistration = async (data: IAddRegistrationRequest, competitionId: string): Promise<IResponse<IRegistration>> => {
+		const result = await editorsApi.post(EditorsEndpoints.addRegistration(competitionId), data);
+		return result.data as IResponse<IRegistration>;
+	}
+
+	public static deleteRegistration = async (id: string): Promise<IResponse<boolean>> => {
+		const data = await editorsApi.delete(EditorsEndpoints.deleteRegistration(id));
+		return data.data as IResponse<boolean>;
+	}
+
+	public static getResultsByCompetitionId = async (id: string): Promise<IResponse<IGetResultsResponse>> => {
+		const data = await editorsApi.get(EditorsEndpoints.getResultsByCompetitionId(id));
+		return data.data as IResponse<IGetResultsResponse>;
 	}
 }

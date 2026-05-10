@@ -6,7 +6,7 @@ import { Errors } from "../../consts/errors.consts";
 import { type ICompetitionInfo } from "../../models/competitions.models";
 import { Spinner } from "../../components/Spinner";
 import classNames from "../../App.module.scss";
-import {  Tab, Tabs } from "@mui/material";
+import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { STRINGS } from "../../consts/strings.consts";
 import { ErrorMessage } from "../../components/ErrorMessage";
@@ -14,6 +14,7 @@ import { ManageProblems } from "../../components/ManageProblems/ManageProblems";
 import { ManageRegistrations } from "../../components/ManageRegistrations/ManageRegistrations";
 import { ManageCompetition } from "../../components/ManageCompetition/ManageCompetition";
 import { ActionsContainer } from "../../components/ManageCompetition/ActionsContainer";
+import { ManageResults } from "../../components/ManageResults/ManageResults";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 enum TabValues {
@@ -43,7 +44,7 @@ export function EditorsCompetitionPage() {
 		return <Spinner />
 	}
 
-	return <EditorsPageWrapper title={competition?.title} status={competition?.status }>
+	return <EditorsPageWrapper title={competition?.title} status={competition?.status}>
 		<div className={classNames.editorsCompetitionPage}>
 			<ActionsContainer competition={competition!} />
 			<Tabs value={tabValue}
@@ -68,6 +69,9 @@ export function EditorsCompetitionPage() {
 			}
 			{
 				tabValue === TabValues.REGISTRATIONS && <ManageRegistrations competitionId={competition.id} />
+			}
+			{
+				tabValue === TabValues.RESULTS && <ManageResults competitionId={competition.id} />
 			}
 		</div>
 	</EditorsPageWrapper>;

@@ -21,7 +21,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
 
         public DateTime BirthDate { get; set; }
 
-        public IEnumerable<SentProblem> SentProblems { get; set; } = new List<SentProblem>();
+        public IEnumerable<Guid> SentProblems { get; set; } = new List<Guid>();
 
         public IEnumerable<SentSpecialProblem> SentSpecialProblems { get; set; } = new List<SentSpecialProblem>();
 
@@ -31,7 +31,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
             FirstName = competitor.FirstName;
             LastName = competitor.LastName;
             BirthDate = competitor.BirthDate;
-            SentProblems = allSentProblems.Where(sp => sp.CompetitorId == competitor.Id);
+            SentProblems = allSentProblems.Where(sp => sp.CompetitorId == competitor.Id).Select(sp => sp.ProblemId);
             SentSpecialProblems = allSentSpecialProblems.Where(sp => sp.CompetitorId == competitor.Id);
         }
     }

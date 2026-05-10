@@ -1,8 +1,8 @@
 import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "../api/queryClient";
-import CompetitionsService from "../services/competitions.service";
+import EditorsService from "../services/editors.service";
 import type { IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
-import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 import CompetitorsService from "../services/competitors.service";
 
@@ -15,7 +15,7 @@ export const useCompetitions = (): UseQueryResult<IResponse<ICompetition[]>> => 
 	return useQuery({
 		queryKey: [...queryKeys.competitions.all],
 		queryFn: async (): Promise<IResponse<ICompetition[]>> => {
-			const result = await CompetitionsService.getAllCompetitions();
+			const result = await EditorsService.getAllCompetitions();
 
 			return {
 				...result,
@@ -27,7 +27,7 @@ export const useCompetitions = (): UseQueryResult<IResponse<ICompetition[]>> => 
 
 export const useAddCompetition = () => {
 	return useMutation({
-		mutationFn: (data: IUseAddCompetitionMutation) => CompetitionsService.add(data.title, data.date),
+		mutationFn: (data: IUseAddCompetitionMutation) => EditorsService.add(data.title, data.date),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.competitions.all })
 		}
@@ -38,7 +38,7 @@ export const useCompetitionById = (id: string): UseQueryResult<IResponse<ICompet
 	return useQuery({
 		queryKey: [...queryKeys.competitions.byId(id)],
 		queryFn: async () => {
-			const result = await CompetitionsService.getById(id);
+			const result = await EditorsService.getById(id);
 			return {
 				...result,
 				value: result.value ? CompetitionsMappers.ToICompetitionInfo(result.value) : null
@@ -62,7 +62,7 @@ export const useCompetitionBySlug = (slug: string): UseQueryResult<IResponse<ICo
 
 export const useUpdateCompetition = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (competetitionInfo: IUpdateCompetitionRequest) => CompetitionsService.updateCompetitionInfo(competetitionInfo),
+		mutationFn: (competetitionInfo: IUpdateCompetitionRequest) => EditorsService.updateCompetitionInfo(competetitionInfo),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
@@ -71,7 +71,7 @@ export const useUpdateCompetition = (competitionId: string) => {
 
 export const useUpdateCompetitionStatus = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (request: IUpdateCompetitionStatusRequest) => CompetitionsService.updateCompetitionStatus(request),
+		mutationFn: (request: IUpdateCompetitionStatusRequest) => EditorsService.updateCompetitionStatus(request),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.competitions.byId(competitionId) })
 		}
@@ -80,7 +80,7 @@ export const useUpdateCompetitionStatus = (competitionId: string) => {
 
 export const useDeleteCompetition = () => {
 	return useMutation({
-		mutationFn: (id: string) => CompetitionsService.delete(id),
+		mutationFn: (id: string) => EditorsService.delete(id),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.competitions.all })
 		}
@@ -89,7 +89,7 @@ export const useDeleteCompetition = () => {
 
 export const useUpdateGroups = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (groups: IProblemsGroup[]) => CompetitionsService.updateGroups(competitionId, groups),
+		mutationFn: (groups: IProblemsGroup[]) => EditorsService.updateGroups(competitionId, groups),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
@@ -98,7 +98,7 @@ export const useUpdateGroups = (competitionId: string) => {
 
 export const useAddProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (request: IProblem) => CompetitionsService.addProblem(request),
+		mutationFn: (request: IProblem) => EditorsService.addProblem(request),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
@@ -107,7 +107,7 @@ export const useAddProblem = (competitionId: string) => {
 
 export const useUpdateProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: IProblem) => CompetitionsService.updateProblem(problem),
+		mutationFn: (problem: IProblem) => EditorsService.updateProblem(problem),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
@@ -116,7 +116,7 @@ export const useUpdateProblem = (competitionId: string) => {
 
 export const useDeleteProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: ISpecialProblem) => CompetitionsService.deleteProblem(problem.id!),
+		mutationFn: (problem: ISpecialProblem) => EditorsService.deleteProblem(problem.id!),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
@@ -126,13 +126,13 @@ export const useDeleteProblem = (competitionId: string) => {
 export const useProblemsByCompetitionId = (id: string): UseQueryResult<IResponse<ICompetitionProblems>> => {
 	return useQuery({
 		queryKey: [...queryKeys.problems.byCompetitionId(id)],
-		queryFn: () => CompetitionsService.getProblemsByCompetitionId(id)
+		queryFn: () => EditorsService.getProblemsByCompetitionId(id)
 	});
 }
 
 export const useAddSpecialProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: ISpecialProblem) => CompetitionsService.addSpecialProblem(problem),
+		mutationFn: (problem: ISpecialProblem) => EditorsService.addSpecialProblem(problem),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
@@ -141,7 +141,7 @@ export const useAddSpecialProblem = (competitionId: string) => {
 
 export const useUpdateSpecialProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: ISpecialProblem) => CompetitionsService.updateSpecialProblem(problem),
+		mutationFn: (problem: ISpecialProblem) => EditorsService.updateSpecialProblem(problem),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}
@@ -150,9 +150,23 @@ export const useUpdateSpecialProblem = (competitionId: string) => {
 
 export const useDeleteSpecialProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: ISpecialProblem) => CompetitionsService.deleteSpecialProblem(problem.id!),
+		mutationFn: (problem: ISpecialProblem) => EditorsService.deleteSpecialProblem(problem.id!),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
+
+export const useResults = (competitionId: string) => {
+	return useQuery({
+		queryKey: [...queryKeys.results.byId(competitionId)],
+		queryFn: async (): Promise<IResponse<IGetResultsResponse>> => {
+			const result = await EditorsService.getResultsByCompetitionId(competitionId);
+
+			return {
+				...result,
+				value: result.value ? result.value : null
+			};
 		}
 	});
 }

@@ -52,7 +52,7 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task<SpecialProblem> AddSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken)
         {
             var result = await _problemsRepository.AddSpecialProblemAsync(problem, cancellationToken);
-            return result;  
+            return result;
         }
 
         public async Task DeleteSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken)
@@ -88,14 +88,11 @@ namespace TDPCompetitions.Infrastracture.Managers
             return groups.FirstOrDefault();
         }
 
-        public async Task DeleteSentProblem(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteSentProblemAsync(SentProblem problem, CancellationToken cancellationToken)
         {
-            SentProblem? problem = await _problemsRepository.GetSentProblemByIdAsync(id, cancellationToken);
-            if (problem != null)
-            {
-                await _problemsRepository.DeleteSentProblemAsync(problem, cancellationToken);
-            }
+            await _problemsRepository.DeleteSentProblemAsync(problem, cancellationToken);
         }
+
         public async Task DeleteSentSpecialProblemAsync(Guid id, CancellationToken cancellationToken)
         {
             SentSpecialProblem? problem = await _problemsRepository.GetSentSpecialProblemByIdAsync(id, cancellationToken);
@@ -186,6 +183,12 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken)
         {
             IEnumerable<SentSpecialProblem> result = await _problemsRepository.GetSentSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            return result;
+        }
+
+        public async Task<SentProblem?> GetSentProblemByIdAsync(Guid sentProblemId, CancellationToken cancellationToken)
+        {
+            SentProblem? result = await _problemsRepository.GetSentProblemByIdAsync(sentProblemId, cancellationToken);
             return result;
         }
     }

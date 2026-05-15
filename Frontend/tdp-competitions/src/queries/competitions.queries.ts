@@ -1,7 +1,7 @@
 import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "../api/queryClient";
 import EditorsService from "../services/editors.service";
-import type { IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
+import type { IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
 import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 import CompetitorsService from "../services/competitors.service";
@@ -167,6 +167,24 @@ export const useResults = (competitionId: string) => {
 				...result,
 				value: result.value ? result.value : null
 			};
+		}
+	});
+}
+
+export const useSendProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (sendProblemRequest: ISendProblemRequest) => EditorsService.sendProblem(sendProblemRequest),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.results.byId(competitionId) });
+		}
+	});
+}
+
+export const useUnsendProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (sentProblemId: string) => EditorsService.unsendProblem(sentProblemId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.results.byId(competitionId) });
 		}
 	});
 }

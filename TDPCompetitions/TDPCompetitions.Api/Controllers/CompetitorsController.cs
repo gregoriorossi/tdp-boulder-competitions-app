@@ -133,8 +133,13 @@ namespace TDPCompetitions.Api.Controllers
             {
                 return Ok(canSend);
             }
-
-            await _problemsManager.DeleteSentProblem(model.Id, cancellationToken);    
+            
+            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(model.Id, cancellationToken);
+            if (sentProblem == null)
+            {
+                return BadRequest(); //giusto?
+            }
+            await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);    
             return Ok();
         }
 

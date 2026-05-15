@@ -130,6 +130,11 @@ export interface IAddRegistrationRequest {
 	minors: IAddRegistrationMinorRequest[]
 }
 
+export interface ISendProblemRequest {
+	competitorId: string;
+	problemId: string;
+	competitionId: string;
+}
 export interface IAddRegistrationMinorRequest {
 	firstName: string;
 	lastName: string;

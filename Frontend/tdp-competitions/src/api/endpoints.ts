@@ -20,7 +20,9 @@ export const EditorsEndpoints = {
 	deleteProblem: (id: string) => `/Editors/problems/deleteFromGroup/${id}`,
 	addSpecialProblem: '/Editors/problems/specialProblem',
 	updateSpecialProblem: '/Editors/problems/specialProblem',
-	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`
+	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`,
+	sendProblem: '/Editors/problems/send',
+	unsendProblem: (id: string) => `/Editors/problems/unsend/${id}`
 };
 
 export const CompetitorsEndpoints = {

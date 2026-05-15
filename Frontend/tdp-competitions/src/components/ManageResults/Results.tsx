@@ -6,6 +6,8 @@ import { ProblemCell } from "./ProblemCell";
 interface IResultsProps {
 	competitors: IGetResultsCompetitior[];
 	problemsGroups: IGetResultsProblemsGroup[];
+	onProblemSent: (competitorId: string, problemId: string) => Promise<void>;
+	onProblemUnsent: (sentProblemId: string) => Promise<void>;
 }
 
 export interface IResultProblem {
@@ -25,11 +27,11 @@ const flatAllProblems = (problemsGroups: IGetResultsProblemsGroup[]): IResultPro
 }
 
 export function Results(props: IResultsProps) {
-	const { competitors, problemsGroups } = props;
+	const { competitors, problemsGroups, onProblemSent, onProblemUnsent } = props;
 	const flatProblems = flatAllProblems(problemsGroups);
 
-	const isProblemSent = (competitor: IGetResultsCompetitior, problemId: string): boolean => {
-		return competitor.sentProblems.includes(problemId);
+	const isProblemSentFn = (competitor: IGetResultsCompetitior, problemId: string): boolean => {
+		return competitor.sentProblems.some(sp => sp.problemId === problemId);
 	}
 
 	return <div className={classNames.competitors}>
@@ -49,8 +51,20 @@ export function Results(props: IResultsProps) {
 								{c.lastName}&nbsp;{c.firstName}
 							</TableCell>
 							{flatProblems.map(p => {
+								const isProblemSent: boolean = isProblemSentFn(c, p.id);
 								return <TableCell>
-									<Checkbox checked={isProblemSent(c, p.id)} />
+									<Checkbox
+										checked={isProblemSent}
+										onChange={async (_event, checked: boolean) => {
+											if (!checked) {
+												const sentProblemId = c.sentProblems.find(sp => sp.problemId === p.id);
+												if (sentProblemId) {
+													await onProblemUnsent(sentProblemId?.id);
+												}
+											} else {
+												await onProblemSent(c.id, p.id);
+											}
+										}} />
 								</TableCell>;
 							})}
 						</TableRow>

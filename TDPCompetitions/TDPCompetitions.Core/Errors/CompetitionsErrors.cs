@@ -35,4 +35,9 @@
         public static readonly Error NotFound = new Error("Competitors.NotFound", "Competitor not found");
         public static readonly Error AdultDelete = new Error("Competitors.AdultsCannotBeDeleted", "Only minors can be deleted");
     }
+
+    public static class SentProblemsErrors
+    {
+        public static readonly Error NotFound = new Error("SentProblems.NotFound", "SentProblem not found");
+    }
 }

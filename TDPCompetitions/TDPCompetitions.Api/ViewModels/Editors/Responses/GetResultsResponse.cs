@@ -21,7 +21,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
 
         public DateTime BirthDate { get; set; }
 
-        public IEnumerable<Guid> SentProblems { get; set; } = new List<Guid>();
+        public IEnumerable<GetResultsSentProblemVM> SentProblems { get; set; } = new List<GetResultsSentProblemVM>();
 
         public IEnumerable<SentSpecialProblem> SentSpecialProblems { get; set; } = new List<SentSpecialProblem>();
 
@@ -31,7 +31,9 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
             FirstName = competitor.FirstName;
             LastName = competitor.LastName;
             BirthDate = competitor.BirthDate;
-            SentProblems = allSentProblems.Where(sp => sp.CompetitorId == competitor.Id).Select(sp => sp.ProblemId);
+            SentProblems = allSentProblems
+                .Where(sp => sp.CompetitorId == competitor.Id)
+                .Select(sp => new GetResultsSentProblemVM { Id = sp.Id, ProblemId = sp.ProblemId });
             SentSpecialProblems = allSentSpecialProblems.Where(sp => sp.CompetitorId == competitor.Id);
         }
     }
@@ -63,9 +65,14 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
                     } : null;
                 })
                 .FirstOrDefault();
-
-           
         }
+    }
+
+    public class GetResultsSentProblemVM
+    {
+        public Guid Id { get; set; }
+
+        public Guid ProblemId { get; set; }
     }
 
     public class GetResultsSpecialProblemSentByVM

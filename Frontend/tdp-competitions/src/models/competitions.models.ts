@@ -114,8 +114,13 @@ export interface IGetResultsCompetitior {
 	firstName: string;
 	lastName: string;
 	birthDate: string;
-	sentProblems: string[];
+	sentProblems: IGetResultsSentProblem[];
 	sentSpecialProblems: IGetResultsSentSpecialProblem[];
+}
+
+export interface IGetResultsSentProblem {
+	id: string;
+	problemId: string;
 }
 
 export interface IGetResultsSentSpecialProblem {
@@ -152,4 +157,8 @@ export interface IGetResultsFirstSentBy {
 	firstName: string;
 	lastName: string;
 	sentAt: string;
+}
+
+export interface onChangeSentProblem {
+	problemId: string;
 }

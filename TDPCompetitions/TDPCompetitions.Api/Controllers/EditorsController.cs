@@ -324,6 +324,33 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<SpecialProblem>.Success());
         }
 
+        [HttpPost]
+        [Route("problems/send")]
+        public async Task<IActionResult> SendProblem([FromBody] SendProblemVM model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            SentProblem send = ViewModelToEntity.SendProblemVMToSentProblem(model);
+            SentProblem result = await _problemsManager.SendProblemAsync(send, cancellationToken);
+            return Ok(Result<SentProblem>.Success(result));
+        }
+
+        [HttpDelete]
+        [Route("problems/unsend/{sentProblemId}")]
+        public async Task<IActionResult> RemoveSentProblem(Guid sentProblemId, CancellationToken cancellationToken)
+        {
+            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(sentProblemId, cancellationToken);
+            if (sentProblem == null)
+            {
+                return Ok(Result<SentProblem>.Failure(SentProblemsErrors.NotFound));
+            }
+            await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
+            return Ok();
+        }
+
         #endregion
 
         #region Competitors

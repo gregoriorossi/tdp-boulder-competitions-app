@@ -1,4 +1,6 @@
-﻿using TDPCompetitions.Core.Entities;
+﻿using QuestPDF.Fluent;
+using TDPCompetitions.Api.Helpers;
+using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Interfaces.Services;
 using TDPCompetitions.Infrastracture.Helpers;
 using TDPCompetitions.Infrastracture.Models;
@@ -20,8 +22,27 @@ namespace TDPCompetitions.Infrastracture.Services
             var result = new CompetitorsExportBuilder()
                 .SetData(rows)
                 .Build();
-                
+
             return result;
+        }
+
+        public byte[] CreateWaiver(ICollection<Registration> registrations)
+        {
+            var logo = GetLogo();
+            var models = registrations.Select(r => new LiberatoriaModel(r));
+            var doc = new LiberatoriaDocument(models, logo);
+            var result = doc.GeneratePdf();
+
+            return result;
+        }
+
+        private byte[] GetLogo()
+        {
+            var baseDir = AppContext.BaseDirectory;
+            var logoPath = Path.Combine(baseDir, "Assets", "teste-di-pietra-logo.png");
+
+            var logoBytes = System.IO.File.ReadAllBytes(logoPath);
+            return logoBytes;
         }
     }
 }

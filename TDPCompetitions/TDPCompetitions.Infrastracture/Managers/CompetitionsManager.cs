@@ -121,7 +121,7 @@ namespace TDPCompetitions.Infrastracture.Managers
             return result;
         }
 
-        public async Task<Registration?> GetRegistrationAsync(Guid registrationId, CancellationToken cancellationToken)
+        public async Task<Registration?> GetRegistrationByIdAsync(Guid registrationId, CancellationToken cancellationToken)
         {
             Expression<Func<Registration, bool>> whereFn = r => r.Id == registrationId;
             ICollection<Registration> result = await _competitionsRepository.GetAllRegistrationsAsync(whereFn, cancellationToken);

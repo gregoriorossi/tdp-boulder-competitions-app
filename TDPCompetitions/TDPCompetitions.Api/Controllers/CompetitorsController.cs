@@ -72,7 +72,7 @@ namespace TDPCompetitions.Api.Controllers
         [Route("register/{registrationId}")]
         public async Task<IActionResult> DeleteRegistration(Guid registrationId, CancellationToken cancellationToken)
         {
-            Registration? registration = await _competitionsManager.GetRegistrationAsync(registrationId, cancellationToken);
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
             if (registration == null)
             {
                 return Ok(Result<Registration>.Failure(RegistrationsErrors.NotRegistered));

@@ -183,6 +183,53 @@ namespace TDPCompetitions.Api.Controllers
                 $"{competition.Slug}_{timestamp}.xlsx");
         }
 
+        [HttpGet]
+        [Route("competition/{competitionId}/waiver")]
+        public async Task<IActionResult> GenerateWaiverAll(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            var registrations = await _competitionsManager.GetRegistrationsAsync(competitionId, cancellationToken);
+
+            var result = _exportService.CreateWaiver(registrations);
+
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
+            return File(
+                result,
+               "application/pdf",
+                $"Delibere_{competition.Slug}_{timestamp}.pdf");
+        }
+
+        [HttpGet]
+        [Route("competition/{competitionId}/waiver/{registrationId}")]
+        public async Task<IActionResult> GenerateWaiver(Guid competitionId, Guid registrationId, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(competitionId, cancellationToken);
+
+            if (competition == null)
+            {
+                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            if (registration == null)
+            {
+                return NotFound(Result<Registration>.Failure(RegistrationsErrors.NotFound));
+            }
+
+            var result = _exportService.CreateWaiver(new List<Registration> {registration});
+
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
+            return File(
+                result,
+               "application/pdf",
+                $"Delibere_{competition.Slug}_{timestamp}.pdf");
+        }
+
         #region Problems
         [HttpGet]
         [Route("problems/get/{competitionId}")]
@@ -443,7 +490,7 @@ namespace TDPCompetitions.Api.Controllers
         [Route("registrations/{id}")]
         public async Task<IActionResult> DeleteRegistration(Guid id, CancellationToken cancellationToken)
         {
-            Registration? registration = await _competitionsManager.GetRegistrationAsync(id, cancellationToken);
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(id, cancellationToken);
             if (registration == null)
             {
                 return Ok(Result<Registration>.Failure(RegistrationsErrors.NotFound));

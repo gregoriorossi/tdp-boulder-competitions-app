@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using TDPCompetitions.Api;
+using QuestPDF.Infrastructure;
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Infrastracture.Data;
 
@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("MyInMemoryDatabaseDb"));
 //builder.Services.AddDbContext<AppDbContext>(options =>
 //    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+
+QuestPDF.Settings.License = LicenseType.Community;
 
 builder.Services.AddControllers();
 builder.Services.RegisterService();
@@ -43,3 +46,4 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+

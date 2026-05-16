@@ -18,7 +18,7 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId, CancellationToken cancellationToken);
         Task<bool> IsCompetitorRegisteredAsync(string competitorEmail, Guid competitionId, CancellationToken cancellationToken);
         Task<Registration> AddRegistrationAsync(Registration registration, CancellationToken cancellationToken);
-        Task<Registration?> GetRegistrationAsync(Guid registrationId, CancellationToken cancellationToken);
+        Task<Registration?> GetRegistrationByIdAsync(Guid registrationId, CancellationToken cancellationToken);
         Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken);
         Task<Competitor?> GetCompetitorAsync(Guid competitorId, CancellationToken cancellationToken);
         Task<Competitor> UpdateCompetitorAsync(Competitor competitorUpdated, CancellationToken cancellationToken);

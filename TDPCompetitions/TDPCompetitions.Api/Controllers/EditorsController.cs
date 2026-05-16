@@ -10,6 +10,7 @@ using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
 using TDPCompetitions.Core.Interfaces.Managers;
+using TDPCompetitions.Core.Interfaces.Services;
 using TDPCompetitions.Core.Models;
 
 namespace TDPCompetitions.Api.Controllers
@@ -20,13 +21,16 @@ namespace TDPCompetitions.Api.Controllers
     {
         private readonly ICompetitionsManager _competitionsManager;
         private readonly IProblemsManager _problemsManager;
+        private readonly IExportService _exportService;
 
         public EditorsController(
             ICompetitionsManager competitionsManager,
-            IProblemsManager problemsManager)
+            IProblemsManager problemsManager,
+            IExportService exportService)
         {
             _competitionsManager = competitionsManager;
             _problemsManager = problemsManager;
+            _exportService = exportService;
         }
 
         #region Competitions
@@ -95,7 +99,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
             }
 
-            await _competitionsManager.UpdateCompetitionStatusAsync(model.CompetitionId, (CompetitionStatus) status , cancellationToken);
+            await _competitionsManager.UpdateCompetitionStatusAsync(model.CompetitionId, (CompetitionStatus)status, cancellationToken);
             return Ok();
         }
 
@@ -154,6 +158,30 @@ namespace TDPCompetitions.Api.Controllers
         }
         #endregion
 
+        [HttpGet]
+        [Route("competition/{competitionId}/report")]
+        public async Task<IActionResult> GenerateReport(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            var registrations = await _competitionsManager.GetRegistrationsAsync(competitionId, cancellationToken);
+
+            var stream = _exportService.CreateCompetitorsReport(registrations);
+
+            if (stream == null) {
+                return StatusCode(500); 
+            }
+
+            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
+            return File(
+                stream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                $"{competition.Slug}_{timestamp}.xlsx");
+        }
 
         #region Problems
         [HttpGet]
@@ -203,7 +231,7 @@ namespace TDPCompetitions.Api.Controllers
             ICollection<ProblemsGroup> groups = ViewModelToEntity
                 .UpdateProblemGroupsVMToProblemGroups(model)
                 .Where(g => g.CompetitionId == model.CompetitionId).ToList();
-             
+
             ICollection<ProblemsGroup> result = await _problemsManager.UpdateProblemsGroupsAsync(groups, model.CompetitionId, cancellationToken);
             var response = result.Select(g => new ProblemsGroupVM(g)).ToList();
             return Ok(Result<ICollection<ProblemsGroupVM>>.Success(response));
@@ -247,7 +275,7 @@ namespace TDPCompetitions.Api.Controllers
 
             Problem problem = ViewModelToEntity.UpdateProblemVMToProblem(model);
             var result = await _problemsManager.UpdateProblemAsync(problem, cancellationToken);
-            return Ok(Result<Problem>.Success(result)); 
+            return Ok(Result<Problem>.Success(result));
         }
 
         [HttpDelete]
@@ -317,7 +345,7 @@ namespace TDPCompetitions.Api.Controllers
             SpecialProblem? problem = await _problemsManager.GetSpecialProblemByIdAsync(id, cancellationToken);
             if (problem == null)
             {
-                return Ok(Result<SpecialProblem>.Failure(SpecialProblemErrors.NotFound));  
+                return Ok(Result<SpecialProblem>.Failure(SpecialProblemErrors.NotFound));
             }
 
             await _problemsManager.DeleteSpecialProblemAsync(problem, cancellationToken);
@@ -434,7 +462,7 @@ namespace TDPCompetitions.Api.Controllers
             {
                 return Ok(Result<Competitor>.Failure(CompetitorsErrors.NotFound));
             }
-            
+
             if (!competitor.IsMinor)
             {
                 return Ok(Result<Competitor>.Failure(CompetitorsErrors.AdultDelete));

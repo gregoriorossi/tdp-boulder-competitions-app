@@ -1,7 +1,9 @@
 ﻿using TDPCompetitions.Core.Interfaces.Managers;
 using TDPCompetitions.Core.Interfaces.Repositories;
+using TDPCompetitions.Core.Interfaces.Services;
 using TDPCompetitions.Infrastracture.Managers;
 using TDPCompetitions.Infrastracture.Repositories;
+using TDPCompetitions.Infrastracture.Services;
 
 namespace TDPCompetitions.Api.Extensions
 {
@@ -22,7 +24,7 @@ namespace TDPCompetitions.Api.Extensions
             #endregion
 
             #region Services
-
+            services.AddScoped<IExportService, ExportService>();
             #endregion
 
             return services;

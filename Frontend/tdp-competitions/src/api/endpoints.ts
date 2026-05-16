@@ -22,7 +22,8 @@ export const EditorsEndpoints = {
 	updateSpecialProblem: '/Editors/problems/specialProblem',
 	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`,
 	sendProblem: '/Editors/problems/send',
-	unsendProblem: (id: string) => `/Editors/problems/unsend/${id}`
+	unsendProblem: (id: string) => `/Editors/problems/unsend/${id}`,
+	report: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${id}/report`
 };
 
 export const CompetitorsEndpoints = {

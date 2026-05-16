@@ -1,5 +1,4 @@
 ﻿using ClosedXML.Excel;
-using DocumentFormat.OpenXml.Spreadsheet;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Infrastracture.Models;
 
@@ -91,7 +90,7 @@ namespace TDPCompetitions.Infrastracture.Helpers
                 registrationDateCell.Style.DateFormat.Format = "dd/MM/yyyy";
             }
 
-            worksheet.Columns(HEADER_ROW, Headers.Length).AdjustToContents(5, 40);
+            worksheet.Columns(1, Headers.Length).AdjustToContents(1, _rows.Length, 10, 40);
         }
     }
 }

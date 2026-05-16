@@ -9,7 +9,9 @@ import { STRINGS } from "../../consts/strings.consts";
 import { RegistrationModal } from "../modals/RegistrationModal";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
-import ArticleIcon from '@mui/icons-material/Article';
+import PrintIcon from '@mui/icons-material/Print';
+import DownloadIcon from '@mui/icons-material/Download';
+import { EditorsEndpoints } from "../../api/endpoints";
 const ManageRegistraionsStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations;
 
 interface IManageRegistrationsProps {
@@ -32,9 +34,18 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 	return <div className={classNames.manageRegistrations}>
 		<div className={classNames.actionsContainer}>
 			<Button
+				onClick={() => {
+					const url: string = EditorsEndpoints.report(competitionId);
+					window.open(url, "_blank");
+				}}
+				variant="contained"
+				endIcon={<DownloadIcon />}>
+				{ManageRegistraionsStrings.DownloadReport}
+			</Button>&nbsp;
+			<Button
 				onClick={() => { }}
 				variant="contained"
-				endIcon={<ArticleIcon />}>
+				endIcon={<PrintIcon />}>
 				{ManageRegistraionsStrings.PrintAll}
 			</Button>&nbsp;
 			<Button

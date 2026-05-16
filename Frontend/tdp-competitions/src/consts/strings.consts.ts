@@ -41,6 +41,7 @@ export const STRINGS = {
 			ManageRegistrations: {
 				NewRegistration: 'Aggiungi registrazione',
 				PrintAll: 'Stampa delibere',
+				DownloadReport: 'Report Excel', 
 				Table: {
 					Name: 'Nome',
 					Email: 'Email',

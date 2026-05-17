@@ -17,11 +17,6 @@ namespace TDPCompetitions.Api.Helpers
             _logo = logo;
         }
 
-        public DocumentMetadata GetMetadata() => new()
-        {
-            Title = "Teste di Pietra - Liberatoria"
-        };
-
         public void Compose(IDocumentContainer container)
         {
             container.Page(page =>
@@ -42,10 +37,15 @@ namespace TDPCompetitions.Api.Helpers
                     foreach (var model in _models)
                     {
                         ComposeTopHeader(col, model.CompetitionName);
-                        ComposeAnagrafica(col, model);
-                        ComposeDichiarazione(col);
-                        ComposeFirma(col);
+                        ComposeMainAnagrafica(col, model);
 
+                        foreach (var minor in model.Minors)
+                        {
+                            ComposeMinorAnagrafica(col, minor);
+                        }
+
+                        ComposeDichiarazione(col, model.CompetitionName);
+                        ComposeFirma(col);
                         ComposeInoltre(col);
                         ComposeConsenso(col);
                         ComposeFirma(col);
@@ -77,7 +77,7 @@ namespace TDPCompetitions.Api.Helpers
             });
         }
 
-        private void ComposeAnagrafica(ColumnDescriptor col, LiberatoriaModel model)
+        private void ComposeMainAnagrafica(ColumnDescriptor col, LiberatoriaModel model)
         {
             col.Item().Row(row =>
             {
@@ -85,39 +85,7 @@ namespace TDPCompetitions.Api.Helpers
                 row.RelativeItem().AlignRight().Text("*si prega di scrivere in stampatello")
                     .Italic().FontSize(10);
             });
-
-            col.Item().Row(row =>
-            {
-                row.RelativeItem().Element(c => FieldInline(c, "Cognome", model.Surname));
-                row.RelativeItem().Element(c => FieldInline(c, "Nome", model.Name));
-            });
-
-            // Nato a / Prov + data
-            col.Item().Row(row =>
-            {
-                row.RelativeItem().Element(c => FieldInline(c, "Nato/a a", model.BirthPlace));
-                row.RelativeItem().Element(c =>
-                {
-                    c.Row(r =>
-                    {
-                        r.RelativeItem().Element(x => FieldInline(x, "Prov.", model.BirthProvince));
-                        r.RelativeItem().Element(x => FieldInline(x, "il ", model.BirthDate.ToString("dd-MM-yyyy")));
-                    });
-                });
-            });
-
-            col.Item().Row(row =>
-            {
-                row.RelativeItem().Element(c => FieldInline(c, "Residente a", model.AddressCity));
-                row.RelativeItem().Element(c =>
-                {
-                    c.Row(r =>
-                    {
-                        row.RelativeItem().Element(c => FieldInline(c, "Indirizzo ", $"{model.AddressStreet} n°{model.AddressNumber}"));
-                        row.RelativeItem().Element(c => FieldInline(c, "Prov.", model.AddressProvince));
-                    });
-                });
-            });
+            ComposeAnagrafica(col, model.Competitor);
 
             col.Item().Row(row =>
             {
@@ -125,7 +93,52 @@ namespace TDPCompetitions.Api.Helpers
             });
         }
 
-        private void ComposeDichiarazione(ColumnDescriptor col)
+        private void ComposeMinorAnagrafica(ColumnDescriptor col, LiberatoriaPersonModel model)
+        {
+            col.Item().Row(row =>
+            {
+                row.RelativeItem().Text("In qualità di tutore/tutrice legale del/della minorenne:").Bold().FontSize(10);
+            });
+            ComposeAnagrafica(col, model);
+        }
+
+        private void ComposeAnagrafica(ColumnDescriptor col, LiberatoriaPersonModel competitor)
+        {
+            col.Item().Row(row =>
+            {
+                row.RelativeItem().Element(c => FieldInline(c, "Cognome", competitor.Surname));
+                row.RelativeItem().Element(c => FieldInline(c, "Nome", competitor.Name));
+            });
+
+            // Nato a / Prov + data
+            col.Item().Row(row =>
+            {
+                row.RelativeItem().Element(c => FieldInline(c, "Nato/a a", competitor.BirthPlace));
+                row.RelativeItem().Element(c =>
+                {
+                    c.Row(r =>
+                    {
+                        r.RelativeItem().Element(x => FieldInline(x, "Prov.", competitor.BirthProvince));
+                        r.RelativeItem().Element(x => FieldInline(x, "il ", competitor.BirthDate.ToString("dd/MM/yyyy")));
+                    });
+                });
+            });
+
+            col.Item().Row(row =>
+            {
+                row.RelativeItem().Element(c => FieldInline(c, "Residente a", competitor.AddressCity));
+                row.RelativeItem().Element(c =>
+                {
+                    c.Row(r =>
+                    {
+                        row.RelativeItem().Element(c => FieldInline(c, "Indirizzo ", $"{competitor.AddressStreet} n°{competitor.AddressNumber}"));
+                        row.RelativeItem().Element(c => FieldInline(c, "Prov.", competitor.AddressProvince));
+                    });
+                });
+            });
+        }
+
+        private void ComposeDichiarazione(ColumnDescriptor col, string competitionName)
         {
             col.Item().PaddingTop(10).Text("Dichiara sotto la propria responsabilità di:")
                 .Bold()
@@ -135,7 +148,7 @@ namespace TDPCompetitions.Api.Helpers
             col.Item().Text(
                 "Essere un arrampicatore esperto e solleva l'associazione A.S.D. Teste di Pietra da qualsiasi responsabilità " +
                 "per tutti i danni eventualmente cagionati, a me stesso o a terzi, derivanti dalla mia partecipazione all'evento " +
-                "\"BOULDER MEETING\"."
+                $"\"{competitionName}\"."
             )
             .AlignLeft(); // se vuoi justify e hai QuestPDF recente, dimmi versione e lo impostiamo [4](https://github.com/QuestPDF/QuestPDF/issues/159)
 

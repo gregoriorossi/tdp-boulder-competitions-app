@@ -227,7 +227,21 @@ namespace TDPCompetitions.Api.Controllers
             return File(
                 result,
                "application/pdf",
-                $"Delibere_{competition.Slug}_{timestamp}.pdf");
+                $"Delibera_{registration.Competitor.LastName}_{registration.Competitor.FirstName}_{competition.Slug}_{timestamp}.pdf");
+        }
+
+        [HttpGet]
+        [Route("competition/{competitionId}/rankings")]
+        public async Task<IActionResult> GetRanking(Guid competitionId, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, cancellationToken);
+            return Ok(Result<ICollection<RankingCompetitor>>.Success(ranking));
         }
 
         #region Problems
@@ -429,20 +443,6 @@ namespace TDPCompetitions.Api.Controllers
         #endregion
 
         #region Competitors
-        [HttpGet]
-        [Route("competition/{competitionId}/rankings")]
-        public async Task<IActionResult> GetRanking(Guid competitionId, CancellationToken cancellationToken)
-        {
-            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
-            if (competition == null)
-            {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
-            }
-
-            ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, cancellationToken);
-            return Ok(Result<ICollection<RankingCompetitor>>.Success(ranking));
-        }
-
         [HttpGet]
         [Route("competition/{competitionId}/competitors")]
         public async Task<IActionResult> GetCompetitors(Guid competitionId, CancellationToken cancellationToken)

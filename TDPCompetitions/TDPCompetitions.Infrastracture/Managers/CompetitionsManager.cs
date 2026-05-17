@@ -11,10 +11,14 @@ namespace TDPCompetitions.Infrastracture.Managers
     public class CompetitionsManager : ICompetitionsManager
     {
         private readonly ICompetitionsRepository _competitionsRepository;
+        private readonly IProblemsRepository _problemsRepository;
 
-        public CompetitionsManager(ICompetitionsRepository competitionsRepository)
+        public CompetitionsManager(
+            ICompetitionsRepository competitionsRepository,
+            IProblemsRepository problemsRepository)
         {
             _competitionsRepository = competitionsRepository;
+            _problemsRepository = problemsRepository;
         }
 
         public async Task<ICollection<Competition>> GetAllCompetitionsAsync(CancellationToken cancellationToken)
@@ -166,7 +170,45 @@ namespace TDPCompetitions.Infrastracture.Managers
 
         public async Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            Expression<Func<Problem, bool>>  whereFn = p => p.CompetitionId == competitionId;
+            var allProblems = await _problemsRepository.GetAllAsync(whereFn, cancellationToken);
+            var allSends = await _problemsRepository.GetSentProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            var competitors = await GetCompetitorsAsync(competitionId, cancellationToken);
+
+            var sendsCountByProblemId = allSends
+                .GroupBy(s => s.ProblemId)
+                .ToDictionary(s => s.Key, s => s.Count());
+
+            var scoresByProblemId = allProblems.ToDictionary(
+                p => p.Id,
+                p =>
+                {
+                    var sends = sendsCountByProblemId.GetValueOrDefault(p.Id, 0);
+                    return sends != 0 ? 1000 / sends : 0;
+                });
+
+            var scoreByCompetitorId = allSends
+                .GroupBy(s => s.CompetitorId)
+                .ToDictionary(
+                    s => s.Key,
+                    s => s.Sum(g => scoresByProblemId.GetValueOrDefault(g.ProblemId, 0))
+                );
+
+            var ranking = competitors
+                .Select(c =>
+                {
+                    var score = scoreByCompetitorId.GetValueOrDefault(c.Id, 0);
+                    return new RankingCompetitor(c, score);
+                })
+                .OrderByDescending(c => c.Score).ToList();
+
+            var ranked = ranking
+                .Select((x, index) =>
+                {
+                    x.Position = index + 1;
+                    return x;
+                }).ToList();
+            return ranked;
         }
 
         public async Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken)

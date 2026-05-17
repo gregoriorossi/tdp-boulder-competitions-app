@@ -15,6 +15,7 @@ import { ManageRegistrations } from "../../components/ManageRegistrations/Manage
 import { ManageCompetition } from "../../components/ManageCompetition/ManageCompetition";
 import { ActionsContainer } from "../../components/ManageCompetition/ActionsContainer";
 import { ManageResults } from "../../components/ManageResults/ManageResults";
+import { Rankings } from "../../components/Rankings/Rankings";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 enum TabValues {
@@ -72,6 +73,9 @@ export function EditorsCompetitionPage() {
 			}
 			{
 				tabValue === TabValues.RESULTS && <ManageResults competitionId={competition.id} />
+			}
+			{
+				tabValue === TabValues.RANKINGS && <Rankings competitionId={competition.id} />
 			}
 		</div>
 	</EditorsPageWrapper>;

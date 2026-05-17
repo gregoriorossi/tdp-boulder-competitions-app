@@ -4,6 +4,7 @@ namespace TDPCompetitions.Infrastracture.Models
 {
     public sealed record LiberatoriaModel
     {
+        public string CompetitionName { get; init; }
         public string Surname { get; init; }
         public string Name { get; init; }
         public string BirthPlace { get; init; }
@@ -15,10 +16,11 @@ namespace TDPCompetitions.Infrastracture.Models
         public string AddressProvince { get; init; }
         public string Email { get; init; }
 
-        public LiberatoriaModel(Registration registration)
+        public LiberatoriaModel(Registration registration, string competitionName)
         {
             var competitor = registration.Competitor;
 
+            CompetitionName = competitionName;
             Surname = competitor.LastName;
             Name = competitor.FirstName;
             BirthPlace = competitor.BirthPlace;

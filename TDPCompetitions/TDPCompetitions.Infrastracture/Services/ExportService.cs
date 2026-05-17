@@ -26,11 +26,11 @@ namespace TDPCompetitions.Infrastracture.Services
             return result;
         }
 
-        public byte[] CreateWaiver(ICollection<Registration> registrations)
+        public byte[] CreateWaiver(ICollection<Registration> registrations, Competition competition)
         {
             var logo = GetLogo();
-            var models = registrations.Select(r => new LiberatoriaModel(r));
-            var doc = new LiberatoriaDocument(models, logo);
+            var models = registrations.Select(r => new LiberatoriaModel(r, competition.Title));
+            var doc = new WaiverDocument(models, logo);
             var result = doc.GeneratePdf();
 
             return result;

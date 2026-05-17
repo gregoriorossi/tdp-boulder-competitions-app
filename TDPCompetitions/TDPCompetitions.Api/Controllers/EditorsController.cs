@@ -195,7 +195,7 @@ namespace TDPCompetitions.Api.Controllers
 
             var registrations = await _competitionsManager.GetRegistrationsAsync(competitionId, cancellationToken);
 
-            var result = _exportService.CreateWaiver(registrations);
+            var result = _exportService.CreateWaiver(registrations, competition);
 
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
             return File(
@@ -221,7 +221,7 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result<Registration>.Failure(RegistrationsErrors.NotFound));
             }
 
-            var result = _exportService.CreateWaiver(new List<Registration> {registration});
+            var result = _exportService.CreateWaiver(new List<Registration> {registration}, competition);
 
             string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
             return File(

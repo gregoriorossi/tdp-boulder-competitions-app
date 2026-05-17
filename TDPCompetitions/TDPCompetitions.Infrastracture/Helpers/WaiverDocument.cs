@@ -6,12 +6,12 @@ using Colors = QuestPDF.Helpers.Colors;
 
 namespace TDPCompetitions.Api.Helpers
 {
-    public sealed class LiberatoriaDocument : IDocument
+    public sealed class WaiverDocument : IDocument
     {
         private readonly IEnumerable<LiberatoriaModel> _models;
         private readonly byte[] _logo;
 
-        public LiberatoriaDocument(IEnumerable<LiberatoriaModel> models, byte[] logo)
+        public WaiverDocument(IEnumerable<LiberatoriaModel> models, byte[] logo)
         {
             _models = models;
             _logo = logo;
@@ -41,7 +41,7 @@ namespace TDPCompetitions.Api.Helpers
                     col.Spacing(12);
                     foreach (var model in _models)
                     {
-                        ComposeTopHeader(col);
+                        ComposeTopHeader(col, model.CompetitionName);
                         ComposeAnagrafica(col, model);
                         ComposeDichiarazione(col);
                         ComposeFirma(col);
@@ -56,7 +56,7 @@ namespace TDPCompetitions.Api.Helpers
             });
         }
 
-        private void ComposeTopHeader(ColumnDescriptor col)
+        private void ComposeTopHeader(ColumnDescriptor col, string competitionName)
         {
             col.Item().AlignRight().Text($"ATLETA N° ........")
                 .FontSize(15)
@@ -65,21 +65,20 @@ namespace TDPCompetitions.Api.Helpers
             // Intestazione con logo + testo centrato bold
             col.Item().Row(row =>
             {
-                row.ConstantItem(80).Height(70).AlignMiddle()
+                row.ConstantItem(70).Height(60).AlignMiddle()
                    .Image(_logo).FitArea();
 
                 row.RelativeItem().AlignMiddle().AlignCenter().Text(t =>
                 {
                     t.Line("Associazione Sportiva Dilettantistica Teste di Pietra").Bold().FontSize(12);
                     t.Line("Dichiarazione liberatoria").Bold().FontSize(12);
-                    t.Line("ISCRIZIONE BOULDER MEETING").Bold().FontSize(12);
+                    t.Line(competitionName).Bold().FontSize(12);
                 });
             });
         }
 
         private void ComposeAnagrafica(ColumnDescriptor col, LiberatoriaModel model)
         {
-            // Riga: "Il/La sottoscritto/a:" (left bold) e nota * stampatello (right italic)
             col.Item().Row(row =>
             {
                 row.RelativeItem().Text("Il/La sottoscritto/a:").Bold().FontSize(10);
@@ -87,7 +86,6 @@ namespace TDPCompetitions.Api.Helpers
                     .Italic().FontSize(10);
             });
 
-            // Cognome / Nome
             col.Item().Row(row =>
             {
                 row.RelativeItem().Element(c => FieldInline(c, "Cognome", model.Surname));
@@ -103,13 +101,11 @@ namespace TDPCompetitions.Api.Helpers
                     c.Row(r =>
                     {
                         r.RelativeItem().Element(x => FieldInline(x, "Prov.", model.BirthProvince));
-                        r.AutoItem().Text("   il ").FontSize(10);
-                        r.RelativeItem().Text(model.BirthDate).FontSize(11).Bold();
+                        r.RelativeItem().Element(x => FieldInline(x, "il ", model.BirthDate.ToString("dd-MM-yyyy")));
                     });
                 });
             });
 
-            // Residente a / Via n° / Prov
             col.Item().Row(row =>
             {
                 row.RelativeItem().Element(c => FieldInline(c, "Residente a", model.AddressCity));
@@ -117,26 +113,15 @@ namespace TDPCompetitions.Api.Helpers
                 {
                     c.Row(r =>
                     {
-                        r.AutoItem().Text("Indirizzo").FontSize(10);
-                        r.AutoItem().Text(" ").FontSize(10);
-                        r.RelativeItem().Text(model.AddressStreet).FontSize(11);
-                        r.AutoItem().Text("   n° ").FontSize(10);
-                        r.AutoItem().Text(model.AddressNumber).FontSize(11);
+                        row.RelativeItem().Element(c => FieldInline(c, "Indirizzo ", $"{model.AddressStreet} n°{model.AddressNumber}"));
+                        row.RelativeItem().Element(c => FieldInline(c, "Prov.", model.AddressProvince));
                     });
                 });
             });
 
             col.Item().Row(row =>
             {
-                row.RelativeItem().Element(c => FieldInline(c, "Prov.", model.AddressProvince));
-                row.RelativeItem(); // vuoto come html
-            });
-
-            // Email
-            col.Item().Row(row =>
-            {
                 row.RelativeItem().Element(c => FieldInline(c, "Email", model.Email));
-                row.RelativeItem();
             });
         }
 
@@ -206,18 +191,16 @@ namespace TDPCompetitions.Api.Helpers
                 row.RelativeItem().AlignCenter().Row(r =>
                 {
                     r.AutoItem().Element(ConsentBox);
-                    //r.AutoItem().Text("  Presto il consenso").AlignMiddle();
+                    r.AutoItem().Text("  Presto il consenso");
                 });
 
                 row.RelativeItem().AlignCenter().Row(r =>
                 {
                     r.AutoItem().Element(ConsentBox);
-                    //r.AutoItem().Text("  Nego il consenso").AlignMiddle();
+                    r.AutoItem().Text("  Nego il consenso");
                 });
             });
         }
-
-        // ---- Helpers ----
 
         private static void FieldInline(IContainer container, string label, string value)
         {

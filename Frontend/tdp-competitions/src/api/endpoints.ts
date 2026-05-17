@@ -23,7 +23,9 @@ export const EditorsEndpoints = {
 	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`,
 	sendProblem: '/Editors/problems/send',
 	unsendProblem: (id: string) => `/Editors/problems/unsend/${id}`,
-	report: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${id}/report`
+	downloadWaiverAll: (competitionId: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${competitionId}/waiver`,
+	downloadWaiver: (competitionId: string, registrationId: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${competitionId}/waiver/${registrationId}`,
+	downloadReport: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${id}/report`
 };
 
 export const CompetitorsEndpoints = {

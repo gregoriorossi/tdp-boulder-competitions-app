@@ -209,7 +209,7 @@ namespace TDPCompetitions.Api.Controllers
         public async Task<IActionResult> GenerateWaiver(Guid competitionId, Guid registrationId, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
-            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(competitionId, cancellationToken);
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
 
             if (competition == null)
             {

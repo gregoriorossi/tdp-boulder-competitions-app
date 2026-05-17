@@ -3,9 +3,9 @@ import { useState } from "react";
 import type { IRegistration } from "../../models/competitions.models";
 import { BuildFullName } from "../../utils/competitions.utils";
 import { DateUtils } from "../../utils/date.utils";
+import PrintIcon from '@mui/icons-material/Print';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Articlecon from '@mui/icons-material/Article';
 import { STRINGS } from "../../consts/strings.consts";
 import { MinorRow } from "./MinorRow";
 import classNames from "../../App.module.scss";
@@ -14,6 +14,7 @@ import ConfirmationDialog from "../ConfirmationDialog";
 import { Errors } from "../../consts/errors.consts";
 import { useDeleteRegistration } from "../../queries/registrations.queries";
 import { RegistrationModal } from "../modals/RegistrationModal";
+import { EditorsEndpoints } from "../../api/endpoints";
 
 interface IRegistrationRowProps {
 	registration: IRegistration;
@@ -64,7 +65,13 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 						onClick={(e) => { e.stopPropagation(); setDeleteRegistrationDialogOpen(true); }}>
 						<DeleteIcon />
 					</Button>
-					<Button title={STRINGS.Print}><Articlecon /></Button>
+					<Button
+						title={STRINGS.PrintWaiver}
+						onClick={() => {
+							const url: string = EditorsEndpoints.downloadWaiver(registration.competitionId, registration.id);
+							window.open(url, "_blank");
+						}}><PrintIcon />
+					</Button>
 				</ButtonGroup>
 			</div>
 		</div>

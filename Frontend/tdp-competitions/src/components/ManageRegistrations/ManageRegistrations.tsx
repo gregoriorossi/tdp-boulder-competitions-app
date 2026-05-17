@@ -35,7 +35,7 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 		<div className={classNames.actionsContainer}>
 			<Button
 				onClick={() => {
-					const url: string = EditorsEndpoints.report(competitionId);
+					const url: string = EditorsEndpoints.downloadReport(competitionId);
 					window.open(url, "_blank");
 				}}
 				variant="contained"
@@ -43,7 +43,10 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 				{ManageRegistraionsStrings.DownloadReport}
 			</Button>&nbsp;
 			<Button
-				onClick={() => { }}
+				onClick={() => {
+					const url: string = EditorsEndpoints.downloadWaiverAll(competitionId);
+					window.open(url, "_blank");
+				}}
 				variant="contained"
 				endIcon={<PrintIcon />}>
 				{ManageRegistraionsStrings.PrintAll}

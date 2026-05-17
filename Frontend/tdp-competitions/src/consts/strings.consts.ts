@@ -226,6 +226,7 @@ export const STRINGS = {
 	Document: 'Documento',
 	Details: 'Dettagli',
 	Print: 'Stampa',
+	PrintWaiver: 'Stampa delibera',
 	Edit: 'Modifica',
 	Save: 'Salva',
 	MoveUp: 'Sposta su',

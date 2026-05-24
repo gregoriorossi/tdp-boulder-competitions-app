@@ -18,6 +18,8 @@ declare const classNames: {
   readonly table: "table";
   readonly stickyCell: "stickyCell";
   readonly problem: "problem";
+  readonly rankings: "rankings";
+  readonly actionsContainer: "actionsContainer";
   readonly imagePicker: "imagePicker";
   readonly actions: "actions";
   readonly deleteButtonContainer: "deleteButtonContainer";
@@ -26,7 +28,6 @@ declare const classNames: {
   readonly editorsAllCompetitionsPage: "editorsAllCompetitionsPage";
   readonly actionsSection: "actionsSection";
   readonly editorsCompetitionPage: "editorsCompetitionPage";
-  readonly actionsContainer: "actionsContainer";
   readonly tabs: "tabs";
   readonly tab: "tab";
   readonly manageProblems: "manageProblems";

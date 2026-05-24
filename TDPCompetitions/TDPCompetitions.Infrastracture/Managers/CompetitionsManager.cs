@@ -168,7 +168,7 @@ namespace TDPCompetitions.Infrastracture.Managers
             return result;
         }
 
-        public async Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, CancellationToken cancellationToken)
+        public async Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, Gender gender, CancellationToken cancellationToken)
         {
             Expression<Func<Problem, bool>>  whereFn = p => p.CompetitionId == competitionId;
             var allProblems = await _problemsRepository.GetAllAsync(whereFn, cancellationToken);
@@ -195,6 +195,7 @@ namespace TDPCompetitions.Infrastracture.Managers
                 );
 
             var ranking = competitors
+                .Where(c => gender == Gender.ALL ? true : c.Gender == gender)
                 .Select(c =>
                 {
                     var score = scoreByCompetitorId.GetValueOrDefault(c.Id, 0);

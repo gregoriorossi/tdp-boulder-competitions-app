@@ -147,3 +147,13 @@ export interface IAddRegistrationMinorRequest {
 	addressStreet: string;
 	addressNumber: string;
 }
+
+export interface IGetRankingResponse {
+	position: number;
+	score: number;
+	competitorId: string;
+	firstName: string;
+	lastName: string;
+	gender: number;
+	isMinor: boolean;
+}

@@ -1,5 +1,5 @@
-import type { ICompetitorResponse, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IUpdateCompetitionRequest } from "../models/api.models";
-import { CompetitionStatus, type ICompetition, type IRegistration, type ICompetitor, Gender, type ICompetitionInfo, type ICompetitionInfoForm } from "../models/competitions.models";
+import type { ICompetitorResponse, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IUpdateCompetitionRequest } from "../models/api.models";
+import { CompetitionStatus, type ICompetition, type IRegistration, type ICompetitor, Gender, type ICompetitionInfo, type ICompetitionInfoForm, type IRanking } from "../models/competitions.models";
 
 export default class CompetitionsMappers {
 	public static ToICompetition = (data: IGetAllCompetitionsResponse): ICompetition => {
@@ -99,6 +99,18 @@ export default class CompetitionsMappers {
 			privacyText: competition.privacyAttachmentText,
 			title: competition.title,
 			registrationsOpen: competition.registrationsOpen ?? false
+		};
+	}
+
+	public static ToIRanking = (data: IGetRankingResponse): IRanking => {
+		return {
+			competitorId: data.competitorId,
+			firstName: data.firstName,
+			gender: this.numberToGender(data.gender),
+			isMinor: data.isMinor,
+			lastName: data.lastName,
+			position: data.position,
+			score: data.score
 		};
 	}
 }

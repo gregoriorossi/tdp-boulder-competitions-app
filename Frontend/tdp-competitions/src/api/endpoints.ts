@@ -1,3 +1,5 @@
+import { Gender } from "../models/competitions.models";
+
 export const EditorsEndpoints = {
 	getAllCompetitions: '/Editors/competition/all',
 	getCompetitionById: (id: string) => `/Editors/competition/getById/${id}`,
@@ -5,8 +7,22 @@ export const EditorsEndpoints = {
 	updateCompetition: (id: string) => `/Editors/competition/${id}`,
 	updateCompetitionStatus: '/Editors/competition/updateStatus',
 	deleteCompetition: (id: string) => `/Editors/competition/delete/${id}`,
-	getRankings: (id: string) => `/Editors/competition/${id}/competitors`,
-	getCompetitors: (id: string) => `/Editors/competition/${id}/rankings`,
+	getRankings: (id: string, gender: Gender | null) => {
+		let genderValue: string = "";
+		switch (gender) {
+			case Gender.MALE:
+				genderValue = "?gender=male";
+				break;
+			case Gender.FEMALE:
+				genderValue = "?gender=female";
+				break;
+			default:
+				genderValue = "";
+				break;
+		}
+		return `/Editors/competition/${id}/rankings${genderValue}`;
+	},
+	getCompetitors: (id: string) => `/Editors/competition/${id}/competitors`,
 	getResultsByCompetitionId: (id: string) => `/Editors/results/${id}`,
 	deleteCompetitor: (id: string) => `/Editors/registrations/competitor/${id}`,
 	getProblemsByCompetitionId: (id: string) => `/Editors/problems/get/${id}`,

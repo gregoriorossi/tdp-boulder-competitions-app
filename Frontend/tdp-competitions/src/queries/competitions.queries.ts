@@ -1,8 +1,8 @@
 import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "../api/queryClient";
 import EditorsService from "../services/editors.service";
-import type { IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
-import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, ISpecialProblem } from "../models/competitions.models";
+import type { IGetRankingResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
+import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRanking, ISpecialProblem } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 import CompetitorsService from "../services/competitors.service";
 
@@ -110,6 +110,19 @@ export const useUpdateProblem = (competitionId: string) => {
 		mutationFn: (problem: IProblem) => EditorsService.updateProblem(problem),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
+		}
+	});
+}
+
+export const useRankingByCompetitionById = (id: string, gender: Gender | null): UseQueryResult<IResponse<IRanking[]>> => {
+	return useQuery({
+		queryKey: [...queryKeys.rankings.byCompetitionId(id, gender)],
+		queryFn: async () => {
+			const result = await EditorsService.getRankingByCompetitionId(id, gender);
+			return {
+				...result,
+				value: result?.value?.length ? result.value.map(r => CompetitionsMappers.ToIRanking(r)) : []
+			}
 		}
 	});
 }

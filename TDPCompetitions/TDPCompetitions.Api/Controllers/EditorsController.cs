@@ -232,15 +232,21 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpGet]
         [Route("competition/{competitionId}/rankings")]
-        public async Task<IActionResult> GetRanking(Guid competitionId, CancellationToken cancellationToken)
+        public async Task<IActionResult> GetRanking(Guid competitionId, [FromQuery] string? gender, CancellationToken cancellationToken)
         {
+            Gender? genderFilter = null;
+            if (!gender?.TryParseGender(out genderFilter) ?? false)
+            {
+                return BadRequest("Gender must be male/female or empty");
+            }
+
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
                 return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
             }
 
-            ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, cancellationToken);
+            ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, genderFilter ?? Gender.ALL, cancellationToken);
             return Ok(Result<ICollection<RankingCompetitor>>.Success(ranking));
         }
 

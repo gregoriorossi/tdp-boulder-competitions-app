@@ -57,6 +57,9 @@ export const STRINGS = {
 					const dateStr = DateUtils.ToDateTime(date);
 					return `${dateStr}`
 				}
+			},
+			Ranking: {
+				DownloadRankings: 'Scarica le classifiche'
 			}
 		},
 		RegistrationPage: {

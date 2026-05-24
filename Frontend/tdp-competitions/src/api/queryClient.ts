@@ -1,4 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
+import type { Gender } from "../models/competitions.models";
 
 export const queryClient = new QueryClient({
 	defaultOptions: {
@@ -23,5 +24,8 @@ export const queryKeys = {
 	},
 	registrations: {
 		byCompetitionId: (id: string) => ["registrations-competitionid", id]
+	},
+	rankings: {
+		byCompetitionId: (id: string, gender: Gender | null) => ["ranking-competitionid", id, gender]
 	}
 };

@@ -22,7 +22,7 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken);
         Task<Competitor?> GetCompetitorAsync(Guid competitorId, CancellationToken cancellationToken);
         Task<Competitor> UpdateCompetitorAsync(Competitor competitorUpdated, CancellationToken cancellationToken);
-        Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, CancellationToken cancellationToken);
+        Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, Gender gender, CancellationToken cancellationToken);
         Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken);
         Task<ICollection<Registration>> GetRegistrationsAsync(Guid id, CancellationToken cancellationToken);
         Task DeleteCompetitorAsync(Competitor competitor, CancellationToken cancellationToken);

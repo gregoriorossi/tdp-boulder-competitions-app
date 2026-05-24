@@ -162,3 +162,13 @@ export interface IGetResultsFirstSentBy {
 export interface onChangeSentProblem {
 	problemId: string;
 }
+
+export interface IRanking {
+	position: number;
+	score: number;
+	competitorId: string;
+	firstName: string;
+	lastName: string;
+	gender: Gender;
+	isMinor: boolean;
+}

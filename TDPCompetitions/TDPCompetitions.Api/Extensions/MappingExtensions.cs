@@ -13,8 +13,31 @@ namespace TDPCompetitions.Api.Extensions
                 case 1:
                     return Gender.FEMALE;
                 default:
-                    return Gender.UNKNOWN;
+                    return Gender.ALL;
             }
+        }
+
+        public static bool TryParseGender(this string? input, out Gender? gender)
+        {
+            gender = null;
+
+            if (string.IsNullOrEmpty(input) || input.Equals("all", StringComparison.OrdinalIgnoreCase))
+            {
+                gender = Gender.ALL;
+                return true;
+            }
+
+            if (input.Equals("male", StringComparison.OrdinalIgnoreCase))
+            {
+                gender = Gender.MALE;
+                return true;
+            } else if (input.Equals("female", StringComparison.OrdinalIgnoreCase))
+            {
+                gender = Gender.FEMALE;
+                return true;
+            }
+
+            return false;
         }
 
         public static CompetitionStatus? IntToStatus(this int status)

@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddProblemRequest, IAddRegistrationRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
-import type { ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISpecialProblem } from "../models/competitions.models";
+import type { IAddCompetitionRequest, IAddProblemRequest, IAddRegistrationRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
+import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISpecialProblem } from "../models/competitions.models";
 
 export default class EditorsService {
 
@@ -151,5 +151,10 @@ export default class EditorsService {
 	public static unsendProblem = async (id: string): Promise<IResponse<boolean>> => {
 		const data = await editorsApi.delete(EditorsEndpoints.unsendProblem(id));
 		return data.data as IResponse<boolean>;
+	}
+
+	public static getRankingByCompetitionId = async (id: string, gender: Gender | null): Promise<IResponse<IGetRankingResponse[]>> => {
+		const data = await editorsApi.get(EditorsEndpoints.getRankings(id, gender));
+		return data.data as IResponse<IGetRankingResponse[]>;
 	}
 }

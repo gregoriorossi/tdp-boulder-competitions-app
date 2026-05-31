@@ -4,7 +4,7 @@ export class LinkUtils {
 		return `/editors/competition/${id}`;
 	}
 
-	public static SlugToPublicFormUrl = (slug: string): string => {
-		return `${import.meta.env.VITE_BASE_URL}/gara/${slug}`;
+	public static SlugToRegistrationFormUrl = (slug: string): string => {
+		return `${import.meta.env.VITE_BASE_URL}/registrati/${slug}`;
 	}
 }

@@ -16,7 +16,7 @@ export const STRINGS = {
 		},
 		EditorCompetitionPage: {
 			Actions: {
-				GetPublicUrl: 'Copia l\'url',
+				GetRegistrationUrl: 'Url iscrizioni',
 				ClickToCopy: 'Clicca qui per copiare',
 				UrlCopied: 'Url copiato negli appunti!',
 				ToDraft: 'Riporta a bozza',
@@ -59,11 +59,14 @@ export const STRINGS = {
 				}
 			},
 			Ranking: {
-				DownloadRankings: 'Scarica le classifiche'
+				DownloadRankings: 'Scarica'
 			}
 		},
 		RegistrationPage: {
-			RegistrationsClosed: 'Registrazioni chiuse, al momento non è possibile registrarsi alla gara.'
+			RegistrationsClosed: 'Registrazioni chiuse, al momento non è possibile registrarsi alla gara.',
+			MinorsSectionTitle: 'Minori',
+			MinorsSectionText: 'Se accompagni dei minori, registrali premendo il tasto +',
+			AddMinor: 'Aggiungi un minore'
 		}
 	},
 	Modals: {

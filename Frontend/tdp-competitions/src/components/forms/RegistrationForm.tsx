@@ -59,7 +59,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 	return <Box
 		className={classNames.form}
 		component="form"
-		onSubmit={handleSubmit(onSubmit)}	>
+		onSubmit={handleSubmit(onSubmit)}>
 
 		<TextField
 			label={FieldsStrings.FirstName}

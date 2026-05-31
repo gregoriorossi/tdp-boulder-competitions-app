@@ -326,6 +326,29 @@
         background-repeat: no-repeat;
         aspect-ratio: 5;
     }
+
+    .formContainer {
+        margin-top: 2rem;
+        justify-content: center;
+        display: flex;
+        flex-direction: row;
+
+        .form {
+            max-width: 800px;
+            width: 100%;
+
+            .minors {
+                .header {
+                    display: flex;
+                    justify-content: space-between;
+
+                    h3 {
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
 }
 
 .logo {

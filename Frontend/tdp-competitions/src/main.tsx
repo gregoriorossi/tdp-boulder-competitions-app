@@ -25,7 +25,7 @@ const router = createBrowserRouter([
 		element: <EditorsCompetitionPage />
 	},
 	{
-		path: '/gara/:slug',
+		path: '/registrati/:slug',
 		element: <RegistrationPage />
 	},
 	{

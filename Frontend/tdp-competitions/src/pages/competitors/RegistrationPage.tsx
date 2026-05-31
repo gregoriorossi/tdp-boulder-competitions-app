@@ -8,6 +8,7 @@ import { Alert } from "@mui/material";
 import { STRINGS } from "../../consts/strings.consts";
 import classNames from "../../App.module.scss";
 import FilesService from "../../services/files.service";
+import { RegistrationForm } from "./RegistrationForm.tsx/RegistrationForm";
 
 const PageStrings = STRINGS.Pages.RegistrationPage;
 
@@ -30,7 +31,6 @@ export function RegistrationPage() {
 
 
 	const competition: ICompetitionInfo = response?.value as ICompetitionInfo;
-	console.log("competition", response);
 	const bannerImageUrl: string | null = competition.bannerImageId ? FilesService.getFileUrl(competition.bannerImageId) : null;
 
 	return <div className={classNames.registrationsPage}>
@@ -42,10 +42,11 @@ export function RegistrationPage() {
 		<div dangerouslySetInnerHTML={{ __html: competition.description }}></div>
 
 		{
-			!competition.registrationsOpen &&
-			<Alert severity="warning">
-				{PageStrings.RegistrationsClosed}
-			</Alert>
+			!competition.registrationsOpen ?
+				<Alert severity="warning">
+					{PageStrings.RegistrationsClosed}
+				</Alert>
+				: <RegistrationForm competitionId={competition.id} />
 		}
 	</div>
 }

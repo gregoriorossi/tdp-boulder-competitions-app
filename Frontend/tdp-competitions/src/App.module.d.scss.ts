@@ -43,6 +43,9 @@ declare const classNames: {
   readonly minorRow: "minorRow";
   readonly registrationsPage: "registrationsPage";
   readonly banner: "banner";
+  readonly formContainer: "formContainer";
+  readonly form: "form";
+  readonly minors: "minors";
   readonly react: "react";
   readonly card: "card";
   readonly greenIcon: "greenIcon";
@@ -51,7 +54,6 @@ declare const classNames: {
   readonly modal: "modal";
   readonly modalHeader: "modalHeader";
   readonly modalBody: "modalBody";
-  readonly form: "form";
   readonly editProblemsGroupsModal: "editProblemsGroupsModal";
   readonly groupsList: "groupsList";
   readonly square: "square";

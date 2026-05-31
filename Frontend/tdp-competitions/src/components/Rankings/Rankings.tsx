@@ -53,6 +53,7 @@ export function Rankings(props: IRankingsProps) {
 					//const url: string = EditorsEndpoints.downloadReport(competitionId);
 					//window.open(url, "_blank");
 				}}
+				title={RankingsStrings.DownloadRankings}
 				variant="contained"
 				endIcon={<DownloadIcon />}>
 				{RankingsStrings.DownloadRankings}

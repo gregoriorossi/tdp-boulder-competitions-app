@@ -16,7 +16,7 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 	const [alertVisible, setAlertVisible] = useState<boolean>(false);
 
 	const textRef = useRef<HTMLParagraphElement>(null);
-	const publicUrl: string = LinkUtils.SlugToPublicFormUrl(props.competitionSlug);
+	const publicUrl: string = LinkUtils.SlugToRegistrationFormUrl(props.competitionSlug);
 
 	const closeModal = () => {
 		setModalOpen(false);
@@ -48,8 +48,8 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 
 
 	return <>
-		<Button onClick={() => setModalOpen(true)} title={FormString.GetPublicUrl} variant="contained">
-			<LinkIcon />&nbsp;{FormString.GetPublicUrl}
+		<Button onClick={() => setModalOpen(true)} title={FormString.GetRegistrationUrl} variant="contained">
+			<LinkIcon />&nbsp;{FormString.GetRegistrationUrl}
 		</Button>
 		<Modal open={modalOpen} onClose={closeModal}>
 			<div className={classNames.modal} title={FormString.ClickToCopy}>

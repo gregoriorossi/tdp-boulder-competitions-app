@@ -1,25 +1,25 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { STRINGS } from "../../../consts/strings.consts";
-import { ErrorMessage } from "../../../components/ErrorMessage";
-import { Spinner } from "../../../components/Spinner";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registrationSchema, type IRegistrationForm, type IMinorForm } from "../../../form-schemas/registrations.schemas";
 import { Controller, useForm } from "react-hook-form";
-import { Errors } from "../../../consts/errors.consts";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
-import classNames from "../../../App.module.scss";
-import { genderToString } from "../../../utils/competitions.utils";
-import { GENDERS } from "../../../models/competitions.models";
 const FormStrings = STRINGS.Forms.Registration;
 const FieldsStrings = FormStrings.Fields;
 const RegistrationPageStrings = STRINGS.Pages.RegistrationPage;
 import dayjs, { Dayjs } from "dayjs";
-import type { IAddRegistrationRequest } from "../../../models/api.models";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
-import { useAddCompetitorRegistration } from "../../../queries/competitors.queries";
 import { MinorForm } from "./MinorForm";
 import { Minor } from "./Minor";
+import { STRINGS } from "../../../../consts/strings.consts";
+import { Errors } from "../../../../consts/errors.consts";
+import { registrationSchema, type IMinorForm, type IRegistrationForm } from "../../../../form-schemas/registrations.schemas";
+import { GENDERS } from "../../../../models/competitions.models";
+import { genderToString } from "../../../../utils/competitions.utils";
+import type { IAddRegistrationRequest } from "../../../../models/api.models";
+import { useAddCompetitorRegistration } from "../../../../queries/competitors.queries";
+import { ErrorMessage } from "../../../../components/ErrorMessage";
+import { Spinner } from "../../../../components/Spinner";
+import classNames from "../../../../App.module.scss";
 
 interface IRegistrationFormProps {
 	competitionId: string;
@@ -72,6 +72,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 	}
 
 	const onMinorChange = (minor: IMinorForm, index: number) => {
+
 		setMinors(prev => 
 			prev.map((m, i) => i === index ? minor : m)
 		);

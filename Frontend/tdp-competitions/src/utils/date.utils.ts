@@ -35,3 +35,12 @@ export const converDateInForm = (_value: string, originalValue) => {
 	const asDate = new Date(originalValue as string);
 	return isNaN(asDate.getTime()) ? undefined : asDate;
 }
+
+export const getDateMinusYears = (yearsAge: number): Date => {
+	const today = new Date();
+	return new Date(
+		today.getFullYear() - yearsAge,
+		today.getMonth(),
+		today.getDate()
+	);
+}

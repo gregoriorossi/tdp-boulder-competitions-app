@@ -1,6 +1,6 @@
 import *  as yup from "yup";
 import { STRINGS } from "../consts/strings.consts";
-import { converDateInForm } from "../utils/date.utils";
+import { converDateInForm, getDateMinusYears } from "../utils/date.utils";
 import { GENDERS } from "../models/competitions.models";
 const Errors = STRINGS.Errors;
 const RegistrationStrings = STRINGS.Forms.Registration;
@@ -18,6 +18,13 @@ export const registrationSchema = yup.object({
 	birthDate: yup.date()
 		.required(Errors.Mandatory)
 		.transform(converDateInForm)
+		.test(
+			"is-adult",
+			Errors.MinAge(18),
+			(value) => {
+				const minDate = getDateMinusYears(18);
+				return value <= minDate;
+			})
 		.typeError(Errors.DateInvalid),
 	gender: yup.number()
 		.oneOf(GENDERS)
@@ -54,6 +61,15 @@ export const minorSchema = yup.object({
 	birthDate: yup.date()
 		.required(Errors.Mandatory)
 		.transform(converDateInForm)
+		.test(
+			"is-minor",
+			Errors.MaxAge(18),
+			(value) => {
+				const dateThreshold = getDateMinusYears(18);
+				return value > dateThreshold;
+			}
+
+		)
 		.typeError(Errors.DateInvalid),
 	gender: yup.number()
 		.oneOf(GENDERS)

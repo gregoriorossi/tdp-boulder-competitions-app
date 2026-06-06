@@ -255,6 +255,8 @@ export const STRINGS = {
 		Mandatory: 'Campo obbligatorio',
 		ImageTooLarge: (limit: string) => `L'immagine non può superare ${limit}`,
 		FileTooLarge: (limit: string) => `Il file non può superare ${limit}`,
+		MaxAge: (years: number) => `La persona non deve avere compiuto ${years} anni`,
+		MinAge: (years: number) => `Devi avere compiuto almeno ${years} anni`
 	}
 }
 

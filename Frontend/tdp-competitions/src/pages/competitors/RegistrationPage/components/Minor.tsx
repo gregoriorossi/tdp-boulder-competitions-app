@@ -1,11 +1,11 @@
 import IconButton from "@mui/material/IconButton";
-import type { IMinorForm } from "../../../form-schemas/registrations.schemas";
+import type { IMinorForm } from "../../../../form-schemas/registrations.schemas";
 import DeleteIcon from '@mui/icons-material/Delete';
-import { STRINGS } from "../../../consts/strings.consts";
-import classNames from "../../../App.module.scss";
+import { STRINGS } from "../../../../consts/strings.consts";
+import classNames from "../../../../App.module.scss";
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
-import ConfirmationDialog from "../../../components/ConfirmationDialog";
+import ConfirmationDialog from "../../../../components/ConfirmationDialog";
 import { MinorForm } from "./MinorForm";
 const DeleteMinorDialogStrings = STRINGS.Pages.RegistrationPage.Dialogs.DeleteMinor;
 

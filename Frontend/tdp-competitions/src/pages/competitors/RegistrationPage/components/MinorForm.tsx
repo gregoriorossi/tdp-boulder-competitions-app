@@ -1,16 +1,17 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import classNames from "../../../App.module.scss";
 import { Controller, useForm } from "react-hook-form";
-import { GENDERS } from "../../../models/competitions.models";
-import { STRINGS } from "../../../consts/strings.consts";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { minorSchema, type IMinorForm } from "../../../form-schemas/registrations.schemas";
-import { BaseModal, type IBaseModalProps } from "../../../components/modals/BaseModal";
-import { genderToString } from "../../../utils/competitions.utils";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 const FormStrings = STRINGS.Forms.Registration;
 const FieldsStrings = FormStrings.Fields;
 import dayjs, { Dayjs } from "dayjs";
+import { minorSchema, type IMinorForm } from "../../../../form-schemas/registrations.schemas";
+import { BaseModal, type IBaseModalProps } from "../../../../components/modals/BaseModal";
+import { GENDERS } from "../../../../models/competitions.models";
+import { genderToString } from "../../../../utils/competitions.utils";
+import { STRINGS } from "../../../../consts/strings.consts";
+import classNames from "../../../../App.module.scss";
+import { getDateMinusYears } from "../../../../utils/date.utils";
 
 interface IMinorFormProps extends IBaseModalProps {
 	minor?: IMinorForm;
@@ -25,11 +26,14 @@ export function MinorForm(props: IMinorFormProps) {
 	});
 
 	const onSubmitFn = (data: IMinorForm) => {
-		onSubmit(data);
-		reset();
-		onClose();
+		console.log("data", data);
+		console.log("errors", errors);
+		//onSubmit(data);
+		//reset();
+		//onClose();
 	}
 
+	console.log("year", getDateMinusYears(18));
 	return <BaseModal
 		className={classNames.editProblemsGroupsModal}
 		open={open}
@@ -38,7 +42,6 @@ export function MinorForm(props: IMinorFormProps) {
 			className={classNames.form}
 			component="form"
 			onSubmit={handleSubmit(onSubmitFn)}>
-
 			<TextField
 				label={FieldsStrings.FirstName}
 				{...register("firstName")}

@@ -1,14 +1,14 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useCompetitionBySlug } from "../../queries/competitions.queries";
-import { Spinner } from "../../components/Spinner";
-import type { ICompetitionInfo } from "../../models/competitions.models";
-import { Routes } from "../../consts/routes.consts";
-import { Errors } from "../../consts/errors.consts";
 import { Alert } from "@mui/material";
-import { STRINGS } from "../../consts/strings.consts";
-import classNames from "../../App.module.scss";
-import FilesService from "../../services/files.service";
-import { RegistrationForm } from "./RegistrationForm.tsx/RegistrationForm";
+import { RegistrationForm } from "./components/RegistrationForm";
+import { useCompetitionBySlug } from "../../../queries/competitions.queries";
+import { Routes } from "../../../consts/routes.consts";
+import type { ICompetitionInfo } from "../../../models/competitions.models";
+import { Spinner } from "../../../components/Spinner";
+import FilesService from "../../../services/files.service";
+import { Errors } from "../../../consts/errors.consts";
+import { STRINGS } from "../../../consts/strings.consts";
+import classNames from "../../../App.module.scss";
 
 const PageStrings = STRINGS.Pages.RegistrationPage;
 

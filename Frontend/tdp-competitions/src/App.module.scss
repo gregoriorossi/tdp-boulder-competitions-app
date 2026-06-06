@@ -346,6 +346,17 @@
                         margin: 0;
                     }
                 }
+
+                .buttonsContainer {
+                    display: flex;
+                    flex-direction: column;
+
+                    .minor {
+                        display: flex;
+                        justify-content: end;
+                        align-items: center;
+                    }
+                }
             }
         }
     }

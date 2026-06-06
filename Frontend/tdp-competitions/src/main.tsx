@@ -13,7 +13,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'; 
 import { EditorsCompetitionPage } from './pages/editors/EditorsCompetitionPage';
 import { RegistrationPage } from './pages/competitors/RegistrationPage';
-
+import { itIT } from '@mui/x-date-pickers/locales';
+import 'dayjs/locale/it';
 
 const router = createBrowserRouter([
 	{
@@ -50,7 +51,10 @@ createRoot(document.getElementById('root')!).render(
 		<StrictMode>
 			<QueryClientProvider client={queryClient}>
 				<ThemeProvider theme={theme}>
-					<LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="it">
+					<LocalizationProvider
+						dateAdapter={AdapterDayjs}
+						adapterLocale="it"
+						localeText={itIT.components.MuiLocalizationProvider.defaultProps.localeText}>
 						<RouterProvider router={router} />
 					</LocalizationProvider>
 				</ThemeProvider>

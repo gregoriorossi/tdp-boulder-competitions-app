@@ -3,10 +3,10 @@ import { STRINGS } from "../../../consts/strings.consts";
 import { ErrorMessage } from "../../../components/ErrorMessage";
 import { Spinner } from "../../../components/Spinner";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registrationSchema, type IRegistrationForm } from "../../../form-schemas/registrations.schemas";
+import { registrationSchema, type IRegistrationForm, type IMinorForm } from "../../../form-schemas/registrations.schemas";
 import { Controller, useForm } from "react-hook-form";
 import { Errors } from "../../../consts/errors.consts";
-import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import classNames from "../../../App.module.scss";
 import { genderToString } from "../../../utils/competitions.utils";
 import { GENDERS } from "../../../models/competitions.models";
@@ -15,16 +15,14 @@ const FieldsStrings = FormStrings.Fields;
 const RegistrationPageStrings = STRINGS.Pages.RegistrationPage;
 import dayjs, { Dayjs } from "dayjs";
 import type { IAddRegistrationRequest } from "../../../models/api.models";
-import { useAddRegistration } from "../../../queries/registrations.queries";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
+import { useAddCompetitorRegistration } from "../../../queries/competitors.queries";
+import { MinorForm } from "./MinorForm";
+import { Minor } from "./Minor";
 
 interface IRegistrationFormProps {
 	competitionId: string;
-}
-
-interface IMinor {
-
 }
 
 export function RegistrationForm(props: IRegistrationFormProps) {
@@ -34,9 +32,10 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 		resolver: yupResolver(registrationSchema)
 	});
 
-	const [minors, setMinors] = useState<IMinor[]>([]);
+	const [minors, setMinors] = useState<IMinorForm[]>([]);
+	const [isMinorModalOpen, setIsMinorModalOpen] = useState<boolean>(false);
 
-	const { data: addRegistrationData, error: addRegistrationError, mutateAsync: addRegistrationMutateAsync, isPending: addRegistrationIsPending } = useAddRegistration(competitionId);
+	const { data: addRegistrationData, error: addRegistrationError, mutateAsync: addRegistrationMutateAsync, isPending: addRegistrationIsPending } = useAddCompetitorRegistration(competitionId);
 	const errorCode: string | null = addRegistrationData?.error?.code ?? (addRegistrationError ? Errors.Generic : null);
 
 	const onSubmit = async (data: IRegistrationForm) => {
@@ -64,11 +63,18 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 		}
 	}
 
-	const onMinorAdded = (minor: IMinor) => {
+	const onMinorAdd = (minor: IMinorForm) => {
 		setMinors([...minors, minor]);
 	}
 
-	const onMinorDeleted = (minor: IMinor) => {
+	const onMinorDelete = (index: number) => {
+		setMinors(minors.filter((_, i) => i !== index));
+	}
+
+	const onMinorChange = (minor: IMinorForm, index: number) => {
+		setMinors(prev => 
+			prev.map((m, i) => i === index ? minor : m)
+		);
 	}
 
 	return <div className={classNames.formContainer}>
@@ -102,7 +108,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 					({ field }) => {
 						const dayJsValue: Dayjs | null = field.value ? dayjs(field.value) : null;
 						return (
-							<DateTimePicker
+							<DatePicker
 								label={FormStrings.Fields.BirthDate}
 								value={dayJsValue}
 								onChange={(newValue) => {
@@ -115,7 +121,6 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 										fullWidth: true
 									}
 								}}
-								ampm={false}
 								format="DD/MM/YYYY" />
 						)
 					}} />
@@ -205,15 +210,32 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 					<Button
 						type="submit"
 						variant="contained"
+						onClick={(e) => {
+							e.preventDefault();
+							setIsMinorModalOpen(true);
+						}}
 						title={RegistrationPageStrings.AddMinor}>
 						<AddIcon />
 					</Button>
 				</div>
 				<p>{RegistrationPageStrings.MinorsSectionText}</p>
+				<div className={classNames.buttonsContainer}>
+					{minors.map((m, idx) =>
+						<Minor
+							index={idx}
+							minor={m}
+							onDelete={onMinorDelete}
+							onChange={onMinorChange}
+							key={`${idx}${m.firstName}`} />)}
+				</div>
 			</div>
 			<Button type="submit" variant="contained">
-				{STRINGS.Save}
+				{STRINGS.Register}
 			</Button>
 		</Box>
+		<MinorForm
+			onSubmit={onMinorAdd}
+			open={isMinorModalOpen}
+			onClose={() => setIsMinorModalOpen(false)} />
 	</div>;
 }

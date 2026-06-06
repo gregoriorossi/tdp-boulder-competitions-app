@@ -66,7 +66,13 @@ export const STRINGS = {
 			RegistrationsClosed: 'Registrazioni chiuse, al momento non è possibile registrarsi alla gara.',
 			MinorsSectionTitle: 'Minori',
 			MinorsSectionText: 'Se accompagni dei minori, registrali premendo il tasto +',
-			AddMinor: 'Aggiungi un minore'
+			AddMinor: 'Aggiungi un minore',
+			Dialogs: {
+				DeleteMinor: {
+					Title: (firstName: string, lastName: string) => `Vuoi cancellare ${firstName} ${lastName}?`,
+					Content: ''
+				},
+			}
 		}
 	},
 	Modals: {
@@ -234,6 +240,7 @@ export const STRINGS = {
 	Print: 'Stampa',
 	PrintWaiver: 'Stampa delibera',
 	Edit: 'Modifica',
+	Register: 'Registrati',
 	Save: 'Salva',
 	MoveUp: 'Sposta su',
 	MoveDown: 'Sposta giù',

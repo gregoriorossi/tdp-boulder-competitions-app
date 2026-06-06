@@ -46,6 +46,8 @@ declare const classNames: {
   readonly formContainer: "formContainer";
   readonly form: "form";
   readonly minors: "minors";
+  readonly buttonsContainer: "buttonsContainer";
+  readonly minor: "minor";
   readonly react: "react";
   readonly card: "card";
   readonly greenIcon: "greenIcon";

@@ -91,3 +91,16 @@ export interface IRegistrationForm {
 	addressNumber: string;
 	phoneNumber: string;
 }
+
+export interface IMinorForm {
+	firstName: string;
+	lastName: string;
+	birthDate: Date;
+	gender: number;
+	birthPlace: string;
+	birthProvince: string;
+	addressCity: string;
+	addressProvince: string;
+	addressStreet: string;
+	addressNumber: string;
+}

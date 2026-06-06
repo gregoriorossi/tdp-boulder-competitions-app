@@ -48,7 +48,9 @@ export const registrationSchema = yup.object({
 		.required(Errors.Mandatory),
 	phoneNumber: yup.string()
 		.required(Errors.Mandatory)
-		.min(7, (Errors.MinLength(7)))
+		.min(7, (Errors.MinLength(7))),
+	acceptPrivacy: yup.boolean()
+		.oneOf([true], Errors.PrivacyMandatory)
 });
 
 export const minorSchema = yup.object({

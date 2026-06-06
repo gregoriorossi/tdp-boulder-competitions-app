@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -20,9 +20,11 @@ import { useAddCompetitorRegistration } from "../../../../queries/competitors.qu
 import { ErrorMessage } from "../../../../components/ErrorMessage";
 import { Spinner } from "../../../../components/Spinner";
 import classNames from "../../../../App.module.scss";
+import { PrivacyText } from "./PrivacyText";
 
 interface IRegistrationFormProps {
 	competitionId: string;
+	privacyFileUrl: string | null;
 }
 
 export function RegistrationForm(props: IRegistrationFormProps) {
@@ -73,7 +75,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 
 	const onMinorChange = (minor: IMinorForm, index: number) => {
 
-		setMinors(prev => 
+		setMinors(prev =>
 			prev.map((m, i) => i === index ? minor : m)
 		);
 	}
@@ -194,6 +196,29 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 				error={!!errors.phoneNumber}
 				helperText={errors.phoneNumber?.message} />
 
+			<Controller
+				name="acceptPrivacy"
+				control={control}
+				render={({ field }) => (
+					<>
+
+						<FormControlLabel
+							control={
+								<Checkbox
+									{...field}
+									checked={field.value}
+								/>
+							}
+							label={<PrivacyText fileId={props.privacyFileUrl} />}
+						/>
+
+						{errors.acceptPrivacy && (
+							<Typography variant="caption" color="error">
+								{errors.acceptPrivacy.message}
+							</Typography>
+						)}
+					</>
+				)} />
 			{
 				addRegistrationIsPending && <Spinner />
 			}
@@ -202,8 +227,6 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 				errorCode &&
 				<ErrorMessage errorCode={errorCode ?? ''} />
 			}
-
-			[TODO] INFORMATIVA PRIVACY
 
 			<div className={classNames.minors}>
 				<div className={classNames.header}>

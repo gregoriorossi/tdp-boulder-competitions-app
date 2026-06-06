@@ -67,6 +67,8 @@ export const STRINGS = {
 			MinorsSectionTitle: 'Minori',
 			MinorsSectionText: 'Se accompagni dei minori, registrali premendo il tasto +',
 			AddMinor: 'Aggiungi un minore',
+			AcceptPrivacy: 'Accetto i termini e condizioni',
+			PrivacyLink: 'Informativa privacy',
 			Dialogs: {
 				DeleteMinor: {
 					Title: (firstName: string, lastName: string) => `Vuoi cancellare ${firstName} ${lastName}?`,
@@ -256,7 +258,8 @@ export const STRINGS = {
 		ImageTooLarge: (limit: string) => `L'immagine non può superare ${limit}`,
 		FileTooLarge: (limit: string) => `Il file non può superare ${limit}`,
 		MaxAge: (years: number) => `La persona non deve avere compiuto ${years} anni`,
-		MinAge: (years: number) => `Devi avere compiuto almeno ${years} anni`
+		MinAge: (years: number) => `Devi avere compiuto almeno ${years} anni`,
+		PrivacyMandatory: 'Devi accettare l\'informativa sulla privacy'
 	}
 }
 

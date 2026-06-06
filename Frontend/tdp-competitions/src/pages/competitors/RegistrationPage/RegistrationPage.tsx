@@ -46,7 +46,9 @@ export function RegistrationPage() {
 				<Alert severity="warning">
 					{PageStrings.RegistrationsClosed}
 				</Alert>
-				: <RegistrationForm competitionId={competition.id} />
+				: <RegistrationForm
+					competitionId={competition.id}
+					privacyFileUrl={competition.privacyAttachmentId}				/>
 		}
 	</div>
 }

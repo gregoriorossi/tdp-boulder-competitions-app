@@ -1,19 +1,19 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
-import { STRINGS } from "../../consts/strings.consts";
 import { Alert, Box, Button, TextField } from "@mui/material";
-import { useAddCompetition } from "../../queries/competitions.queries";
-import { ErrorMessage } from "../ErrorMessage";
-import classNames from "../../App.module.scss";
-import { BaseModal, type IBaseModalProps } from "./BaseModal";
-import { addCompetitionSchema } from "../../form-schemas/competitions.schemas";
 import type { Dayjs } from 'dayjs';
 import dayjs from "dayjs";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
-import { Spinner } from "../Spinner";
+import { BaseModal, type IBaseModalProps } from "../../../../components/modals/BaseModal";
+import { STRINGS } from "../../../../consts/strings.consts";
+import { addCompetitionSchema } from "../../../../form-schemas/competitions.schemas";
+import { useAddCompetition } from "../../../../queries/competitions.queries";
+import { ErrorMessage } from "../../../../components/ErrorMessage";
+import { Spinner } from "../../../../components/Spinner";
+import classNames from "../../../../App.module.scss";
 
 
-const FormStrings = STRINGS.Modals.NewCompetition;
+const FormStrings = STRINGS.Pages.EditorsAllCompetitionsPage.Modals.NewCompetition;
 
 interface INewCompetitionModalProps extends IBaseModalProps {
 	onCreated: () => void;

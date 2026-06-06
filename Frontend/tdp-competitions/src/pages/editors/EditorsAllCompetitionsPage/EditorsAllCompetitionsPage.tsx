@@ -1,22 +1,22 @@
 import { TableContainer, Paper, Table, TableHead, TableRow, TableCell, TableBody, ButtonGroup, Button, Alert, styled, tableCellClasses } from "@mui/material";
 import { Link } from "react-router-dom";
-import { useCompetitions, useDeleteCompetition } from "../../queries/competitions.queries";
-import { STRINGS } from "../../consts/strings.consts";
+import { useCompetitions, useDeleteCompetition } from "../../../queries/competitions.queries";
+import { STRINGS } from "../../../consts/strings.consts";
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import CheckIcon from '@mui/icons-material/Check';
 import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
-import { LinkUtils } from "../../utils/link.utils";
-import { ErrorMessage } from "../../components/ErrorMessage";
-import { DateUtils } from "../../utils/date.utils";
-import classNames from "../../App.module.scss";
-import { EditorsPageWrapper } from "./EditorsPageWrapper";
-import { Spinner } from "../../components/Spinner";
+import { LinkUtils } from "../../../utils/link.utils";
+import { ErrorMessage } from "../../../components/ErrorMessage";
+import { DateUtils } from "../../../utils/date.utils";
+import { EditorsPageWrapper } from "../EditorsPageWrapper";
+import { Spinner } from "../../../components/Spinner";
 import React from "react";
-import ConfirmationDialog from "../../components/ConfirmationDialog";
-import { NewCompetitionModal } from "../../components/modals/NewCompetitionModal";
-import { Errors } from "../../consts/errors.consts";
+import ConfirmationDialog from "../../../components/ConfirmationDialog";
+import { Errors } from "../../../consts/errors.consts";
+import classNames from "../../../App.module.scss";
+import { NewCompetitionModal } from "./components/NewCompetitionModal";
 
 const PageStrings = STRINGS.Pages.EditorsAllCompetitionsPage;
 
@@ -74,7 +74,7 @@ export function EditorsAllCompetitionsPage() {
 				</Button>
 			</div>
 			{
-				(response?.isSuccess && response?.value.length === 0) &&
+				(response?.isSuccess && response?.value?.length === 0) &&
 				<Alert severity="info">{PageStrings.NoCompetitionsAvailable}</Alert>
 			}
 
@@ -107,7 +107,7 @@ export function EditorsAllCompetitionsPage() {
 						</TableHead>
 						<TableBody>
 							{
-								response?.value
+								response?.value!
 									.map((competition, idx) => (
 										<StyledTableRow key={idx}>
 											<StyledTableCell colSpan={5}>{competition.title}</StyledTableCell>

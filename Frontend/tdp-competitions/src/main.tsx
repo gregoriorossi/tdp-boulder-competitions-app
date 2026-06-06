@@ -6,7 +6,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { queryClient } from './api/queryClient';
 import { NotFoundPage } from './pages/NotFoundPage';
-import { EditorsAllCompetitionsPage } from './pages/editors/EditorsAllCompetitionsPage';
+import { EditorsAllCompetitionsPage } from './pages/editors/EditorsAllCompetitionsPage/EditorsAllCompetitionsPage';
 import classNames from './App.module.scss';
 
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';

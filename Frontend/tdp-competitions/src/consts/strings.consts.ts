@@ -13,6 +13,21 @@ export const STRINGS = {
 				DateColumn: 'Data',
 				ActiveColumn: 'Attivo'
 			}, 
+			Modals: {
+				NewCompetition: {
+					Title: "Crea una nuova gara",
+					Fields: {
+						Title: "Nome",
+						Date: "Data"
+					},
+					Errors: {
+						Title: "Il titolo della gara è obbligatorio",
+						TitleLength: "Il titolo deve essere lungo almeno 5 caratteri",
+						Date: "La data è obbligatoria",
+						DateValid: "Inserisci una data valida"
+					}
+				}
+			}
 		},
 		EditorCompetitionPage: {
 			Actions: {
@@ -78,19 +93,6 @@ export const STRINGS = {
 		}
 	},
 	Modals: {
-		NewCompetition: {
-			Title: "Crea una nuova gara",
-			Fields: {
-				Title: "Nome",
-				Date: "Data"
-			},
-			Errors: {
-				Title: "Il titolo della gara è obbligatorio",
-				TitleLength: "Il titolo deve essere lungo almeno 5 caratteri",
-				Date: "La data è obbligatoria",
-				DateValid: "Inserisci una data valida"
-			}
-		},
 		SpecialProblem: {
 			New: 'Crea un nuovo blocco premio',
 			Edit: 'Modifica blocco premio',

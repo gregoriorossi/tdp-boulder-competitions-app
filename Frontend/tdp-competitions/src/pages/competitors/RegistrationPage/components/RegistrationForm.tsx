@@ -25,6 +25,7 @@ import { PrivacyText } from "./PrivacyText";
 interface IRegistrationFormProps {
 	competitionId: string;
 	privacyFileUrl: string | null;
+	privacyText: string;
 }
 
 export function RegistrationForm(props: IRegistrationFormProps) {
@@ -209,7 +210,9 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 									checked={field.value}
 								/>
 							}
-							label={<PrivacyText fileId={props.privacyFileUrl} />}
+							label={<PrivacyText
+								fileId={props.privacyFileUrl}
+								privacyText={props.privacyText} />}
 						/>
 
 						{errors.acceptPrivacy && (

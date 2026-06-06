@@ -48,7 +48,8 @@ export function RegistrationPage() {
 				</Alert>
 				: <RegistrationForm
 					competitionId={competition.id}
-					privacyFileUrl={competition.privacyAttachmentId}				/>
+					privacyFileUrl={competition.privacyAttachmentId}
+					privacyText={competition.privacyText} />
 		}
 	</div>
 }

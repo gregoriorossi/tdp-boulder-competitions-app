@@ -337,6 +337,12 @@
             max-width: 800px;
             width: 100%;
 
+            .privacyText {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+            }
+
             .minors {
                 .header {
                     display: flex;

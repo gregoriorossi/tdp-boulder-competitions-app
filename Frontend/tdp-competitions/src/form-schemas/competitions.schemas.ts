@@ -5,7 +5,7 @@ import { converDateInForm } from "../utils/date.utils";
 export const MAX_IMAGE_SIZE = 3 * 1024 * 1024; // 3MB
 export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
-const AddCompetitionStrings = STRINGS.Modals.NewCompetition;
+const AddCompetitionStrings = STRINGS.Pages.EditorsAllCompetitionsPage.Modals.NewCompetition;
 const SpecialProblemStrings = STRINGS.Modals.SpecialProblem;
 const ProblemsStrings = STRINGS.Modals.Problem;
 const UpdateCompetitionStrings = STRINGS.Forms.Competition;

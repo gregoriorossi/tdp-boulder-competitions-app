@@ -29,7 +29,7 @@ export const STRINGS = {
 				}
 			}
 		},
-		EditorCompetitionPage: {
+		EditorCompetitionPage: { 
 			Actions: {
 				GetRegistrationUrl: 'Url iscrizioni',
 				ClickToCopy: 'Clicca qui per copiare',

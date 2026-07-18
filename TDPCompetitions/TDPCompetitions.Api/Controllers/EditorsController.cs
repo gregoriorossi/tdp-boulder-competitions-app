@@ -6,6 +6,7 @@ using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
+using TDPCompetitions.Api.ViewModels.Editors.Responses.GetResultsResponse;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
@@ -35,7 +36,9 @@ namespace TDPCompetitions.Api.Controllers
 
         #region Competitions
         [HttpGet]
-        [Route("competition/all")]
+        [Route("competitions")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<GetAllCompetitionsResponse>>))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetAllCompetitions(CancellationToken cancellationToken)
         {
             ICollection<Competition> competitions = await _competitionsManager.GetAllCompetitionsAsync(cancellationToken);
@@ -48,19 +51,28 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpGet]
         [Route("competition/getById/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<GetAllCompetitionsResponse>>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCompetitionById(Guid id, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(id, cancellationToken);
-            var result = competition == null
-                ? Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound)
-                : Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(competition));
 
-            return Ok(result);
+            if (competition == null)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            var response = new CompetitionInfoResponse(competition);
+            return Ok(Result<CompetitionInfoResponse>.Success(response));
         }
 
         [HttpPost]
-        [Route("competition/add")]
-        public async Task<IActionResult> AddCompetition(AddCompetitionVM model, CancellationToken cancellationToken)
+        [Route("competition")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<Competition>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddCompetition(AddCompetitionRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -71,16 +83,21 @@ namespace TDPCompetitions.Api.Controllers
             bool isSlugAvailable = await _competitionsManager.IsSlugAvailableAsync(competition, cancellationToken);
             if (!isSlugAvailable)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.SlugNotAvailable));
+                return Ok(Result.Failure(CompetitionsErrors.SlugNotAvailable));
             }
 
             Competition result = await _competitionsManager.AddAsync(competition, cancellationToken);
+            AddCompetitionResponse response = new AddCompetitionResponse(result);
             return Ok(Result<Competition>.Success(result));
         }
 
         [HttpPatch]
-        [Route("competition/updateStatus")]
-        public async Task<IActionResult> UpdateCompetitionStatus([FromBody] UpdateCompetitionStatusVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/status")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateCompetitionStatus(Guid competitionId, [FromBody] UpdateCompetitionStatusRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -93,19 +110,23 @@ namespace TDPCompetitions.Api.Controllers
                 return BadRequest();
             }
 
-            Competition? competition = await _competitionsManager.GetByIdAsync(model.CompetitionId, cancellationToken);
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound();
             }
 
-            await _competitionsManager.UpdateCompetitionStatusAsync(model.CompetitionId, (CompetitionStatus)status, cancellationToken);
-            return Ok();
+            await _competitionsManager.UpdateCompetitionStatusAsync(competitionId, (CompetitionStatus)status, cancellationToken);
+            return NoContent();
         }
 
         [HttpPatch]
-        [Route("competition/{id}")]
-        public async Task<IActionResult> UpdateCompetition(Guid id, [FromForm] UpdateCompetitionVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<CompetitionInfoResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateCompetition(Guid competitionId, [FromForm] UpdateCompetitionVM model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -113,16 +134,16 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             Competition updateCompetition = await ViewModelToEntity.UpdateCompetitionVMToCompetitionAsync(model);
-            bool competitionExists = await _competitionsManager.CompetitionExists(id, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             bool isSlugAvailable = await _competitionsManager.IsSlugAvailableAsync(updateCompetition, cancellationToken);
             if (!isSlugAvailable)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.SlugNotAvailable));
+                return Ok(Result.Failure(CompetitionsErrors.SlugNotAvailable));
             }
 
             Competition result = await _competitionsManager.UpdateAsync(updateCompetition, cancellationToken);
@@ -130,42 +151,51 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("competition/delete/{id}")]
-        public async Task<IActionResult> DeleteCompetition(Guid id, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteCompetition(Guid competitionId, CancellationToken cancellationToken)
         {
-            Competition? competition = await _competitionsManager.GetByIdAsync(id, cancellationToken);
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound();
             }
 
             await _competitionsManager.DeleteAsync(competition, cancellationToken);
-            return Ok(Result<bool>.Success(true));
+            return NoContent();
         }
 
         [HttpGet]
-        [Route("competition/{id}/registrations")]
-        public async Task<IActionResult> GetRegistrations(Guid id, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/registrations")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<RegistrationResponse>>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetRegistrations(Guid competitionId, CancellationToken cancellationToken)
         {
-            bool competitionExists = await _competitionsManager.CompetitionExists(id, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result<ICollection<RegistrationResponse>>.Failure(CompetitionsErrors.NotFound));
             }
 
-            var registrations = await _competitionsManager.GetRegistrationsAsync(id, cancellationToken);
-            return Ok(Result<ICollection<RegistrationVM>>.Success(registrations.Select(r => new RegistrationVM(r)).ToList()));
+            var registrations = await _competitionsManager.GetRegistrationsAsync(competitionId, cancellationToken);
+            return Ok(Result<ICollection<RegistrationResponse>>.Success(registrations.Select(r => new RegistrationResponse(r)).ToList()));
         }
         #endregion
 
         [HttpGet]
         [Route("competition/{competitionId}/report")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GenerateReport(Guid competitionId, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             var registrations = await _competitionsManager.GetRegistrationsAsync(competitionId, cancellationToken);
@@ -176,7 +206,7 @@ namespace TDPCompetitions.Api.Controllers
                 return StatusCode(500); 
             }
 
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
+            string timestamp = DateTime.Now.ToString(Constants.DATE_TIME_FILE_EXPORT_FORMAT);
             return File(
                 stream.ToArray(),
                 "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
@@ -185,19 +215,22 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpGet]
         [Route("competition/{competitionId}/waiver")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GenerateWaiverAll(Guid competitionId, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             var registrations = await _competitionsManager.GetRegistrationsAsync(competitionId, cancellationToken);
 
             var result = _exportService.CreateWaiver(registrations, competition);
 
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
+            string timestamp = DateTime.Now.ToString(Constants.DATE_TIME_FILE_EXPORT_FORMAT);
             return File(
                 result,
                "application/pdf",
@@ -206,6 +239,9 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpGet]
         [Route("competition/{competitionId}/waiver/{registrationId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GenerateWaiver(Guid competitionId, Guid registrationId, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
@@ -213,17 +249,17 @@ namespace TDPCompetitions.Api.Controllers
 
             if (competition == null)
             {
-                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             if (registration == null)
             {
-                return NotFound(Result<Registration>.Failure(RegistrationsErrors.NotFound));
+                return NotFound(Result.Failure(RegistrationsErrors.NotFound));
             }
 
             var result = _exportService.CreateWaiver(new List<Registration> {registration}, competition);
 
-            string timestamp = DateTime.Now.ToString("yyyy-MM-dd_hh_mm_ss");
+            string timestamp = DateTime.Now.ToString(Constants.DATE_TIME_FILE_EXPORT_FORMAT);
             return File(
                 result,
                "application/pdf",
@@ -232,33 +268,41 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpGet]
         [Route("competition/{competitionId}/rankings")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<RankingCompetitorResponse>>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetRanking(Guid competitionId, [FromQuery] string? gender, CancellationToken cancellationToken)
         {
             Gender? genderFilter = null;
             if (!gender?.TryParseGender(out genderFilter) ?? false)
             {
-                return BadRequest("Gender must be male/female or empty");
+                return BadRequest(Result<ICollection<RankingCompetitor>>.Failure(CompetitionsErrors.GenderNotExists));
             }
 
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return NotFound(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result<ICollection<RankingCompetitor>>.Failure(CompetitionsErrors.NotFound));
             }
 
             ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, genderFilter ?? Gender.ALL, cancellationToken);
-            return Ok(Result<ICollection<RankingCompetitor>>.Success(ranking));
+            var response = ranking.Select(c => new RankingCompetitorResponse(c)).ToList();
+            return Ok(Result<ICollection<RankingCompetitorResponse>>.Success(response));
         }
 
         #region Problems
         [HttpGet]
-        [Route("problems/get/{competitionId}")]
+        [Route("competition/{competitionId}/problems")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetProblemsResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetProblems(Guid competitionId, CancellationToken cancellationToken)
         {
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             var groupsProblems = await _problemsManager.GetProblemsGroupsByCompetitionIdAsync(competitionId, cancellationToken);
@@ -268,31 +312,45 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("problems/addGroup")]
-        public async Task<IActionResult> AddProblemGroup([FromBody] AddProblemsGroupVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems/group")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ProblemsGroupResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddProblemGroup(Guid competitionId, [FromBody] AddProblemsGroupRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
+
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
             ProblemsGroup group = ViewModelToEntity.AddProblemGroupToProblemGroup(model);
             ProblemsGroup result = await _problemsManager.AddProblemsGroupAsync(group, cancellationToken);
-            return base.Ok(Result<ProblemsGroup>.Success(result));
+            ProblemsGroupResponse response = new ProblemsGroupResponse(result);
+            return Ok(Result<ProblemsGroupResponse>.Success(response));
         }
 
         [HttpPatch]
-        [Route("problems/groups")]
-        public async Task<IActionResult> UpdateProblemsGroups(UpdateProblemsGroupsVM model, CancellationToken cancellationToken)
-        {
+        [Route("competition/{competitionId}/problems/groups")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<ProblemsGroupResponse>>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateProblemsGroups(Guid competitionId, UpdateProblemsGroupsRequest model, CancellationToken cancellationToken)
+        { 
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            bool competitionExists = await _competitionsManager.CompetitionExists(model.CompetitionId, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             ICollection<ProblemsGroup> groups = ViewModelToEntity
@@ -300,24 +358,33 @@ namespace TDPCompetitions.Api.Controllers
                 .Where(g => g.CompetitionId == model.CompetitionId).ToList();
 
             ICollection<ProblemsGroup> result = await _problemsManager.UpdateProblemsGroupsAsync(groups, model.CompetitionId, cancellationToken);
-            var response = result.Select(g => new ProblemsGroupVM(g)).ToList();
-            return Ok(Result<ICollection<ProblemsGroupVM>>.Success(response));
-
+            var response = result.Select(g => new ProblemsGroupResponse(g)).ToList();
+            return Ok(Result<ICollection<ProblemsGroupResponse>>.Success(response));
         }
 
         [HttpPost]
-        [Route("problems/addToGroup")]
-        public async Task<IActionResult> AddProblemToGroup(AddProblemToGroupVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ProblemsGroup>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddProblemToGroup(Guid competitionId, AddProblemToGroupRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
             ProblemsGroup? group = await _problemsManager.GetProblemsGroupByIdAsync(model.ProblemsGroupId, cancellationToken);
             if (group == null)
             {
-                return Ok(Result<ProblemsGroup>.Failure(ProblemsGroupErrors.NotFound));
+                return NotFound(Result.Failure(ProblemsGroupErrors.NotFound));
             }
 
             Problem problem = ViewModelToEntity.AddProblemToGroupVMToProblem(model); ;
@@ -326,52 +393,77 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("problems/updateProblem")]
-        public async Task<IActionResult> UpdateProblem([FromBody] UpdateProblemVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ProblemResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateProblem(Guid competitionId, [FromBody] UpdateProblemRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
+            }
+
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             Problem? exists = await _problemsManager.GetProblemByIdAsync(model.Id, cancellationToken);
             if (exists == null)
             {
-                return Ok(Result<Problem>.Failure(ProblemErrors.NotFound));
+                return NotFound(Result.Failure(ProblemErrors.NotFound));
             }
 
             Problem problem = ViewModelToEntity.UpdateProblemVMToProblem(model);
             var result = await _problemsManager.UpdateProblemAsync(problem, cancellationToken);
-            return Ok(Result<Problem>.Success(result));
+            ProblemResponse response = new ProblemResponse(result);
+            return Ok(Result<ProblemResponse>.Success(response));
         }
 
         [HttpDelete]
-        [Route("problems/deleteFromGroup/{id}")]
-        public async Task<IActionResult> DeleteProblemFromGroup(Guid id, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems/{problemId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteProblemFromGroup(Guid competitionId, Guid problemId, CancellationToken cancellationToken)
         {
-            Problem? problem = await _problemsManager.GetProblemByIdAsync(id, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            Problem? problem = await _problemsManager.GetProblemByIdAsync(problemId, cancellationToken);
             if (problem == null)
             {
-                return Ok(Result<Problem>.Failure(ProblemErrors.NotFound));
+                return NotFound(Result.Failure(ProblemErrors.NotFound));
             }
 
             await _problemsManager.DeleteProblemFromGroup(problem, cancellationToken);
-            return Ok();
+            return NoContent();
         }
 
         [HttpPost]
-        [Route("problems/specialProblem")]
-        public async Task<IActionResult> AddSpecialProblem([FromBody] AddSpecialProblemVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems/specialProblem")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SpecialProblemResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddSpecialProblem(Guid competitionId, [FromBody] AddSpecialProblemRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            bool competitionExists = await _competitionsManager.CompetitionExists(model.CompetitionId, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             SpecialProblem problem = ViewModelToEntity.AddSpecialProblemVMToSpecialProblem(model);
@@ -380,24 +472,28 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("problems/specialProblem")]
-        public async Task<IActionResult> UpdateSpecialProblem([FromBody] UpdateSpecialProblemVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems/specialProblem")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SpecialProblemResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateSpecialProblem(Guid competitionId, [FromBody] UpdateSpecialProblemRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            bool competitionExists = await _competitionsManager.CompetitionExists(model.CompetitionId, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             var problemResult = await _problemsManager.GetSpecialProblemByIdAsync(model.Id, cancellationToken);
             if (problemResult == null)
             {
-                return Ok(Result<SpecialProblem>.Failure(SpecialProblemErrors.NotFound));
+                return NotFound(Result.Failure(SpecialProblemErrors.NotFound));
             }
 
             SpecialProblem problem = ViewModelToEntity.UpdateSpecialProblemVMToSpecialProblem(model);
@@ -406,44 +502,76 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("problems/specialProblem/{id}")]
-        public async Task<IActionResult> DeleteSpecialProblem(Guid id, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems/specialProblem/{problemId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteSpecialProblem(Guid competitionId, Guid problemId, CancellationToken cancellationToken)
         {
-            SpecialProblem? problem = await _problemsManager.GetSpecialProblemByIdAsync(id, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            SpecialProblem? problem = await _problemsManager.GetSpecialProblemByIdAsync(problemId, cancellationToken);
             if (problem == null)
             {
-                return Ok(Result<SpecialProblem>.Failure(SpecialProblemErrors.NotFound));
+                return NotFound(Result.Failure(SpecialProblemErrors.NotFound));
             }
 
             await _problemsManager.DeleteSpecialProblemAsync(problem, cancellationToken);
-            return Ok(Result<SpecialProblem>.Success());
+            return NoContent();
         }
 
         [HttpPost]
-        [Route("problems/send")]
-        public async Task<IActionResult> SendProblem([FromBody] SendProblemVM model, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems/send")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentProblemResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SendProblem(Guid competitionId, [FromBody] SendProblemRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            SentProblem send = ViewModelToEntity.SendProblemVMToSentProblem(model);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            SentProblem send = ViewModelToEntity.SendProblemRequestToSentProblem(model);
             SentProblem result = await _problemsManager.SendProblemAsync(send, cancellationToken);
-            return Ok(Result<SentProblem>.Success(result));
+            var response = new SentProblemResponse(result);
+            return Ok(Result<SentProblemResponse>.Success(response));
         }
 
         [HttpDelete]
-        [Route("problems/unsend/{sentProblemId}")]
-        public async Task<IActionResult> RemoveSentProblem(Guid sentProblemId, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/problems/send/{problemId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RemoveSentProblem(Guid competitionId, Guid problemId, CancellationToken cancellationToken)
         {
-            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(sentProblemId, cancellationToken);
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(problemId, cancellationToken);
             if (sentProblem == null)
             {
-                return Ok(Result<SentProblem>.Failure(SentProblemsErrors.NotFound));
+                return NotFound(Result.Failure(SentProblemsErrors.NotFound));
             }
+
             await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
-            return Ok();
+            return NoContent();
         }
 
         #endregion
@@ -451,23 +579,32 @@ namespace TDPCompetitions.Api.Controllers
         #region Competitors
         [HttpGet]
         [Route("competition/{competitionId}/competitors")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<CompetitorResponse>>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCompetitors(Guid competitionId, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             ICollection<Competitor> competitors = await _competitionsManager.GetCompetitorsAsync(competitionId, cancellationToken);
-            return Ok(Result<ICollection<Competitor>>.Success(competitors));
+            ICollection<CompetitorResponse> response = competitors.Select(c => new CompetitorResponse(c)).ToList();
+
+            return Ok(Result<ICollection<CompetitorResponse>>.Success(response));
         }
 
         #endregion
 
         #region Registrations
         [HttpPost]
-        [Route("registrations/{competitionId}")]
+        [Route("competition/{competitionId}/registrations")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<RegistrationResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationVM model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
@@ -478,63 +615,85 @@ namespace TDPCompetitions.Api.Controllers
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             bool isAlreadyRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(model.Email, competitionId, cancellationToken);
             if (isAlreadyRegistered)
             {
-                return Ok(Result<Registration>.Failure(RegistrationsErrors.AlreadyRegistered));
+                return Ok(Result.Failure(RegistrationsErrors.AlreadyRegistered));
             }
+
             Registration registration = ViewModelToEntity.AddRegistrationVMToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
 
-            return Ok(Result<RegistrationVM>.Success(new RegistrationVM(result)));
+            return Ok(Result<RegistrationResponse>.Success(new RegistrationResponse(result)));
         }
 
         [HttpDelete]
-        [Route("registrations/{id}")]
-        public async Task<IActionResult> DeleteRegistration(Guid id, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/registrations/{registrationId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteRegistration(Guid competitionId, Guid registrationId, CancellationToken cancellationToken)
         {
-            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(id, cancellationToken);
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
             if (registration == null)
             {
-                return Ok(Result<Registration>.Failure(RegistrationsErrors.NotFound));
+                return NotFound(Result.Failure(RegistrationsErrors.NotFound));
             }
 
             await _competitionsManager.DeleteRegistrationAsync(registration, cancellationToken);
-            return Ok(Result<bool>.Success(true));
+            return NoContent();
         }
 
         [HttpDelete]
-        [Route("registrations/competitor/{id}")]
-        public async Task<IActionResult> DeleteCompetitor(Guid id, CancellationToken cancellationToken)
+        [Route("competition/{competitionId}/registrations/competitor/{competitorId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteCompetitor(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
         {
-            Competitor? competitor = await _competitionsManager.GetCompetitorAsync(id, cancellationToken);
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            Competitor? competitor = await _competitionsManager.GetCompetitorAsync(competitorId, cancellationToken);
             if (competitor == null)
             {
-                return Ok(Result<Competitor>.Failure(CompetitorsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitorsErrors.NotFound));
             }
 
             if (!competitor.IsMinor)
             {
-                return Ok(Result<Competitor>.Failure(CompetitorsErrors.AdultDelete));
+                return BadRequest(Result.Failure(CompetitorsErrors.AdultDelete));
             }
 
             await _competitionsManager.DeleteCompetitorAsync(competitor, cancellationToken);
-            return Ok(Result<bool>.Success(true));
+            return NoContent();
         }
         #endregion
 
         #region Results
         [HttpGet]
-        [Route("results/{competitionId}")]
+        [Route("competition/{competitionId}/results")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetResultsResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetResults(Guid competitionId, CancellationToken cancellationToken)
         {
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
-                return Ok(Result<Competition>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
             IEnumerable<Competitor> competitors = await _competitionsManager.GetCompetitorsAsync(competitionId, cancellationToken);
@@ -545,9 +704,9 @@ namespace TDPCompetitions.Api.Controllers
 
             return Ok(Result<GetResultsResponse>.Success(new GetResultsResponse
             {
-                Competitors = competitors.Select(c => new GetResultsCompetitionVM(c, sentProblems, sentSpecialProblems)),
-                ProblemsGroups = problemsGoups.Select(p => new ProblemsGroupsResponse(p)),
-                SpecialProblems = specialProblems.Select(sp => new GetResultsSpecialProblemVM(sp, sentSpecialProblems, competitors)),
+                Competitors = competitors.Select(c => new GetResultsCompetitionResponse(c, sentProblems, sentSpecialProblems)),
+                ProblemsGroups = problemsGoups.Select(p => new ProblemsGroupResponse(p)),
+                SpecialProblems = specialProblems.Select(sp => new GetResultsSpecialProblemResponse(sp, sentSpecialProblems, competitors)),
             }));
         }
         #endregion

@@ -9,7 +9,7 @@ namespace TDPCompetitions.Api.Mappers
 {
     public class ViewModelToEntity
     {
-        public static Competition AddCompetitionVMToCompetition(AddCompetitionVM model)
+        public static Competition AddCompetitionVMToCompetition(AddCompetitionRequest model)
         {
             string slug = SlugHelper.Generate(model.Title);
             return new Competition
@@ -20,7 +20,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static ProblemsGroup AddProblemGroupToProblemGroup(AddProblemsGroupVM model)
+        internal static ProblemsGroup AddProblemGroupToProblemGroup(AddProblemsGroupRequest model)
         {
             return new ProblemsGroup
             {
@@ -30,7 +30,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static Problem AddProblemToGroupVMToProblem(AddProblemToGroupVM model)
+        internal static Problem AddProblemToGroupVMToProblem(AddProblemToGroupRequest model)
         {
             return new Problem
             {
@@ -103,7 +103,18 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static SpecialProblem AddSpecialProblemVMToSpecialProblem(AddSpecialProblemVM model)
+        internal static SentProblem SendProblemRequestToSentProblem(SendProblemRequest model)
+        {
+            return new SentProblem
+            {
+                ProblemId = model.ProblemId,
+                CompetitorId = model.CompetitorId,
+                CompetitionId = model.CompetitionId,
+                SentAt = DateTime.Now
+            };
+        }
+
+        internal static SpecialProblem AddSpecialProblemVMToSpecialProblem(AddSpecialProblemRequest model)
         {
             return new SpecialProblem
             {
@@ -113,7 +124,7 @@ namespace TDPCompetitions.Api.Mappers
         }
 
 
-        internal static SpecialProblem UpdateSpecialProblemVMToSpecialProblem(UpdateSpecialProblemVM model)
+        internal static SpecialProblem UpdateSpecialProblemVMToSpecialProblem(UpdateSpecialProblemRequest model)
         {
             return new SpecialProblem
             {
@@ -157,7 +168,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static ICollection<ProblemsGroup> UpdateProblemGroupsVMToProblemGroups(UpdateProblemsGroupsVM model)
+        internal static ICollection<ProblemsGroup> UpdateProblemGroupsVMToProblemGroups(UpdateProblemsGroupsRequest model)
         {
             return model.Groups.Select(group =>  new ProblemsGroup
             {
@@ -168,7 +179,7 @@ namespace TDPCompetitions.Api.Mappers
             }).ToList();
         }
 
-        internal static Problem UpdateProblemVMToProblem(UpdateProblemVM model)
+        internal static Problem UpdateProblemVMToProblem(UpdateProblemRequest model)
         {
             return new Problem
             {

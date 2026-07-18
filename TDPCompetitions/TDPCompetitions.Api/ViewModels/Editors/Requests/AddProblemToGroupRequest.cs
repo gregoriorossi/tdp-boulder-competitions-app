@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TDPCompetitions.Api.ViewModels.Editors
+namespace TDPCompetitions.Api.ViewModels.Editors.Requests
 {
-    public class AddProblemToGroupVM
+    public class AddProblemToGroupRequest
     {
         [Required]
         public string Name { get; set; } = default!;

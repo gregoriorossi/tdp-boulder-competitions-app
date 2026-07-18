@@ -1,22 +1,22 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using TDPCompetitions.Core.Entities;
 
-namespace TDPCompetitions.Api.ViewModels.Editors
+namespace TDPCompetitions.Api.ViewModels.Editors.Requests
 {
-    public class UpdateProblemsGroupsVM
+    public sealed record class UpdateProblemsGroupsRequest
     {
         [Required]
-        public ICollection<ProblemsGroupVM> Groups { get; set; } = new List<ProblemsGroupVM>();
+        public ICollection<ProblemsGroupRequest> Groups { get; set; } = new List<ProblemsGroupRequest>();
 
         [Required]
         public Guid CompetitionId { get; set; } = default!;
     }
 
-    public class ProblemsGroupVM
+    public sealed record class ProblemsGroupRequest
     {
-        public ProblemsGroupVM() { }
-        
-        public ProblemsGroupVM(ProblemsGroup group)
+        public ProblemsGroupRequest() { }
+
+        public ProblemsGroupRequest(ProblemsGroup group)
         {
             Id = group.Id;
             ColorCode = group.ColorCode;

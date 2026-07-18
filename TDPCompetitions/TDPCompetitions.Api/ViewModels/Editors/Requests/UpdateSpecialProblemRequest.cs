@@ -2,8 +2,11 @@
 
 namespace TDPCompetitions.Api.ViewModels.Editors.Requests
 {
-    public class AddSpecialProblemVM
+    public sealed record class UpdateSpecialProblemRequest
     {
+        [Required]
+        public Guid Id { get; set; }
+
         [Required]
         public string Name { get; set; } = default!;
 

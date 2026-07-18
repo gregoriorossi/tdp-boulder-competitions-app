@@ -1,28 +1,20 @@
-﻿using System.ComponentModel.DataAnnotations;
-using TDPCompetitions.Core.Entities;
+﻿using TDPCompetitions.Core.Entities;
 
 namespace TDPCompetitions.Api.ViewModels.Editors.Responses
 {
-    public class AddProblemToGroupResponse
+    public sealed record AddProblemToGroupResponse(
+        Guid Id,
+        string Name,
+        Guid CompetitionId,
+        Guid ProblemGroupId)
     {
-        [Required]
-        public Guid Id { get; set; }
-
-        [Required]
-        public string Name { get; set; } = default!;
-
-        [Required]
-        public Guid CompetitionId { get; set; } = default!;
-
-        [Required]
-        public Guid ProblemGroupId { get; set; } = default!;
-
-        public AddProblemToGroupResponse(Problem problem)
-        {
-            Id = problem.Id;
-            Name = problem.Name;
-            ProblemGroupId = problem.ProblemGroupId;
-            Name = problem.Name;
-        }
+        public AddProblemToGroupResponse(Problem problem) 
+            : this (
+                problem.Id,
+                problem.Name,
+                problem.CompetitionId,
+                problem.ProblemGroupId
+            )
+        { }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TDPCompetitions.Api.ViewModels.Editors
+namespace TDPCompetitions.Api.ViewModels.Editors.Requests
 {
-    public class AddCompetitionVM
+    public class AddCompetitionRequest
     {
         [Required, StringLength(maximumLength: 100, MinimumLength = 5)]
         public string Title { get; set; } = default!;

@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TDPCompetitions.Api.ViewModels.Editors
+namespace TDPCompetitions.Api.ViewModels.Editors.Requests
 {
-    public class AddProblemsGroupVM
+    public sealed record class AddProblemsGroupRequest
     {
         [Required]
         public string ColorCode { get; set; } = default!;
-        
+
         [Required]
         public Guid CompetitionId { get; set; } = default;
 

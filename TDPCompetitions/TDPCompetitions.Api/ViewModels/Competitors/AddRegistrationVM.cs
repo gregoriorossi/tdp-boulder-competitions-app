@@ -2,64 +2,77 @@
 
 namespace TDPCompetitions.Api.ViewModels.Competitors
 {
-    public class AddRegistrationVM
+    public record class AddRegistrationVM
     {
         [Required]
-        public string FirstName { get; set; } = default!;
+        public required string FirstName { get; set; }
 
         [Required]
-        public string LastName { get; set; } = default!;
+        public required string LastName { get; set; }
 
         [Required]
         public DateTime BirthDate { get; set; }
 
         [Required]
-        public string Email { get; set; } = default!;
+        public required string Email { get; set; }
 
         [Required]
-        public int Gender { get; set; }
+        public required int Gender { get; set; }
 
-        public string BirthPlace { get; set; } = default!;
+        [Required]
+        public required string BirthPlace { get; set; }
 
-        public string BirthProvince { get; set; } = default!;
+        [Required]
+        public required string BirthProvince { get; set; }
 
-        public string AddressCity { get; set; } = default!;
+        [Required]
+        public required string AddressCity { get; set; }
 
-        public string AddressProvince { get; set; } = default!;
+        [Required]
+        public required string AddressProvince { get; set; }
 
-        public string AddressStreet { get; set; } = default!;
+        [Required]
+        public required string AddressStreet { get; set; }
 
-        public string AddressNumber { get; set; } = default!;
+        [Required]
+        public required string AddressNumber { get; set; }
 
-        public string PhoneNumber { get; set; } = default!;
+        [Required]
+        public required string PhoneNumber { get; set; } = default!;
 
         public ICollection<MinorVM> Minors { get; set; } = [];
     }
 
-    public class MinorVM
+    public record class MinorVM
     {
         [Required]
-        public string FirstName { get; set; } = default!;
+        public required string FirstName { get; set; } = default!;
 
         [Required]
-        public string LastName { get; set; } = default!;
+        public required string LastName { get; set; } = default!;
 
         [Required]
         public DateTime BirthDate { get; set; }
 
         [Required]
-        public int Gender { get; set; }
+        public required int Gender { get; set; }
 
-        public string BirthPlace { get; set; } = default!;
+        [Required]
+        public required string BirthPlace { get; set; }
 
-        public string BirthProvince { get; set; } = default!;
+        [Required]
+        public required string BirthProvince { get; set; }
 
-        public string AddressCity { get; set; } = default!;
+        [Required]
+        public required string AddressCity { get; set; }
 
-        public string AddressProvince { get; set; } = default!;
+        [Required]
+        public required string AddressProvince { get; set; }
 
-        public string AddressStreet { get; set; } = default!;
+        [Required]
+        public required string AddressStreet { get; set; }
 
-        public string AddressNumber { get; set; } = default!;
+        [Required]
+        public required string AddressNumber { get; set; } 
     }
 }

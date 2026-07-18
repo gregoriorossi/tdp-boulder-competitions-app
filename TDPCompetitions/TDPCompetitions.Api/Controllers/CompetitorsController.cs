@@ -49,7 +49,7 @@ namespace TDPCompetitions.Api.Controllers
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
-                return Ok(Result<Registration>.Failure(CompetitionsErrors.NotFound));
+                return NotFound(Result<Registration>.Failure(CompetitionsErrors.NotFound));
             }
 
             if (!competition.RegistrationsOpen)
@@ -62,6 +62,7 @@ namespace TDPCompetitions.Api.Controllers
             {
                 return Ok(Result<Registration>.Failure(RegistrationsErrors.AlreadyRegistered));
             }
+
             Registration registration= ViewModelToEntity.AddRegistrationVMToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
             

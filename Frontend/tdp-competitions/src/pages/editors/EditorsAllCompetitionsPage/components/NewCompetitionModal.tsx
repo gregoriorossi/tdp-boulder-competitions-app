@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
-import { Alert, Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import type { Dayjs } from 'dayjs';
 import dayjs from "dayjs";
 import { DateTimePicker } from '@mui/x-date-pickers/DateTimePicker';
@@ -11,7 +11,6 @@ import { useAddCompetition } from "../../../../queries/competitions.queries";
 import { ErrorMessage } from "../../../../components/ErrorMessage";
 import { Spinner } from "../../../../components/Spinner";
 import classNames from "../../../../App.module.scss";
-
 
 const FormStrings = STRINGS.Pages.EditorsAllCompetitionsPage.Modals.NewCompetition;
 
@@ -26,7 +25,11 @@ interface INewCompetitionFields {
 
 export function NewCompetitionModal(props: INewCompetitionModalProps) {
 	const { handleSubmit, register, control, formState: { errors }, reset } = useForm({
-		resolver: yupResolver(addCompetitionSchema)
+		resolver: yupResolver(addCompetitionSchema),
+		defaultValues: {
+			title: "",
+			date: new Date()
+		}
 	});
 
 	const { data: addCompetitionResponse, error, mutateAsync: addCompetitionAsync, isPending: addCompetitionIsPending } = useAddCompetition();
@@ -86,9 +89,7 @@ export function NewCompetitionModal(props: INewCompetitionModalProps) {
 
 			{
 				(error || addCompetitionResponse?.error?.description) &&
-				<Alert severity="error">
-					<ErrorMessage errorCode={addCompetitionResponse?.error?.code ?? ''} />
-				</Alert>
+				<ErrorMessage errorCode={addCompetitionResponse?.error?.code ?? ''} />
 			}
 
 			<Button type="submit" variant="contained" disabled={addCompetitionIsPending}>

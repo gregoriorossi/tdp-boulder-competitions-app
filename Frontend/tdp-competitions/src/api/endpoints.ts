@@ -1,12 +1,12 @@
 import { Gender } from "../models/competitions.models";
 
 export const EditorsEndpoints = {
-	getAllCompetitions: '/Editors/competition/all',
+	getAllCompetitions: '/Editors/competitions',
 	getCompetitionById: (id: string) => `/Editors/competition/getById/${id}`,
-	addCompetition: '/Editors/competition/add',
+	addCompetition: '/Editors/competition',
 	updateCompetition: (id: string) => `/Editors/competition/${id}`,
 	updateCompetitionStatus: '/Editors/competition/updateStatus',
-	deleteCompetition: (id: string) => `/Editors/competition/delete/${id}`,
+	deleteCompetition: (id: string) => `/Editors/competition/${id}`,
 	getRankings: (id: string, gender: Gender | null) => {
 		let genderValue: string = "";
 		switch (gender) {

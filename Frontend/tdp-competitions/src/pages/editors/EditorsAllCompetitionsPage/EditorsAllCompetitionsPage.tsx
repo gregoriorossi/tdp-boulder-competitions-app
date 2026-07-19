@@ -52,12 +52,10 @@ export function EditorsAllCompetitionsPage() {
 	}
 
 	const onDeleteCompetitionHandler = async (): Promise<void> => {
-		try {
-			await deleteCompetitionAsync(selectedCompetitionId!);
-
-		} catch (e) {
-			console.log(e);
+		if (!selectedCompetitionId) {
+			return;
 		}
+		await deleteCompetitionAsync(selectedCompetitionId);
 
 		setSelectedCompetitionId(null);
 		setDeleteFormDialogOpen(false);
@@ -99,32 +97,40 @@ export function EditorsAllCompetitionsPage() {
 					<Table>
 						<TableHead>
 							<TableRow>
-								<StyledTableCell colSpan={5}>{PageStrings.Table.TitleColumn}</StyledTableCell>
-								<StyledTableCell colSpan={3}>{PageStrings.Table.DateColumn}</StyledTableCell>
-								<StyledTableCell colSpan={2}>{PageStrings.Table.ActiveColumn}</StyledTableCell>
-								<StyledTableCell colSpan={2} />
+								<StyledTableCell>{PageStrings.Table.TitleColumn}</StyledTableCell>
+								<StyledTableCell>{PageStrings.Table.DateColumn}</StyledTableCell>
+								<StyledTableCell>{PageStrings.Table.ActiveColumn}</StyledTableCell>
+								<StyledTableCell />
 							</TableRow>
 						</TableHead>
 						<TableBody>
 							{
 								response?.value!
-									.map((competition, idx) => (
-										<StyledTableRow key={idx}>
-											<StyledTableCell colSpan={5}>{competition.title}</StyledTableCell>
-											<StyledTableCell colSpan={3}>
+									.sort((a, b) =>
+										new Date(b.date).getTime() -
+										new Date(a.date).getTime()
+									)
+									.map((competition) => (
+										<StyledTableRow key={competition.id}>
+											<StyledTableCell>{competition.title}</StyledTableCell>
+											<StyledTableCell>
 												{DateUtils.ToDateTime(competition.date)}
 											</StyledTableCell>
-											<StyledTableCell colSpan={2}>{competition.isOpen
+											<StyledTableCell>{competition.isOpen
 												? <CheckIcon className={classNames.greenIcon} />
 												: <DoNotDisturbIcon className={classNames.redIcon} />}
 											</StyledTableCell>
-											<StyledTableCell colSpan={2} align="right">
+											<StyledTableCell align="right">
 												<ButtonGroup variant="contained" aria-label="Azioni form">
 													<Link to={LinkUtils.IdToRelativeUrl(competition.id)}>
 														<Button title="Dettagli"><CreateIcon /></Button>
 													</Link>
 
-													<Button title={STRINGS.Delete} onClick={() => onDeleteClick(competition.id)}>
+													<Button
+														title={STRINGS.Delete}
+														disabled={isDeletePending}
+														aria-label={STRINGS.Delete}
+														onClick={() => onDeleteClick(competition.id)}>
 														<DeleteIcon />
 													</Button>
 												</ButtonGroup>

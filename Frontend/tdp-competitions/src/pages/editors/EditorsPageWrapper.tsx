@@ -1,4 +1,4 @@
-import { Box, Chip } from "@mui/material";
+import { Box } from "@mui/material";
 import classNames from "../../App.module.scss";
 import logoTesteDiPietra from '../../assets/teste-di-pietra_logo.png';
 import { useNavigate } from "react-router-dom";
@@ -17,7 +17,7 @@ export function EditorsPageWrapper(props: IEditorsPageWrapperProps) {
 	const onLogoClick = () => {
 		navigate(Routes.EditorsHome);
 	}
-	console.log("status", status);
+
 	return <Box className={classNames.editorsPageWrapper}>
 		<div className={classNames.header}>
 			<img src={logoTesteDiPietra} className={classNames.logo} onClick={onLogoClick} />

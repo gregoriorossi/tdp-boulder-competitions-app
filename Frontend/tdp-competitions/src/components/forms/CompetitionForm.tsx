@@ -62,6 +62,7 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 	const onBannerImageChange = (file: File | null) => {
 		if (!file) {
 			setValue('bannerImage', null);
+			setValue('bannerImageId', null);
 		} else {
 			setValue('bannerImage', file, { shouldValidate: true, shouldDirty: true });
 		}
@@ -70,14 +71,13 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 	const onPrivacyAttachmentChange = (file: File | null) => {
 		if (!file) {
 			setValue('privacyAttachment', null);
+			setValue('privacyAttachmentId', null);
 		} else {
 			setValue('privacyAttachment', file, { shouldValidate: true, shouldDirty: true });
 		}
 	}
 
-	console.log("errors", errors);
 	const onSubmit = async (formData: ICompetitionInfoForm): Promise<void> => {
-		console.log("on submit", formData);
 		const data = CompetitionsMappers.ToIUpdateCompetitionRequest(competition.id, formData);
 		await updateCompetitionMutateAsync(data);
 	}
@@ -99,6 +99,7 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 			<FormControl className={classNames.registrationsToggle}>
 				<Controller
 					name="registrationsOpen"
+					defaultValue={competition.registrationsOpen}
 					control={control}
 					render={({ field }) => (
 						<>
@@ -298,6 +299,24 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 						onChange={onPrivacyAttachmentChange} />
 				</div>
 			}} />
+
+		<Controller
+			name="bannerImageId"
+			control={control}
+			defaultValue={competition.bannerImageId}
+			render={({ field }) => (
+				<input type="hidden" {...field} value={field.value ?? ''} />
+			)}
+		/>
+
+		<Controller
+			name="privacyAttachmentId"
+			control={control}
+			defaultValue={competition.privacyAttachmentId}
+			render={({ field }) => (
+				<input type="hidden" {...field} value={field.value ?? ''} />
+			)}
+		/>
 
 		{
 			updateCompetitionIsPending && <Spinner />

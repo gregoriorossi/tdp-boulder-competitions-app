@@ -1,5 +1,6 @@
 import Chip from "@mui/material/Chip";
-import { CompetitionStatus } from "../../models/competitions.models";
+import { CompetitionStatus } from "../../../../../models/competitions.models";
+
 
 interface IStatusProps {
 	status?: CompetitionStatus;

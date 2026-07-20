@@ -11,26 +11,26 @@ import { STRINGS } from "../../../consts/strings.consts";
 import { ErrorMessage } from "../../../components/ErrorMessage";
 import { ManageProblems } from "../../../components/ManageProblems/ManageProblems";
 import { ManageRegistrations } from "../../../components/ManageRegistrations/ManageRegistrations";
-import { ManageCompetition } from "../../../components/ManageCompetition/ManageCompetition";
-import { ActionsContainer } from "../../../components/ManageCompetition/ActionsContainer";
 import { ManageResults } from "../../../components/ManageResults/ManageResults";
 import { Rankings } from "../../../components/Rankings/Rankings";
 import classNames from "../../../App.module.scss";
+import { ActionsContainer } from "./component/ManageCompetition/ActionsContainer";
+import { ManageCompetition } from "./component/ManageCompetition/ManageCompetition";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
-enum TabValues {
-	INFO = 0,
-	PROBLEMS = 1,
-	REGISTRATIONS = 2,
-	RESULTS = 3,
-	RANKINGS = 4
+const TabValues = {
+	INFO: 0,
+	PROBLEMS: 1,
+	REGISTRATIONS: 2,
+	RESULTS: 3,
+	RANKINGS: 4
 }
 
 export function EditorsCompetitionPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const id: string = params.id!;
-	const [tabValue, setTabValue] = useState<TabValues>(TabValues.INFO);
+	const [tabValue, setTabValue] = useState<number>(TabValues.INFO);
 
 	const { data: response, isLoading, error } = useCompetitionById(id);
 

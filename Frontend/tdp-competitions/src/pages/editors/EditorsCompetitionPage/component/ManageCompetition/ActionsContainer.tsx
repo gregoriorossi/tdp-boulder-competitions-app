@@ -1,16 +1,16 @@
-import { CopyUrlButton } from "../ManageRegistrations/CopyUrlButton";
-import { CompetitionStatus, type ICompetitionInfo } from "../../models/competitions.models";
-import classNames from "../../App.module.scss";
-import { STRINGS } from "../../consts/strings.consts";
-import { useUpdateCompetitionStatus } from "../../queries/competitions.queries";
 import { useCallback, useMemo, useState } from "react";
-import ConfirmationDialog from "../ConfirmationDialog";
-import { Errors } from "../../consts/errors.consts";
 import { Button } from "@mui/material";
 import PlayCircleFilledWhiteIcon from '@mui/icons-material/PlayCircleFilledWhite';
 import StopCircleIcon from '@mui/icons-material/StopCircle';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+import { CompetitionStatus, type ICompetitionInfo } from "../../../../../models/competitions.models";
+import { useUpdateCompetitionStatus } from "../../../../../queries/competitions.queries";
+import { CopyUrlButton } from "../../../../../components/ManageRegistrations/CopyUrlButton";
+import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import { Errors } from "../../../../../consts/errors.consts";
+import classNames from "../../../../../App.module.scss";
 
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
@@ -21,7 +21,7 @@ interface IActionsContainerProps {
 type ActionConfig = {
 	toStatus: CompetitionStatus;
 	title: string;
-	color: "success" | "error" | "warning";
+	color: "success" | "error" | "warning"; 
 	icon: React.ReactNode;
 	label: string;
 };

@@ -34,6 +34,8 @@ export default class EditorsService {
 		formData.append('date', competition.date.toISOString());
 		formData.append('emailText', competition.emailText);
 		formData.append('privacyText', competition.privacyText ?? '');
+		formData.append('privacyAttachmentId', competition.privacyAttachmentId ?? '');
+		formData.append('bannerImageId', competition.bannerImageId ?? '');
 
 		if (competition?.bannerImage) {
 			formData.append('bannerImage', competition?.bannerImage, competition.bannerImage?.name);
@@ -42,8 +44,7 @@ export default class EditorsService {
 		if (competition?.privacyAttachment) {
 			formData.append('privacyAttachment', competition?.privacyAttachment, competition.privacyAttachment?.name);
 		}
-		console.log("competition", competition);
-		console.log("formdata", formData);
+
 		const data = await editorsApi.patch(EditorsEndpoints.updateCompetition(competition.id), formData, {
 			headers: {
 				'Content-Type': 'multipart/form-data'

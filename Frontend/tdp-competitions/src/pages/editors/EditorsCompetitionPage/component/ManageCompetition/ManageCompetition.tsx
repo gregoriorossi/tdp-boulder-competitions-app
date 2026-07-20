@@ -1,7 +1,7 @@
-import { useCompetitionById } from "../../queries/competitions.queries";
-import { ErrorMessage } from "../ErrorMessage";
-import { Spinner } from "../Spinner";
-import { CompetitionForm } from "../forms/CompetitionForm";
+import { ErrorMessage } from "../../../../../components/ErrorMessage";
+import { CompetitionForm } from "../../../../../components/forms/CompetitionForm";
+import { Spinner } from "../../../../../components/Spinner";
+import { useCompetitionById } from "../../../../../queries/competitions.queries";
 
 interface IManageCompetitionProps {
 	competitionId: string;
@@ -15,7 +15,7 @@ export function ManageCompetition(props: IManageCompetitionProps) {
 		return <Spinner />;
 	}
 
-	if (error || !response || response?.isFailure) {
+	if (error || !response || response?.isFailure || !response?.value) {
 		return <ErrorMessage errorCode={response?.error?.code ?? ''} />
 	}
 

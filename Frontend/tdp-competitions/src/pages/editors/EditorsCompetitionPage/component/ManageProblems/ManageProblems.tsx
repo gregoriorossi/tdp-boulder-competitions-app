@@ -1,17 +1,17 @@
-import classNames from "../../App.module.scss";
-import { STRINGS } from "../../consts/strings.consts";
-import { useProblemsByCompetitionId } from "../../queries/competitions.queries";
-import { ErrorMessage } from "../ErrorMessage";
-import { Spinner } from "../Spinner";
 import AddIcon from '@mui/icons-material/Add';
 import { SpecialProblem } from "./SpecialProblem";
 import { Button } from "@mui/material";
-import { SpecialProblemFormModal } from "../modals/SpecialProblemFormModal";
 import { useState } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import { ProblemGroup } from "./ProblemGroup";
-import { EditProblemsGroupsModal } from "../modals/EditProblemsGroupsModal";
-import { sortProblemsGroups } from "../../utils/problems.utils";
+import { ErrorMessage } from "../../../../../components/ErrorMessage";
+import { SpecialProblemFormModal } from "../../../../../components/modals/SpecialProblemFormModal";
+import { Spinner } from "../../../../../components/Spinner";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import { useProblemsByCompetitionId } from "../../../../../queries/competitions.queries";
+import { sortProblemsGroups } from "../../../../../utils/problems.utils";
+import classNames from '../../../../../App.module.scss';
+import { EditProblemsGroupsModal } from './modals/EditProblemsGroupsModal';
 const SectionStrings = STRINGS.Pages.EditorCompetitionPage.ManageProblems;
 
 interface IManageProblemsProps {

@@ -11,7 +11,8 @@ export const STRINGS = {
 			Table: {
 				TitleColumn: 'Titolo',
 				DateColumn: 'Data',
-				ActiveColumn: 'Attivo'
+				StatusColumn: 'Stato',
+				RegistrationsColumn: 'Iscrizioni aperte',
 			}, 
 			Modals: {
 				NewCompetition: {
@@ -253,6 +254,8 @@ export const STRINGS = {
 	OpenPlural: 'Aperte',
 	ClosedPlural: 'Chiuse',
 	SupportedImageFormats: 'Formati supportati: JPG, PNG. (Max. 3MB)',
+	Yes: 'Sì',
+	No: 'No',
 	Errors: {
 		DateInvalid: 'Inserire una data valida',
 		MinLength: (num: number) => `Il campo deve contenere almeno ${num} caratteri`,

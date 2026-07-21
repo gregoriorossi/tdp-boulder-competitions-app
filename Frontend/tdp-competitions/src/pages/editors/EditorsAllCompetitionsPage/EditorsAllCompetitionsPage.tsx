@@ -17,6 +17,7 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog";
 import { Errors } from "../../../consts/errors.consts";
 import classNames from "../../../App.module.scss";
 import { NewCompetitionModal } from "./components/NewCompetitionModal";
+import { Status } from "../EditorsCompetitionPage/component/ManageCompetition/CompetitionStatus";
 
 const PageStrings = STRINGS.Pages.EditorsAllCompetitionsPage;
 
@@ -99,7 +100,8 @@ export function EditorsAllCompetitionsPage() {
 							<TableRow>
 								<StyledTableCell>{PageStrings.Table.TitleColumn}</StyledTableCell>
 								<StyledTableCell>{PageStrings.Table.DateColumn}</StyledTableCell>
-								<StyledTableCell>{PageStrings.Table.ActiveColumn}</StyledTableCell>
+								<StyledTableCell>{PageStrings.Table.RegistrationsColumn}</StyledTableCell>
+								<StyledTableCell>{PageStrings.Table.StatusColumn}</StyledTableCell>
 								<StyledTableCell />
 							</TableRow>
 						</TableHead>
@@ -116,9 +118,15 @@ export function EditorsAllCompetitionsPage() {
 											<StyledTableCell>
 												{DateUtils.ToDateTime(competition.date)}
 											</StyledTableCell>
-											<StyledTableCell>{competition.isOpen
-												? <CheckIcon className={classNames.greenIcon} />
-												: <DoNotDisturbIcon className={classNames.redIcon} />}
+											<StyledTableCell>
+												{
+													competition.registrationsOpen
+														? STRINGS.Yes
+														: STRINGS.No
+												}
+											</StyledTableCell>
+											<StyledTableCell>
+												<Status status={competition.status} />
 											</StyledTableCell>
 											<StyledTableCell align="right">
 												<ButtonGroup variant="contained" aria-label="Azioni form">

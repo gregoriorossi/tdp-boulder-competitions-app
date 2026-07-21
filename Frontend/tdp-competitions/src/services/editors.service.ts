@@ -100,17 +100,17 @@ export default class EditorsService {
 			name: problem.name,
 			problemsGroupId: problem.problemGroupId
 		};
-		const data = await editorsApi.post(EditorsEndpoints.addProblemToGroup, payload);
+		const data = await editorsApi.post(EditorsEndpoints.addProblemToGroup(problem.competitionId), payload);
 		return data.data as IResponse<IProblem>;
 	}
 
 	public static updateProblem = async (problem: IUpdateProblemRequest): Promise<IResponse<IProblem>> => {
-		const data = await editorsApi.patch(EditorsEndpoints.updateProblem, problem);
+		const data = await editorsApi.patch(EditorsEndpoints.updateProblem(problem.competitionId), problem);
 		return data.data as IResponse<IProblem>;
 	}
 
-	public static deleteProblem = async (id: string): Promise<IResponse<boolean>> => {
-		const data = await editorsApi.delete(EditorsEndpoints.deleteProblem(id));
+	public static deleteProblem = async (problem: IProblem): Promise<IResponse<boolean>> => {
+		const data = await editorsApi.delete(EditorsEndpoints.deleteProblem(problem.competitionId, problem.id!));
 		return data.data as IResponse<boolean>;
 	}
 

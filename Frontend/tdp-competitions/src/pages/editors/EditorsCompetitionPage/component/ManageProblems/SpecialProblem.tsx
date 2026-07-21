@@ -1,14 +1,14 @@
 import { IconButton } from "@mui/material";
-import classNames from "../../App.module.scss";
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import type { ISpecialProblem } from "../../models/competitions.models"
-import { STRINGS } from "../../consts/strings.consts";
 import { useState } from "react";
-import { useDeleteSpecialProblem } from "../../queries/competitions.queries";
-import ConfirmationDialog from "../ConfirmationDialog";
-import { Errors } from "../../consts/errors.consts";
-import { SpecialProblemFormModal } from "../modals/SpecialProblemFormModal";
+import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
+import { SpecialProblemFormModal } from "../../../../../components/modals/SpecialProblemFormModal";
+import { Errors } from "../../../../../consts/errors.consts";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import type { ISpecialProblem } from "../../../../../models/competitions.models";
+import { useDeleteSpecialProblem } from "../../../../../queries/competitions.queries";
+import classNames from "../../../../../App.module.scss";
 
 interface ISpecialProblemProps {
 	problem: ISpecialProblem;

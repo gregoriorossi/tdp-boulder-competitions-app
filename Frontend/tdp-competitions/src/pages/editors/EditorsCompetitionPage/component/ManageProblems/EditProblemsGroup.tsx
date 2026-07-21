@@ -1,13 +1,13 @@
 import { ListItem, ListItemButton, ListItemIcon } from "@mui/material";
-import classNames from "../../App.module.scss";
-import type { IProblemsGroup } from "../../models/competitions.models";
-import { getBorderColor } from "../../utils/problems.utils";
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import { STRINGS } from "../../consts/strings.consts";
 import DeleteIcon from '@mui/icons-material/Delete';
-import ConfirmationDialog from "../ConfirmationDialog";
 import { useState } from "react";
+import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import type { IProblemsGroup } from "../../../../../models/competitions.models";
+import { getBorderColor } from "../../../../../utils/problems.utils";
+import classNames from "../../../../../App.module.scss";
 
 interface IEditProblemsGroupProps {
 	group: IProblemsGroup;

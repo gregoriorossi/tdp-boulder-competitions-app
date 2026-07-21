@@ -1,5 +1,5 @@
 import { STRINGS } from "../consts/strings.consts";
-import { Gender, type ICompetitor, type IRegistration } from "../models/competitions.models";
+import { Gender, type ICompetitor, type IProblem, type IRegistration } from "../models/competitions.models";
 
 export function BuildFullName(competitor: ICompetitor): string {
 	return `${competitor.lastName} ${competitor.firstName}`;
@@ -13,4 +13,11 @@ export function sortRegistrations(r1: IRegistration, r2: IRegistration): number 
 
 export function genderToString(gender: Gender): string {
 	return gender === Gender.MALE ? STRINGS.Male : STRINGS.Female;
+}
+
+export function sortProblemsFn(p1: IProblem, p2: IProblem): number {
+	return p1.name.localeCompare(p2.name, undefined, {
+		numeric: true,
+		sensitivity: 'base'
+	})
 }

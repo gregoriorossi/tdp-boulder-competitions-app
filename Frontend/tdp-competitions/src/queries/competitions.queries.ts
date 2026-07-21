@@ -129,7 +129,7 @@ export const useRankingByCompetitionById = (id: string, gender: Gender | null): 
 
 export const useDeleteProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: ISpecialProblem) => EditorsService.deleteProblem(problem.id!),
+		mutationFn: (problem: IProblem) => EditorsService.deleteProblem(problem),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}

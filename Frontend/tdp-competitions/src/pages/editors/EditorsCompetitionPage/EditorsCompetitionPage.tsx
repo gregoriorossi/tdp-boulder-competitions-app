@@ -9,13 +9,13 @@ import { Tab, Tabs } from "@mui/material";
 import { useState } from "react";
 import { STRINGS } from "../../../consts/strings.consts";
 import { ErrorMessage } from "../../../components/ErrorMessage";
-import { ManageProblems } from "../../../components/ManageProblems/ManageProblems";
 import { ManageRegistrations } from "../../../components/ManageRegistrations/ManageRegistrations";
 import { ManageResults } from "../../../components/ManageResults/ManageResults";
 import { Rankings } from "../../../components/Rankings/Rankings";
 import classNames from "../../../App.module.scss";
 import { ActionsContainer } from "./component/ManageCompetition/ActionsContainer";
 import { ManageCompetition } from "./component/ManageCompetition/ManageCompetition";
+import { ManageProblems } from "./component/ManageProblems/ManageProblems";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 const TabValues = {

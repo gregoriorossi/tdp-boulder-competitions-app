@@ -1,12 +1,12 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, Typography } from "@mui/material";
-import { STRINGS } from "../../consts/strings.consts";
-import type { IProblemsGroup } from "../../models/competitions.models";
-import classNames from "../../App.module.scss";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { problemGroupSchema } from "../../form-schemas/competitions.schemas";
-import { allColors, getSelectableColors } from "../../utils/problems.utils";
 import AddIcon from '@mui/icons-material/Add';
+import { STRINGS } from "../../../../../consts/strings.consts";
+import { problemGroupSchema } from "../../../../../form-schemas/competitions.schemas";
+import type { IProblemsGroup } from "../../../../../models/competitions.models";
+import { getSelectableColors, allColors } from "../../../../../utils/problems.utils";
+import classNames from "../../../../../App.module.scss";
 
 const AddProblemsGroupStrings = STRINGS.Forms.AddProblemsGroup;
 

@@ -1,16 +1,17 @@
-import { STRINGS } from "../../consts/strings.consts";
-import type { IProblemsGroup } from "../../models/competitions.models";
-import { BaseModal, type IBaseModalProps } from "./BaseModal";
-import { Box, Button, List } from "@mui/material";
-import classNames from "../../App.module.scss";
-import { sortProblemsGroups } from "../../utils/problems.utils";
-import { EditProblemsGroup } from "../ManageProblems/EditProblemsGroup";
+import { Box, List, Button } from "@mui/material";
 import { useState } from "react";
-import { useUpdateGroups } from "../../queries/competitions.queries";
-import { Spinner } from "../Spinner";
-import { ErrorMessage } from "../ErrorMessage";
-import { Errors } from "../../consts/errors.consts";
-import { AddProblemGroup } from "../ManageProblems/AddProblemGroup";
+import classNames from "../../../../../../App.module.scss";
+import { ErrorMessage } from "../../../../../../components/ErrorMessage";
+import { BaseModal, type IBaseModalProps } from "../../../../../../components/modals/BaseModal";
+import { Spinner } from "../../../../../../components/Spinner";
+import { Errors } from "../../../../../../consts/errors.consts";
+import type { IProblemsGroup } from "../../../../../../models/competitions.models";
+import { useUpdateGroups } from "../../../../../../queries/competitions.queries";
+import { sortProblemsGroups } from "../../../../../../utils/problems.utils";
+import { AddProblemGroup } from "../AddProblemGroup";
+import { EditProblemsGroup } from "../EditProblemsGroup";
+import { STRINGS } from "../../../../../../consts/strings.consts";
+
 
 const FormStrings = STRINGS.Modals.EditProblemsGroups;
 

@@ -1,15 +1,16 @@
-import { Box, Button, TextField } from "@mui/material";
-import type { IProblem } from "../../models/competitions.models";
-import { BaseModal, type IBaseModalProps } from "./BaseModal";
-import { ErrorMessage } from "../ErrorMessage";
-import { Spinner } from "../Spinner";
-import { STRINGS } from "../../consts/strings.consts";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { problemSchema } from "../../form-schemas/competitions.schemas";
+import { Box, Button, TextField } from "@mui/material";
 import { useForm } from "react-hook-form";
-import classNames from "../../App.module.scss";
-import { useAddProblem } from "../../queries/competitions.queries";
-import { Errors } from "../../consts/errors.consts";
+import classNames from "../../../../../../App.module.scss";
+import { ErrorMessage } from "../../../../../../components/ErrorMessage";
+import { type IBaseModalProps, BaseModal } from "../../../../../../components/modals/BaseModal";
+import { Spinner } from "../../../../../../components/Spinner";
+import { Errors } from "../../../../../../consts/errors.consts";
+import { STRINGS } from "../../../../../../consts/strings.consts";
+import { problemSchema } from "../../../../../../form-schemas/competitions.schemas";
+import type { IProblem } from "../../../../../../models/competitions.models";
+import { useAddProblem } from "../../../../../../queries/competitions.queries";
+
 const FormStrings = STRINGS.Modals.Problem;
 
 interface INewProblemModalProps extends IBaseModalProps {

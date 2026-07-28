@@ -5,8 +5,6 @@ import { STRINGS } from "../../../consts/strings.consts";
 import CreateIcon from '@mui/icons-material/Create';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
-import DoNotDisturbIcon from '@mui/icons-material/DoNotDisturb';
 import { LinkUtils } from "../../../utils/link.utils";
 import { ErrorMessage } from "../../../components/ErrorMessage";
 import { DateUtils } from "../../../utils/date.utils";
@@ -17,7 +15,7 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog";
 import { Errors } from "../../../consts/errors.consts";
 import classNames from "../../../App.module.scss";
 import { NewCompetitionModal } from "./components/NewCompetitionModal";
-import { Status } from "../EditorsCompetitionPage/component/ManageCompetition/CompetitionStatus";
+import { Status } from "../../../components/CompetitionStatus";
 
 const PageStrings = STRINGS.Pages.EditorsAllCompetitionsPage;
 

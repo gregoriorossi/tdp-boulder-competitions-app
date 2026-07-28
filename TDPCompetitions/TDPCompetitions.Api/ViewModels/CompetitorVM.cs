@@ -48,7 +48,6 @@ namespace TDPCompetitions.Api.ViewModels
             AddressProvince = competitor.AddressProvince;
             AddressStreet = competitor.AddressStreet;
             AddressNumber = competitor.AddressNumber;
-            PhoneNumber = competitor.PhoneNumber;
             IsMinor = competitor.IsMinor;
             CompetitionId = competitor.CompetitionId;
             RegistrationId = competitor.RegistrationId;

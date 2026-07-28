@@ -6,11 +6,11 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
 import { CompetitionStatus, type ICompetitionInfo } from "../../../../../models/competitions.models";
 import { useUpdateCompetitionStatus } from "../../../../../queries/competitions.queries";
-import { CopyUrlButton } from "../../../../../components/ManageRegistrations/CopyUrlButton";
 import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
 import { STRINGS } from "../../../../../consts/strings.consts";
 import { Errors } from "../../../../../consts/errors.consts";
 import classNames from "../../../../../App.module.scss";
+import { CopyUrlButton } from "./CopyUrlButton";
 
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 

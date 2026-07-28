@@ -2,9 +2,9 @@ import { Alert, Button, Modal } from "@mui/material";
 import { useRef, useState } from "react";
 import LinkIcon from '@mui/icons-material/Link';
 import CheckIcon from '@mui/icons-material/Check';
-import { STRINGS } from "../../consts/strings.consts";
-import { LinkUtils } from "../../utils/link.utils";
-import classNames from "../../App.module.scss";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import classNames from "../../../../../App.module.scss";
+import { LinkUtils } from "../../../../../utils/link.utils";
 const FormString = STRINGS.Pages.EditorCompetitionPage.Actions;
 
 interface ICopyUrlButtonProps {

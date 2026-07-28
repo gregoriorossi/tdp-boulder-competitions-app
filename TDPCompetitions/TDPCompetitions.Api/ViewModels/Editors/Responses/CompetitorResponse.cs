@@ -15,7 +15,6 @@ public sealed record CompetitorResponse(
     string AddressProvince,
     string AddressStreet,
     string AddressNumber,
-    string PhoneNumber,
     bool IsMinor,
     Guid CompetitionId,
     Guid RegistrationId)
@@ -33,7 +32,6 @@ public sealed record CompetitorResponse(
             competitor.AddressProvince,
             competitor.AddressStreet,
             competitor.AddressNumber,
-            competitor.PhoneNumber,
             competitor.IsMinor,
             competitor.CompetitionId,
             competitor.RegistrationId)

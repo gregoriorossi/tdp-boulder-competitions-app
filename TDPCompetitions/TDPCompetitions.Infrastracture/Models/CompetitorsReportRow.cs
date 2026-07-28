@@ -46,7 +46,7 @@ namespace TDPCompetitions.Infrastracture.Models
             AddressProvince = competitor.AddressProvince;
             AddressStreet = competitor.AddressStreet;
             AddressNumber = competitor.AddressNumber;
-            PhoneNumber = competitor.PhoneNumber;
+            PhoneNumber = registration.PhoneNumber;
             IsMinor = competitor.IsMinor;
             RegisteredAt = registration.CreatedAt;
         }

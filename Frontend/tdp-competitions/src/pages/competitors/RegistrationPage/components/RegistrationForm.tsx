@@ -15,7 +15,7 @@ import { Errors } from "../../../../consts/errors.consts";
 import { registrationSchema, type IMinorForm, type IRegistrationForm } from "../../../../form-schemas/registrations.schemas";
 import { GENDERS } from "../../../../models/competitions.models";
 import { genderToString } from "../../../../utils/competitions.utils";
-import type { IAddRegistrationRequest } from "../../../../models/api.models";
+import type { IRegistrationRequestDeprecated } from "../../../../models/api.models";
 import { useAddCompetitorRegistration } from "../../../../queries/competitors.queries";
 import { ErrorMessage } from "../../../../components/ErrorMessage";
 import { Spinner } from "../../../../components/Spinner";
@@ -44,7 +44,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 	const onSubmit = async (data: IRegistrationForm) => {
 		if (addRegistrationIsPending) return;
 
-		const request: IAddRegistrationRequest = {
+		const request: IRegistrationRequestDeprecated = {
 			firstName: data.firstName,
 			lastName: data.lastName,
 			email: data.email,
@@ -56,7 +56,6 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			birthDate: data.birthDate,
 			birthPlace: data.birthPlace,
 			birthProvince: data.birthProvince,
-			minors: [],
 			phoneNumber: data.phoneNumber
 		};
 

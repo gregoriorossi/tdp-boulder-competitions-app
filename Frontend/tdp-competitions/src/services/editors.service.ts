@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IAddProblemRequest, IAddRegistrationRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest } from "../models/api.models";
-import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISpecialProblem } from "../models/competitions.models";
+import type { IAddCompetitionRequest, IMinorRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest, IRegistrationRequest } from "../models/api.models";
+import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, ICompetitor, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISpecialProblem } from "../models/competitions.models";
 
 export default class EditorsService {
 
@@ -124,19 +124,34 @@ export default class EditorsService {
 		return data.data as IResponse<boolean>;
 	}
 
-	public static deleteCompetitor = async (id: string): Promise<IResponse<boolean>> => {
-		const data = await editorsApi.delete(EditorsEndpoints.deleteCompetitor(id));
+	public static deleteMinor = async (competitionId: string, registrationId: string, minorId: string): Promise<IResponse<boolean>> => {
+		const data = await editorsApi.delete(EditorsEndpoints.deleteMinor(competitionId, registrationId, minorId));
 		return data.data as IResponse<boolean>;
 	}
 
-	public static addRegistration = async (data: IAddRegistrationRequest, competitionId: string): Promise<IResponse<IRegistration>> => {
+	public static addRegistration = async (data: IRegistrationRequest, competitionId: string): Promise<IResponse<IRegistration>> => {
 		const result = await editorsApi.post(EditorsEndpoints.addRegistration(competitionId), data);
 		return result.data as IResponse<IRegistration>;
 	}
 
-	public static deleteRegistration = async (id: string): Promise<IResponse<boolean>> => {
-		const data = await editorsApi.delete(EditorsEndpoints.deleteRegistration(id));
+	public static updateRegistration = async (data: IRegistrationRequest, competitionId: string): Promise<IResponse<IRegistration>> => {
+		const result = await editorsApi.patch(EditorsEndpoints.updateRegistration(competitionId, data.id!), data);
+		return result.data as IResponse<IRegistration>;
+	}
+
+	public static deleteRegistration = async (competitionId: string, registrationId: string): Promise<IResponse<boolean>> => {
+		const data = await editorsApi.delete(EditorsEndpoints.deleteRegistration(competitionId, registrationId));
 		return data.data as IResponse<boolean>;
+	}
+
+	public static addMinor = async (data: IMinorRequest, competitionId: string, registrationId: string): Promise<IResponse<ICompetitor>> => {
+		const result = await editorsApi.post(EditorsEndpoints.addMinor(competitionId, registrationId), data);
+		return result.data as IResponse<ICompetitor>;
+	}
+
+	public static updateMinor = async (data: IMinorRequest, competitionId: string, registrationId: string): Promise<IResponse<ICompetitor>> => {
+		const result = await editorsApi.patch(EditorsEndpoints.updateMinor(competitionId, registrationId, data.id!), data);
+		return result.data as IResponse<ICompetitor>;
 	}
 
 	public static getResultsByCompetitionId = async (id: string): Promise<IResponse<IGetResultsResponse>> => {

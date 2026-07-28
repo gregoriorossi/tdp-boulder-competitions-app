@@ -62,6 +62,7 @@ export default class CompetitionsMappers {
 			competitor: this.ToCompetitor(value.competitor),
 			createdAt: new Date(value.createdAt),
 			email: value.email,
+			phoneNumber: value.phoneNumber,
 			minors: value.minors.map(m => this.ToCompetitor(m))
 		}
 	}

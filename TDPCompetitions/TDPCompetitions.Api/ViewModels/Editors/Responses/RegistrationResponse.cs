@@ -8,6 +8,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
         string Email,
         Guid CompetitionId,
         CompetitorVM Competitor,
+        string PhoneNumber,
         IReadOnlyCollection<CompetitorVM> Minors)
     {
         public RegistrationResponse(Registration model)
@@ -17,6 +18,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
                 model.Email,
                 model.CompetitionId,
                 new CompetitorVM(model.Competitor),
+                model.PhoneNumber,
                 model.Minors
                     .Select(m => new CompetitorVM(m))
                     .ToList())

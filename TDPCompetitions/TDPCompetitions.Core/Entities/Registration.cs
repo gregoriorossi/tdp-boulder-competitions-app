@@ -9,6 +9,8 @@ namespace TDPCompetitions.Core.Entities
 
         public string Email { get; set; } = default!;
 
+        public string PhoneNumber { get; set; } = default!;
+
         public Guid CompetitionId { get; set; }
 
         public Competition Competition { get; set; } = null!;
@@ -18,5 +20,12 @@ namespace TDPCompetitions.Core.Entities
         public Competitor Competitor { get; set; } = default!;
 
         public ICollection<Competitor> Minors { get; set; } = [];
+
+        public void Update(Registration registration)
+        {
+            Email = registration.Email;
+            PhoneNumber = registration.PhoneNumber;
+            Competitor.Update(registration.Competitor);
+        }
     }
 }

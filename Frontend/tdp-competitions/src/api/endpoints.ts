@@ -2,11 +2,11 @@ import { Gender } from "../models/competitions.models";
 
 export const EditorsEndpoints = {
 	getAllCompetitions: '/Editors/competitions',
-	getCompetitionById: (id: string) => `/Editors/competition/getById/${id}`,
-	addCompetition: '/Editors/competition',
-	updateCompetition: (id: string) => `/Editors/competition/${id}`,
+	getCompetitionById: (id: string) => `/Editors/competitions/getById/${id}`,
+	addCompetition: '/Editors/competitions',
+	updateCompetition: (id: string) => `/Editors/competitions/${id}`,
 	updateCompetitionStatus: '/Editors/competition/updateStatus',
-	deleteCompetition: (id: string) => `/Editors/competition/${id}`,
+	deleteCompetition: (id: string) => `/Editors/competitions/${id}`,
 	getRankings: (id: string, gender: Gender | null) => {
 		let genderValue: string = "";
 		switch (gender) {
@@ -20,28 +20,31 @@ export const EditorsEndpoints = {
 				genderValue = "";
 				break;
 		}
-		return `/Editors/competition/${id}/rankings${genderValue}`;
+		return `/Editors/competitions/${id}/rankings${genderValue}`;
 	},
 	getCompetitors: (id: string) => `/Editors/competition/${id}/competitors`,
-	getResultsByCompetitionId: (id: string) => `/Editors/competition/${id}/results`,
-	deleteCompetitor: (id: string) => `/Editors/registrations/competitor/${id}`,
-	getProblemsByCompetitionId: (id: string) => `/Editors/competition/${id}/problems`,
-	getRegistrationsByCompetitionId: (id: string) => `/Editors/competition/${id}/registrations`,
-	addRegistration: (competitionId: string) => `/Editors/registrations/${competitionId}`,
-	deleteRegistration: (id: string) => `/Editors/registrations/${id}`,
+	getResultsByCompetitionId: (id: string) => `/Editors/competitions/${id}/results`,
+	getProblemsByCompetitionId: (id: string) => `/Editors/competitions/${id}/problems`,
+	getRegistrationsByCompetitionId: (id: string) => `/Editors/competitions/${id}/registrations`,
+	addRegistration: (competitionId: string) => `/Editors/competitions/${competitionId}/registrations`,
+	updateRegistration: (competitionId: string, registrationId: string) => `/Editors/competitions/${competitionId}/registrations/${registrationId}`,
+	deleteRegistration: (competitionId: string, registrationId: string) => `/Editors/competitions/${competitionId}/registrations/${registrationId}`,
+	addMinor: (competitionId: string, registrationId: string) => `/Editors/competitions/${competitionId}/registrations/${registrationId}/minors`,
+	updateMinor: (competitionId: string, registrationId: string, minorId: string) => `/Editors/competitions/${competitionId}/registrations/${registrationId}/minors/${minorId}`,
+	deleteMinor: (competitionId: string, registrationId: string, minorId: string) => `/Editors/competitions/${competitionId}/registrations/${registrationId}/minors/${minorId}`,
 	addProblemsGroup: `/Editors/problems/addGroup`,
 	updateProblemsGroups: '/Editors/problems/groups',
-	addProblemToGroup: (competitionId: string) => `/Editors/competition/${competitionId}/problems`,
-	updateProblem: (competitionId: string) => `/Editors/competition/${competitionId}/problems`,
-	deleteProblem: (competitionId: string, problemId: string) => `/Editors/competition/${competitionId}/problems/${problemId}`,
+	addProblemToGroup: (competitionId: string) => `/Editors/competitions/${competitionId}/problems`,
+	updateProblem: (competitionId: string) => `/Editors/competitions/${competitionId}/problems`,
+	deleteProblem: (competitionId: string, problemId: string) => `/Editors/competitions/${competitionId}/problems/${problemId}`,
 	addSpecialProblem: '/Editors/problems/specialProblem',
 	updateSpecialProblem: '/Editors/problems/specialProblem',
 	deleteSpecialProblem: (id: string) => `/Editors/problems/specialProblem/${id}`,
 	sendProblem: '/Editors/problems/send',
 	unsendProblem: (id: string) => `/Editors/problems/unsend/${id}`,
-	downloadWaiverAll: (competitionId: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${competitionId}/waiver`,
+	downloadWaiverAll: (competitionId: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${competitionId}/waiver`,
 	downloadWaiver: (competitionId: string, registrationId: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${competitionId}/waiver/${registrationId}`,
-	downloadReport: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${id}/report`
+	downloadReport: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${id}/report`
 };
 
 export const CompetitorsEndpoints = {

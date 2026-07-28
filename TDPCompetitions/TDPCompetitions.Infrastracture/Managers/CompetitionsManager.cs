@@ -121,8 +121,31 @@ namespace TDPCompetitions.Infrastracture.Managers
 
         public async Task<Registration> AddRegistrationAsync(Registration registration, CancellationToken cancellationToken)
         {
-            Registration result = await _competitionsRepository.AddRegistration(registration, cancellationToken); 
+            Registration result = await _competitionsRepository.AddRegistrationAsync(registration, cancellationToken); 
             return result;
+        }
+
+        public async Task<Registration> UpdateRegistrationAsync(Registration updatedRegistration, Registration registrationToUpdate, CancellationToken cancellationToken)
+        {
+            registrationToUpdate.Update(updatedRegistration);
+
+            Registration result = await _competitionsRepository.UpdateRegistrationAsync(registrationToUpdate, cancellationToken);
+            return result;
+        }
+
+        public async Task<Competitor> AddMinorToRegistrationAsync(Competitor minor, Registration registration, CancellationToken cancellationToken)
+        {
+            registration.Minors.Add(minor);
+            await _competitionsRepository.UpdateRegistrationAsync(registration, cancellationToken);
+
+            return minor;
+        }
+
+        public async Task<Competitor> UpdateMinorToRegistrationAsync(Competitor minor, Competitor minorToUpdate, Registration registration, CancellationToken cancellationToken)
+        {
+            minorToUpdate.Update(minor);
+            await _competitionsRepository.UpdateCompetitorAsync(minorToUpdate, cancellationToken);
+            return minorToUpdate;
         }
 
         public async Task<Registration?> GetRegistrationByIdAsync(Guid registrationId, CancellationToken cancellationToken)
@@ -152,17 +175,7 @@ namespace TDPCompetitions.Infrastracture.Managers
                 throw new CompetitorNotFoundException(updatedCompetitor.Id);
             }
 
-            competitor.AddressCity = updatedCompetitor.AddressCity;
-            competitor.AddressNumber = updatedCompetitor.AddressNumber;
-            competitor.AddressStreet = updatedCompetitor.AddressStreet;
-            competitor.AddressProvince = updatedCompetitor.AddressProvince;
-            competitor.BirthPlace = updatedCompetitor.BirthPlace;
-            competitor.BirthDate = updatedCompetitor.BirthDate;
-            competitor.BirthProvince = updatedCompetitor.BirthProvince;
-            competitor.Gender = updatedCompetitor.Gender;
-            competitor.FirstName = updatedCompetitor.FirstName;
-            competitor.LastName = updatedCompetitor.LastName;
-            competitor.PhoneNumber = updatedCompetitor.PhoneNumber;
+            competitor.Update(updatedCompetitor);
 
             Competitor result = await _competitionsRepository.UpdateCompetitorAsync(competitor, cancellationToken);
             return result;

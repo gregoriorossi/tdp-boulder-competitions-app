@@ -1,17 +1,17 @@
 import { Button } from "@mui/material";
-import { ErrorMessage } from "../ErrorMessage";
-import { Spinner } from "../Spinner";
 import { RegistrationRow } from "./RegistrationRow";
-import { sortRegistrations } from "../../utils/competitions.utils";
-import classNames from "../../App.module.scss";
-import { useRegistrationsByCompetitionsId } from "../../queries/registrations.queries";
-import { STRINGS } from "../../consts/strings.consts";
-import { RegistrationModal } from "../modals/RegistrationModal";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
 import PrintIcon from '@mui/icons-material/Print';
 import DownloadIcon from '@mui/icons-material/Download';
-import { EditorsEndpoints } from "../../api/endpoints";
+import { ErrorMessage } from "../../../../../components/ErrorMessage";
+import { RegistrationModal } from "../../../../../components/modals/RegistrationModal";
+import { Spinner } from "../../../../../components/Spinner";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import { useRegistrationsByCompetitionsId } from "../../../../../queries/registrations.queries";
+import { sortRegistrations } from "../../../../../utils/competitions.utils";
+import { EditorsEndpoints } from "../../../../../api/endpoints";
+import classNames from "../../../../../App.module.scss";
 const ManageRegistraionsStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations;
 
 interface IManageRegistrationsProps {

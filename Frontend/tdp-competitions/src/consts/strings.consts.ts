@@ -62,7 +62,10 @@ export const STRINGS = {
 					Name: 'Nome',
 					Email: 'Email',
 					BirthDate: 'Data di nascita',
-					Minors: 'Minori'
+					Minors: 'Minori',
+					RegistrationRow: {
+						AddMinor: 'Aggiungi minore'
+					}
 				}
 			},
 			ManageResults: {
@@ -149,7 +152,20 @@ export const STRINGS = {
 			}
 		},
 		Minor: {
-
+			TitleNew: 'Aggiungi minore',
+			TitleEdit: (fullName: string) => `Vuoi modificare i dati di ${fullName}?`,
+			Fields: {
+				FirstName: 'Nome',
+				LastName: 'Cognome',
+				BirthDate: 'Data di nascita',
+				Gender: 'Genere',
+				BirthPlace: 'Luogo di nascita',
+				BirthProvince: 'Provincia di nascita',
+				AddressCity: 'Città di residenza',
+				AddressProvince: 'Provincia di residenza',
+				AddressStreet: 'Via di residenza',
+				AddressNumber: 'Numero civico di residenza'
+			}
 		},
 		Competition: {
 			Fields: {
@@ -265,6 +281,10 @@ export const STRINGS = {
 		MaxAge: (years: number) => `La persona non deve avere compiuto ${years} anni`,
 		MinAge: (years: number) => `Devi avere compiuto almeno ${years} anni`,
 		PrivacyMandatory: 'Devi accettare l\'informativa sulla privacy'
+	},
+	DateFormats: {
+		DateOnly: 'DD/MM/YYYY',
+		DateTime: 'DD/MM/YYYY HH:mm'
 	}
 }
 

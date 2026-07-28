@@ -4,6 +4,7 @@ using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Core.Entities;
+using TDPCompetitions.Core.Exceptions;
 
 namespace TDPCompetitions.Api.Mappers
 {
@@ -50,8 +51,65 @@ namespace TDPCompetitions.Api.Mappers
                 CompetitionId = competitionId,
                 CreatedAt = DateTime.UtcNow,
                 Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
                 Competitor = competitor,
                 Minors = minors
+            };
+        }
+
+        internal static Competitor AddMinorRequestToCompetitor(AddMinorRequest model, Guid competitionId, Registration registration)
+        {
+            return new Competitor
+            {
+                CompetitionId = competitionId,
+                RegistrationId = registration.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsMinor = true,
+                Gender = model.Gender.IntToGender(),
+                BirthProvince = model.BirthProvince,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressProvince = model.AddressProvince,
+                AddressStreet = model.AddressStreet,
+                BirthDate = model.BirthDate,
+                BirthPlace = model.BirthPlace,
+            };
+        }
+
+        internal static Competitor UpdateMinorRequestToCompetitor(UpdateMinorRequest model, Guid competitionId, Registration registration)
+        {
+            return new Competitor
+            {
+                Id = model.Id,
+                CompetitionId = competitionId,
+                RegistrationId = registration.Id,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsMinor = true,
+                Gender = model.Gender.IntToGender(),
+                BirthProvince = model.BirthProvince,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressProvince = model.AddressProvince,
+                AddressStreet = model.AddressStreet,
+                BirthDate = model.BirthDate,
+                BirthPlace = model.BirthPlace,
+            };
+        }
+
+        internal static Registration UpdateRegistrationRequestToRegistration(UpdateRegistrationRequest model, Guid competitionId)
+        {
+            Competitor competitor = UpdateRegistrationVMToCompetitor(model);
+
+            return new Registration
+            {
+                Id = model.Id,
+                CompetitionId = competitionId,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Competitor = competitor,
+                Minors = []
             };
         }
 
@@ -69,8 +127,25 @@ namespace TDPCompetitions.Api.Mappers
                 AddressProvince = model.AddressProvince,
                 AddressStreet = model.AddressStreet,
                 BirthDate = model.BirthDate,
-                BirthPlace = model.BirthPlace,
-                PhoneNumber = model.PhoneNumber
+                BirthPlace = model.BirthPlace
+            };
+        }
+
+        private static Competitor UpdateRegistrationVMToCompetitor(UpdateRegistrationRequest model)
+        {
+            return new Competitor
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsMinor = false,
+                Gender = model.Gender.IntToGender(),
+                BirthProvince = model.BirthProvince,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressProvince = model.AddressProvince,
+                AddressStreet = model.AddressStreet,
+                BirthDate = model.BirthDate,
+                BirthPlace = model.BirthPlace
             };
         }
 
@@ -221,8 +296,7 @@ namespace TDPCompetitions.Api.Mappers
                 BirthProvince = model.BirthProvince,
                 Gender = model.Gender.IntToGender(),
                 FirstName = model.FirstName,
-                LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber
+                LastName = model.LastName
             };
 
             return competitor;

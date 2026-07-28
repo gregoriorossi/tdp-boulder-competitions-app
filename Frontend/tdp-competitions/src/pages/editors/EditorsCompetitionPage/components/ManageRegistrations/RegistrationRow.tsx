@@ -1,20 +1,23 @@
 import { Box, Button, ButtonGroup, Collapse } from "@mui/material";
 import { useState } from "react";
-import type { IRegistration } from "../../models/competitions.models";
-import { BuildFullName } from "../../utils/competitions.utils";
-import { DateUtils } from "../../utils/date.utils";
 import PrintIcon from '@mui/icons-material/Print';
 import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { STRINGS } from "../../consts/strings.consts";
 import { MinorRow } from "./MinorRow";
-import classNames from "../../App.module.scss";
 import React from "react";
-import ConfirmationDialog from "../ConfirmationDialog";
-import { Errors } from "../../consts/errors.consts";
-import { useDeleteRegistration } from "../../queries/registrations.queries";
-import { RegistrationModal } from "../modals/RegistrationModal";
-import { EditorsEndpoints } from "../../api/endpoints";
+import { EditorsEndpoints } from "../../../../../api/endpoints";
+import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
+import { RegistrationModal } from "../../../../../components/modals/RegistrationModal";
+import { Errors } from "../../../../../consts/errors.consts";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import type { IRegistration } from "../../../../../models/competitions.models";
+import { useDeleteRegistration } from "../../../../../queries/registrations.queries";
+import { BuildFullName } from "../../../../../utils/competitions.utils";
+import { DateUtils } from "../../../../../utils/date.utils";
+import classNames from "../../../../../App.module.scss";
+import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
+import { MinorModal } from "../../../../../components/modals/MinorModal";
+const RegistrationRowStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations.Table.RegistrationRow;
 
 interface IRegistrationRowProps {
 	registration: IRegistration;
@@ -24,6 +27,7 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 	const { registration } = props;
 	const [isOpen, setIsOpen] = useState<boolean>(true);
 	const [isRegistrationModalOpen, setIsRegistrationModalOpen] = useState<boolean>(false);
+	const [isAddMinorModalOpen, setIsAddMinorModalOpen] = useState<boolean>(false);
 	const [deleteRegistrationDialogOpen, setDeleteRegistrationDialogOpen] = React.useState<boolean>(false);
 	const { error: deleteError, mutateAsync: deleteRegistrationAsync, isPending: isDeletePending } = useDeleteRegistration(registration.competitionId);
 	const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
@@ -72,6 +76,10 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 							window.open(url, "_blank");
 						}}><PrintIcon />
 					</Button>
+					<Button
+						title={RegistrationRowStrings.AddMinor}
+						onClick={(e) => { e.stopPropagation(); setIsAddMinorModalOpen(true); }}><FamilyRestroomIcon />
+					</Button>
 				</ButtonGroup>
 			</div>
 		</div>
@@ -84,9 +92,9 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 						<Box>
 							{
 								registration.minors
-									.map((m, idx) => <MinorRow
+									.map((m) => <MinorRow
 										competitor={m}
-										key={`${idx}-${m.lastName}-${m.firstName}`} />)
+										key={`${m.id}`} />)
 							}
 						</Box>
 					</div>
@@ -101,6 +109,13 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 			registration={registration}
 			competitionId={registration.competitionId}
 			onClose={() => setIsRegistrationModalOpen(false)} />
+
+		<MinorModal
+			open={isAddMinorModalOpen}
+			onChange={() => { setIsAddMinorModalOpen(false); }}
+			competitionId={registration.competitionId}
+			registrationId={registration.id}
+			onClose={() => setIsAddMinorModalOpen(false)} />
 
 		<ConfirmationDialog
 			isOpen={deleteRegistrationDialogOpen}

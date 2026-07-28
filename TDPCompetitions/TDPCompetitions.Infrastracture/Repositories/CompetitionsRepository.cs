@@ -21,7 +21,7 @@ namespace TDPCompetitions.Infrastracture.Repositories
             return competition;
         }
 
-        public async Task<Registration> AddRegistration(Registration registration, CancellationToken cancellationToken)
+        public async Task<Registration> AddRegistrationAsync(Registration registration, CancellationToken cancellationToken)
         {
             await _appDbContext.Registrations.AddAsync(registration);
             await _appDbContext.SaveChangesAsync(cancellationToken);
@@ -81,6 +81,20 @@ namespace TDPCompetitions.Infrastracture.Repositories
             _appDbContext.Competitors.Update(competitor);
             await _appDbContext.SaveChangesAsync(cancellationToken);
             return competitor;  
+        }
+
+        public async Task<Competitor> AddCompetitorAsync(Competitor competitor, CancellationToken cancellationToken)
+        {
+            await _appDbContext.Competitors.AddAsync(competitor, cancellationToken);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return competitor;
+        }
+
+        public async Task<Registration> UpdateRegistrationAsync(Registration registration, CancellationToken cancellationToken)
+        {
+            _appDbContext.Registrations.Update(registration);
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+            return registration;
         }
     }
 }

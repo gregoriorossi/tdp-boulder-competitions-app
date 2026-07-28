@@ -114,7 +114,25 @@ export interface ICompetitorResponse {
 	registrationId: string;
 }
 
-export interface IAddRegistrationRequest {
+export interface IRegistrationRequest {
+	id?: string | undefined;
+	firstName: string;
+	lastName: string;
+	birthDate: Date,
+	email: string;
+	gender: number;
+	birthPlace: string;
+	birthProvince: string;
+	addressCity: string;
+	addressProvince: string;
+	addressStreet: string;
+	addressNumber: string;
+	phoneNumber: string;
+}
+
+
+export interface IRegistrationRequestDeprecated {
+	id?: string | undefined;
 	firstName: string;
 	lastName: string;
 	birthDate: Date,
@@ -144,6 +162,49 @@ export interface IAddCompetitorRegistrationRequest {
 	addressNumber: string;
 	phoneNumber: string;
 	minors: IAddRegistrationMinorRequest[]
+}
+
+export interface IMinorRequest {
+	id?: string | undefined;
+	firstName: string;
+	lastName: string;
+	birthDate: Date,
+	gender: number;
+	birthPlace: string;
+	birthProvince: string;
+	addressCity: string;
+	addressProvince: string;
+	addressStreet: string;
+	addressNumber: string;
+}
+
+export interface IUpdateCompetitorRegistrationRequest {
+	firstName: string;
+	lastName: string;
+	birthDate: Date,
+	email: string;
+	gender: number;
+	birthPlace: string;
+	birthProvince: string;
+	addressCity: string;
+	addressProvince: string;
+	addressStreet: string;
+	addressNumber: string;
+	phoneNumber: string;
+	minors: IUpdateRegistrationMinorRequest[]
+}
+
+export interface IUpdateRegistrationMinorRequest {
+	firstName: string;
+	lastName: string;
+	birthDate: Date,
+	gender: number;
+	birthPlace: string;
+	birthProvince: string;
+	addressCity: string;
+	addressProvince: string;
+	addressStreet: string;
+	addressNumber: string;
 }
 
 export interface ISendProblemRequest {

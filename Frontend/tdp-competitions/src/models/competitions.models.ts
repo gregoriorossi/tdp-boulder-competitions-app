@@ -68,6 +68,7 @@ export interface IRegistration {
 	email: string;
 	competitionId: string;
 	competitor: ICompetitor;
+	phoneNumber: string;
 	minors: ICompetitor[];
 }
 
@@ -83,7 +84,6 @@ export interface ICompetitor {
 	addressProvince: string;
 	addressStreet: string;
 	addressNumber: string;
-	phoneNumber: string;
 	isMinor: boolean;
 	competitionId: string;
 	registrationId: string;

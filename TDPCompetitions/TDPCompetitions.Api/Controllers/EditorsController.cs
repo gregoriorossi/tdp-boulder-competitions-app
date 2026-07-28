@@ -50,7 +50,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
-        [Route("competition/getById/{id}")]
+        [Route("competitions/getById/{id}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<GetAllCompetitionsResponse>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -68,8 +68,8 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("competition")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<Competition>))]
+        [Route("competitions")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<AddCompetitionResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddCompetition(AddCompetitionRequest model, CancellationToken cancellationToken)
@@ -88,11 +88,11 @@ namespace TDPCompetitions.Api.Controllers
 
             Competition result = await _competitionsManager.AddAsync(competition, cancellationToken);
             AddCompetitionResponse response = new AddCompetitionResponse(result);
-            return Ok(Result<Competition>.Success(result));
+            return Ok(Result<AddCompetitionResponse>.Success(response));
         }
 
         [HttpPatch]
-        [Route("competition/{competitionId}/status")]
+        [Route("competitions/{competitionId}/status")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -121,7 +121,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("competition/{competitionId}")]
+        [Route("competitions/{competitionId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<CompetitionInfoResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -151,7 +151,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("competition/{competitionId}")]
+        [Route("competitions/{competitionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -168,7 +168,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
-        [Route("competition/{competitionId}/registrations")]
+        [Route("competitions/{competitionId}/registrations")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<RegistrationResponse>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -186,7 +186,7 @@ namespace TDPCompetitions.Api.Controllers
         #endregion
 
         [HttpGet]
-        [Route("competition/{competitionId}/report")]
+        [Route("competitions/{competitionId}/report")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -214,7 +214,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
-        [Route("competition/{competitionId}/waiver")]
+        [Route("competitions/{competitionId}/waiver")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -238,7 +238,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
-        [Route("competition/{competitionId}/waiver/{registrationId}")]
+        [Route("competitions/{competitionId}/waiver/{registrationId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -267,7 +267,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
-        [Route("competition/{competitionId}/rankings")]
+        [Route("competitions/{competitionId}/rankings")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<RankingCompetitorResponse>>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -293,7 +293,7 @@ namespace TDPCompetitions.Api.Controllers
 
         #region Problems
         [HttpGet]
-        [Route("competition/{competitionId}/problems")]
+        [Route("competitions/{competitionId}/problems")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetProblemsResponse>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -312,7 +312,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("competition/{competitionId}/problems/group")]
+        [Route("competitions/{competitionId}/problems/group")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ProblemsGroupResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -336,7 +336,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("competition/{competitionId}/problems/groups")]
+        [Route("competitions/{competitionId}/problems/groups")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<ProblemsGroupResponse>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -363,7 +363,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("competition/{competitionId}/problems")]
+        [Route("competitions/{competitionId}/problems")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ProblemsGroup>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -393,7 +393,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("competition/{competitionId}/problems")]
+        [Route("competitions/{competitionId}/problems")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -424,7 +424,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("competition/{competitionId}/problems/{problemId}")]
+        [Route("competitions/{competitionId}/problems/{problemId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -448,7 +448,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("competition/{competitionId}/problems/specialProblem")]
+        [Route("competitions/{competitionId}/problems/specialProblem")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SpecialProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -472,7 +472,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("competition/{competitionId}/problems/specialProblem")]
+        [Route("competitions/{competitionId}/problems/specialProblem")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SpecialProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -502,7 +502,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("competition/{competitionId}/problems/specialProblem/{problemId}")]
+        [Route("competitions/{competitionId}/problems/specialProblem/{problemId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -526,7 +526,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("competition/{competitionId}/problems/send")]
+        [Route("competitions/{competitionId}/problems/send")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -551,7 +551,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("competition/{competitionId}/problems/send/{problemId}")]
+        [Route("competitions/{competitionId}/problems/send/{problemId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -578,7 +578,7 @@ namespace TDPCompetitions.Api.Controllers
 
         #region Competitors
         [HttpGet]
-        [Route("competition/{competitionId}/competitors")]
+        [Route("competitions/{competitionId}/competitors")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<CompetitorResponse>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -600,7 +600,7 @@ namespace TDPCompetitions.Api.Controllers
 
         #region Registrations
         [HttpPost]
-        [Route("competition/{competitionId}/registrations")]
+        [Route("competitions/{competitionId}/registrations")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<RegistrationResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -630,8 +630,39 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<RegistrationResponse>.Success(new RegistrationResponse(result)));
         }
 
+        [HttpPatch]
+        [Route("competitions/{competitionId}/registrations/{registrationId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<RegistrationResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateRegistration(Guid competitionId, Guid registrationId, [FromBody] UpdateRegistrationRequest model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition is null)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            Registration? registrationToUpdate = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
+            if (registrationToUpdate is null)
+            {
+                return NotFound(Result.Failure(RegistrationsErrors.NotFound));
+            }
+
+            Registration registration = ViewModelToEntity.UpdateRegistrationRequestToRegistration(model, competitionId);
+            Registration result = await _competitionsManager.UpdateRegistrationAsync(registration, registrationToUpdate, cancellationToken);
+
+            return Ok(Result<RegistrationResponse>.Success(new RegistrationResponse(result)));
+        }
+
         [HttpDelete]
-        [Route("competition/{competitionId}/registrations/{registrationId}")]
+        [Route("competitions/{competitionId}/registrations/{registrationId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -653,12 +684,85 @@ namespace TDPCompetitions.Api.Controllers
             return NoContent();
         }
 
+        [HttpPost]
+        [Route("competitions/{competitionId}/registrations/{registrationId}/minors")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<CompetitorResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddMinorToRegistration(Guid competitionId, Guid registrationId, [FromBody] AddMinorRequest model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
+            if (registration is null)
+            {
+                return NotFound(Result.Failure(RegistrationsErrors.NotFound));
+            }
+
+            // controllo se il minor è già registrato per questa competizione
+
+            Competitor minor = ViewModelToEntity.AddMinorRequestToCompetitor(model, competitionId, registration);
+
+            Competitor result = await _competitionsManager.AddMinorToRegistrationAsync(minor, registration, cancellationToken);
+
+            return Ok(Result<CompetitorResponse>.Success(new CompetitorResponse(result)));
+        }
+
+        [HttpPatch]
+        [Route("competitions/{competitionId}/registrations/{registrationId}/minors/{minorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<CompetitorResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> UpdateMinorToRegistration(Guid competitionId, Guid registrationId, Guid minorId, [FromBody] UpdateMinorRequest model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
+            if (registration is null)
+            {
+                return NotFound(Result.Failure(RegistrationsErrors.NotFound));
+            }
+
+            Competitor? minorToUpdate = await _competitionsManager.GetCompetitorAsync(minorId, cancellationToken);
+
+            if (minorToUpdate is null)
+            {
+                return NotFound(Result.Failure(CompetitorsErrors.NotFound));
+            }
+
+            Competitor minor = ViewModelToEntity.UpdateMinorRequestToCompetitor(model, competitionId, registration);
+
+            Competitor result = await _competitionsManager.UpdateMinorToRegistrationAsync(minor, minorToUpdate, registration, cancellationToken);
+
+            return Ok(Result<CompetitorResponse>.Success(new CompetitorResponse(result)));
+        }
+
         [HttpDelete]
-        [Route("competition/{competitionId}/registrations/competitor/{competitorId}")]
+        [Route("competitions/{competitionId}/registrations/{registrationId}/minors/{minorId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteCompetitor(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteMinor(Guid competitionId, Guid registrationId, Guid minorId, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
@@ -666,7 +770,13 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
-            Competitor? competitor = await _competitionsManager.GetCompetitorAsync(competitorId, cancellationToken);
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
+            if (registration == null)
+            {
+                return NotFound(Result.Failure(RegistrationsErrors.NotFound));
+            }
+
+            Competitor? competitor = await _competitionsManager.GetCompetitorAsync(minorId, cancellationToken);
             if (competitor == null)
             {
                 return NotFound(Result.Failure(CompetitorsErrors.NotFound));
@@ -684,7 +794,7 @@ namespace TDPCompetitions.Api.Controllers
 
         #region Results
         [HttpGet]
-        [Route("competition/{competitionId}/results")]
+        [Route("competitions/{competitionId}/results")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetResultsResponse>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

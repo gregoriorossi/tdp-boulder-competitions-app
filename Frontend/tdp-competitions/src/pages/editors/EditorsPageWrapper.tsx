@@ -4,7 +4,7 @@ import logoTesteDiPietra from '../../assets/teste-di-pietra_logo.png';
 import { useNavigate } from "react-router-dom";
 import { Routes } from "../../consts/routes.consts";
 import type { CompetitionStatus } from "../../models/competitions.models";
-import { Status } from "./EditorsCompetitionPage/component/ManageCompetition/CompetitionStatus";
+import { Status } from "../../components/CompetitionStatus";
 
 interface IEditorsPageWrapperProps extends React.ComponentProps<typeof Box> {
 	title: string;

@@ -1,49 +1,46 @@
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
-import { GENDERS, type IRegistration } from "../../models/competitions.models";
+import { GENDERS, type ICompetitor } from "../../models/competitions.models";
 import { STRINGS } from "../../consts/strings.consts";
 import classNames from "../../App.module.scss";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registrationSchema, type IRegistrationForm } from "../../form-schemas/registrations.schemas";
+import { minorSchema, type IMinorForm } from "../../form-schemas/registrations.schemas";
 import dayjs, { Dayjs } from "dayjs";
 import { genderToString } from "../../utils/competitions.utils";
-import { useAddRegistration, useUpdateRegistration } from "../../queries/registrations.queries";
-import type { IRegistrationRequest } from "../../models/api.models";
+import type { IMinorRequest } from "../../models/api.models";
 import { Spinner } from "../Spinner";
 import { Errors } from "../../consts/errors.consts";
 import { ErrorMessage } from "../ErrorMessage";
+import { useAddMinor, useUpdateMinor } from "../../queries/editors.queries";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 const FormStrings = STRINGS.Forms.Registration;
 const FieldsStrings = FormStrings.Fields;
 
-interface IRegistrationFormProps {
-	registration?: IRegistration;
+interface IMinorFormProps {
+	minor?: ICompetitor;
 	competitionId: string;
-	onChange: (registration: IRegistration) => void;
+	registrationId: string;	
+	onChange: (minor: ICompetitor) => void;
 }
 
-export function RegistrationForm(props: IRegistrationFormProps) {
-	const { registration, competitionId, onChange } = props;
+export function MinorForm(props: IMinorFormProps) {
+	const { minor, competitionId, registrationId, onChange } = props;
 	const { handleSubmit, register, control, formState: { errors }, reset } = useForm({
-		resolver: yupResolver(registrationSchema)
+		resolver: yupResolver(minorSchema)
 	});
 
-	const { data: addRegistrationData, error: addRegistrationError, mutateAsync: addRegistrationMutateAsync, isPending: addRegistrationIsPending } = useAddRegistration(competitionId);
-	const { data: updateRegistrationData, error: updateRegistrationError, mutateAsync: updateRegistrationMutateAsync, isPending: updateRegistrationIsPending } = useUpdateRegistration(competitionId);
+	const { data: addMinorData, error: addMinorError, mutateAsync: addMinorMutateAsync, isPending: addMinorIsPending } = useAddMinor(competitionId, registrationId);
+	const { data: updateMinorData, error: updateMinorError, mutateAsync: updateMinorMutateAsync, isPending: updateMinorIsPending } = useUpdateMinor(competitionId, registrationId);
 
-	const errorCode: string | null =
-		addRegistrationData?.error?.code
-		?? updateRegistrationData?.error?.code
-		?? (addRegistrationError || updateRegistrationError ? Errors.Generic : null);
+	const errorCode: string | null = addMinorData?.error?.code ?? updateMinorData?.error?.code ?? (addMinorError ? Errors.Generic : null) ?? (updateMinorError ? Errors.Generic : null);
 
-	const onSubmit = async (data: IRegistrationForm) => {
-		if (addRegistrationIsPending || updateRegistrationIsPending) return;
+	const onSubmit = async (data: IMinorForm) => {
+		if (addMinorIsPending || updateMinorIsPending) return;
 
-		const request: IRegistrationRequest = {
-			id: registration?.id,
+		const request: IMinorRequest = {
+			id: minor?.id,
 			firstName: data.firstName,
 			lastName: data.lastName,
-			email: data.email,
 			gender: data.gender,
 			addressCity: data.addressCity,
 			addressNumber: data.addressNumber,
@@ -51,20 +48,16 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			addressStreet: data.addressStreet,
 			birthDate: data.birthDate,
 			birthPlace: data.birthPlace,
-			birthProvince: data.birthProvince,
-			phoneNumber: data.phoneNumber
+			birthProvince: data.birthProvince
 		};
 
-		const result = registration
-			? await updateRegistrationMutateAsync(request)
-			: await addRegistrationMutateAsync(request);
-
+		const result = minor ? await updateMinorMutateAsync(request) : await addMinorMutateAsync(request);
 		if (result.isSuccess) {
 			reset();
 			onChange(result.value!);
 		}
 	}
-	console.log("phoneNumber", registration);
+
 	return <Box
 		className={classNames.form}
 		component="form"
@@ -73,28 +66,21 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 		<TextField
 			label={FieldsStrings.FirstName}
 			{...register("firstName")}
-			defaultValue={registration?.competitor?.firstName}
+			defaultValue={minor?.firstName}
 			error={!!errors.firstName}
 			helperText={errors.firstName?.message} />
 
 		<TextField
 			label={FieldsStrings.LastName}
 			{...register("lastName")}
-			defaultValue={registration?.competitor?.lastName}
+			defaultValue={minor?.lastName}
 			error={!!errors.lastName}
 			helperText={errors.lastName?.message} />
-
-		<TextField
-			label={FieldsStrings.Email}
-			{...register("email")}
-			defaultValue={registration?.email}
-			error={!!errors.email}
-			helperText={errors.email?.message} />
 
 		<Controller
 			name="birthDate"
 			control={control}
-			defaultValue={registration?.competitor ? new Date(registration.competitor.birthDate) : undefined}
+			defaultValue={minor?.birthDate ? new Date(minor.birthDate) : undefined}
 			render={
 				({ field }) => {
 					const dayJsValue: Dayjs | null = field.value ? dayjs(field.value) : null;
@@ -112,7 +98,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 									fullWidth: true
 								}
 							}}
-							format={STRINGS.DateFormats.DateOnly} />
+							format="DD/MM/YYYY" />
 					)
 				}} />
 
@@ -121,7 +107,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			<Controller
 				name="gender"
 				control={control}
-				defaultValue={registration?.competitor.gender}
+				defaultValue={minor?.gender}
 				render={({ field }) => (
 					<Select
 						labelId="color-label"
@@ -146,54 +132,47 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 		<TextField
 			label={FieldsStrings.BirthPlace}
 			{...register("birthPlace")}
-			defaultValue={registration?.competitor.birthPlace}
+			defaultValue={minor?.birthPlace}
 			error={!!errors.birthPlace}
 			helperText={errors.birthPlace?.message} />
 
 		<TextField
 			label={FieldsStrings.BirthProvince}
 			{...register("birthProvince")}
-			defaultValue={registration?.competitor.birthProvince}
+			defaultValue={minor?.birthProvince}
 			error={!!errors.birthProvince}
 			helperText={errors.birthProvince?.message} />
 
 		<TextField
 			label={FieldsStrings.AddressCity}
 			{...register("addressCity")}
-			defaultValue={registration?.competitor.addressCity}
+			defaultValue={minor?.addressCity}
 			error={!!errors.addressCity}
 			helperText={errors.addressCity?.message} />
 
 		<TextField
 			label={FieldsStrings.AddressProvince}
 			{...register("addressProvince")}
-			defaultValue={registration?.competitor.addressProvince}
+			defaultValue={minor?.addressProvince}
 			error={!!errors.addressProvince}
 			helperText={errors.addressProvince?.message} />
 
 		<TextField
 			label={FieldsStrings.AddressStreet}
 			{...register("addressStreet")}
-			defaultValue={registration?.competitor.addressStreet}
+			defaultValue={minor?.addressStreet}
 			error={!!errors.addressStreet}
 			helperText={errors.addressStreet?.message} />
 
 		<TextField
 			label={FieldsStrings.AddressNumber}
 			{...register("addressNumber")}
-			defaultValue={registration?.competitor.addressNumber}
+			defaultValue={minor?.addressNumber}
 			error={!!errors.addressNumber}
 			helperText={errors.addressNumber?.message} />
 
-		<TextField
-			label={FieldsStrings.PhoneNumber}
-			{...register("phoneNumber")}
-			defaultValue={registration?.phoneNumber}
-			error={!!errors.phoneNumber}
-			helperText={errors.phoneNumber?.message} />
-
 		{
-			addRegistrationIsPending && <Spinner />
+			addMinorIsPending && <Spinner />
 		}
 
 		{

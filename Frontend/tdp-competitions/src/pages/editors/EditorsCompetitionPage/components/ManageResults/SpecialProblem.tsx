@@ -1,6 +1,7 @@
-import classNames from "../../App.module.scss";
-import { STRINGS } from "../../consts/strings.consts";
-import type { IGetResultsSpecialProblem } from "../../models/competitions.models";
+import classNames from "../../../../../App.module.scss";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import type { IGetResultsSpecialProblem } from "../../../../../models/competitions.models";
+
 const ManageResultsStrings = STRINGS.Pages.EditorCompetitionPage.ManageResults;
 
 

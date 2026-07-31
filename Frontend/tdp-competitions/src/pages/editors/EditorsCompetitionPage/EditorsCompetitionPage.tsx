@@ -10,12 +10,12 @@ import { useState } from "react";
 import { STRINGS } from "../../../consts/strings.consts";
 import { ErrorMessage } from "../../../components/ErrorMessage";
 import { ManageRegistrations } from "./components/ManageRegistrations/ManageRegistrations";
-import { ManageResults } from "../../../components/ManageResults/ManageResults";
 import { Rankings } from "../../../components/Rankings/Rankings";
 import classNames from "../../../App.module.scss";
 import { ActionsContainer } from "./components/ManageCompetition/ActionsContainer";
 import { ManageCompetition } from "./components/ManageCompetition/ManageCompetition";
 import { ManageProblems } from "./components/ManageProblems/ManageProblems";
+import { ManageResults } from "./components/ManageResults/ManageResults";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 const TabValues = {

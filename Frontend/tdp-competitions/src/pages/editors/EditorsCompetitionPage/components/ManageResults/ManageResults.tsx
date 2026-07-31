@@ -1,8 +1,8 @@
-import classNames from "../../App.module.scss";
-import { STRINGS } from "../../consts/strings.consts";
-import { useResults, useSendProblem, useUnsendProblem } from "../../queries/competitions.queries";
-import { ErrorMessage } from "../ErrorMessage";
-import { Spinner } from "../Spinner";
+import classNames from "../../../../../App.module.scss";
+import { ErrorMessage } from "../../../../../components/ErrorMessage";
+import { Spinner } from "../../../../../components/Spinner";
+import { STRINGS } from "../../../../../consts/strings.consts";
+import { useResults, useSendProblem, useUnsendProblem } from "../../../../../queries/competitions.queries";
 import { Results } from "./Results";
 import { SpecialProblem } from "./SpecialProblem";
 import { Alert, Snackbar } from "@mui/material";

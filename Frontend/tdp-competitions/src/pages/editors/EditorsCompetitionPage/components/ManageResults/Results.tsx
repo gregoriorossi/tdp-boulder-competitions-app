@@ -1,7 +1,7 @@
 import { Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import classNames from "../../App.module.scss";
-import type { IGetResultsCompetitior, IGetResultsProblemsGroup } from "../../models/competitions.models";
 import { ProblemCell } from "./ProblemCell";
+import classNames from "../../../../../App.module.scss";
+import type { IGetResultsCompetitior, IGetResultsProblemsGroup } from "../../../../../models/competitions.models";
 
 interface IResultsProps {
 	competitors: IGetResultsCompetitior[];

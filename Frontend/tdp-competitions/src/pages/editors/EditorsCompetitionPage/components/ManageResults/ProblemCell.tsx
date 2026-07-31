@@ -1,6 +1,6 @@
-import classNames from "../../App.module.scss";
+import classNames from "../../../../../App.module.scss";
+import { getBorderColor, getTextColor } from "../../../../../utils/problems.utils";
 import type { IResultProblem } from "./Results";
-import { getBorderColor, getTextColor } from "../../utils/problems.utils";
 import { TableCell } from "@mui/material";
 
 interface IProblemCellProps {

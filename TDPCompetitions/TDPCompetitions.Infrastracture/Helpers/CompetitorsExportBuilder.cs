@@ -24,6 +24,7 @@ namespace TDPCompetitions.Infrastracture.Helpers
                 "Indirizzo",
                 "Numero di telefono",
                 "Minore",
+                "Tutore",
                 "Data di registrazione"
             };
 
@@ -84,10 +85,10 @@ namespace TDPCompetitions.Infrastracture.Helpers
                 worksheet.Cell(rowNumber, 8).Value = $"{row.AddressStreet}, {row.AddressNumber}, {row.AddressCity} ({row.AddressProvince})";
                 worksheet.Cell(rowNumber, 9).Value = row.PhoneNumber;
                 worksheet.Cell(rowNumber, 10).Value = row.IsMinor ? "Sì": "No";
-
-                var registrationDateCell = worksheet.Cell(rowNumber, 11);
+                worksheet.Cell(rowNumber, 11).Value = row.Tutor;
+                var registrationDateCell = worksheet.Cell(rowNumber, 12);
                 registrationDateCell.Value = row.RegisteredAt;
-                registrationDateCell.Style.DateFormat.Format = "dd/MM/yyyy";
+                registrationDateCell.Style.DateFormat.Format = "dd/MM/yyyy HH:mm";
             }
 
             worksheet.Columns(1, Headers.Length).AdjustToContents(1, _rows.Length, 10, 40);

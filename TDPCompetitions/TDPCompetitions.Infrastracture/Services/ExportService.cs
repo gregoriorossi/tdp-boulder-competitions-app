@@ -13,7 +13,7 @@ namespace TDPCompetitions.Infrastracture.Services
         {
             List<CompetitorsReportRow> rows = registrations.SelectMany(registration =>
                 new[] { new CompetitorsReportRow(registration.Competitor, registration) }
-                .Concat(registration.Minors.Select(m => new CompetitorsReportRow(m, registration)))
+                .Concat(registration.Minors.Select(m => new CompetitorsReportRow(m, registration, registration.Competitor)))
                 )
                 .OrderBy(r => r.LastName)
                 .ThenBy(r => r.FirstName)

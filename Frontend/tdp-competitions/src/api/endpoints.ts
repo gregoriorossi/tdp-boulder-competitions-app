@@ -43,7 +43,7 @@ export const EditorsEndpoints = {
 	sendProblem: (competitionId: string, problemId: string) => `/Editors/competitions/${competitionId}/problems/${problemId}/send`,
 	unsendProblem: (competitionId: string, problemId: string, sentProblemId: string) => `/Editors/competitions/${competitionId}/problems/${problemId}/send/${sentProblemId}`,
 	downloadWaiverAll: (competitionId: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${competitionId}/waiver`,
-	downloadWaiver: (competitionId: string, registrationId: string) => import.meta.env.VITE_API_URL + `/Editors/competition/${competitionId}/waiver/${registrationId}`,
+	downloadWaiver: (competitionId: string, registrationId: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${competitionId}/waiver/${registrationId}`,
 	downloadReport: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${id}/report`
 };
 

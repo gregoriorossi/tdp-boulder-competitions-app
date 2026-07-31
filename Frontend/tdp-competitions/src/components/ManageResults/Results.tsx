@@ -46,13 +46,13 @@ export function Results(props: IResultsProps) {
 				</TableHead>
 				<TableBody>
 					{competitors.map(c => {
-						return <TableRow>
+						return <TableRow key={c.id}>
 							<TableCell className={classNames.stickyCell}>
 								{c.lastName}&nbsp;{c.firstName}
 							</TableCell>
 							{flatProblems.map(p => {
 								const isProblemSent: boolean = isProblemSentFn(c, p.id);
-								return <TableCell>
+								return <TableCell key={p.id}>
 									<Checkbox
 										checked={isProblemSent}
 										onChange={async (_event, checked: boolean) => {

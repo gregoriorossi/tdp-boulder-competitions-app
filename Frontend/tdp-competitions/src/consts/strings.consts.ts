@@ -280,7 +280,8 @@ export const STRINGS = {
 		FileTooLarge: (limit: string) => `Il file non può superare ${limit}`,
 		MaxAge: (years: number) => `La persona non deve avere compiuto ${years} anni`,
 		MinAge: (years: number) => `Devi avere compiuto almeno ${years} anni`,
-		PrivacyMandatory: 'Devi accettare l\'informativa sulla privacy'
+		PrivacyMandatory: 'Devi accettare l\'informativa sulla privacy',
+		Generic: 'C\'è stato un errore, riprovare più tardi.'
 	},
 	DateFormats: {
 		DateOnly: 'DD/MM/YYYY',

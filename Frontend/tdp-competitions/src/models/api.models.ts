@@ -93,6 +93,7 @@ export interface IRegistrationResponse {
 	email: string;
 	competitionId: string;
 	competitor: ICompetitorResponse;
+	phoneNumber: string;
 	minors: ICompetitorResponse[];
 }
 
@@ -209,9 +210,8 @@ export interface IUpdateRegistrationMinorRequest {
 
 export interface ISendProblemRequest {
 	competitorId: string;
-	problemId: string;
-	competitionId: string;
 }
+
 export interface IAddRegistrationMinorRequest {
 	firstName: string;
 	lastName: string;

@@ -35,6 +35,18 @@ export enum Gender {
 
 export const GENDERS: number[] = [Gender.MALE, Gender.FEMALE];
 
+export interface ISendProblemData {
+	competitionId: string;
+	problemId: string;
+	competitorId: string;
+}
+
+export interface IUnsendProblemData {
+	competitionId: string;
+	sentProblemId: string;
+	problemId: string;
+}
+
 export interface ICompetitionProblems {
 	problemsGroups: IProblemsGroup[];
 	specialProblems: ISpecialProblem[];

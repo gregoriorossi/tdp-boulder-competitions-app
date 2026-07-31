@@ -24,8 +24,12 @@ export function ManageResults(props: IManageResultsProps) {
 		});
 	}
 
-	const onProblemUnsent = async (sentProblemId: string): Promise<void> => {
-		await unsendProblemAsync(sentProblemId);
+	const onProblemUnsent = async (problemId: string, sentProblemId: string): Promise<void> => {
+		await unsendProblemAsync({
+			competitionId, 
+			problemId,
+			sentProblemId
+		});
 	}
 
 	if (isGetResultsLoading) {

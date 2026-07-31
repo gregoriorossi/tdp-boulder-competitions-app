@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
 import type { IAddCompetitionRequest, IMinorRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest, IRegistrationRequest } from "../models/api.models";
-import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, ICompetitor, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISpecialProblem } from "../models/competitions.models";
+import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, ICompetitor, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISendProblemData, ISpecialProblem, IUnsendProblemData } from "../models/competitions.models";
 
 export default class EditorsService {
 
@@ -159,14 +159,17 @@ export default class EditorsService {
 		return data.data as IResponse<IGetResultsResponse>;
 	}
 
-	public static sendProblem = async (data: ISendProblemRequest): Promise<IResponse<boolean>> => {
-		const result = await editorsApi.post(EditorsEndpoints.sendProblem, data);
+	public static sendProblem = async (data: ISendProblemData): Promise<IResponse<boolean>> => {
+		const body: ISendProblemRequest = {
+			competitorId: data.competitorId
+		};
+
+		const result = await editorsApi.post(EditorsEndpoints.sendProblem(data.competitionId, data.problemId), body);
 		return result.data as IResponse<boolean>;
 	}
 
-	public static unsendProblem = async (id: string): Promise<IResponse<boolean>> => {
-		const data = await editorsApi.delete(EditorsEndpoints.unsendProblem(id));
-		return data.data as IResponse<boolean>;
+	public static unsendProblem = async (data: IUnsendProblemData): Promise<void> => {
+		await editorsApi.delete(EditorsEndpoints.unsendProblem(data.competitionId, data.problemId, data.sentProblemId));
 	}
 
 	public static getRankingByCompetitionId = async (id: string, gender: Gender | null): Promise<IResponse<IGetRankingResponse[]>> => {

@@ -178,13 +178,13 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static SentProblem SendProblemRequestToSentProblem(SendProblemRequest model)
+        internal static SentProblem SendProblemRequestToSentProblem(Guid competitionId, Guid problemId, SendProblemRequest model)
         {
             return new SentProblem
             {
-                ProblemId = model.ProblemId,
+                ProblemId = problemId,
                 CompetitorId = model.CompetitorId,
-                CompetitionId = model.CompetitionId,
+                CompetitionId = competitionId,
                 SentAt = DateTime.Now
             };
         }

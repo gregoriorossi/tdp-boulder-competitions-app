@@ -7,7 +7,7 @@ interface IResultsProps {
 	competitors: IGetResultsCompetitior[];
 	problemsGroups: IGetResultsProblemsGroup[];
 	onProblemSent: (competitorId: string, problemId: string) => Promise<void>;
-	onProblemUnsent: (sentProblemId: string) => Promise<void>;
+	onProblemUnsent: (problemId: string, sentProblemId: string) => Promise<void>;
 }
 
 export interface IResultProblem {
@@ -59,7 +59,7 @@ export function Results(props: IResultsProps) {
 											if (!checked) {
 												const sentProblemId = c.sentProblems.find(sp => sp.problemId === p.id);
 												if (sentProblemId) {
-													await onProblemUnsent(sentProblemId?.id);
+													await onProblemUnsent(p.id, sentProblemId?.id);
 												}
 											} else {
 												await onProblemSent(c.id, p.id);

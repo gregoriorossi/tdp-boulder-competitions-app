@@ -68,7 +68,7 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 			</div>
 
 			{
-				response?.value
+				(response?.value ?? [])
 					.sort(sortRegistrations)
 					.map(r => <RegistrationRow registration={r} key={r.email} />)
 			}

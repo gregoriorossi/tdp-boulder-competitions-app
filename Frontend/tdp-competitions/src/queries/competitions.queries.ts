@@ -1,8 +1,8 @@
 import { type UseQueryResult, useQuery, useMutation } from "@tanstack/react-query";
 import { queryClient, queryKeys } from "../api/queryClient";
 import EditorsService from "../services/editors.service";
-import type { IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
-import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRanking, ISpecialProblem } from "../models/competitions.models";
+import type { IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
+import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRanking, ISendProblemData, ISpecialProblem, IUnsendProblemData } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
 import CompetitorsService from "../services/competitors.service";
 
@@ -186,7 +186,7 @@ export const useResults = (competitionId: string) => {
 
 export const useSendProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (sendProblemRequest: ISendProblemRequest) => EditorsService.sendProblem(sendProblemRequest),
+		mutationFn: (sendProblemRequest: ISendProblemData) => EditorsService.sendProblem(sendProblemRequest),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.results.byId(competitionId) });
 		}
@@ -195,7 +195,7 @@ export const useSendProblem = (competitionId: string) => {
 
 export const useUnsendProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (sentProblemId: string) => EditorsService.unsendProblem(sentProblemId),
+		mutationFn: (data: IUnsendProblemData) => EditorsService.unsendProblem(data),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.results.byId(competitionId) });
 		}

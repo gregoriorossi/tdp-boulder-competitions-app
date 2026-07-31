@@ -526,12 +526,12 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("competitions/{competitionId}/problems/send")]
+        [Route("competitions/{competitionId}/problems/{problemId}/send")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> SendProblem(Guid competitionId, [FromBody] SendProblemRequest model, CancellationToken cancellationToken)
+        public async Task<IActionResult> SendProblem(Guid competitionId, Guid problemId, [FromBody] SendProblemRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -544,19 +544,19 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
-            SentProblem send = ViewModelToEntity.SendProblemRequestToSentProblem(model);
+            SentProblem send = ViewModelToEntity.SendProblemRequestToSentProblem(competitionId, problemId, model);
             SentProblem result = await _problemsManager.SendProblemAsync(send, cancellationToken);
             var response = new SentProblemResponse(result);
             return Ok(Result<SentProblemResponse>.Success(response));
         }
 
         [HttpDelete]
-        [Route("competitions/{competitionId}/problems/send/{problemId}")]
+        [Route("competitions/{competitionId}/problems/{problemId}/send/{sentProblemId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> RemoveSentProblem(Guid competitionId, Guid problemId, CancellationToken cancellationToken)
+        public async Task<IActionResult> RemoveSentProblem(Guid competitionId, Guid problemId, Guid sentProblemId, CancellationToken cancellationToken)
         {
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
@@ -564,8 +564,14 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
-            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(problemId, cancellationToken);
-            if (sentProblem == null)
+            Problem? problem = await _problemsManager.GetProblemByIdAsync(problemId, cancellationToken);
+            if (problem is null)
+            {
+                return NotFound(Result.Failure(ProblemErrors.NotFound));
+            }
+
+            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(sentProblemId, cancellationToken);
+            if (sentProblem is null)
             {
                 return NotFound(Result.Failure(SentProblemsErrors.NotFound));
             }

@@ -1,7 +1,6 @@
 ﻿namespace TDPCompetitions.Api.ViewModels.Editors.Responses
 {
     public sealed record SentProblemResponse(
-
         Guid CompetitionId,
         Guid CompetitorId,
         Guid ProblemId,

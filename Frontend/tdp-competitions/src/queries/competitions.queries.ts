@@ -163,7 +163,7 @@ export const useUpdateSpecialProblem = (competitionId: string) => {
 
 export const useDeleteSpecialProblem = (competitionId: string) => {
 	return useMutation({
-		mutationFn: (problem: ISpecialProblem) => EditorsService.deleteSpecialProblem(problem.id!),
+		mutationFn: (problem: ISpecialProblem) => EditorsService.deleteSpecialProblem(competitionId, problem.id!),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.problems.byCompetitionId(competitionId) });
 		}

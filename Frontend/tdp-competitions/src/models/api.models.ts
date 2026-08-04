@@ -66,6 +66,7 @@ export interface IAddSpecialProblemRequest {
 }
 
 export interface IUpdateSpecialProblemRequest {
+	specialProblemId: string;
 	name: string;
 	competitionId: string;
 }
@@ -210,6 +211,11 @@ export interface IUpdateRegistrationMinorRequest {
 
 export interface ISendProblemRequest {
 	competitorId: string;
+}
+
+export interface ISendSpecialProblemRequest {
+	competitorId: string;
+	sentAt: Date;
 }
 
 export interface IAddRegistrationMinorRequest {

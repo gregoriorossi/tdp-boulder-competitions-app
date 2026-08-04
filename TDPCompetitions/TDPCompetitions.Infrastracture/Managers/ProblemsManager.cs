@@ -93,13 +93,9 @@ namespace TDPCompetitions.Infrastracture.Managers
             await _problemsRepository.DeleteSentProblemAsync(problem, cancellationToken);
         }
 
-        public async Task DeleteSentSpecialProblemAsync(Guid id, CancellationToken cancellationToken)
+        public async Task DeleteSentSpecialProblemAsync(SentSpecialProblem sentSpecialProblem, CancellationToken cancellationToken)
         {
-            SentSpecialProblem? problem = await _problemsRepository.GetSentSpecialProblemByIdAsync(id, cancellationToken);
-            if (problem != null)
-            {
-                await _problemsRepository.DeleteSentSpecialProblemAsync(problem, cancellationToken);
-            }
+            await _problemsRepository.DeleteSentSpecialProblemAsync(sentSpecialProblem, cancellationToken);
         }
 
         public async Task<SentProblem> SendProblemAsync(SentProblem send, CancellationToken cancellationToken)
@@ -189,6 +185,12 @@ namespace TDPCompetitions.Infrastracture.Managers
         public async Task<SentProblem?> GetSentProblemByIdAsync(Guid sentProblemId, CancellationToken cancellationToken)
         {
             SentProblem? result = await _problemsRepository.GetSentProblemByIdAsync(sentProblemId, cancellationToken);
+            return result;
+        }
+
+        public async Task<SentSpecialProblem?> GetSentSpecialProblemByIdAsync(Guid sentSpecialProblemId, CancellationToken cancellationToken)
+        {
+            SentSpecialProblem? result = await _problemsRepository.GetSentSpecialProblemByIdAsync(sentSpecialProblemId, cancellationToken);
             return result;
         }
     }

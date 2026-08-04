@@ -12,6 +12,7 @@ declare const classNames: {
   readonly deleteButton: "deleteButton";
   readonly saveButtonContainer: "saveButtonContainer";
   readonly manageResults: "manageResults";
+  readonly specialProblemCell: "specialProblemCell";
   readonly specialProblems: "specialProblems";
   readonly specialProblem: "specialProblem";
   readonly competitors: "competitors";
@@ -61,6 +62,7 @@ declare const classNames: {
   readonly groupsList: "groupsList";
   readonly square: "square";
   readonly actionIcon: "actionIcon";
+  readonly specialProblemHeaderModal: "specialProblemHeaderModal";
   readonly addProblemsGroup: "addProblemsGroup";
   readonly select: "select";
   readonly colorOption: "colorOption";

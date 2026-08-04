@@ -189,6 +189,17 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
+        internal static SentSpecialProblem SendSpecialProblemRequestToSentProblem(Guid competitionId, Guid specialProblemId, SendSpecialProblemRequest model)
+        {
+            return new SentSpecialProblem
+            {
+                SpecialProblemId = specialProblemId,
+                CompetitorId = model.CompetitorId,
+                CompetitionId = competitionId,
+                SentAt = model.SentAt
+            };
+        }
+
         internal static SpecialProblem AddSpecialProblemVMToSpecialProblem(AddSpecialProblemRequest model)
         {
             return new SpecialProblem

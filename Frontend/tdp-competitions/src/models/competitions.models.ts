@@ -41,12 +41,24 @@ export interface ISendProblemData {
 	competitorId: string;
 }
 
+export interface ISendSpecialProblemData {
+	competitionId: string;
+	specialProblemId: string;
+	competitorId: string;
+	sentAt: Date;
+}
+
 export interface IUnsendProblemData {
 	competitionId: string;
 	sentProblemId: string;
 	problemId: string;
 }
 
+export interface IUnsendSpecialProblemData {
+	competitionId: string;
+	sentSpecialProblemId: string;
+	specialProblemId: string;
+}
 export interface ICompetitionProblems {
 	problemsGroups: IProblemsGroup[];
 	specialProblems: ISpecialProblem[];
@@ -116,12 +128,12 @@ export interface ICompetitionInfoForm {
 
 
 export interface IGetResultsResponse {
-	competitors: IGetResultsCompetitior[];
+	competitors: IGetResultsCompetitor[];
 	problemsGroups: IGetResultsProblemsGroup[];
 	specialProblems: IGetResultsSpecialProblem[];
 }
 
-export interface IGetResultsCompetitior {
+export interface IGetResultsCompetitor {
 	id: string;
 	firstName: string;
 	lastName: string;
@@ -161,10 +173,10 @@ export interface IGetResultsProblem {
 export interface IGetResultsSpecialProblem {
 	id: string;
 	name: string;
-	firstSentBy: IGetResultsFirstSentBy;
+	sentBy: IGetResultsSentBy[];
 }
 
-export interface IGetResultsFirstSentBy {
+export interface IGetResultsSentBy {
 	id: string;
 	firstName: string;
 	lastName: string;

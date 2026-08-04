@@ -41,4 +41,9 @@
     {
         public static readonly Error NotFound = new Error("SentProblems.NotFound", "SentProblem not found");
     }
+
+    public static class SentSpecialProblemsErrors
+    {
+        public static readonly Error NotFound = new Error("SentSpecialProblems.NotFound", "SentSpecialProblem not found");
+    }
 }

@@ -1,11 +1,14 @@
 import { Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import { ProblemCell } from "./ProblemCell";
 import classNames from "../../../../../App.module.scss";
-import type { IGetResultsCompetitior, IGetResultsProblemsGroup } from "../../../../../models/competitions.models";
+import type { IGetResultsCompetitor, IGetResultsProblemsGroup, IGetResultsSentSpecialProblem, IGetResultsSpecialProblem } from "../../../../../models/competitions.models";
+import { ProblemHeaderCell } from "./ProblemHeaderCell";
+import { SpecialProblemCell } from "./SpecialFolderCell/SpecialProblemCell";
 
 interface IResultsProps {
-	competitors: IGetResultsCompetitior[];
+	competitionId: string;
+	competitors: IGetResultsCompetitor[];
 	problemsGroups: IGetResultsProblemsGroup[];
+	specialProblems: IGetResultsSpecialProblem[];
 	onProblemSent: (competitorId: string, problemId: string) => Promise<void>;
 	onProblemUnsent: (problemId: string, sentProblemId: string) => Promise<void>;
 }
@@ -27,11 +30,15 @@ const flatAllProblems = (problemsGroups: IGetResultsProblemsGroup[]): IResultPro
 }
 
 export function Results(props: IResultsProps) {
-	const { competitors, problemsGroups, onProblemSent, onProblemUnsent } = props;
+	const { competitionId, competitors, problemsGroups, specialProblems, onProblemSent, onProblemUnsent } = props;
 	const flatProblems = flatAllProblems(problemsGroups);
 
-	const isProblemSentFn = (competitor: IGetResultsCompetitior, problemId: string): boolean => {
+	const isProblemSentFn = (competitor: IGetResultsCompetitor, problemId: string): boolean => {
 		return competitor.sentProblems.some(sp => sp.problemId === problemId);
+	}
+
+	const isSpecialProblemSentFn = (competitor: IGetResultsCompetitor, specialProblemId: string): IGetResultsSentSpecialProblem | undefined => {
+		return competitor.sentSpecialProblems.find(sp => sp.specialProblemId === specialProblemId);
 	}
 
 	return <div className={classNames.competitors}>
@@ -41,7 +48,8 @@ export function Results(props: IResultsProps) {
 				<TableHead>
 					<TableRow>
 						<TableCell className={classNames.stickyCell}>&nbsp;</TableCell>
-						{flatProblems.map(p => <ProblemCell problem={p} key={p.id} />)}
+						{specialProblems.map(sp => <ProblemHeaderCell colorCode={"#EEF527"} name={sp.name} key={sp.id} />) }
+						{flatProblems.map(p => <ProblemHeaderCell colorCode={p.colorCode} name={p.name} key={p.id} />)}
 					</TableRow>
 				</TableHead>
 				<TableBody>
@@ -50,6 +58,21 @@ export function Results(props: IResultsProps) {
 							<TableCell className={classNames.stickyCell}>
 								{c.lastName}&nbsp;{c.firstName}
 							</TableCell>
+							{
+								specialProblems.map(sp => {
+									const isSpecialProblemSent: IGetResultsSentSpecialProblem | undefined = isSpecialProblemSentFn(c, sp.id);
+									console.log("IsspecialProblemSent", isSpecialProblemSent);
+									return <TableCell key={sp.id}>
+										<SpecialProblemCell
+											sent={!!isSpecialProblemSent}
+											sentAt={isSpecialProblemSent?.sentAt}
+											competitorId={c.id}
+											competitionId={competitionId}
+											specialProblemId={sp.id}
+											sentSpecialProblemId={isSpecialProblemSent?.id} />
+									</TableCell>
+								})
+							}
 							{flatProblems.map(p => {
 								const isProblemSent: boolean = isProblemSentFn(c, p.id);
 								return <TableCell key={p.id}>

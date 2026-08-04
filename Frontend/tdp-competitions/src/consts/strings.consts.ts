@@ -1,4 +1,4 @@
-﻿import { CompetitionStatus, type IGetResultsFirstSentBy } from "../models/competitions.models";
+﻿import { CompetitionStatus, type IGetResultsSentBy } from "../models/competitions.models";
 import { DateUtils } from "../utils/date.utils";
 import { Errors } from "./errors.consts";
 
@@ -70,11 +70,23 @@ export const STRINGS = {
 			},
 			ManageResults: {
 				NotSent: 'Non chiuso',
-				SentBy: (sentBy: IGetResultsFirstSentBy) => `${sentBy.firstName} ${sentBy.lastName}`,
-				SentAt: (sentBy: IGetResultsFirstSentBy) => {
+				SentBy: (sentBy: IGetResultsSentBy) => `${sentBy.firstName} ${sentBy.lastName}`,
+				SentAt: (sentBy: IGetResultsSentBy) => {
 					const date = new Date(sentBy.sentAt);
 					const dateStr = DateUtils.ToDateTime(date);
 					return `${dateStr}`
+				},
+				Modals: {
+					SendSpecialProblem: {
+						Title: "Chiudi un nuovo blocco premio",
+						Fields: {
+							Date: "Data e ora"
+						},
+						Errors: {
+							Date: "La data è obbligatoria",
+							DateValid: "Inserisci una data valida"
+						}
+					}
 				}
 			},
 			Ranking: {
@@ -120,6 +132,9 @@ export const STRINGS = {
 		},
 		EditProblemsGroups: {
 			Title: 'Gestisci gruppi'
+		},
+		SpecialProblemHeader: {
+			Title: `Risultati blocco premio`,
 		}
 	},
 	Forms: {
@@ -234,6 +249,7 @@ export const STRINGS = {
 		Blue: '#0000FF',
 		Green: '#00FF00',
 		Yellow: '#FFFF00',
+		DarkYellow: '#EEF527',
 		Red: '#FF0000',
 		Black: '#000000',
 		Orange: '#FFA500',

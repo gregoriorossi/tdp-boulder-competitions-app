@@ -86,6 +86,10 @@
         }
 
         .manageResults {
+            .specialProblemCell {
+                text-align: center;
+            }
+
             .specialProblems {
                 display: flex;
                 flex-direction: row;
@@ -99,6 +103,7 @@
                     background-color: #EEF527;
                     margin-right: 10px;
                     color: black;
+                    cursor: pointer;
 
                     h4 {
                         margin: 0;
@@ -126,6 +131,7 @@
                         span {
                             padding: 1rem;
                             border: 1px solid;
+                            white-space: nowrap;
                         }
                     }
                 }
@@ -473,6 +479,18 @@
                     min-width: auto;
                 }
             }
+        }
+    }
+}
+
+.specialProblemHeaderModal {
+    .row {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        span {
+            align-items: center;
         }
     }
 }

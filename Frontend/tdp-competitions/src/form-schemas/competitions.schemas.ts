@@ -63,3 +63,10 @@ export const problemGroupSchema = (colors: string[]) => {
 		colorCode: yup.string().oneOf(colors).required(STRINGS.Forms.AddProblemsGroup.Errors.Color)
 	});
 }
+
+export const sendSpecialProblemSchema = yup.object({
+	date: yup.date()
+		.required(AddCompetitionStrings.Errors.Date)
+		.transform(converDateInForm)
+		.typeError(AddCompetitionStrings.Errors.DateValid)
+});

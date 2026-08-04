@@ -4,7 +4,7 @@ import { Spinner } from "../../../../../components/Spinner";
 import { STRINGS } from "../../../../../consts/strings.consts";
 import { useResults, useSendProblem, useUnsendProblem } from "../../../../../queries/competitions.queries";
 import { Results } from "./Results";
-import { SpecialProblem } from "./SpecialProblem";
+import { SpecialProblemHeader } from "./SpecialProblemHeader/SpecialProblemHeader";
 import { Alert, Snackbar } from "@mui/material";
 import { useState } from "react";
 
@@ -61,16 +61,17 @@ export function ManageResults(props: IManageResultsProps) {
 		<div className={classNames.specialProblems}>
 			{
 				response.value.specialProblems
-					.map(sp => <SpecialProblem specialProblem={sp} key={sp.id} />)
+					.map(sp => <SpecialProblemHeader specialProblem={sp} key={sp.id} />)
 			}
 		</div>
 		<Results
+			competitionId={competitionId}
 			competitors={response.value.competitors}
 			problemsGroups={response.value.problemsGroups}
+			specialProblems={response.value.specialProblems}
 			onProblemUnsent={onProblemUnsent}
 			onProblemSent={onProblemSent} />
 
-		{
 			<Snackbar
 				open={snackbarOpen}
 				autoHideDuration={5000}
@@ -80,7 +81,5 @@ export function ManageResults(props: IManageResultsProps) {
 					{STRINGS.Errors.Generic}
 				</Alert>
 			</Snackbar>
-		}
-
 	</div >
 }

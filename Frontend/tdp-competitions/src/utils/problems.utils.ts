@@ -7,6 +7,7 @@ export function getTextColor(color: string): string {
 	switch (color) {
 		case ColorCodes.White:
 		case ColorCodes.Yellow:
+		case ColorCodes.DarkYellow:
 			return ColorCodes.Black;
 		default:
 			return ColorCodes.White;

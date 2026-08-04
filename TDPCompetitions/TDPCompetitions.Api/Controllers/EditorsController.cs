@@ -311,30 +311,6 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<GetProblemsResponse>.Success(response));
         }
 
-        [HttpPost]
-        [Route("competitions/{competitionId}/problems/group")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ProblemsGroupResponse>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddProblemGroup(Guid competitionId, [FromBody] AddProblemsGroupRequest model, CancellationToken cancellationToken)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
-            if (!competitionExists)
-            {
-                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
-            }
-
-            ProblemsGroup group = ViewModelToEntity.AddProblemGroupToProblemGroup(model);
-            ProblemsGroup result = await _problemsManager.AddProblemsGroupAsync(group, cancellationToken);
-            ProblemsGroupResponse response = new ProblemsGroupResponse(result);
-            return Ok(Result<ProblemsGroupResponse>.Success(response));
-        }
-
         [HttpPatch]
         [Route("competitions/{competitionId}/problems/groups")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<ProblemsGroupResponse>>))]
@@ -448,7 +424,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
-        [Route("competitions/{competitionId}/problems/specialProblem")]
+        [Route("competitions/{competitionId}/specialProblems")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SpecialProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -472,12 +448,12 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPatch]
-        [Route("competitions/{competitionId}/problems/specialProblem")]
+        [Route("competitions/{competitionId}/specialProblems/{specialProblemId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SpecialProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateSpecialProblem(Guid competitionId, [FromBody] UpdateSpecialProblemRequest model, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateSpecialProblem(Guid competitionId, Guid specialProblemId, [FromBody] UpdateSpecialProblemRequest model, CancellationToken cancellationToken)
         {
             if (!ModelState.IsValid)
             {
@@ -490,7 +466,7 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
-            var problemResult = await _problemsManager.GetSpecialProblemByIdAsync(model.Id, cancellationToken);
+            var problemResult = await _problemsManager.GetSpecialProblemByIdAsync(specialProblemId, cancellationToken);
             if (problemResult == null)
             {
                 return NotFound(Result.Failure(SpecialProblemErrors.NotFound));
@@ -502,12 +478,12 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
-        [Route("competitions/{competitionId}/problems/specialProblem/{problemId}")]
+        [Route("competitions/{competitionId}/specialProblems/{specialProblemId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> DeleteSpecialProblem(Guid competitionId, Guid problemId, CancellationToken cancellationToken)
+        public async Task<IActionResult> DeleteSpecialProblem(Guid competitionId, Guid specialProblemId, CancellationToken cancellationToken)
         {
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
@@ -515,7 +491,7 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result.Failure(CompetitionsErrors.NotFound));
             }
 
-            SpecialProblem? problem = await _problemsManager.GetSpecialProblemByIdAsync(problemId, cancellationToken);
+            SpecialProblem? problem = await _problemsManager.GetSpecialProblemByIdAsync(specialProblemId, cancellationToken);
             if (problem == null)
             {
                 return NotFound(Result.Failure(SpecialProblemErrors.NotFound));
@@ -577,6 +553,61 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
+            return NoContent();
+        }
+
+        [HttpPost]
+        [Route("competitions/{competitionId}/specialProblems/{specialProblemId}/send")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentSpecialProblemResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SendSpecialProblem(Guid competitionId, Guid specialProblemId, [FromBody] SendSpecialProblemRequest model, CancellationToken cancellationToken)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            SentSpecialProblem send = ViewModelToEntity.SendSpecialProblemRequestToSentProblem(competitionId, specialProblemId, model);
+            SentSpecialProblem result = await _problemsManager.SendSpecialProblemAsync(send, cancellationToken);
+            var response = new SentSpecialProblemResponse(result);
+            return Ok(Result<SentSpecialProblemResponse>.Success(response));
+        }
+
+        [HttpDelete]
+        [Route("competitions/{competitionId}/specialProblems/{specialProblemId}/send/{sentSpecialProblemId}")]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RemoveSentSpecialProblem(Guid competitionId, Guid specialProblemId, Guid sentSpecialProblemId, CancellationToken cancellationToken)
+        {
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            SpecialProblem? specialProblem = await _problemsManager.GetSpecialProblemByIdAsync(specialProblemId, cancellationToken);
+            if (specialProblem is null)
+            {
+                return NotFound(Result.Failure(ProblemErrors.NotFound));
+            }
+
+            SentSpecialProblem? sentSpecialProblem = await _problemsManager.GetSentSpecialProblemByIdAsync(sentSpecialProblemId, cancellationToken);
+            if (sentSpecialProblem is null)
+            {
+                return NotFound(Result.Failure(SentSpecialProblemsErrors.NotFound));
+            }
+
+            await _problemsManager.DeleteSentSpecialProblemAsync(sentSpecialProblem, cancellationToken);
             return NoContent();
         }
 

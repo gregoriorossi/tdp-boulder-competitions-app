@@ -1,7 +1,7 @@
 import editorsApi from "../api/axios";
 import { EditorsEndpoints } from "../api/endpoints";
-import type { IAddCompetitionRequest, IMinorRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IUpdateSpecialProblemRequest, IRegistrationRequest } from "../models/api.models";
-import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, ICompetitor, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISendProblemData, ISpecialProblem, IUnsendProblemData } from "../models/competitions.models";
+import type { IAddCompetitionRequest, IMinorRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IRegistrationRequest, ISendSpecialProblemRequest } from "../models/api.models";
+import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, ICompetitor, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISendProblemData, ISendSpecialProblemData, ISpecialProblem, IUnsendProblemData, IUnsendSpecialProblemData } from "../models/competitions.models";
 
 export default class EditorsService {
 
@@ -80,17 +80,17 @@ export default class EditorsService {
 	}
 
 	public static addSpecialProblem = async (problem: IAddSpecialProblemRequest): Promise<IResponse<ISpecialProblem>> => {
-		const data = await editorsApi.post(EditorsEndpoints.addSpecialProblem, problem);
+		const data = await editorsApi.post(EditorsEndpoints.addSpecialProblem(problem.competitionId), problem);
 		return data.data as IResponse<ISpecialProblem>;
 	}
 
-	public static updateSpecialProblem = async (problem: IUpdateSpecialProblemRequest): Promise<IResponse<ISpecialProblem>> => {
-		const data = await editorsApi.patch(EditorsEndpoints.updateSpecialProblem, problem);
+	public static updateSpecialProblem = async (problem: ISpecialProblem): Promise<IResponse<ISpecialProblem>> => {
+		const data = await editorsApi.patch(EditorsEndpoints.updateSpecialProblem(problem.competitionId, problem.id!), problem);
 		return data.data as IResponse<ISpecialProblem>;
 	}
 
-	public static deleteSpecialProblem = async (id: string): Promise<IResponse<boolean>> => {
-		const data = await editorsApi.delete(EditorsEndpoints.deleteSpecialProblem(id));
+	public static deleteSpecialProblem = async (competitionId: string, specialProblemId: string): Promise<IResponse<boolean>> => {
+		const data = await editorsApi.delete(EditorsEndpoints.deleteSpecialProblem(competitionId, specialProblemId));
 		return data.data as IResponse<boolean>;
 	}
 
@@ -120,7 +120,7 @@ export default class EditorsService {
 			groups: groups
 		};
 
-		const data = await editorsApi.patch(EditorsEndpoints.updateProblemsGroups, payload);
+		const data = await editorsApi.patch(EditorsEndpoints.updateProblemsGroups(competitionId), payload);
 		return data.data as IResponse<boolean>;
 	}
 
@@ -168,8 +168,22 @@ export default class EditorsService {
 		return result.data as IResponse<boolean>;
 	}
 
+	public static sendSpecialProblem = async (data: ISendSpecialProblemData): Promise<IResponse<boolean>> => {
+		const body: ISendSpecialProblemRequest = {
+			competitorId: data.competitorId,
+			sentAt: data.sentAt
+		};
+
+		const result = await editorsApi.post(EditorsEndpoints.sendSpecialProblem(data.competitionId, data.specialProblemId), body);
+		return result.data as IResponse<boolean>;
+	}
+
 	public static unsendProblem = async (data: IUnsendProblemData): Promise<void> => {
 		await editorsApi.delete(EditorsEndpoints.unsendProblem(data.competitionId, data.problemId, data.sentProblemId));
+	}
+
+	public static unsendSpecialProblem = async (data: IUnsendSpecialProblemData): Promise<void> => {
+		await editorsApi.delete(EditorsEndpoints.unsendSpecialProblem(data.competitionId, data.specialProblemId, data.sentSpecialProblemId));
 	}
 
 	public static getRankingByCompetitionId = async (id: string, gender: Gender | null): Promise<IResponse<IGetRankingResponse[]>> => {

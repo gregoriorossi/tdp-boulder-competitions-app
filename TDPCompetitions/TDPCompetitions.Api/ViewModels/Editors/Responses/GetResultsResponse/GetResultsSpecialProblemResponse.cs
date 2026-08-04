@@ -3,10 +3,9 @@
 namespace TDPCompetitions.Api.ViewModels.Editors.Responses.GetResultsResponse;
 
 public sealed record GetResultsSpecialProblemResponse(
-
     Guid Id,
     string Name,
-    GetResultsSpecialProblemSentByVM? FirstSentBy)
+    ICollection<GetResultsSpecialProblemSentByVM> SentBy)
 {
     public GetResultsSpecialProblemResponse(
         SpecialProblem specialProblem,
@@ -29,7 +28,8 @@ public sealed record GetResultsSpecialProblemResponse(
                             SentAt = sp.SentAt
                         } : null;
                     })
-                    .FirstOrDefault())
+              .OfType<GetResultsSpecialProblemSentByVM>()
+              .ToList())
     { }
 
 }

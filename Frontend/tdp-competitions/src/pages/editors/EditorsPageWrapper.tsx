@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Routes } from "../../consts/routes.consts";
 import type { CompetitionStatus } from "../../models/competitions.models";
 import { Status } from "../../components/CompetitionStatus";
+import { useEditorsAuth } from "../../hooks/useEditorsAuth";
 
 interface IEditorsPageWrapperProps extends React.ComponentProps<typeof Box> {
 	title: string;
@@ -14,11 +15,17 @@ interface IEditorsPageWrapperProps extends React.ComponentProps<typeof Box> {
 export function EditorsPageWrapper(props: IEditorsPageWrapperProps) {
 
 	const navigate = useNavigate();
+	const { isAuthenticated } = useEditorsAuth({
+		redirectRoute: Routes.EditorsLogin
+	});
+
 	const onLogoClick = () => {
 		navigate(Routes.EditorsHome);
 	}
 
-
+	if (!isAuthenticated) {
+		navigate(Routes.EditorsLogin);
+	}
 
 	return <Box className={classNames.editorsPageWrapper}>
 		<div className={classNames.header}>

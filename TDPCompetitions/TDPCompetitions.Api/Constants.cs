@@ -7,6 +7,17 @@
         public static class Config
         {
             public const string UseMockDatabase = "UseMockDatabase";
+
+            public static class JWT
+            {
+                public const string Key = "Jwt:Key";
+                public const string Issuer = "Jwt:Issuer";
+            }
+        }
+
+        public static class Roles
+        {
+            public const string EDITOR = "EDITOR";
         }
     }
 }

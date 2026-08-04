@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
@@ -16,6 +17,7 @@ using TDPCompetitions.Core.Models;
 
 namespace TDPCompetitions.Api.Controllers
 {
+    [Authorize(Roles = Constants.Roles.EDITOR)]
     [ApiController]
     [Route(Constants.DefaultApiRoute)]
     public class EditorsController : ControllerBase
@@ -74,11 +76,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddCompetition(AddCompetitionRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                BadRequest();
-            }
-
             Competition competition = ViewModelToEntity.AddCompetitionVMToCompetition(model);
             bool isSlugAvailable = await _competitionsManager.IsSlugAvailableAsync(competition, cancellationToken);
             if (!isSlugAvailable)
@@ -99,11 +96,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateCompetitionStatus(Guid competitionId, [FromBody] UpdateCompetitionStatusRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             CompetitionStatus? status = model.Status.IntToStatus();
             if (status == null)
             {
@@ -128,11 +120,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateCompetition(Guid competitionId, [FromForm] UpdateCompetitionVM model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             Competition updateCompetition = await ViewModelToEntity.UpdateCompetitionVMToCompetitionAsync(model);
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
@@ -318,11 +305,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateProblemsGroups(Guid competitionId, UpdateProblemsGroupsRequest model, CancellationToken cancellationToken)
         { 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
@@ -346,11 +328,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddProblemToGroup(Guid competitionId, AddProblemToGroupRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
@@ -376,11 +353,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateProblem(Guid competitionId, [FromBody] UpdateProblemRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
@@ -431,11 +403,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddSpecialProblem(Guid competitionId, [FromBody] AddSpecialProblemRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
@@ -455,11 +422,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateSpecialProblem(Guid competitionId, Guid specialProblemId, [FromBody] UpdateSpecialProblemRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
@@ -509,11 +471,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SendProblem(Guid competitionId, Guid problemId, [FromBody] SendProblemRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
@@ -564,11 +521,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> SendSpecialProblem(Guid competitionId, Guid specialProblemId, [FromBody] SendSpecialProblemRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {
@@ -644,11 +596,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationVM model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
@@ -675,11 +622,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateRegistration(Guid competitionId, Guid registrationId, [FromBody] UpdateRegistrationRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition is null)
             {
@@ -729,11 +671,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> AddMinorToRegistration(Guid competitionId, Guid registrationId, [FromBody] AddMinorRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
@@ -763,11 +700,6 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> UpdateMinorToRegistration(Guid competitionId, Guid registrationId, Guid minorId, [FromBody] UpdateMinorRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {

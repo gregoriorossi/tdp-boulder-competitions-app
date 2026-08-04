@@ -1,7 +1,11 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using QuestPDF.Infrastructure;
+using System.Text;
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Infrastracture.Data;
+using JWTConsts = TDPCompetitions.Api.Constants.Config.JWT;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,8 +21,27 @@ builder.Services.AddControllers();
 builder.Services.RegisterService();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = builder.Configuration[JWTConsts.Issuer],
+            ValidAudience = builder.Configuration[JWTConsts.Issuer],
+            IssuerSigningKey = new SymmetricSecurityKey(
+                 Encoding.UTF8.GetBytes(builder.Configuration[JWTConsts.Key]!)
+             )
+        };
+    });
+builder.Services.AddAuthorization();
+
 builder.Services.AddCors(options =>
 {
+    // TODO sistemare
     options.AddPolicy(name: "ALL", policy =>
     {
         policy
@@ -41,6 +64,7 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("ALL");
 
+//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

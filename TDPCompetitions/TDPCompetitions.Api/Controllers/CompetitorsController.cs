@@ -179,7 +179,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(canSend);
             }
 
-            await _problemsManager.DeleteSentSpecialProblemAsync(model.Id, cancellationToken);
+            //await _problemsManager.DeleteSentSpecialProblemAsync(model.Id, cancellationToken);
             return Ok();
         }
 

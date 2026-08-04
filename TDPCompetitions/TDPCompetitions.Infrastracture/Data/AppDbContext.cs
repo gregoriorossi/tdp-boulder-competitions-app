@@ -27,6 +27,9 @@ namespace TDPCompetitions.Infrastracture.Data
 
         public DbSet<Core.Entities.File> Files { get; set; }
 
+        public DbSet<User> Users { get; set; }
+
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Competition>(entity =>

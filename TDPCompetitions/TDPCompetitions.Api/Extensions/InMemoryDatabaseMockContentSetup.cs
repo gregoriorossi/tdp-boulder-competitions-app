@@ -1,4 +1,6 @@
-﻿using TDPCompetitions.Core.Entities;
+﻿using Microsoft.AspNetCore.Identity;
+using TDPCompetitions.Api.Helpers;
+using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Infrastracture.Data;
 
@@ -534,6 +536,14 @@ namespace TDPCompetitions.Api.Extensions
             context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult3.Id, SpecialProblemId = specialProblem1.Id, SentAt = new DateTime(2026, 1, 20, 10, 12, 0) });
             context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = adult2.Id, SpecialProblemId = specialProblem2.Id, SentAt = new DateTime(2026, 1, 20, 11, 3, 0) });
             context.SentSpecialProblems.Add(new SentSpecialProblem { CompetitionId = competition4.Id, CompetitorId = minor12.Id, SpecialProblemId = specialProblem2.Id, SentAt = new DateTime(2026, 1, 20, 10, 43, 0) });
+
+            var user = new User
+            {
+                Username = "Editor1",
+                PasswordHash = PasswordHasher.Hash("Password.123!!")
+            };
+
+            context.Add(user);
 
             context.SaveChanges();
         }

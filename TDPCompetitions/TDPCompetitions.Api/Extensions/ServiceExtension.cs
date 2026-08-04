@@ -21,6 +21,7 @@ namespace TDPCompetitions.Api.Extensions
             services.AddScoped<ICompetitionsRepository, CompetitionsRepository>();
             services.AddScoped<IProblemsRepository, ProblemsRepository>();
             services.AddScoped<IFilesRepository, FilesRepository>();
+            services.AddScoped<IUsersRepository, UsersRepository>();
             #endregion
 
             #region Services

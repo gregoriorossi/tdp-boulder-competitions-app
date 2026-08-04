@@ -15,8 +15,13 @@ import { EditorsCompetitionPage } from './pages/editors/EditorsCompetitionPage/E
 import { RegistrationPage } from './pages/competitors/RegistrationPage/RegistrationPage';
 import { itIT } from '@mui/x-date-pickers/locales';
 import 'dayjs/locale/it';
+import { EditorsLoginPage } from './pages/editors/EditorsLoginPage/EditorsLoginPage';
 
 const router = createBrowserRouter([
+	{
+		path: '/editors/login',
+		element: <EditorsLoginPage />
+	},
 	{
 		path: '/editors',
 		element: <EditorsAllCompetitionsPage />

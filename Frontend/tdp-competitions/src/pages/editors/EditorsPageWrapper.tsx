@@ -18,6 +18,8 @@ export function EditorsPageWrapper(props: IEditorsPageWrapperProps) {
 		navigate(Routes.EditorsHome);
 	}
 
+
+
 	return <Box className={classNames.editorsPageWrapper}>
 		<div className={classNames.header}>
 			<img src={logoTesteDiPietra} className={classNames.logo} onClick={onLogoClick} />

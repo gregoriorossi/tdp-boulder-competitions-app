@@ -50,6 +50,7 @@ declare const classNames: {
   readonly minors: "minors";
   readonly buttonsContainer: "buttonsContainer";
   readonly minor: "minor";
+  readonly loginPage: "loginPage";
   readonly react: "react";
   readonly card: "card";
   readonly greenIcon: "greenIcon";

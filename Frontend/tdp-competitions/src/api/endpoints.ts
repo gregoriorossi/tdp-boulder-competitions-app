@@ -1,5 +1,9 @@
 import { Gender } from "../models/competitions.models";
 
+export const AuthEndpoints = {
+	editorLogin: '/Auth/editor/login'
+};
+
 export const EditorsEndpoints = {
 	getAllCompetitions: '/Editors/competitions',
 	getCompetitionById: (id: string) => `/Editors/competitions/getById/${id}`,

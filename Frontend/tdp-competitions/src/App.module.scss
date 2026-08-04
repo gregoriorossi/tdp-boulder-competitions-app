@@ -374,6 +374,27 @@
     }
 }
 
+.loginPage {
+
+    .form {
+        padding: 0 35%;
+
+        @media screen and (max-width: 1200px) {
+            padding: 0 25%;
+        }
+
+        @media screen and (max-width: 768px) {
+            padding: 0;
+        }
+
+        h2 {
+            justify-content: center;
+            display: flex;
+            align-items: center;
+        }
+    }
+}
+
 .logo {
     height: 6em;
     padding: 1.5em;

@@ -4,6 +4,19 @@ import { Errors } from "./errors.consts";
 
 export const STRINGS = {
 	Pages: {
+		EditorsLoginPage: {
+			Title: 'Accedi all\'area riservata',
+			Form: {
+				Username: 'Username',
+				Password: 'Password',
+				Submit: 'Accedi',
+				Errors: {
+					UsernameMandatory: 'Inserire lo username',
+					PasswordMandatory: 'Inserire la password',
+					WrongCredentials: 'Credenziali non corrette'
+				}
+			}
+		},
 		EditorsAllCompetitionsPage: { 
 			Title: 'Tutte le gare',
 			NewCompetition: 'Nuova gara',

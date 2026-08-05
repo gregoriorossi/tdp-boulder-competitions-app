@@ -2,6 +2,7 @@
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Competitors;
+using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
@@ -27,25 +28,29 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpGet]
         [Route("competition/getBySlug/{slug}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<CompetitionInfoResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCompetitionBySlug(string slug, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetBySlugAsync(slug, cancellationToken);
-            var result = competition == null
-                ? Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound)
-                : Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(competition));
+            
+            if (competition is null)
+            {
+                return NotFound(Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound));
+            }
 
-            return Ok(result);
+            return Ok(Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(competition)));
         }
 
         [HttpPost]
         [Route("register/{competitionId}")]
-        public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationVM model, CancellationToken cancellationToken)
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationRequest model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
             {
@@ -58,15 +63,17 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             bool isAlreadyRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(model.Email, competitionId, cancellationToken);
-            if (!isAlreadyRegistered)
+            if (isAlreadyRegistered)
             {
                 return Ok(Result<Registration>.Failure(RegistrationsErrors.AlreadyRegistered));
             }
 
-            Registration registration= ViewModelToEntity.AddRegistrationVMToRegistration(model, competitionId);
+            Registration registration = ViewModelToEntity.AddRegistrationRequestToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
-            
-            return Ok(Result<Registration>.Success(result));
+
+            // cosa torno?
+            // inviare email
+            return NoContent();
         }
 
         [HttpDelete]

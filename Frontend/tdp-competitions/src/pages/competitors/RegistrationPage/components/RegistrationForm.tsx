@@ -15,12 +15,12 @@ import { Errors } from "../../../../consts/errors.consts";
 import { registrationSchema, type IMinorForm, type IRegistrationForm } from "../../../../form-schemas/registrations.schemas";
 import { GENDERS } from "../../../../models/competitions.models";
 import { genderToString } from "../../../../utils/competitions.utils";
-import type { IRegistrationRequestDeprecated } from "../../../../models/api.models";
 import { useAddCompetitorRegistration } from "../../../../queries/competitors.queries";
 import { ErrorMessage } from "../../../../components/ErrorMessage";
 import { Spinner } from "../../../../components/Spinner";
 import classNames from "../../../../App.module.scss";
 import { PrivacyText } from "./PrivacyText";
+import type { IAddCompetitorRegistrationRequest } from "../../../../models/competitors.api.models";
 
 interface IRegistrationFormProps {
 	competitionId: string;
@@ -44,7 +44,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 	const onSubmit = async (data: IRegistrationForm) => {
 		if (addRegistrationIsPending) return;
 
-		const request: IRegistrationRequestDeprecated = {
+		const request: IAddCompetitorRegistrationRequest = {
 			firstName: data.firstName,
 			lastName: data.lastName,
 			email: data.email,
@@ -56,7 +56,8 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			birthDate: data.birthDate,
 			birthPlace: data.birthPlace,
 			birthProvince: data.birthProvince,
-			phoneNumber: data.phoneNumber
+			phoneNumber: data.phoneNumber,
+			minors: minors
 		};
 
 		const result = await addRegistrationMutateAsync(request);

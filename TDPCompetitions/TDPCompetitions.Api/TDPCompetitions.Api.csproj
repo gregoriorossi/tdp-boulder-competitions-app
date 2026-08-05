@@ -17,4 +17,8 @@
     <ProjectReference Include="..\TDPCompetitions.Infrastracture\TDPCompetitions.Infrastracture.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Competitors\Responses\" />
+  </ItemGroup>
+
 </Project>

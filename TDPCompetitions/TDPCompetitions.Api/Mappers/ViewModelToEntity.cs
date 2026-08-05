@@ -1,10 +1,10 @@
 ﻿using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Api.ViewModels.Competitors;
+using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Core.Entities;
-using TDPCompetitions.Core.Exceptions;
 
 namespace TDPCompetitions.Api.Mappers
 {
@@ -41,7 +41,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static Registration AddRegistrationVMToRegistration(AddRegistrationVM model, Guid competitionId)
+        internal static Registration AddRegistrationRequestToRegistration(AddRegistrationRequest model, Guid competitionId)
         {
             Competitor competitor = AddRegistrationVMToCompetitor(model);
             ICollection <Competitor> minors = model.Minors.Select(AddMinorVMToCompetitor).ToList();
@@ -113,7 +113,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        private static Competitor AddRegistrationVMToCompetitor(AddRegistrationVM model)
+        private static Competitor AddRegistrationVMToCompetitor(AddRegistrationRequest model)
         {
             return new Competitor
             {
@@ -149,7 +149,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        private static Competitor AddMinorVMToCompetitor(MinorVM model)
+        private static Competitor AddMinorVMToCompetitor(Minor model)
         {
             return new Competitor
             {

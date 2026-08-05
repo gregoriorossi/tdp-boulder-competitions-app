@@ -11,7 +11,6 @@ import { GENDERS } from "../../../../models/competitions.models";
 import { genderToString } from "../../../../utils/competitions.utils";
 import { STRINGS } from "../../../../consts/strings.consts";
 import classNames from "../../../../App.module.scss";
-import { getDateMinusYears } from "../../../../utils/date.utils";
 
 interface IMinorFormProps extends IBaseModalProps {
 	minor?: IMinorForm;
@@ -26,14 +25,11 @@ export function MinorForm(props: IMinorFormProps) {
 	});
 
 	const onSubmitFn = (data: IMinorForm) => {
-		console.log("data", data);
-		console.log("errors", errors);
-		//onSubmit(data);
-		//reset();
-		//onClose();
+		onSubmit(data);
+		reset();
+		onClose();
 	}
 
-	console.log("year", getDateMinusYears(18));
 	return <BaseModal
 		className={classNames.editProblemsGroupsModal}
 		open={open}

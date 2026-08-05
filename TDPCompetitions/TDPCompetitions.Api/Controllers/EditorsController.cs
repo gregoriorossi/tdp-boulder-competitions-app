@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
-using TDPCompetitions.Api.ViewModels.Competitors;
+using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
@@ -594,7 +594,7 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationVM model, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddRegistration(Guid competitionId, [FromBody] AddRegistrationRequest model, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
@@ -608,7 +608,7 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(Result.Failure(RegistrationsErrors.AlreadyRegistered));
             }
 
-            Registration registration = ViewModelToEntity.AddRegistrationVMToRegistration(model, competitionId);
+            Registration registration = ViewModelToEntity.AddRegistrationRequestToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
 
             return Ok(Result<RegistrationResponse>.Success(new RegistrationResponse(result)));

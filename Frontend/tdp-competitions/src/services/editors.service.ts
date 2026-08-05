@@ -1,4 +1,4 @@
-import editorsApi from "../api/axios";
+import editorsApi from "../api/editorsAxios";
 import { EditorsEndpoints } from "../api/endpoints";
 import type { IAddCompetitionRequest, IMinorRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IRegistrationRequest, ISendSpecialProblemRequest } from "../models/api.models";
 import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, ICompetitor, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISendProblemData, ISendSpecialProblemData, ISpecialProblem, IUnsendProblemData, IUnsendSpecialProblemData } from "../models/competitions.models";

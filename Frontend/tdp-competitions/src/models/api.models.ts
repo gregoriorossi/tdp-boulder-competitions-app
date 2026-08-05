@@ -132,40 +132,6 @@ export interface IRegistrationRequest {
 	phoneNumber: string;
 }
 
-
-export interface IRegistrationRequestDeprecated {
-	id?: string | undefined;
-	firstName: string;
-	lastName: string;
-	birthDate: Date,
-	email: string;
-	gender: number;
-	birthPlace: string;
-	birthProvince: string;
-	addressCity: string;
-	addressProvince: string;
-	addressStreet: string;
-	addressNumber: string;
-	phoneNumber: string;
-	minors: IAddRegistrationMinorRequest[]
-}
-
-export interface IAddCompetitorRegistrationRequest {
-	firstName: string;
-	lastName: string;
-	birthDate: Date,
-	email: string;
-	gender: number;
-	birthPlace: string;
-	birthProvince: string;
-	addressCity: string;
-	addressProvince: string;
-	addressStreet: string;
-	addressNumber: string;
-	phoneNumber: string;
-	minors: IAddRegistrationMinorRequest[]
-}
-
 export interface IMinorRequest {
 	id?: string | undefined;
 	firstName: string;
@@ -216,19 +182,6 @@ export interface ISendProblemRequest {
 export interface ISendSpecialProblemRequest {
 	competitorId: string;
 	sentAt: Date;
-}
-
-export interface IAddRegistrationMinorRequest {
-	firstName: string;
-	lastName: string;
-	birthDate: Date,
-	gender: number;
-	birthPlace: string;
-	birthProvince: string;
-	addressCity: string;
-	addressProvince: string;
-	addressStreet: string;
-	addressNumber: string;
 }
 
 export interface IGetRankingResponse {

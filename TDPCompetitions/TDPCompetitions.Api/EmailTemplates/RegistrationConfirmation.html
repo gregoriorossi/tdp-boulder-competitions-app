@@ -11,44 +11,57 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .email-container {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
         .header {
-            background-color: #4CAF50;
-            color: white;
-            padding: 20px;
+            background: white;
+            padding: 10px 10px 0 10px;
             text-align: center;
-            border-radius: 5px 5px 0 0;
+        }
+        .header img {
+            width: 70px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
         .content {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border: 1px solid #ddd;
-            border-radius: 0 0 5px 5px;
+            background-color: #ffffff;
+            padding: 30px 20px;
         }
         .footer {
-            margin-top: 20px;
+            background-color: #f9f9f9;
+            padding: 20px;
             text-align: center;
             font-size: 12px;
             color: #666;
+            border-top: 1px solid #e0e0e0;
         }
-        .button {
-            display: inline-block;
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
+        .footer a {
+            color: #667eea;
             text-decoration: none;
-            border-radius: 5px;
-            margin: 10px 0;
         }
     </style>
 </head>
 <body>
-    <div class="content">
-        {{Body}}
-    </div>
-    <div class="footer">
-        <p>&copy; 2026 Teste di Pietra. Tutti i diritti riservati.</p>
-        <p><a href="mailto:info@testedipietra.it" target="_blank" rel="noopener">info@testedipietra.it</a></p>
+    <div class="email-container">
+        <div class="header">
+            <img src="data:image/png+xml;base64,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" alt="Teste di Pietra - Boulder Competitions">
+        </div>
+
+        <div class="content">
+            {{Body}}
+        </div>
+
+        <div class="footer">
+            <p>&copy; 2026 A.S.D. Teste di Pietra. Tutti i diritti riservati.</p>
+            <p><a href="mailto:info@testedipietra.it" rel="noopener">info@testedipietra.it</a></p>
+        </div>
     </div>
 </body>
 </html>

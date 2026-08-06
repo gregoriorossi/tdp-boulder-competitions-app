@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <None Update="EmailTemplates\RegistrationConfirmation.html">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
 

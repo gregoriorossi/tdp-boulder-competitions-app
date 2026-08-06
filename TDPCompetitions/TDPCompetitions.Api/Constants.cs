@@ -13,6 +13,19 @@
                 public const string Key = "Jwt:Key";
                 public const string Issuer = "Jwt:Issuer";
             }
+
+            public static class EmailServiceSettings
+            {
+                public const string SectionName = "EmailServiceSettings";
+
+                public const string SmtpServer = "EmailServiceSettings:SmtpServer";
+                public const string SmtpPort = "EmailServiceSettings:SmtpPort";
+                public const string SenderEmail = "EmailServiceSettings:SenderEmail";
+                public const string SenderName = "EmailServiceSettings:SenderName";
+                public const string Username = "EmailServiceSettings:Username";
+                public const string Password = "EmailServiceSettings:Password";
+                public const string EnableSsl = "EmailServiceSettings:EnableSsl";
+            }
         }
 
         public static class Roles

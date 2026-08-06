@@ -26,6 +26,7 @@ export default class CompetitionsMappers {
 			isOpen: status === CompetitionStatus.OPEN,
 			bannerImageId: data.bannerImageId,
 			description: data.description,
+			emailSubject: data.emailSubject,
 			emailText: data.emailText,
 			privacyAttachmentId: data.privacyAttachmentId,
 			privacyText: data.privacyText,
@@ -82,7 +83,6 @@ export default class CompetitionsMappers {
 			gender: this.numberToGender(value.gender),
 			isMinor: value.isMinor,
 			lastName: value.lastName,
-			phoneNumber: value.phoneNumber,
 			registrationId: value.registrationId
 		};
 	}
@@ -93,6 +93,7 @@ export default class CompetitionsMappers {
 			bannerImage: competition?.bannerImage ?? null,
 			date: competition.date,
 			description: competition.description,
+			emailSubject: competition.emailSubject,
 			emailText: competition.emailText,
 			id: id,
 			privacyAttachment: competition?.privacyAttachment ?? null,

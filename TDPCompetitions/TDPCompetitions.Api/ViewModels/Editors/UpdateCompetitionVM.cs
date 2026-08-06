@@ -20,6 +20,8 @@ namespace TDPCompetitions.Api.ViewModels.Editors
 
         public DateTime Date { get; set; } = default!;
 
+        public string EmailSubject { get; set; } = default!;
+
         public string EmailText { get; set; } = default!;
 
         public string PrivacyText { get; set; } = default!;

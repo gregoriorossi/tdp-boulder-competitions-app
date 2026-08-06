@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using TDPCompetitions.Api.Helpers;
+﻿using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Infrastracture.Data;
@@ -24,6 +23,7 @@ namespace TDPCompetitions.Api.Extensions
                 RegistrationsOpen = false,
                 Date = new DateTime(2023, 9, 30, 18, 0, 0, DateTimeKind.Local),
                 PrivacyText = "Testo privacy",
+                EmailSubject = "Grazie per esserti registrato alla Trieste Boulder Cup 2023",
                 EmailText = "Grazie per aver partecipato alla Trieste Boulder Cup 2023. Risultati e foto saranno inviati via email ai partecipanti.",
                 PrivacyAttachmentId = null,
                 PrivacyAttachment = null,
@@ -43,6 +43,7 @@ namespace TDPCompetitions.Api.Extensions
                 RegistrationsOpen = false,
                 Date = new DateTime(2024, 5, 18, 10, 0, 0, DateTimeKind.Local),
                 PrivacyText = "Testo privacy",
+                EmailSubject = "Grazie per esserti registrato all’Alpine Lead Masters 2024",
                 EmailText = "Grazie per aver preso parte all’Alpine Lead Masters 2024. Invieremo classifiche ufficiali e highlight video.",
                 PrivacyAttachmentId = null,
                 PrivacyAttachment = null,
@@ -63,6 +64,7 @@ namespace TDPCompetitions.Api.Extensions
                 RegistrationsOpen = false,
                 Date = new DateTime(2025, 10, 14, 15, 0, 0, DateTimeKind.Local),
                 PrivacyText = "Testo privacy",
+                EmailSubject = "Grazie per esserti registrato all’Adriatic Speed Challenge 2025",
                 EmailText = "Grazie per la partecipazione all’Adriatic Speed Challenge 2025. Tempi e ranking saranno condivisi via email.",
                 PrivacyAttachmentId = null,
                 PrivacyAttachment = null,
@@ -83,7 +85,8 @@ namespace TDPCompetitions.Api.Extensions
                 RegistrationsOpen = true,
                 Date = new DateTime(2026, 1, 20, 9, 30, 0, DateTimeKind.Local),
                 PrivacyText = "Testo privacy",
-                EmailText = "Grazie per aver partecipato al Karst Mixed Climbing Open 2026. A breve invieremo risultati e photogallery.",
+                EmailSubject = "Grazie {Nome} per esserti registrato al Karst Mixed Climbing Open 2026",
+                EmailText = "Grazie {Nome} {Cognome} per aver partecipato al Karst Mixed Climbing Open 2026. A breve invieremo risultati e photogallery.",
                 PrivacyAttachmentId = null,
                 PrivacyAttachment = null,
                 Status = CompetitionStatus.DRAFT,

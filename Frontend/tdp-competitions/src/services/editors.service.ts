@@ -32,6 +32,7 @@ export default class EditorsService {
 		formData.append('description', competition.description ?? '');
 		formData.append('registrationsOpen', competition.registrationsOpen ? 'true' : 'false');
 		formData.append('date', competition.date.toISOString());
+		formData.append('emailSubject', competition.emailSubject);
 		formData.append('emailText', competition.emailText);
 		formData.append('privacyText', competition.privacyText ?? '');
 		formData.append('privacyAttachmentId', competition.privacyAttachmentId ?? '');

@@ -15,6 +15,7 @@ export interface ICompetitionInfo {
 	bannerImageId: string | null;
 	registrationsOpen: boolean;
 	date: Date;
+	emailSubject: string;
 	emailText: string;
 	privacyText: string;
 	privacyAttachmentId: string | null;
@@ -118,6 +119,7 @@ export interface ICompetitionInfoForm {
 	description?: string | undefined;
 	registrationsOpen?: boolean | undefined;
 	date: Date;
+	emailSubject: string;
 	emailText: string;
 	privacyAttachmentText?: string | undefined;
 	privacyAttacymentId?: string | null;

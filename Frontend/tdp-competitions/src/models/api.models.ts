@@ -23,6 +23,7 @@ export interface IGetCompetitionResponse {
 	bannerImageId: string | null;
 	registrationsOpen: boolean;
 	date: Date;
+	emailSubject: string;
 	emailText: string;
 	privacyText: string;
 	privacyAttachmentId: string | null;
@@ -48,6 +49,7 @@ export interface IUpdateCompetitionRequest {
 	bannerImage: File | null | undefined;
 	registrationsOpen: boolean;
 	date: Date;
+	emailSubject: string;
 	emailText: string;
 	privacyText: string | undefined;
 	privacyAttachmentId: string | null | undefined;

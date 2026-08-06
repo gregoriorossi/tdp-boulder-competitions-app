@@ -21,4 +21,10 @@
     <Folder Include="ViewModels\Competitors\Responses\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="EmailTemplates\RegistrationConfirmation.html">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

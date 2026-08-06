@@ -13,6 +13,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
         Guid? BannerImageId,
         Guid? PrivacyAttachmentId,
         string PrivacyText,
+        string emailSubject,
         string EmailText,
         CompetitionStatus Status)
     {
@@ -27,6 +28,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
                 competition.BannerImageId,
                 competition.PrivacyAttachmentId,
                 competition.PrivacyText,
+                competition.EmailSubject,
                 competition.EmailText,
                 competition.Status)
         {}

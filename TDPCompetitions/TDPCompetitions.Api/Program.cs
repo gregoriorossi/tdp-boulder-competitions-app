@@ -18,7 +18,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDataba
 QuestPDF.Settings.License = LicenseType.Community;
 
 builder.Services.AddControllers();
-builder.Services.RegisterService();
+builder.Services.RegisterService(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)

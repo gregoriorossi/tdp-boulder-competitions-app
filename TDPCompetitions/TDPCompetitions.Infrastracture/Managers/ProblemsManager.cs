@@ -15,8 +15,8 @@ namespace TDPCompetitions.Infrastracture.Managers
             IProblemsRepository problemsRepository,
             ICompetitionsManager competitionsManager)
         {
-            _problemsRepository = problemsRepository;
-            _competitionsManager = competitionsManager;
+            _problemsRepository = problemsRepository ?? throw new ArgumentNullException(nameof(problemsRepository));
+            _competitionsManager = competitionsManager ?? throw new ArgumentNullException(nameof(competitionsManager));
         }
 
         public async Task<ProblemsGroup> AddProblemsGroupAsync(ProblemsGroup group, CancellationToken cancellationToken)

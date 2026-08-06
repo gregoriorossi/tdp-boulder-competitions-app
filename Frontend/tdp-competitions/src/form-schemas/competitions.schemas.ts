@@ -25,8 +25,12 @@ export const updateCompetitionSchema = yup.object({
 		.min(5, UpdateCompetitionStrings.Errors.TitleLength)
 		.required(UpdateCompetitionStrings.Errors.Title),
 	description: yup.string(),
-	emailText: yup.string()
-		.required(),
+	emailSubject: yup
+		.string()
+		.required(STRINGS.Errors.Mandatory),
+	emailText: yup
+		.string()
+		.required(STRINGS.Errors.Mandatory),
 	registrationsOpen: yup.boolean(),
 	date: yup.date()
 		.required(UpdateCompetitionStrings.Errors.Date)

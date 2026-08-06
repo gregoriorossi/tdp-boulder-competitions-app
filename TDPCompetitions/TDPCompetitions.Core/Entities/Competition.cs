@@ -21,6 +21,8 @@ namespace TDPCompetitions.Core.Entities
 
         public DateTime Date {  get; set; } = default!;
 
+        public string EmailSubject { get; set; } = string.Empty;
+
         public string EmailText { get; set; } = string.Empty;
 
         public string PrivacyText { get; set; } = string.Empty;

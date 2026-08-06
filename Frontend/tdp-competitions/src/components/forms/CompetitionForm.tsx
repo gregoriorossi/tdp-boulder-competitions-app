@@ -29,6 +29,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import classNames from "../../App.module.scss";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmationDialog from "../ConfirmationDialog";
+import { FormFieldsSeparator } from "./FormFieldsSeparator";
 
 const CompetitionStrings = STRINGS.Forms.Competition;
 
@@ -228,6 +229,18 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				)} />
 		</FormControl>
 
+		<FormFieldsSeparator
+			title={CompetitionStrings.Separators.Email.Title}
+			subtitle={CompetitionStrings.Separators.Email.Subtitle} />
+
+		<TextField
+			label={CompetitionStrings.Fields.EmailSubject}
+			{...register("emailSubject")}
+			className={classNames.fullWidth}
+			error={!!errors.emailSubject}
+			helperText={errors.emailSubject?.message}
+			defaultValue={competition.emailSubject} />
+
 		<FormControl className={classNames.fullWidth}>
 			<FormLabel>
 				{CompetitionStrings.Fields.EmailText}
@@ -256,6 +269,10 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 
 				)} />
 		</FormControl>
+
+		<FormFieldsSeparator
+			title={CompetitionStrings.Separators.Privacy.Title}
+			subtitle={CompetitionStrings.Separators.Privacy.Subtitle} />
 
 		<FormControl className={classNames.fullWidth}>
 			<FormLabel>

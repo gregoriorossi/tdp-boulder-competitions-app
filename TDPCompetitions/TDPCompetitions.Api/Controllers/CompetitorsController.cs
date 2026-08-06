@@ -8,6 +8,8 @@ using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
 using TDPCompetitions.Core.Interfaces.Managers;
+using TDPCompetitions.Core.Interfaces.Services;
+using TDPCompetitions.Core.Models;
 
 namespace TDPCompetitions.Api.Controllers
 {
@@ -17,13 +19,16 @@ namespace TDPCompetitions.Api.Controllers
     {
         private readonly IProblemsManager _problemsManager;
         private readonly ICompetitionsManager _competitionsManager;
+        private readonly IEmailService emailService;
 
         public CompetitorsController(
             IProblemsManager problemsManager,
-            ICompetitionsManager competitionsManager)
+            ICompetitionsManager competitionsManager,
+            IEmailService emailService)
         {
-            _problemsManager = problemsManager;
-            _competitionsManager = competitionsManager;
+            _problemsManager = problemsManager ?? throw new ArgumentNullException(nameof(problemsManager));
+            _competitionsManager = competitionsManager ?? throw new ArgumentNullException(nameof(competitionsManager));
+            this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
         [HttpGet]
@@ -71,8 +76,7 @@ namespace TDPCompetitions.Api.Controllers
             Registration registration = ViewModelToEntity.AddRegistrationRequestToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
 
-            // cosa torno?
-            // inviare email
+            await emailService.SendEmailAsync(new EmailMessage(competition, registration, EmailTemplate.REGISTRATION_CONFIRMATION), cancellationToken);
             return NoContent();
         }
 

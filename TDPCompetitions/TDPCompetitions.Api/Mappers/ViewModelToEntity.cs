@@ -247,6 +247,7 @@ namespace TDPCompetitions.Api.Mappers
                 BannerImageId = model.BannerImageId,
                 BannerImage = bannerImage,
                 Date = model.Date,
+                EmailSubject = model.EmailSubject,
                 EmailText = model.EmailText,
                 PrivacyAttachmentId = model.PrivacyAttachmentId,
                 PrivacyAttachment = privacyAttachment,

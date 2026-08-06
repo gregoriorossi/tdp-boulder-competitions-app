@@ -200,6 +200,7 @@ export const STRINGS = {
 				Title: "Titolo",
 				Date: "Data",
 				Description: "Descrizione dell'evento",
+				EmailSubject: "Oggetto email",
 				EmailText: "Testo email",
 				RegistrationsOpen: "Registrazioni",
 				BannerImage: "Immagine di copertina",
@@ -211,6 +212,16 @@ export const STRINGS = {
 				TitleLength: "Il titolo deve essere lungo almeno 5 caratteri",
 				Date: "La data è obbligatoria",
 				DateValid: "Inserisci una data valida"
+			},
+			Separators: {
+				Email: {
+					Title: "Email di conferma",
+					Subtitle: "<p>Questa sezione consente di configurare il contenuto dell'e-mail di conferma inviata automaticamente al termine della registrazione. All'interno del testo è possibile utilizzare i placeholder <b>{Nome}</b>, <b>{Cognome}</b>, <b>{DataNascita}</b> e <b>{Minori}</b>, che verranno sostituiti automaticamente con i dati inseriti dall'utente in fase di registrazione, personalizzando così il contenuto del messaggio.</p>"
+				},
+				Privacy: {
+					Title: "Informativa privacy",
+					Subtitle: "<p>Questa sezione consente di configurare il contenuto dell'informativa sulla privacy, che verrà visualizzata all'utente durante la registrazione.</p>"
+				}
 			}
 		},
 	},

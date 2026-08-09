@@ -5,6 +5,6 @@ export class LinkUtils {
 	}
 
 	public static SlugToRegistrationFormUrl = (slug: string): string => {
-		return `${import.meta.env.VITE_BASE_URL}/registrati/${slug}`;
+		return `${window.location.origin}/registrati/${slug}`;
 	}
 }

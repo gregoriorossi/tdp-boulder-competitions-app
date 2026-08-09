@@ -34,3 +34,5 @@ steps:
 
 images:
   - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/frontend:latest'
+options:
+  logging: CLOUD_LOGGING_ONLY

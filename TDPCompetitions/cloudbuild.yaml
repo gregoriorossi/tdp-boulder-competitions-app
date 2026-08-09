@@ -3,13 +3,13 @@ steps:
     args:
       - 'build'
       - '-t'
-      - 'europe-west8-docker.pkg.dev/teste-di-pietra/tdp-competitions/tdp-competitions:$COMMIT_SHA'
+      - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/api:latest'
       - '.'
 
   - name: 'gcr.io/cloud-builders/docker'
     args:
       - 'push'
-      - 'europe-west8-docker.pkg.dev/teste-di-pietra/tdp-competitions/tdp-competitions:$COMMIT_SHA'
+      - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/api:latest'
 
   - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
     entrypoint: gcloud
@@ -18,7 +18,7 @@ steps:
       - 'deploy'
       - 'tdp-competitions'
       - '--image'
-      - 'europe-west8-docker.pkg.dev/teste-di-pietra/tdp-competitions/tdp-competitions:$COMMIT_SHA'
+      - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/api:latest'
       - '--region'
       - 'europe-west8'
       - '--platform'
@@ -29,4 +29,4 @@ options:
   logging: CLOUD_LOGGING_ONLY
 
 images:
-  - 'europe-west8-docker.pkg.dev/teste-di-pietra/tdp-competitions/tdp-competitions:$COMMIT_SHA'
+  - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/api:latest'

@@ -118,6 +118,10 @@ export const STRINGS = {
 					Title: (firstName: string, lastName: string) => `Vuoi cancellare ${firstName} ${lastName}?`,
 					Content: ''
 				},
+			},
+			SuccessMessage: {
+				Title: 'Registrazione completata',
+				Content: 'Grazie per la registrazione! Riceverai una mail di conferma a breve.'
 			}
 		}
 	},
@@ -182,6 +186,7 @@ export const STRINGS = {
 		Minor: {
 			TitleNew: 'Aggiungi minore',
 			TitleEdit: (fullName: string) => `Vuoi modificare i dati di ${fullName}?`,
+			Subtitle: 'Registra i minori che accompagnerai alla gara',
 			Fields: {
 				FirstName: 'Nome',
 				LastName: 'Cognome',

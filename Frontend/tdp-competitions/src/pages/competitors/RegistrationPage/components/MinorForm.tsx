@@ -18,7 +18,7 @@ interface IMinorFormProps extends IBaseModalProps {
 }
 
 export function MinorForm(props: IMinorFormProps) {
-	const { onSubmit, open, onClose, minor } = props;
+	const { onSubmit, open, onClose, minor, title, subtitle } = props;
 
 	const { handleSubmit, register, control, formState: { errors }, reset } = useForm({
 		resolver: yupResolver(minorSchema)
@@ -33,11 +33,14 @@ export function MinorForm(props: IMinorFormProps) {
 	return <BaseModal
 		className={classNames.editProblemsGroupsModal}
 		open={open}
+		title={title}
+		subtitle={subtitle}
 		onClose={onClose}>
 		<Box
 			className={classNames.form}
 			component="form"
 			onSubmit={handleSubmit(onSubmitFn)}>
+
 			<TextField
 				label={FieldsStrings.FirstName}
 				{...register("firstName")}

@@ -19,18 +19,16 @@ export function RegistrationPage() {
 
 	const { data: response, isLoading } = useCompetitionBySlug(slug);
 
-
-	if (response?.error && response.error.code === Errors.Competitions.NotFound) {
-		navigate(Routes.NotFound);
-		return;
-	}
-
 	if (isLoading) {
 		return <Spinner />
 	}
 
+	if ((response?.error && response.error.code === Errors.Competitions.NotFound) || !response?.value) {
+		navigate(Routes.NotFound);
+		return null;
+	}
 
-	const competition: ICompetitionInfo = response?.value as ICompetitionInfo;
+	const competition: ICompetitionInfo = response.value as ICompetitionInfo;
 	const bannerImageUrl: string | null = competition.bannerImageId ? FilesService.getFileUrl(competition.bannerImageId) : null;
 
 	return <div className={classNames.registrationsPage}>

@@ -1,10 +1,11 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Snackbar, TextField, Typography } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 const FormStrings = STRINGS.Forms.Registration;
 const FieldsStrings = FormStrings.Fields;
 const RegistrationPageStrings = STRINGS.Pages.RegistrationPage;
+const MinorFormStrings = STRINGS.Forms.Minor;
 import dayjs, { Dayjs } from "dayjs";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
@@ -37,9 +38,9 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 
 	const [minors, setMinors] = useState<IMinorForm[]>([]);
 	const [isMinorModalOpen, setIsMinorModalOpen] = useState<boolean>(false);
-
-	const { data: addRegistrationData, error: addRegistrationError, mutateAsync: addRegistrationMutateAsync, isPending: addRegistrationIsPending } = useAddCompetitorRegistration(competitionId);
-	const errorCode: string | null = addRegistrationData?.error?.code ?? (addRegistrationError ? Errors.Generic : null);
+	const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+	const { error: addRegistrationError, mutateAsync: addRegistrationMutateAsync, isPending: addRegistrationIsPending } = useAddCompetitorRegistration(competitionId);
+	const errorCode: string | null = (addRegistrationError ? Errors.Generic : null);
 
 	const onSubmit = async (data: IRegistrationForm) => {
 		if (addRegistrationIsPending) return;
@@ -60,10 +61,10 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			minors: minors
 		};
 
-		const result = await addRegistrationMutateAsync(request);
-		if (result.isSuccess) {
-			reset();
-		}
+		
+		await addRegistrationMutateAsync(request);
+		reset();
+		setSnackbarOpen(true);	
 	}
 
 	const onMinorAdd = (minor: IMinorForm) => {
@@ -80,6 +81,10 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			prev.map((m, i) => i === index ? minor : m)
 		);
 	}
+
+	const handleCloseSnackbar = () => {
+		setSnackbarOpen(false);
+	};
 
 	return <div className={classNames.formContainer}>
 		<Box
@@ -263,6 +268,21 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 		<MinorForm
 			onSubmit={onMinorAdd}
 			open={isMinorModalOpen}
+			title={MinorFormStrings.TitleNew}
+			subtitle={MinorFormStrings.Subtitle}
 			onClose={() => setIsMinorModalOpen(false)} />
+
+		{
+			<Snackbar
+				open={snackbarOpen}
+				autoHideDuration={20000}
+				onClose={handleCloseSnackbar}
+				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+					<h3>{RegistrationPageStrings.SuccessMessage.Title}</h3>
+					<p>{RegistrationPageStrings.SuccessMessage.Content}</p>
+				</Alert>
+			</Snackbar>
+		}
 	</div>;
 }

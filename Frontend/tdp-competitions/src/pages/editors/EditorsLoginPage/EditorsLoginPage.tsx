@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useEditorLogin } from "../../../queries/auth.queries";
 import { useState } from "react";
-import { Alert, Box, Button, CircularProgress, TextField, Typography } from "@mui/material";
+import { Alert, Box, Button, TextField, Typography } from "@mui/material";
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import LoginIcon from '@mui/icons-material/Login';
 import classNames from "../../../App.module.scss";
@@ -10,6 +10,7 @@ import { Routes } from "../../../consts/routes.consts";
 import { STRINGS } from "../../../consts/strings.consts";
 import { useForm } from "react-hook-form";
 import { editorLoginFormSchema } from "../../../form-schemas/auth.schemas";
+import { Spinner } from "../../../components/Spinner";
 const LoginPage = STRINGS.Pages.EditorsLoginPage;
 
 interface ILoginFormValues {
@@ -75,10 +76,7 @@ export function EditorsLoginPage() {
 			</Button>
 
 			{
-				isPending &&
-				<Box component="div">
-					<CircularProgress />
-				</Box>
+				isPending && <Spinner />
 			}
 
 			{

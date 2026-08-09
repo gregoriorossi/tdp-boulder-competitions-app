@@ -1,7 +1,0 @@
-[[build.env]]
-name = "GOOGLE_RUNTIME_VERSION"
-value = "8.0.418"
-
-[[build.env]]
-name = "GOOGLE_DOTNET_PROJECT"
-value = "TDPCompetitions.Api/TDPCompetitions.Api.csproj"

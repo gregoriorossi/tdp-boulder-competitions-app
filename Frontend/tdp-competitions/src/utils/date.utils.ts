@@ -26,7 +26,8 @@ export class DateUtils {
 	}
 }
 
-export const converDateInForm = (_value: string, originalValue) => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const converDateInForm = (_value: string, originalValue: any) => {
 	// per Day.js
 	if (originalValue && typeof originalValue === 'object' && originalValue.$d instanceof Date) {
 		return originalValue.$d;

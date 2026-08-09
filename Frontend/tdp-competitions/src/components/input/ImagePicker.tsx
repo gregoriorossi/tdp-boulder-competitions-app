@@ -13,7 +13,7 @@ interface IImagePickerProps {
 }
 
 export function ImagePicker(props: IImagePickerProps) {
-	const [selectedImagePreview, setSelectedImagePreview] = useState<string | null>(null);
+	const [, setSelectedImagePreview] = useState<string | null>(null);
 
 	const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
 		const file = e.target?.files?.[0] ?? null;

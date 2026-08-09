@@ -17,7 +17,7 @@ export function RegistrationPage() {
 	const navigate = useNavigate();
 	const slug: string = params.slug!;
 
-	const { data: response, isLoading, error } = useCompetitionBySlug(slug);
+	const { data: response, isLoading } = useCompetitionBySlug(slug);
 
 
 	if (response?.error && response.error.code === Errors.Competitions.NotFound) {

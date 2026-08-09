@@ -1,6 +1,6 @@
 import { useMutation } from "@tanstack/react-query";
-import type { IAddCompetitorRegistrationRequest } from "../models/api.models";
 import CompetitorsService from "../services/competitors.service";
+import type { IAddCompetitorRegistrationRequest } from "../models/competitors.api.models";
 
 export const useAddCompetitorRegistration = (competitionId: string) => {
 	return useMutation({

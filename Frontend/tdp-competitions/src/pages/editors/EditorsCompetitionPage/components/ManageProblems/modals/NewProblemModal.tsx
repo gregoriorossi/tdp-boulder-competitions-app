@@ -44,7 +44,7 @@ export function NewProblemModal(props: INewProblemModalProps) {
 		const result = await addProblemMutateAsync(problemPayload);
 
 		if (result?.isSuccess) {
-			onAdded(result.value);
+			onAdded(result.value!);
 			reset();
 		}
 	}

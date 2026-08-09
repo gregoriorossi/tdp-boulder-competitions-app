@@ -1,0 +1,36 @@
+steps:
+  # Build Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'build'
+      - '-t'
+      - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/frontend:latest'
+      - '--build-arg'
+      - 'VITE_API_URL=https://api-737720691967.europe-west1.run.app/api'
+      - '--build-arg'
+      - 'VITE_BASE_URL=https://YOUR-FRONTEND-URL.run.app'
+      - '.'
+
+  # Push Docker image
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - 'push'
+      - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/frontend:latest'
+
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entrypoint: gcloud
+    args:
+      - 'run'
+      - 'deploy'
+      - 'tdp-boulder-competitions-frontend'
+      - '--image'
+      - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/frontend:latest'
+      - '--region'
+      - 'europe-west8'
+      - '--platform'
+      - 'managed'
+      - '--allow-unauthenticated'
+
+images:
+  - 'europe-west8-docker.pkg.dev/$PROJECT_ID/$REPO_NAME/frontend:latest'

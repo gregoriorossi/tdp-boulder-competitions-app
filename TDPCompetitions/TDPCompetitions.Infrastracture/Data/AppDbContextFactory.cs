@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore.Design;
 
@@ -8,16 +8,24 @@ namespace TDPCompetitions.Infrastracture.Data
     {
         public AppDbContext CreateDbContext(string[] args)
         {
-            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..\\TDPRegistrationsAPI.Web"); // oppure aggiusta con ../ se serve
-            var configuration = new ConfigurationBuilder()
-                 .SetBasePath(basePath)
-                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-                 .Build();
+            // Costruisce il percorso per il file appsettings.json nel progetto API
+            var basePath = Path.Combine(Directory.GetCurrentDirectory(), "..", "TDPCompetitions.Api");
 
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(basePath)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true)
+                .Build();
+
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
-            Console.WriteLine("Connecting to Database");
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();   
-            optionsBuilder.UseSqlServer(connectionString);
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new InvalidOperationException("Connection string 'DefaultConnection' not found in appsettings.json");
+            }
+
+            optionsBuilder.UseNpgsql(connectionString);
 
             return new AppDbContext(optionsBuilder.Options);
         }

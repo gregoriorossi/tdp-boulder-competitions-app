@@ -9,10 +9,20 @@ using JWTConsts = TDPCompetitions.Api.Constants.Config.JWT;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("MyInMemoryDatabaseDb"));
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+bool useMockDatabase = builder.Configuration[TDPCompetitions.Api.Constants.Config.UseMockDatabase] == "True";
+
+if (useMockDatabase)
+{
+    builder.Services.AddDbContext<AppDbContext>(options => options.UseInMemoryDatabase("MyInMemoryDatabaseDb"));
+}
+else
+{
+
+    builder.Services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
+
+
 
 
 QuestPDF.Settings.License = LicenseType.Community;
@@ -52,7 +62,10 @@ builder.Services.AddCors(options =>
 });
 var app = builder.Build();
 
-app.AddInMemoryDatabaseMockContent();
+if (useMockDatabase)
+{
+    app.AddInMemoryDatabaseMockContent();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

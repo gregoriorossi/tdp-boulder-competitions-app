@@ -1,15 +1,12 @@
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button, Select, MenuItem, type SelectChangeEvent } from "@mui/material";
-import classNames from "../../App.module.scss";
-import { useRankingByCompetitionById } from "../../queries/competitions.queries";
-import { ErrorMessage } from "../ErrorMessage";
-import { Spinner } from "../Spinner";
-import DownloadIcon from '@mui/icons-material/Download';
-import { STRINGS } from "../../consts/strings.consts";
 import { useState } from "react";
-import { Gender } from "../../models/competitions.models";
-import { Ranking } from "./Ranking";
-import { EditorsEndpoints } from "../../api/endpoints";
-const RankingsPageStrings = STRINGS.Pages.EditorCompetitionPage.Ranking;
+import { Gender } from "../../../../models/competitions.models";
+import { useRankingByCompetitionById } from "../../../../queries/competitors.queries";
+import { ErrorMessage } from "../../../../components/ErrorMessage";
+import { Spinner } from "../../../../components/Spinner";
+import { MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, type SelectChangeEvent } from "@mui/material";
+import classNames from "../../../../App.module.scss";
+import { Ranking } from "../../../../components/Rankings/Ranking";
+import { STRINGS } from "../../../../consts/strings.consts";
 const RankingsStrings = STRINGS.Rankings;
 
 interface IRankingsProps {
@@ -35,7 +32,6 @@ export function Rankings(props: IRankingsProps) {
 
 	const { data: response, isLoading, error } = useRankingByCompetitionById(competitionId, selectedGender);
 
-
 	if (isLoading) {
 		return <Spinner />;
 	}
@@ -49,17 +45,8 @@ export function Rankings(props: IRankingsProps) {
 	};
 
 	return <div className={classNames.rankings}>
+	[TODO] verifica se ranking è visibile
 		<div className={classNames.actionsContainer}>
-			<Button
-				onClick={() => {
-					const url: string = EditorsEndpoints.downloadReport(competitionId);
-					window.open(url, "_blank");
-				}}
-				title={RankingsPageStrings.DownloadRankings}
-				variant="contained"
-				endIcon={<DownloadIcon />}>
-				{RankingsPageStrings.DownloadRankings}
-			</Button>&nbsp;
 			<Select
 				defaultValue={RankingType.ALL}
 				value={rankingType}

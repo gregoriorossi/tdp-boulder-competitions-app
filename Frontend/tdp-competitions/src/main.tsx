@@ -17,6 +17,7 @@ import { itIT } from '@mui/x-date-pickers/locales';
 import 'dayjs/locale/it';
 import { EditorsLoginPage } from './pages/editors/EditorsLoginPage/EditorsLoginPage';
 import { LoginPage } from './pages/competitors/LoginPage/LoginPage';
+import { CompetitionPage } from './pages/competitors/CompetitionPage/CompetitionPage';
 
 const router = createBrowserRouter([
 	{
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
 	{
 		path: '/accedi',
 		element: <LoginPage />
+	},
+	{
+		path: '/gare/:slug',
+		element: <CompetitionPage />
 	},
 	{
 		path: '*',

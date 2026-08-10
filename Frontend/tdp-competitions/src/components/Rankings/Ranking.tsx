@@ -3,11 +3,12 @@ import type { IRanking } from "../../models/competitions.models";
 
 interface IRankingProps {
 	ranking: IRanking;
+	className: string;
 }
 
 export function Ranking(props: IRankingProps) {
-	const { ranking } = props;
-	return <TableRow key={`${ranking.position}-${ranking.lastName}`}>
+	const { ranking, className } = props;
+	return <TableRow key={`${ranking.position}-${ranking.lastName}`} className={className}>
 		<TableCell>
 			{ranking.position}
 		</TableCell>

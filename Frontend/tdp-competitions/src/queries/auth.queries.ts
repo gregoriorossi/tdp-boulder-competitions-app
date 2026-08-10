@@ -15,14 +15,14 @@ export const useEditorLogin = () => {
 				return;
 			}
 
-			StorageService.setItem(AuthConsts.LOCAL_STORAGE_LOGIN_INFO, JSON.stringify(data.value));	
+			StorageService.setItem(AuthConsts.LOCAL_STORAGE_EDITOR_LOGIN_INFO, JSON.stringify(data.value));	
 		}
 	})
 }
 
 export const useCompetitorLogin = () => {
 	return useMutation({
-		mutationFn: (request: ILoginCompetitorRequest) => AuthService.loginEditor(request),
+		mutationFn: (request: ILoginCompetitorRequest) => AuthService.loginCompetitor(request),
 		onSuccess: (data) => {
 			queryClient.invalidateQueries();
 
@@ -30,7 +30,7 @@ export const useCompetitorLogin = () => {
 				return;
 			}
 
-			StorageService.setItem(AuthConsts.LOCAL_STORAGE_LOGIN_INFO, JSON.stringify(data.value));
+			StorageService.setItem(AuthConsts.LOCAL_STORAGE_COMPETITOR_LOGIN_INFO, JSON.stringify(data.value));
 		}
 	})
 }

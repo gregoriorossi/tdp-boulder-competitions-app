@@ -1,4 +1,5 @@
 import { Gender } from "../models/competitions.models";
+import { genderToQueryParam } from "../utils/competitions.utils";
 
 export const AuthEndpoints = {
 	competitorLogin: '/Auth/competitor/login',
@@ -13,18 +14,7 @@ export const EditorsEndpoints = {
 	updateCompetitionStatus: (id: string) => `/Editors/competitions/${id}/status`,
 	deleteCompetition: (id: string) => `/Editors/competitions/${id}`,
 	getRankings: (id: string, gender: Gender | null) => {
-		let genderValue: string = "";
-		switch (gender) {
-			case Gender.MALE:
-				genderValue = "?gender=male";
-				break;
-			case Gender.FEMALE:
-				genderValue = "?gender=female";
-				break;
-			default:
-				genderValue = "";
-				break;
-		}
+		const genderValue: string = genderToQueryParam(gender);
 		return `/Editors/competitions/${id}/rankings${genderValue}`;
 	},
 	getCompetitors: (id: string) => `/Editors/competition/${id}/competitors`,
@@ -55,8 +45,12 @@ export const EditorsEndpoints = {
 
 export const CompetitorsEndpoints = {
 	addRegistration: (competitionId: string) => `/Competitors/register/${competitionId}`,
-	getCompetitionBySlug: (slug: string) => `/Competitors/competition/getBySlug/${slug}`,
-	getCompetitions: '/Competitors/competitions'
+	getCompetitionBySlug: (slug: string) => `/Competitors/competitions/getBySlug/${slug}`,
+	getCompetitions: '/Competitors/competitions',
+	getRankings: (id: string, gender: Gender | null) => {
+		const genderValue: string = genderToQueryParam(gender);
+		return `/Competitors/competitions/${id}/rankings${genderValue}`;
+	}
 };
 
 export const FilesEndpoints = {

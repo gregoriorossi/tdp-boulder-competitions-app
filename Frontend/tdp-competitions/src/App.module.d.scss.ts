@@ -1,13 +1,19 @@
 declare const classNames: {
   readonly layout: "layout";
-  readonly editorsPageWrapper: "editorsPageWrapper";
+  readonly competitorsPageWrapper: "competitorsPageWrapper";
   readonly header: "header";
   readonly logo: "logo";
+  readonly container: "container";
+  readonly tabs: "tabs";
+  readonly tab: "tab";
+  readonly info: "info";
+  readonly date: "date";
+  readonly bannerImage: "bannerImage";
+  readonly editorsPageWrapper: "editorsPageWrapper";
   readonly editorPageContainer: "editorPageContainer";
   readonly competitionForm: "competitionForm";
   readonly registrationsToggle: "registrationsToggle";
   readonly textEditor: "textEditor";
-  readonly bannerImage: "bannerImage";
   readonly preview: "preview";
   readonly deleteButton: "deleteButton";
   readonly saveButtonContainer: "saveButtonContainer";
@@ -29,8 +35,6 @@ declare const classNames: {
   readonly editorsAllCompetitionsPage: "editorsAllCompetitionsPage";
   readonly actionsSection: "actionsSection";
   readonly editorsCompetitionPage: "editorsCompetitionPage";
-  readonly tabs: "tabs";
-  readonly tab: "tab";
   readonly manageProblems: "manageProblems";
   readonly problemsContainer: "problemsContainer";
   readonly problems: "problems";
@@ -70,5 +74,8 @@ declare const classNames: {
   readonly colorLabel: "colorLabel";
   readonly fullWidth: "fullWidth";
   readonly copyUrl: "copyUrl";
+  readonly rankingTable: "rankingTable";
+  readonly headerCell: "headerCell";
+  readonly ranking: "ranking";
 };
 export = classNames;

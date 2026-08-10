@@ -30,6 +30,14 @@ export const STRINGS = {
 				}
 			}
 		},
+		CompetitorCompetitionPage: {
+			Tabs: {
+				Info: 'Informazioni',
+				Problems: 'Blocchi',
+				PersonalData: 'Dati personali',
+				Rankings: 'Classifiche'
+			}
+		},
 		EditorsAllCompetitionsPage: { 
 			Title: 'Tutte le gare',
 			NewCompetition: 'Nuova gara',
@@ -302,6 +310,19 @@ export const STRINGS = {
 		LightGray: '#D3D3D3',
 		Navy: '#000080',
 		Teal: '#008080'
+	},
+	Rankings: {
+		Types: {
+			ALL: 'Tutti',
+			MALE: 'Uomini',	
+			FEMALE: 'Donne'
+		},
+		Table: {
+			Rank: 'Posizione',
+			Name: 'Nome',
+			Surname: 'Cognome',
+			Score: 'Punteggio'
+		}
 	},
 	CompetitionStatus: {
 		Draft: 'Bozza',

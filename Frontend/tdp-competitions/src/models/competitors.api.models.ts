@@ -32,3 +32,23 @@ export interface IGetAllCompetitionsResponse {
 	slug: string;
 	id: string;
 }
+
+export interface IGetCompetitionBySlugResponse {
+	title: string;
+	description: string;
+	slug: string;
+	bannerImageId: string | null;
+	registrationsOpen: boolean;
+	date: Date;
+	id: string;
+}
+
+export interface IGetRankingResponse {
+	position: number;
+	score: number;
+	competitorId: string;
+	firstName: string;
+	lastName: string;
+	gender: number;
+	isMinor: boolean;
+}

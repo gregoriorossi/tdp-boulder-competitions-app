@@ -1,15 +1,16 @@
 import axios from "axios";
 import { AuthConsts } from "../consts/auth.consts";
 import StorageService from "../services/storage.service";
-import type { ILoginEditorResponse } from "../models/auth.api.models";
+import type { ILoginCompetitorResponse } from "../models/auth.api.models";
+import { Routes } from "../consts/routes.consts";
 
-const editorsApi = axios.create({
+const competitorsAxios = axios.create({
 	baseURL: import.meta.env.VITE_API_URL
 });
 
-editorsApi.interceptors.request.use(
+competitorsAxios.interceptors.request.use(
 	(config) => {
-		const jwt = StorageService.getItemAsJson<ILoginEditorResponse>(AuthConsts.LOCAL_STORAGE_EDITOR_LOGIN_INFO);
+		const jwt = StorageService.getItemAsJson<ILoginCompetitorResponse>(AuthConsts.LOCAL_STORAGE_COMPETITOR_LOGIN_INFO);
 
 		if (jwt) {
 			config.headers.Authorization = `Bearer ${jwt.token}`;
@@ -22,16 +23,16 @@ editorsApi.interceptors.request.use(
 	}
 );
 
-editorsApi.interceptors.response.use(
+competitorsAxios.interceptors.response.use(
 	(response) => response,
 	(error) => {
 		if (error.response?.status === 401) {
 			// Token scaduto o invalido - rimuovi e reindirizza al login
-			StorageService.removeItem(AuthConsts.LOCAL_STORAGE_EDITOR_LOGIN_INFO);
-			window.location.href = '/editors/login';
+			StorageService.removeItem(AuthConsts.LOCAL_STORAGE_COMPETITOR_LOGIN_INFO);
+			window.location.href = Routes.CompetitorLogin;
 		}
 		return Promise.reject(error);
 	}
 );
 
-export default editorsApi;
+export default competitorsAxios;

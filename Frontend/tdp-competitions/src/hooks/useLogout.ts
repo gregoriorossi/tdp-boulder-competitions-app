@@ -8,10 +8,10 @@ import { Routes } from '../consts/routes.consts';
 export function useLogout() {
 	const logout = () => {
 		// Rimuovi token JWT
-		sessionStorage.removeItem(AuthConsts.LOCAL_STORAGE_LOGIN_INFO);
+		sessionStorage.removeItem(AuthConsts.LOCAL_STORAGE_EDITOR_LOGIN_INFO);
 
 		// Rimuovi anche le info di login dal localStorage
-		localStorage.removeItem(AuthConsts.LOCAL_STORAGE_LOGIN_INFO);
+		localStorage.removeItem(AuthConsts.LOCAL_STORAGE_EDITOR_LOGIN_INFO);
 
 		// Reindirizza al login
 		window.location.href = Routes.EditorsLogin;

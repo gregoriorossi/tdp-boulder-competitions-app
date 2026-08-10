@@ -1,7 +1,7 @@
 ﻿using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Models;
 
-namespace TDPCompetitions.Api.ViewModels.Editors.Responses;
+namespace TDPCompetitions.Api.ViewModels.Competitors.Responses;
 
 public sealed record RankingCompetitorResponse(
     int Position,
@@ -21,5 +21,5 @@ public sealed record RankingCompetitorResponse(
             model.LastName,
             model.Gender,
             model.IsMinor)
-    {}
+    { }
 }

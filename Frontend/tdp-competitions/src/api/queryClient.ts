@@ -31,6 +31,9 @@ export const queryKeys = {
 	competitors: {
 		competitions: {
 			all: ["competitor-competitions"] as const
-		}
+		},
+		rankings: {
+			byCompetitionId: (id: string, gender: Gender | null) => ["competitor-ranking-competitionid", id, gender]
+		},
 	}
 };

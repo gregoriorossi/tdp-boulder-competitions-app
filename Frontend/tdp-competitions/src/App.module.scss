@@ -11,6 +11,47 @@
     }
 }
 
+.competitorsPageWrapper {
+    .header {
+        .logo {
+            width: 70px;
+            height: 70px;
+            position: absolute;
+            top: 10px;
+            left: 0;
+            margin: 0;
+            padding: 0;
+            cursor: pointer;
+        }
+    }
+
+    .container {
+        .tabs {
+            margin-bottom: 20px;
+
+            .tab {
+                &:focus {
+                    outline: none;
+                }
+            }
+        }
+
+        .info {
+            .date {
+                margin-bottom: 10px;
+            }
+
+            .bannerImage {
+                width: 400px;
+                background-repeat: no-repeat;
+                background-size: cover;
+                aspect-ratio: 16 / 9;
+                position: relative;
+            }
+        }
+    }
+}
+
 .editorsPageWrapper {
     display: flex;
     flex-direction: column;
@@ -402,13 +443,13 @@
     transition: filter 300ms;
 }
 
-.logo:hover {
-    filter: drop-shadow(0 0 2em #646cffaa);
-}
+    .logo:hover {
+        filter: drop-shadow(0 0 2em #646cffaa);
+    }
 
-.logo.react:hover {
-    filter: drop-shadow(0 0 2em #61dafbaa);
-}
+    .logo.react:hover {
+        filter: drop-shadow(0 0 2em #61dafbaa);
+    }
 
 @keyframes logo-spin {
     from {
@@ -554,5 +595,18 @@
 
     &:hover {
         background-color: #ff8f0014
+    }
+}
+
+.rankingTable {
+    .headerCell {
+        position: sticky;
+        left: 0;
+        background-color: white;
+        z-index: 3;
+    }
+
+    .ranking:hover {
+        background-color: rgba(0,0,0,0.2);
     }
 }

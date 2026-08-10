@@ -1,10 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Competitors.Responses;
-using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
@@ -49,23 +49,6 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<IEnumerable<GetCompetitionsResponse>>.Success(result));
         }
 
-        [HttpGet]
-        [Route("competition/getBySlug/{slug}")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<CompetitionInfoResponse>))]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> GetCompetitionBySlug(string slug, CancellationToken cancellationToken)
-        {
-            Competition? competition = await _competitionsManager.GetBySlugAsync(slug, cancellationToken);
-            
-            if (competition is null)
-            {
-                return NotFound(Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound));
-            }
-
-            return Ok(Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(competition)));
-        }
-
         [HttpPost]
         [Route("register/{competitionId}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -96,6 +79,47 @@ namespace TDPCompetitions.Api.Controllers
 
             await emailService.SendEmailAsync(new EmailMessageSettings(competition, registration, EmailTemplate.REGISTRATION_CONFIRMATION), cancellationToken);
             return NoContent();
+        }
+
+        [HttpGet]
+        [Route("competitions/getBySlug/{slug}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<CompetitionInfoResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetCompetitionBySlug(string slug, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetBySlugAsync(slug, cancellationToken);
+
+            if (competition is null)
+            {
+                return NotFound(Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            return Ok(Result<CompetitionInfoResponse>.Success(new CompetitionInfoResponse(competition)));
+        }
+
+        [HttpGet]
+        [Route("competitions/{competitionId}/rankings")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<RankingCompetitorResponse>>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetRankings(Guid competitionId, [FromQuery] string? gender, CancellationToken cancellationToken)
+        {
+            Gender? genderFilter = null;
+            if (!gender?.TryParseGender(out genderFilter) ?? false)
+            {
+                return BadRequest(Result<ICollection<RankingCompetitor>>.Failure(CompetitionsErrors.GenderNotExists));
+            }
+
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result<ICollection<RankingCompetitor>>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, genderFilter ?? Gender.ALL, cancellationToken);
+            var response = ranking.Select(c => new RankingCompetitorResponse(c)).ToList();
+            return Ok(Result<ICollection<RankingCompetitorResponse>>.Success(response));
         }
 
         [HttpDelete]

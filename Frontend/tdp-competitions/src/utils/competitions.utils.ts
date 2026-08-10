@@ -21,3 +21,14 @@ export function sortProblemsFn(p1: IProblem, p2: IProblem): number {
 		sensitivity: 'base'
 	})
 }
+
+export function genderToQueryParam(gender: Gender | null): string {
+	switch (gender) {
+		case Gender.MALE:
+			return "?gender=male";
+		case Gender.FEMALE:
+			return "?gender=female";
+		default:
+			return "";
+	}
+}

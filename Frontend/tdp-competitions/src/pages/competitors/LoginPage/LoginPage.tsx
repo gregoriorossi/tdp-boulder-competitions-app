@@ -36,7 +36,7 @@ export function LoginPage() {
 
 	const onSubmitLogin = async (data: ICompetitorLoginFormValues) => {
 		const result = await competitorLoginAsync({
-			email: data.email,
+			email: data.email.trim(),
 			competitionId: data.competitionId
 		});
 

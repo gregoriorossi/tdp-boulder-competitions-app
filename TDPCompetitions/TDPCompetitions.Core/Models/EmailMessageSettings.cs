@@ -2,12 +2,12 @@ using TDPCompetitions.Core.Entities;
 
 namespace TDPCompetitions.Core.Models;
 
-public record EmailMessage
+public record EmailMessageSettings
 {
-    public EmailMessage() {     }
+    public EmailMessageSettings() {     }
 
 
-    public EmailMessage(Competition competition, Registration registration, string templateId)
+    public EmailMessageSettings(Competition competition, Registration registration, string templateId)
     {
         string minorsList = string.Join("<br/> ", registration.Minors.Select(m => $"{m.FirstName} {m.LastName} ({m.BirthDate:dd/MM/yyyy})"));
         To = registration.Email;

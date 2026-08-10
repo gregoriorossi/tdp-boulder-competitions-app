@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QuestPDF.Infrastructure;
+using Resend;
 using System.Text;
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Infrastracture.Data;
@@ -28,6 +29,13 @@ else
 QuestPDF.Settings.License = LicenseType.Community;
 
 builder.Services.AddControllers();
+builder.Services.AddOptions();
+builder.Services.AddHttpClient<ResendClient>();
+builder.Services.Configure<ResendClientOptions>(options =>
+{
+    options.ApiToken = builder.Configuration[TDPCompetitions.Api.Constants.Config.EmailServiceSettings.ApiToken];
+});
+builder.Services.AddTransient<IResend, ResendClient>();
 builder.Services.RegisterService(builder.Configuration);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(options =>
@@ -83,7 +91,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseCors("ALL");
 
-//app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

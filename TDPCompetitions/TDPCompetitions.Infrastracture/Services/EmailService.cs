@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Mail;
 using TDPCompetitions.Core.Interfaces.Services;
 using TDPCompetitions.Core.Models;
+using Resend;
 
 namespace TDPCompetitions.Infrastracture.Services;
 
@@ -12,18 +13,21 @@ public class EmailService : IEmailService
     private readonly EmailSettings _emailSettings;
     private readonly ILogger<EmailService> _logger;
     private readonly IEmailTemplateService _templateService;
+    private readonly IResend _resend;
 
     public EmailService(
         IOptions<EmailSettings> emailSettings,
         ILogger<EmailService> logger,
-        IEmailTemplateService templateService)
+        IEmailTemplateService templateService,
+        IResend resend)
     {
         _emailSettings = emailSettings.Value ?? throw new ArgumentNullException(nameof(emailSettings));
         _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         _templateService = templateService ?? throw new ArgumentNullException(nameof(templateService));
+        _resend = resend ?? throw new ArgumentNullException(nameof(resend));
     }
 
-    public async Task SendEmailAsync(EmailMessage message, CancellationToken cancellationToken = default)
+    public async Task SendEmailAsync(EmailMessageSettings message, CancellationToken cancellationToken = default)
     {
         try
         {
@@ -41,55 +45,15 @@ public class EmailService : IEmailService
                 new { Body = body, Subject = subject}, 
                 cancellationToken);
 
-            using var mailMessage = new MailMessage
+            var emailMessage = new EmailMessage()
             {
-                From = new MailAddress(
-                    message.From ?? _emailSettings.SenderEmail,
-                    _emailSettings.SenderName),
+                To = message.To,
+                From = message.From ?? _emailSettings.SenderEmail,
                 Subject = subject,
-                Body = fullbody,
-                IsBodyHtml = message.IsHtml
+                HtmlBody = fullbody
             };
 
-            mailMessage.To.Add(message.To);
-
-            if (message.ReplyTo != null)
-            {
-                mailMessage.ReplyToList.Add(message.ReplyTo);
-            }
-
-            if (message.Cc != null)
-            {
-                foreach (var cc in message.Cc)
-                {
-                    mailMessage.CC.Add(cc);
-                }
-            }
-
-            if (message.Bcc != null)
-            {
-                foreach (var bcc in message.Bcc)
-                {
-                    mailMessage.Bcc.Add(bcc);
-                }
-            }
-
-            if (message.Attachments != null)
-            {
-                foreach (var attachment in message.Attachments)
-                {
-                    var stream = new MemoryStream(attachment.Value);
-                    mailMessage.Attachments.Add(new Attachment(stream, attachment.Key));
-                }
-            }
-
-            using var smtpClient = new SmtpClient(_emailSettings.SmtpServer, _emailSettings.SmtpPort)
-            {
-                Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password),
-                EnableSsl = _emailSettings.EnableSsl
-            };
-
-            await smtpClient.SendMailAsync(mailMessage, cancellationToken);
+            await _resend.EmailSendAsync(emailMessage, cancellationToken);
 
             _logger.LogInformation("Email sent successfully to {To}", message.To);
         }

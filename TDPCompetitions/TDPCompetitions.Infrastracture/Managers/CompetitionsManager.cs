@@ -156,6 +156,13 @@ namespace TDPCompetitions.Infrastracture.Managers
             return result.FirstOrDefault();
         }
 
+        public async Task<Registration?> GetRegistrationByEmailAsync(Guid competitionId, string email, CancellationToken cancellationToken)
+        {
+            Expression<Func<Registration, bool>> whereFn = r => r.CompetitionId == competitionId && r.Email.ToLower() == email.ToLower();
+            ICollection<Registration> result = await _competitionsRepository.GetAllRegistrationsAsync(whereFn, cancellationToken);
+            return result.FirstOrDefault();
+        }
+
         public async Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken)
         {
             await _competitionsRepository.DeleteRegistrationAsync(registration, cancellationToken);

@@ -30,6 +30,7 @@
 
         public static class Roles
         {
+            public const string COMPETITOR = "COMPETITOR";
             public const string EDITOR = "EDITOR";
         }
     }

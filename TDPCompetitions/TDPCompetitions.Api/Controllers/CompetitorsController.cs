@@ -3,6 +3,7 @@ using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
+using TDPCompetitions.Api.ViewModels.Competitors.Responses;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
@@ -29,6 +30,23 @@ namespace TDPCompetitions.Api.Controllers
             _problemsManager = problemsManager ?? throw new ArgumentNullException(nameof(problemsManager));
             _competitionsManager = competitionsManager ?? throw new ArgumentNullException(nameof(competitionsManager));
             this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+        }
+
+        [HttpGet]
+        [Route("competitions")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<Result<IEnumerable<GetCompetitionsResponse>>>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetCompetitions(CancellationToken cancellationToken)
+        {
+            var competitions = await _competitionsManager.GetAllCompetitionsAsync(cancellationToken);
+
+            var result = competitions
+                .Where(c => c.Status == CompetitionStatus.OPEN || c.Status == CompetitionStatus.CLOSED)
+                .OrderByDescending(c => c.Date)
+                .Select(c => new GetCompetitionsResponse(c));
+
+            return Ok(Result<IEnumerable<GetCompetitionsResponse>>.Success(result));
         }
 
         [HttpGet]
@@ -76,7 +94,7 @@ namespace TDPCompetitions.Api.Controllers
             Registration registration = ViewModelToEntity.AddRegistrationRequestToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
 
-            await emailService.SendEmailAsync(new EmailMessage(competition, registration, EmailTemplate.REGISTRATION_CONFIRMATION), cancellationToken);
+            await emailService.SendEmailAsync(new EmailMessageSettings(competition, registration, EmailTemplate.REGISTRATION_CONFIRMATION), cancellationToken);
             return NoContent();
         }
 

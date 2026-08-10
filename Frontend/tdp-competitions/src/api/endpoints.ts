@@ -1,6 +1,7 @@
 import { Gender } from "../models/competitions.models";
 
 export const AuthEndpoints = {
+	competitorLogin: '/Auth/competitor/login',
 	editorLogin: '/Auth/editor/login'
 };
 
@@ -9,7 +10,7 @@ export const EditorsEndpoints = {
 	getCompetitionById: (id: string) => `/Editors/competitions/getById/${id}`,
 	addCompetition: '/Editors/competitions',
 	updateCompetition: (id: string) => `/Editors/competitions/${id}`,
-	updateCompetitionStatus: '/Editors/competition/updateStatus',
+	updateCompetitionStatus: (id: string) => `/Editors/competitions/${id}/status`,
 	deleteCompetition: (id: string) => `/Editors/competitions/${id}`,
 	getRankings: (id: string, gender: Gender | null) => {
 		let genderValue: string = "";
@@ -54,7 +55,8 @@ export const EditorsEndpoints = {
 
 export const CompetitorsEndpoints = {
 	addRegistration: (competitionId: string) => `/Competitors/register/${competitionId}`,
-	getCompetitionBySlug: (slug: string) => `/Competitors/competition/getBySlug/${slug}`
+	getCompetitionBySlug: (slug: string) => `/Competitors/competition/getBySlug/${slug}`,
+	getCompetitions: '/Competitors/competitions'
 };
 
 export const FilesEndpoints = {

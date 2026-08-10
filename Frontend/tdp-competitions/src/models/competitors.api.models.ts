@@ -26,3 +26,9 @@ export interface IAddRegistrationMinorRequest {
 	addressStreet: string;
 	addressNumber: string;
 }
+
+export interface IGetAllCompetitionsResponse {
+	title: string;
+	slug: string;
+	id: string;
+}

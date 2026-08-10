@@ -61,7 +61,7 @@ export default class EditorsService {
 			status: request.status
 		};
 
-		const data = await editorsApi.patch(EditorsEndpoints.updateCompetitionStatus, payload);
+		const data = await editorsApi.patch(EditorsEndpoints.updateCompetitionStatus(request.competitionId), payload);
 		return data.data as IResponse<boolean>;
 	}
 

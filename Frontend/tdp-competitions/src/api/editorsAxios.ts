@@ -1,7 +1,7 @@
 import axios from "axios";
 import { AuthConsts } from "../consts/auth.consts";
 import StorageService from "../services/storage.service";
-import type { ILoginResponse } from "../models/auth.api.models";
+import type { ILoginEditorResponse } from "../models/auth.api.models";
 
 const editorsApi = axios.create({
 	baseURL: import.meta.env.VITE_API_URL
@@ -9,7 +9,7 @@ const editorsApi = axios.create({
 
 editorsApi.interceptors.request.use(
 	(config) => {
-		const jwt = StorageService.getItemAsJson<ILoginResponse>(AuthConsts.LOCAL_STORAGE_LOGIN_INFO);
+		const jwt = StorageService.getItemAsJson<ILoginEditorResponse>(AuthConsts.LOCAL_STORAGE_LOGIN_INFO);
 
 		if (jwt) {
 			config.headers.Authorization = `Bearer ${jwt.token}`;

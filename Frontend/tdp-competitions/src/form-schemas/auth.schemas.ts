@@ -1,8 +1,14 @@
 import *  as yup from "yup";
 import { STRINGS } from "../consts/strings.consts";
-const LoginForm = STRINGS.Pages.EditorsLoginPage.Form;
+const EditorLoginForm = STRINGS.Pages.EditorsLoginPage.Form;
+const CompetitorLoginForm = STRINGS.Pages.CompetitorsLoginPage.Form;
 
 export const editorLoginFormSchema = yup.object({
-	username: yup.string().required(LoginForm.Errors.UsernameMandatory),
-	password: yup.string().required(LoginForm.Errors.PasswordMandatory)
+	username: yup.string().required(EditorLoginForm.Errors.UsernameMandatory),
+	password: yup.string().required(EditorLoginForm.Errors.PasswordMandatory)
+});
+
+export const competitorLoginFormSchema = yup.object({
+	email: yup.string().required(CompetitorLoginForm.Errors.EmailMandatory),
+	competitionId: yup.string().required(CompetitorLoginForm.Errors.CompetitionMandatory)
 });

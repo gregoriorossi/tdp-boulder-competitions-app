@@ -13,7 +13,20 @@ export const STRINGS = {
 				Errors: {
 					UsernameMandatory: 'Inserire lo username',
 					PasswordMandatory: 'Inserire la password',
-					WrongCredentials: 'Credenziali non corrette'
+					WrongCredentials: 'Username o password non corretti'
+				}
+			}
+		},
+		CompetitorsLoginPage: {
+			Title: 'Accedi all\'area riservata',
+			Form: {
+				Email: 'Email',
+				Competition: 'Gara',
+				Submit: 'Accedi',
+				Errors: {
+					EmailMandatory: 'Inserire l\'email',
+					CompetitionMandatory: 'Inserire la gara',
+					WrongCredentials: 'Email o gara non corrette'
 				}
 			}
 		},

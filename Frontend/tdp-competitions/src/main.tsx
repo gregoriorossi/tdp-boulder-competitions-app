@@ -16,6 +16,7 @@ import { RegistrationPage } from './pages/competitors/RegistrationPage/Registrat
 import { itIT } from '@mui/x-date-pickers/locales';
 import 'dayjs/locale/it';
 import { EditorsLoginPage } from './pages/editors/EditorsLoginPage/EditorsLoginPage';
+import { LoginPage } from './pages/competitors/LoginPage/LoginPage';
 
 const router = createBrowserRouter([
 	{
@@ -33,6 +34,10 @@ const router = createBrowserRouter([
 	{
 		path: '/registrati/:slug',
 		element: <RegistrationPage />
+	},
+	{
+		path: '/accedi',
+		element: <LoginPage />
 	},
 	{
 		path: '*',

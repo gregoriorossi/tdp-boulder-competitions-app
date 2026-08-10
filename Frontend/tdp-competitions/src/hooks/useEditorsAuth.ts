@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthConsts } from '../consts/auth.consts';
 import StorageService from '../services/storage.service';
-import type { ILoginResponse } from '../models/auth.api.models';
+import type { ILoginEditorResponse } from '../models/auth.api.models';
 
 
 export interface IUseAuthOptions {
@@ -10,7 +10,7 @@ export interface IUseAuthOptions {
 }
 
 function checkAuth(): boolean {
-	const jwt = StorageService.getItemAsJson<ILoginResponse>(AuthConsts.LOCAL_STORAGE_LOGIN_INFO);
+	const jwt = StorageService.getItemAsJson<ILoginEditorResponse>(AuthConsts.LOCAL_STORAGE_LOGIN_INFO);
 	const isEditor = jwt?.userInfo?.roles.some(r => r === AuthConsts.Roles.EDITOR);
 
 	if (!jwt || !isEditor) {

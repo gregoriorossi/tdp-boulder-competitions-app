@@ -42,9 +42,6 @@ export const queryKeys = {
 		},
 		registrations: {
 			byId: (id: string) => ["competitor-registration-id", id]
-		},
-		results: {
-			byId: (id: string) => ["competitor-results-id", id]
-		},
+		}
 	}
 };

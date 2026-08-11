@@ -1,11 +1,11 @@
 import { useMutation, useQuery, type UseQueryResult } from "@tanstack/react-query";
 import CompetitorsService from "../services/competitors.service";
-import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetRankingResponse, IGetSentProblemsResponse, ISendProblemData } from "../models/competitors.api.models";
+import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetRankingResponse, IGetSentProblemsResponse } from "../models/competitors.api.models";
 import { queryClient, queryKeys } from "../api/queryClient";
 import type { IResponse } from "../models/api.models";
 import type { Gender } from "../models/competitions.models";
 import CompetitorsMappers from "../mappers/competitors.mappers";
-import type { ICompetition, IGetCompetitionAndRegistrationDataBySlugModel } from "../models/competitors.models";
+import type { ICompetition, IGetCompetitionAndRegistrationDataBySlugModel, ISendProblemData, IUnsendProblemData } from "../models/competitors.models";
 
 export const useAddCompetitorRegistration = (competitionId: string) => {
 	return useMutation({
@@ -87,11 +87,20 @@ export const useGetCompetitionAndRegistrationDataBySlug = (slug: string): UseQue
 	});
 }
 
-export const useSendProblem = (competitionId: string) => {
+export const useSendProblem = (competitionId: string, competitorId: string) => {
 	return useMutation({
-		mutationFn: (sendProblemRequest: ISendProblemData) => CompetitorsService.sendProblem(sendProblemRequest),
+		mutationFn: async (sendProblemRequest: ISendProblemData) => CompetitorsService.sendProblem(sendProblemRequest),
 		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: queryKeys.competitors.results.byId(competitionId) });
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitors.problems.sent(competitionId, competitorId) });
+		}
+	});
+}
+
+export const useUnsendProblem = (competitionId: string, competitorId: string) => {
+	return useMutation({
+		mutationFn: async (sendProblemRequest: IUnsendProblemData) => CompetitorsService.unsendProblem(sendProblemRequest),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitors.problems.sent(competitionId, competitorId) });
 		}
 	});
 }

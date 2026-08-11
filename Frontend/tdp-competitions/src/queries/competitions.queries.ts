@@ -4,7 +4,6 @@ import EditorsService from "../services/editors.service";
 import type { IResponse, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest } from "../models/api.models";
 import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, IGetResultsResponse, IProblem, IProblemsGroup, IRanking, ISendProblemData, ISpecialProblem, IUnsendProblemData } from "../models/competitions.models";
 import CompetitionsMappers from "../mappers/competitions.mappers";
-import CompetitorsService from "../services/competitors.service";
 
 interface IUseAddCompetitionMutation {
 	title: string,

@@ -43,3 +43,14 @@ export interface IGetCompetitionAndRegistrationDataBySlugModel {
 	competition: ICompetition;
 	registration: IRegistration;
 }
+
+export interface ISendProblemData {
+	competitionId: string;
+	problemId: string;
+	competitorId: string;
+}
+
+export interface IUnsendProblemData {
+	competitionId: string;
+	sentProblemId: string;
+}

@@ -55,7 +55,8 @@ export const CompetitorsEndpoints = {
 	},
 	getProblems: (competitionId: string) => `/Competitors/competitions/${competitionId}/problems`,
 	getSentProblems: (competitionId: string, competitorId: string) => `/Competitors/competitions/${competitionId}/problems/competitors/${competitorId}`,
-	sendProblem: (competitionId: string, problemId: string) => `/Competitors/competitions/${competitionId}/problems/${problemId}/send`
+	sendProblem: (competitionId: string, problemId: string) => `/Competitors/competitions/${competitionId}/problems/${problemId}/send`,
+	unsendProblem: (competitionId: string, sentProblemId: string) => `/Competitors/competitions/${competitionId}/problems/sends/${sentProblemId}`
 };
 
 export const FilesEndpoints = {

@@ -1,11 +1,11 @@
 import classNames from "../../../../../App.module.scss";
-import type { IProblemsGroup, ISentProblemResponse } from "../../../../../models/competitors.api.models";
+import type { IProblemsGroup, ISendProblemResponse } from "../../../../../models/competitors.api.models";
 import { sortProblemsFn } from "../../../../../utils/competitions.utils";
 import { Problem } from "./Problem";
 
 interface IProblemGroupProps {
 	groups: IProblemsGroup[];
-	sentProblems: ISentProblemResponse[];
+	sentProblems: ISendProblemResponse[];
 	competitorId: string;
 	disableSending: boolean;
 }
@@ -26,7 +26,7 @@ export function ProblemGroup(props: IProblemGroupProps) {
 									color={group.colorCode}
 									competitorId={competitorId}
 									disableSending={disableSending}
-									sent={sentProblems.some(sp => sp.problemId === p.id)}
+									sent={sentProblems.find(sp => sp.problemId === p.id)}
 									key={p.id} />)
 					}
 				</div>

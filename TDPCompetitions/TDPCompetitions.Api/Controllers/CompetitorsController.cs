@@ -238,6 +238,29 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
+        [Route("competitions/{competitionId}/problems/sends/{sentProblemId}")]
+        public async Task<IActionResult> RemoveSentProblem(Guid competitionId, Guid problemId, Guid sentProblemId, CancellationToken cancellationToken)
+        {
+            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(sentProblemId, cancellationToken);
+            if (sentProblem is null)
+            {
+                return NotFound(Result.Failure(SentProblemsErrors.NotFound));
+            }
+
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(competitionId, username, sentProblem.CompetitorId, cancellationToken);
+
+            if (canSend != null)
+            {
+                return Ok(canSend);
+            }
+
+            
+            await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
+            return Ok();
+        }
+
+        [HttpDelete]
         [Route("register/{registrationId}")]
         public async Task<IActionResult> DeleteRegistration(Guid registrationId, CancellationToken cancellationToken)
         {
@@ -266,75 +289,6 @@ namespace TDPCompetitions.Api.Controllers
             Competitor competitorUpdated = ViewModelToEntity.UpdateCompetitorVMToCompetitor(competitorId, model);
             Competitor result = await _competitionsManager.UpdateCompetitorAsync(competitorUpdated, cancellationToken);
             return Ok(Result<Competitor>.Success(result));
-        }
-
-        [HttpPost]
-        [Route("problems/send")]
-        public async Task<IActionResult> SendProblem([FromBody] SendProblemVM model, CancellationToken cancellationToken)
-        {
-            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
-            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
-            if (canSend != null)
-            {
-                return Ok(canSend);
-            }
-
-            SentProblem send = ViewModelToEntity.SendProblemVMToSentProblem(model);
-            SentProblem result = await _problemsManager.SendProblemAsync(send, cancellationToken);
-            return Ok(Result<SentProblem>.Success(result));
-        }
-
-        [HttpDelete]
-        [Route("problems/send")]
-        public async Task<IActionResult> RemoveSentProblem([FromBody] RemoveSentProblemVM model, CancellationToken cancellationToken)
-        {
-            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
-            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
-
-            if (canSend != null)
-            {
-                return Ok(canSend);
-            }
-
-            SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(model.Id, cancellationToken);
-            if (sentProblem == null)
-            {
-                return BadRequest(); //giusto?
-            }
-            await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("specialProblems/send")]
-        public async Task<IActionResult> SendSpecialProblem([FromBody] SendSpecialProblemVM model, CancellationToken cancellationToken)
-        {
-            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
-            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
-
-            if (canSend != null)
-            {
-                return Ok(canSend);
-            }
-
-            SentSpecialProblem send = ViewModelToEntity.SendSpecialProblemVMToSentSpecialProblem(model);
-            SentSpecialProblem result = await _problemsManager.SendSpecialProblemAsync(send, cancellationToken);
-            return Ok(Result<SentSpecialProblem>.Success(result));
-        }
-
-        [HttpDelete]
-        [Route("specialProblems/send")]
-        public async Task<IActionResult> RemoveSentSpecialProblem([FromBody] RemoveSentSpecialProblemVM model, CancellationToken cancellationToken)
-        {
-            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
-            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
-            if (canSend != null)
-            {
-                return Ok(canSend);
-            }
-
-            //await _problemsManager.DeleteSentSpecialProblemAsync(model.Id, cancellationToken);
-            return Ok();
         }
 
         private async Task<Result?> CanSend(Guid competitionId, string email, Guid competitorId, CancellationToken cancellationToken)

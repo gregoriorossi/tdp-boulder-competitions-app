@@ -5,7 +5,8 @@ import { AuthConsts } from "../consts/auth.consts";
 import type { IResponse } from "../models/api.models";
 import type { ILoginCompetitorResponse } from "../models/auth.api.models";
 import type { Gender } from "../models/competitions.models";
-import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetCompetitionBySlugResponse, IGetRankingResponse, IGetSentProblemsResponse, IRegistration, IRegistrationResponse, ISendProblemData } from "../models/competitors.api.models";
+import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetCompetitionAndRegistrationDataBySlug, IGetCompetitionResponse, IGetRankingResponse, IGetSentProblemsResponse, ISendProblemRequest, ISendProblemResponse } from "../models/competitors.api.models";
+import type { ISendProblemData, IUnsendProblemData } from "../models/competitors.models";
 import StorageService from "./storage.service";
 
 export default class CompetitorsService {
@@ -19,14 +20,14 @@ export default class CompetitorsService {
 		return data.data as IResponse<IGetAllCompetitionsResponse[]>;
 	}
 
-	public static getCompetitionBySlug = async (slug: string): Promise<IResponse<IGetCompetitionBySlugResponse>> => {
+	public static getCompetitionBySlug = async (slug: string): Promise<IResponse<IGetCompetitionResponse>> => {
 		const data = await competitorsApi.get(CompetitorsEndpoints.getCompetitionBySlug(slug));
-		return data.data as IResponse<IGetCompetitionBySlugResponse>;
+		return data.data as IResponse<IGetCompetitionResponse>;
 	}
 
-	public static getCompetitionAndRegistrationDataBySlug = async (slug: string): Promise<IResponse<IGetCompetitionBySlugResponse>> => {
+	public static getCompetitionAndRegistrationDataBySlug = async (slug: string): Promise<IResponse<IGetCompetitionAndRegistrationDataBySlug>> => {
 		const data = await competitorsApi.get(CompetitorsEndpoints.getCompetitionAndRegistrationDataBySlug(slug));
-		return data.data as IResponse<IGetCompetitionBySlugResponse>;
+		return data.data as IResponse<IGetCompetitionAndRegistrationDataBySlug>;
 	}
 
 	public static getRankingByCompetitionId = async (id: string, gender: Gender | null): Promise<IResponse<IGetRankingResponse[]>> => {
@@ -44,8 +45,16 @@ export default class CompetitorsService {
 		return data.data as IResponse<IGetSentProblemsResponse>;
 	}
 
-	public static sendProblem = async (data: ISendProblemData): Promise<void> => {
-		await competitorsApi.post(CompetitorsEndpoints.sendProblem(data.competitionId, data.problemId));
+	public static sendProblem = async (data: ISendProblemData): Promise<IResponse<ISendProblemResponse>> => {
+		const body: ISendProblemRequest = {
+			competitorId: data.competitorId
+		};
+		const response = await competitorsApi.post(CompetitorsEndpoints.sendProblem(data.competitionId, data.problemId), body);
+		return response.data as IResponse<ISendProblemResponse>;
+	}
+
+	public static unsendProblem = async (data: IUnsendProblemData): Promise<void> => {
+		await competitorsApi.delete(CompetitorsEndpoints.unsendProblem(data.competitionId, data.sentProblemId));
 	}
 
 	public static getLoginInfo = (): ILoginCompetitorResponse | null => {

@@ -167,17 +167,6 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static SentProblem SendProblemVMToSentProblem(SendProblemVM model)
-        {
-            return new SentProblem
-            {
-                ProblemId = model.ProblemId,
-                CompetitorId = model.CompetitorId,
-                CompetitionId = model.CompetitionId,
-                SentAt = DateTime.Now
-            };
-        }
-
         internal static SentProblem SendProblemRequestToSentProblem(Guid competitionId, Guid problemId, SendProblemRequest model)
         {
             return new SentProblem
@@ -217,17 +206,6 @@ namespace TDPCompetitions.Api.Mappers
                 Id = model.Id,
                 Name = model.Name,
                 CompetitionId = model.CompetitionId
-            };
-        }
-
-        internal static SentSpecialProblem SendSpecialProblemVMToSentSpecialProblem(SendSpecialProblemVM model)
-        {
-            return new SentSpecialProblem
-            {
-                SpecialProblemId = model.SpecialProblemId,
-                CompetitorId = model.CompetitorId,
-                CompetitionId = model.CompetitionId,
-                SentAt = DateTime.Now
             };
         }
 

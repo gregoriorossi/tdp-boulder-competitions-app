@@ -86,12 +86,6 @@ export interface ISpecialProblem {
 	competitionId: string
 }
 
-export interface ISendProblemData {
-	competitionId: string;
-	problemId: string;
-	competitorId: string;
-}
-
 export interface IRegistrationResponse {
 	id: string;
 	createdAt: string;
@@ -121,18 +115,24 @@ export interface ICompetitorResponse {
 }
 
 export interface IGetSentProblemsResponse {
-	sentProblems: ISentProblemResponse[];
-	sentSpecialProblems: ISentSpecialProblemResponse[];
+	sentProblems: ISendProblemResponse[];
+	sentSpecialProblems: ISendSpecialProblemResponse[];
 }
 
-export interface ISentProblemResponse {
+export interface ISendProblemRequest {
+	competitorId: string;
+}
+
+export interface ISendProblemResponse {
+	id: string;
 	competitionId: string;
 	problemId: string;
 	competitorId: string;
 	sentAt: string;
 }
 
-export interface ISentSpecialProblemResponse {
+export interface ISendSpecialProblemResponse {
+	id: string;
 	competitionId: string;
 	specialProblemId: string;
 	competitorId: string;

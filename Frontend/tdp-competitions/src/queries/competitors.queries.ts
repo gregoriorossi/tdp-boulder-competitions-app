@@ -1,9 +1,11 @@
 import { useMutation, useQuery, type UseQueryResult } from "@tanstack/react-query";
 import CompetitorsService from "../services/competitors.service";
-import type { IAddCompetitorRegistrationRequest, IGetAllCompetitionsResponse, IGetRankingResponse } from "../models/competitors.api.models";
-import { queryKeys } from "../api/queryClient";
+import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetRankingResponse, ISendProblemData } from "../models/competitors.api.models";
+import { queryClient, queryKeys } from "../api/queryClient";
 import type { IResponse } from "../models/api.models";
 import type { Gender } from "../models/competitions.models";
+import CompetitorsMappers from "../mappers/competitors.mappers";
+import type { ICompetition, IGetCompetitionAndRegistrationDataBySlugModel } from "../models/competitors.models";
 
 export const useAddCompetitorRegistration = (competitionId: string) => {
 	return useMutation({
@@ -28,6 +30,57 @@ export const useRankingByCompetitionById = (id: string, gender: Gender | null): 
 		queryFn: async () => {
 			const result = await CompetitorsService.getRankingByCompetitionId(id, gender);
 			return result;
+		}
+	});
+}
+
+export const useProblemsByCompetition = (id: string): UseQueryResult<IResponse<ICompetitionProblemsResponse>> => {
+	return useQuery({
+		queryKey: [...queryKeys.competitors.problems.byCompetitionId(id)],
+		queryFn: async () => {
+			const result = await CompetitorsService.getProblemsByCompetitionId(id);
+			return result;
+		}
+	});
+}
+
+export const useCompetitionBySlug = (slug: string): UseQueryResult<IResponse<ICompetition>> => {
+	return useQuery({
+		queryKey: [...queryKeys.competitions.bySlug(slug)],
+		queryFn: async () => {
+			const result = await CompetitorsService.getCompetitionBySlug(slug);
+			return {
+				...result,
+				value: result.value ? CompetitorsMappers.ToICompetition(result.value!) : null
+			}
+		}
+	});
+}
+
+export const useGetCompetitionAndRegistrationDataBySlug = (slug: string): UseQueryResult<IResponse<IGetCompetitionAndRegistrationDataBySlugModel>> => {
+	return useQuery({
+		queryKey: [...queryKeys.competitors.competitions.bySlug(slug)],
+		queryFn: async () => {
+			const result = await CompetitorsService.getCompetitionAndRegistrationDataBySlug(slug);
+			const registration = CompetitorsMappers.ToIRegistration(result.value!.registration!);
+			const competition = CompetitorsMappers.ToICompetition(result.value!.competition!);
+			return {
+				...result,
+				value: {
+					competition,
+					registration
+				}
+
+			};
+		}
+	});
+}
+
+export const useSendProblem = (competitionId: string) => {
+	return useMutation({
+		mutationFn: (sendProblemRequest: ISendProblemData) => CompetitorsService.sendProblem(sendProblemRequest),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitors.results.byId(competitionId) });
 		}
 	});
 }

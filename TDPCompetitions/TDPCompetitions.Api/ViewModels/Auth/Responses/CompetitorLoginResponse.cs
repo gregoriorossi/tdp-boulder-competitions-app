@@ -15,7 +15,7 @@ public sealed record CompetitorLoginResponse(
         : this(
             token,
             expirationDate,
-            new CompetitorInfo(registration.Email, registration.CompetitionId, roles)
+            new CompetitorInfo(registration.Email, registration.CompetitionId, registration.Id, roles)
             )
     { }
 }

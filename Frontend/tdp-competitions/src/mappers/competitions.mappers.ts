@@ -1,9 +1,10 @@
 import type { ICompetitorResponse, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IUpdateCompetitionRequest } from "../models/api.models";
-import { CompetitionStatus, type ICompetition, type IRegistration, type ICompetitor, Gender, type ICompetitionInfo, type ICompetitionInfoForm, type IRanking } from "../models/competitions.models";
+import { CompetitionStatus, type ICompetition, type IRegistration, type ICompetitor, type ICompetitionInfo, type ICompetitionInfoForm, type IRanking } from "../models/competitions.models";
+import { numberToCompetitionStatus, numberToGender } from "../utils/competitions.utils";
 
 export default class CompetitionsMappers {
 	public static ToICompetition = (data: IGetAllCompetitionsResponse): ICompetition => {
-		const status = this.numberToCompetitionStatus(data.status);
+		const status = numberToCompetitionStatus(data.status);
 		return {
 			id: data.id,
 			registrationsOpen: data.registrationsOpen,
@@ -15,7 +16,7 @@ export default class CompetitionsMappers {
 	}
 
 	public static ToICompetitionInfo = (data: IGetCompetitionResponse): ICompetitionInfo => {
-		const status = this.numberToCompetitionStatus(data.status);
+		const status = numberToCompetitionStatus(data.status);
 
 		return {
 			id: data.id,
@@ -32,28 +33,6 @@ export default class CompetitionsMappers {
 			privacyText: data.privacyText,
 			slug: data.slug
 		};
-	}
-
-	public static numberToCompetitionStatus = (value: number): CompetitionStatus => {
-		switch (value) {
-			case 0:
-				return CompetitionStatus.DRAFT;
-			case 1:
-				return CompetitionStatus.OPEN;
-			case 2:
-				return CompetitionStatus.CLOSED;
-			default:
-				return CompetitionStatus.DRAFT;
-		}
-	}
-
-	public static numberToGender = (value: number): Gender => {
-		switch (value) {
-			case 0:
-				return Gender.MALE;
-			default:
-				return Gender.FEMALE;
-		}
 	}
 
 	public static ToIRegistration = (value: IRegistrationResponse): IRegistration => {
@@ -80,7 +59,7 @@ export default class CompetitionsMappers {
 			birthProvince: value.birthProvince,
 			competitionId: value.competitionId,
 			firstName: value.firstName,
-			gender: this.numberToGender(value.gender),
+			gender: numberToGender(value.gender),
 			isMinor: value.isMinor,
 			lastName: value.lastName,
 			registrationId: value.registrationId
@@ -108,7 +87,7 @@ export default class CompetitionsMappers {
 		return {
 			competitorId: data.competitorId,
 			firstName: data.firstName,
-			gender: this.numberToGender(data.gender),
+			gender: numberToGender(data.gender),
 			isMinor: data.isMinor,
 			lastName: data.lastName,
 			position: data.position,

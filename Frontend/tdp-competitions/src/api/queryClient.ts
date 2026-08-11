@@ -30,10 +30,20 @@ export const queryKeys = {
 	},
 	competitors: {
 		competitions: {
-			all: ["competitor-competitions"] as const
+			all: ["competitor-competitions"] as const,
+			bySlug: (slug: string) => ["competitor-competition-slug", slug]
 		},
 		rankings: {
 			byCompetitionId: (id: string, gender: Gender | null) => ["competitor-ranking-competitionid", id, gender]
+		},
+		problems: {
+			byCompetitionId: (id: string) => ["competitor-problems-competition-id", id]
+		},
+		registrations: {
+			byId: (id: string) => ["competitor-registration-id", id]
+		},
+		results: {
+			byId: (id: string) => ["competitor-results-id", id]
 		},
 	}
 };

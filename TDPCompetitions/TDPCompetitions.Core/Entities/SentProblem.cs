@@ -12,5 +12,16 @@ namespace TDPCompetitions.Core.Entities
         public Guid ProblemId { get; set; }
 
         public DateTime SentAt { get; set; }
+
+
+        public SentProblem() { }
+
+        public SentProblem(Guid competitionId, Guid competitorId, Guid problemId, DateTime sentAt)
+        {
+            CompetitionId = competitionId;
+            CompetitorId = competitorId;
+            ProblemId = problemId;
+            SentAt = sentAt;
+        }
     }
 }

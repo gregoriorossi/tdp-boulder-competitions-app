@@ -1,5 +1,5 @@
 import { STRINGS } from "../consts/strings.consts";
-import { Gender, type ICompetitor, type IProblem, type IRegistration } from "../models/competitions.models";
+import { CompetitionStatus, Gender, type ICompetitor, type IProblem, type IRegistration } from "../models/competitions.models";
 
 export function BuildFullName(competitor: ICompetitor): string {
 	return `${competitor.lastName} ${competitor.firstName}`;
@@ -30,5 +30,27 @@ export function genderToQueryParam(gender: Gender | null): string {
 			return "?gender=female";
 		default:
 			return "";
+	}
+}
+
+export function numberToGender(value: number): Gender {
+	switch (value) {
+		case 0:
+			return Gender.MALE;
+		default:
+			return Gender.FEMALE;
+	}
+}
+
+export function numberToCompetitionStatus(value: number): CompetitionStatus	 {
+	switch (value) {
+		case 0:
+			return CompetitionStatus.DRAFT;
+		case 1:
+			return CompetitionStatus.OPEN;
+		case 2:
+			return CompetitionStatus.CLOSED;
+		default:
+			return CompetitionStatus.DRAFT;
 	}
 }

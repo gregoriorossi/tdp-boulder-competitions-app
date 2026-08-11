@@ -25,4 +25,17 @@ public static class TokenHelper
 
         return token;
     }
+
+    public static JwtSecurityToken? DecodeToken(string token)
+    {
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        if (!tokenHandler.CanReadToken(token))
+        {
+            return null;
+        }
+
+        var jwt = tokenHandler.ReadJwtToken(token);
+        return jwt;
+    }
 }

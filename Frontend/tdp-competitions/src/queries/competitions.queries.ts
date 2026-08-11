@@ -47,19 +47,6 @@ export const useCompetitionById = (id: string): UseQueryResult<IResponse<ICompet
 	});
 }
 
-export const useCompetitionBySlug = (slug: string): UseQueryResult<IResponse<ICompetitionInfo>> => {
-	return useQuery({
-		queryKey: [...queryKeys.competitions.bySlug(slug)],
-		queryFn: async () => {
-			const result = await CompetitorsService.getBySlug(slug);
-			return {
-				...result,
-				value: result.value ? CompetitionsMappers.ToICompetitionInfo(result.value) : null
-			}
-		}
-	});
-}
-
 export const useUpdateCompetition = (competitionId: string) => {
 	return useMutation({
 		mutationFn: (competetitionInfo: IUpdateCompetitionRequest) => EditorsService.updateCompetitionInfo(competetitionInfo),

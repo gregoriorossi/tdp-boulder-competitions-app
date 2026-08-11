@@ -13,6 +13,12 @@
 
 .competitorsPageWrapper {
     .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: relative;
+        padding-bottom: 2rem;
+
         .logo {
             width: 70px;
             height: 70px;
@@ -22,6 +28,11 @@
             margin: 0;
             padding: 0;
             cursor: pointer;
+        }
+
+        h2 {
+            flex: 1;
+            text-align: center;
         }
     }
 
@@ -47,6 +58,27 @@
                 background-size: cover;
                 aspect-ratio: 16 / 9;
                 position: relative;
+            }
+        }
+
+        .problems {
+            .problemGroup {
+                display: flex;
+                flex-direction: row;
+                justify-content: start;
+                margin-bottom: 1rem;
+
+                .problem {
+                    display: flex;
+                    flex-direction: row;
+                    margin-right: 10px;
+
+                    .problemName {
+                        border-radius: 10px;
+                        border: solid 2px black;
+                        padding: 0.5rem 1rem;
+                    }
+                }
             }
         }
     }

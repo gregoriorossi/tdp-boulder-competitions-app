@@ -1,10 +1,10 @@
 import classNames from "../../../../App.module.scss";
-import type { ICompetitionInfo } from "../../../../models/competitions.models";
+import type { ICompetition } from "../../../../models/competitors.models";
 import FilesService from "../../../../services/files.service";
 import { DateUtils } from "../../../../utils/date.utils";
 
 export interface IInfoProps {
-    competition: ICompetitionInfo;
+    competition: ICompetition;
 }
 
 export function Info(props: IInfoProps) {

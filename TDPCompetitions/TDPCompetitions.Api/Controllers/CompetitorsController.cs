@@ -1,16 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 using TDPCompetitions.Api.Extensions;
+using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Competitors.Responses;
+using TDPCompetitions.Api.ViewModels.Competitors.Responses.GetProblemsResponse;
+using TDPCompetitions.Api.ViewModels.Competitors.Requests;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
 using TDPCompetitions.Core.Interfaces.Managers;
 using TDPCompetitions.Core.Interfaces.Services;
 using TDPCompetitions.Core.Models;
+using TDPCompetitions.Api.ViewModels.Competitors.Responses.GetCompetitionAndRegistrationDataBySlug;
 
 namespace TDPCompetitions.Api.Controllers
 {
@@ -99,7 +105,43 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
+        [Route("competitions/getBySlug/{slug}/registration")]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetCompetitionAndRegistrationDataBySlugResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetCompetitionAndRegistrationDataBySlug(string slug, CancellationToken cancellationToken)
+        {
+            Competition? competition = await _competitionsManager.GetBySlugAsync(slug, cancellationToken);
+
+            if (competition is null)
+            {
+                return NotFound(Result<CompetitionInfoResponse>.Failure(CompetitionsErrors.NotFound));
+            }
+
+            string email = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Registration? registration = await _competitionsManager.GetRegistrationByEmailAsync(competition.Id, email, cancellationToken);
+            if (registration is null)
+            {
+                return NotFound(Result<RegistrationResponse>.Failure(CompetitionsErrors.NotFound));
+            }
+
+
+            if (registration.Email != email)
+            {
+                return Unauthorized();
+            }
+
+            var response = new GetCompetitionAndRegistrationDataBySlugResponse(
+                new RegistrationResponse(registration),
+                new CompetitionInfoResponse(competition));
+
+            return Ok(Result<GetCompetitionAndRegistrationDataBySlugResponse>.Success(response));
+        }
+
+        [HttpGet]
         [Route("competitions/{competitionId}/rankings")]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<RankingCompetitorResponse>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -122,6 +164,48 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<ICollection<RankingCompetitorResponse>>.Success(response));
         }
 
+        [HttpGet]
+        [Route("competitions/{competitionId}/problems")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetProblemsResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetProblems(Guid competitionId, CancellationToken cancellationToken)
+        {
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            var groupsProblems = await _problemsManager.GetProblemsGroupsByCompetitionIdAsync(competitionId, cancellationToken);
+            var specialProblems = await _problemsManager.GetSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            var response = new GetProblemsResponse(groupsProblems, specialProblems);
+            return Ok(Result<GetProblemsResponse>.Success(response));
+        }
+
+        [HttpPost]
+        [Route("competitions/{competitionId}/problems/{problemId}/send")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentProblemResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SendProblem(Guid competitionId, Guid problemId, [FromBody] SendProblemRequest model, CancellationToken cancellationToken)
+        {
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(competitionId, username, model.CompetitorId, cancellationToken);
+
+            if (canSend != null)
+            {
+                return Ok(canSend);
+            }
+
+            SentProblem send = new SentProblem(competitionId, model.CompetitorId, problemId, DateTime.UtcNow);
+            SentProblem result = await _problemsManager.SendProblemAsync(send, cancellationToken);
+
+            var response = new SentProblemResponse(result);
+            return Ok(Result<SentProblemResponse>.Success(response));
+        }
+
         [HttpDelete]
         [Route("register/{registrationId}")]
         public async Task<IActionResult> DeleteRegistration(Guid registrationId, CancellationToken cancellationToken)
@@ -131,14 +215,14 @@ namespace TDPCompetitions.Api.Controllers
             {
                 return Ok(Result<Registration>.Failure(RegistrationsErrors.NotRegistered));
             }
-            
+
             await _competitionsManager.DeleteRegistrationAsync(registration, cancellationToken);
             return Ok(Result.Success());
         }
 
         [HttpPatch]
         [Route("register/{competitorId}")]
-        public async Task <IActionResult> UpdateCompetitor(Guid competitorId, [FromBody] UpdateCompetitorVM model, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateCompetitor(Guid competitorId, [FromBody] UpdateCompetitorVM model, CancellationToken cancellationToken)
         {
             Competitor? competitor = await _competitionsManager.GetCompetitorAsync(competitorId, cancellationToken);
             if (competitor == null)
@@ -157,12 +241,8 @@ namespace TDPCompetitions.Api.Controllers
         [Route("problems/send")]
         public async Task<IActionResult> SendProblem([FromBody] SendProblemVM model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            Result? canSend = await CanCompetitorSend(model.CompetitionId, model.CompetitorId, cancellationToken);
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
             if (canSend != null)
             {
                 return Ok(canSend);
@@ -177,23 +257,20 @@ namespace TDPCompetitions.Api.Controllers
         [Route("problems/send")]
         public async Task<IActionResult> RemoveSentProblem([FromBody] RemoveSentProblemVM model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
 
-            Result? canSend = await CanCompetitorSend(model.CompetitionId, model.CompetitorId, cancellationToken);
             if (canSend != null)
             {
                 return Ok(canSend);
             }
-            
+
             SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(model.Id, cancellationToken);
             if (sentProblem == null)
             {
                 return BadRequest(); //giusto?
             }
-            await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);    
+            await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
             return Ok();
         }
 
@@ -201,12 +278,9 @@ namespace TDPCompetitions.Api.Controllers
         [Route("specialProblems/send")]
         public async Task<IActionResult> SendSpecialProblem([FromBody] SendSpecialProblemVM model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
 
-            Result? canSend = await CanCompetitorSend(model.CompetitionId, model.CompetitorId, cancellationToken);
             if (canSend != null)
             {
                 return Ok(canSend);
@@ -221,12 +295,8 @@ namespace TDPCompetitions.Api.Controllers
         [Route("specialProblems/send")]
         public async Task<IActionResult> RemoveSentSpecialProblem([FromBody] RemoveSentSpecialProblemVM model, CancellationToken cancellationToken)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest();
-            }
-
-            Result? canSend = await CanCompetitorSend(model.CompetitionId, model.CompetitorId, cancellationToken);
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(model.CompetitionId, username, model.CompetitorId, cancellationToken);
             if (canSend != null)
             {
                 return Ok(canSend);
@@ -236,7 +306,7 @@ namespace TDPCompetitions.Api.Controllers
             return Ok();
         }
 
-        private async Task<Result?> CanCompetitorSend(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
+        private async Task<Result?> CanSend(Guid competitionId, string email, Guid competitorId, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
@@ -249,13 +319,28 @@ namespace TDPCompetitions.Api.Controllers
                 return Result<Competition>.Failure(CompetitionsErrors.NotOpen);
             }
 
-            bool isRegistered = await _competitionsManager.IsCompetitorRegisteredAsync(competitorId, competitionId, cancellationToken);
-            if (!isRegistered)
+            Registration? registration = await _competitionsManager.GetRegistrationByEmailAsync(competitionId, email, cancellationToken);
+            if (registration is null)
+            {
+                return Result<Competition>.Failure(RegistrationsErrors.NotRegistered);
+            }
+
+            var isMinor = registration.Minors.Any(m => m.Id == competitorId);
+            if (registration.CompetitorId != competitorId && !isMinor)
             {
                 return Result<Competition>.Failure(RegistrationsErrors.NotRegistered);
             }
 
             return null;
+        }
+
+        private string? GetUsernameFromJwtToken()
+        {
+            var authorizationHeader = Request.Headers.Authorization.FirstOrDefault();
+            var jwt = TokenHelper.DecodeToken(authorizationHeader?.Replace("Bearer ", "") ?? "");
+            var username = jwt?.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Name)?.Value;
+
+            return username;
         }
     }
 }

@@ -23,6 +23,7 @@ export interface ILoginCompetitorResponse {
 	expirationDate: string;
 	userInfo: {
 		competitionId: string;
+		registrationId: string;
 		email: string;
 		roles: string[];
 	}

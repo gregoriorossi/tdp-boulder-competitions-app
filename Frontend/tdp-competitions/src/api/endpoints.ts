@@ -46,11 +46,15 @@ export const EditorsEndpoints = {
 export const CompetitorsEndpoints = {
 	addRegistration: (competitionId: string) => `/Competitors/register/${competitionId}`,
 	getCompetitionBySlug: (slug: string) => `/Competitors/competitions/getBySlug/${slug}`,
+	getCompetitionAndRegistrationDataBySlug: (slug: string) => `/Competitors/competitions/getBySlug/${slug}/registration`,
 	getCompetitions: '/Competitors/competitions',
+	getCompetition: (slug: string) => `/Competitors/competitions/${slug}`,
 	getRankings: (id: string, gender: Gender | null) => {
 		const genderValue: string = genderToQueryParam(gender);
 		return `/Competitors/competitions/${id}/rankings${genderValue}`;
-	}
+	},
+	getProblems: (competitionId: string) => `/Competitors/competitions/${competitionId}/problems`,
+	sendProblem: (competitionId: string, problemId: string) => `/Competitors/competitions/${competitionId}/problems/${problemId}/send`
 };
 
 export const FilesEndpoints = {

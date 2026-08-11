@@ -19,6 +19,8 @@ namespace TDPCompetitions.Core.Entities
 
         public bool RegistrationsOpen { get; set; }
 
+        public bool RankingsVisible { get; set; }
+
         public DateTime Date {  get; set; } = default!;
 
         public string EmailSubject { get; set; } = string.Empty;

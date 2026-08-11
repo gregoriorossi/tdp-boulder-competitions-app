@@ -62,7 +62,7 @@ export function LoginPage() {
 		.find(c => c.slug.toLowerCase() === hint?.toLocaleLowerCase())?.id;
 
 
-	return <Box className={classNames.loginPage}>
+	return <Box className={classNames.loginPage}> 
 		<Box component="form"
 			className={classNames.form}
 			onSubmit={(e) => {

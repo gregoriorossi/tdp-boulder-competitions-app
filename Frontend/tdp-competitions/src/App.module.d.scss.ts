@@ -9,6 +9,10 @@ declare const classNames: {
   readonly info: "info";
   readonly date: "date";
   readonly bannerImage: "bannerImage";
+  readonly problems: "problems";
+  readonly problemGroup: "problemGroup";
+  readonly problem: "problem";
+  readonly problemName: "problemName";
   readonly editorsPageWrapper: "editorsPageWrapper";
   readonly editorPageContainer: "editorPageContainer";
   readonly competitionForm: "competitionForm";
@@ -24,7 +28,6 @@ declare const classNames: {
   readonly competitors: "competitors";
   readonly table: "table";
   readonly stickyCell: "stickyCell";
-  readonly problem: "problem";
   readonly rankings: "rankings";
   readonly actionsContainer: "actionsContainer";
   readonly imagePicker: "imagePicker";
@@ -37,7 +40,6 @@ declare const classNames: {
   readonly editorsCompetitionPage: "editorsCompetitionPage";
   readonly manageProblems: "manageProblems";
   readonly problemsContainer: "problemsContainer";
-  readonly problems: "problems";
   readonly group: "group";
   readonly colorMarkerContainer: "colorMarkerContainer";
   readonly colorMarker: "colorMarker";

@@ -3,6 +3,7 @@
 public sealed record CompetitorInfo(
     string email,
     Guid competitionId,
+    Guid registrationId,
     string[] Roles)
 {
 }

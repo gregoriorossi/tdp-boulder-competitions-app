@@ -1,6 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { CompetitorsPageWrapper } from "../CompetitorsPageWrapper";
-import { useCompetitionBySlug } from "../../../queries/competitions.queries";
 import { Spinner } from "../../../components/Spinner";
 import { Routes } from "../../../consts/routes.consts";
 import { Errors } from "../../../consts/errors.consts";
@@ -11,6 +10,8 @@ import { STRINGS } from "../../../consts/strings.consts";
 import { ErrorMessage } from "../../../components/ErrorMessage";
 import { Info } from "./components/Info";
 import { Rankings } from "./components/Rankings";
+import { Problems } from "./components/Problems/Problems";
+import { useGetCompetitionAndRegistrationDataBySlug } from "../../../queries/competitors.queries";
 const PageStrings = STRINGS.Pages.CompetitorCompetitionPage;
 
 const TabValues = {
@@ -20,13 +21,14 @@ const TabValues = {
     PERSONAL_DATA: 3
 }
 
+
 export function CompetitionPage() {
     const params = useParams();
     const navigate = useNavigate();
     const slug: string = params.slug!;
     const [tabValue, setTabValue] = useState<number>(TabValues.INFO);
 
-    const { data: response, isLoading, error } = useCompetitionBySlug(slug);
+    const { data: response, isLoading, error } = useGetCompetitionAndRegistrationDataBySlug(slug);
 
     if (isLoading) {
         return <Spinner />
@@ -37,7 +39,10 @@ export function CompetitionPage() {
         return null;
     }
 
-    return <CompetitorsPageWrapper title={response.value.title} >
+    const competition = response.value.competition;
+    const registration = response.value.registration;
+
+    return <CompetitorsPageWrapper title={competition.title} >
         <Tabs value={tabValue}
             className={classNames.tabs}
             onChange={(_e, value) => setTabValue(value)}>
@@ -50,13 +55,18 @@ export function CompetitionPage() {
         {
             error && <ErrorMessage errorCode="" />
         }
-
         {
-            tabValue === TabValues.INFO && <Info competition={response.value} />
+            tabValue === TabValues.INFO && <Info competition={competition} />
         }
-
         {
-            tabValue === TabValues.RANKINGS && <Rankings competitionId={response.value.id} />
+            tabValue === TabValues.PROBLEMS &&
+            <Problems
+                competitionId={competition.id}
+                registration={registration}
+                disableSending={!competition.isOpen} />
+        }
+        {
+            tabValue === TabValues.RANKINGS && <Rankings competitionId={competition.id} />
         }
     </CompetitorsPageWrapper>
 }

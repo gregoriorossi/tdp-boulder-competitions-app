@@ -1,6 +1,6 @@
 ﻿using TDPCompetitions.Core.Entities;
 
-namespace TDPCompetitions.Api.ViewModels.Editors.Responses;
+namespace TDPCompetitions.Api.ViewModels.Competitors.Responses.GetProblemsResponse;
 
 public sealed record ProblemsGroupResponse(
     Guid Id,

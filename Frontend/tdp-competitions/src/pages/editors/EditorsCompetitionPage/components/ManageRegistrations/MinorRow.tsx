@@ -7,7 +7,7 @@ import { Errors } from "../../../../../consts/errors.consts";
 import { STRINGS } from "../../../../../consts/strings.consts";
 import type { ICompetitor } from "../../../../../models/competitions.models";
 import { useDeleteMinor } from "../../../../../queries/registrations.queries";
-import { BuildFullName } from "../../../../../utils/competitions.utils";
+import { buildFullName } from "../../../../../utils/competitions.utils";
 import { DateUtils } from "../../../../../utils/date.utils";
 import classNames from "../../../../../App.module.scss";
 import { MinorModal } from "../../../../../components/modals/MinorModal";
@@ -24,7 +24,7 @@ export function MinorRow(props: IMinorsRowProps) {
 		= useDeleteMinor(competitor.competitionId, competitor.registrationId);
 	const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-	const fullName: string = BuildFullName(competitor);
+	const fullName: string = buildFullName(competitor);
 
 	const onDeleteMinorHandler = async (): Promise<void> => {
 		try {

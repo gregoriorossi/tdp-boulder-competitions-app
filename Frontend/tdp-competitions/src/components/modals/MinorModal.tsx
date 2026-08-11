@@ -1,7 +1,7 @@
 import classNames from "../../App.module.scss";
 import { STRINGS } from "../../consts/strings.consts";
 import type { ICompetitor } from "../../models/competitions.models";
-import { BuildFullName } from "../../utils/competitions.utils";
+import { buildFullName } from "../../utils/competitions.utils";
 import { MinorForm } from "../forms/MinorForm";
 import { BaseModal, type IBaseModalProps } from "./BaseModal";
 const FormStrings = STRINGS.Forms.Minor;
@@ -17,7 +17,7 @@ interface IMinorModalProps extends IBaseModalProps {
 export function MinorModal(props: IMinorModalProps) {
 	const { open, onClose, onChange, minor, competitionId, registrationId } = props;
 
-	const fullName: string = minor ? BuildFullName(minor) : '';
+	const fullName: string = minor ? buildFullName(minor) : '';
 	const formTitle: string = minor ? FormStrings.TitleEdit(fullName) : FormStrings.TitleNew;
 
 	return <BaseModal

@@ -42,5 +42,9 @@ namespace TDPCompetitions.Core.Interfaces.Repositories
         Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
 
         Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
+
+        Task<ICollection<SentProblem>> GetAllSentProblemsAsync(Expression<Func<SentProblem, bool>> whereFn, CancellationToken cancellationToken);
+
+        Task<ICollection<SentSpecialProblem>> GetAllSentSpecialProblemsAsync(Expression<Func<SentSpecialProblem, bool>> whereFn, CancellationToken cancellationToken);
     }
 }

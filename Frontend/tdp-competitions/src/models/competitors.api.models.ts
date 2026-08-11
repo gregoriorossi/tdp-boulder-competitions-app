@@ -119,3 +119,22 @@ export interface ICompetitorResponse {
 	competitionId: string;
 	registrationId: string;
 }
+
+export interface IGetSentProblemsResponse {
+	sentProblems: ISentProblemResponse[];
+	sentSpecialProblems: ISentSpecialProblemResponse[];
+}
+
+export interface ISentProblemResponse {
+	competitionId: string;
+	problemId: string;
+	competitorId: string;
+	sentAt: string;
+}
+
+export interface ISentSpecialProblemResponse {
+	competitionId: string;
+	specialProblemId: string;
+	competitorId: string;
+	sentAt: string;
+}

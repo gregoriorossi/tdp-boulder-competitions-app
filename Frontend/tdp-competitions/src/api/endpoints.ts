@@ -54,6 +54,7 @@ export const CompetitorsEndpoints = {
 		return `/Competitors/competitions/${id}/rankings${genderValue}`;
 	},
 	getProblems: (competitionId: string) => `/Competitors/competitions/${competitionId}/problems`,
+	getSentProblems: (competitionId: string, competitorId: string) => `/Competitors/competitions/${competitionId}/problems/competitors/${competitorId}`,
 	sendProblem: (competitionId: string, problemId: string) => `/Competitors/competitions/${competitionId}/problems/${problemId}/send`
 };
 

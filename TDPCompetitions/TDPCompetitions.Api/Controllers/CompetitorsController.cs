@@ -6,17 +6,17 @@ using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Competitors;
+using TDPCompetitions.Api.ViewModels.Competitors.Requests;
 using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Competitors.Responses;
+using TDPCompetitions.Api.ViewModels.Competitors.Responses.GetCompetitionAndRegistrationDataBySlug;
 using TDPCompetitions.Api.ViewModels.Competitors.Responses.GetProblemsResponse;
-using TDPCompetitions.Api.ViewModels.Competitors.Requests;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Errors;
 using TDPCompetitions.Core.Interfaces.Managers;
 using TDPCompetitions.Core.Interfaces.Services;
 using TDPCompetitions.Core.Models;
-using TDPCompetitions.Api.ViewModels.Competitors.Responses.GetCompetitionAndRegistrationDataBySlug;
 
 namespace TDPCompetitions.Api.Controllers
 {
@@ -183,6 +183,37 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<GetProblemsResponse>.Success(response));
         }
 
+
+
+        [HttpGet]
+        [Route("competitions/{competitionId}/problems/competitors/{competitorId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetSentProblemsResponse>))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GetSentProblems(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
+        {
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            bool canRead = await CanRead(competitionId, competitorId, cancellationToken);
+            if (!canRead)
+            {
+                return Unauthorized();
+            }
+
+            IEnumerable<SentProblem> sentProblems = await _problemsManager.GetSentProblemsByCompetitorIdAsync(competitionId, competitorId, cancellationToken);
+            IEnumerable<SentSpecialProblem> sentSpecialProblems = await _problemsManager.GetSentSpecialProblemsByCompetitorIdAsync(competitionId, competitorId, cancellationToken);
+
+            var response = new GetSentProblemsResponse(
+                sentProblems.Select(p => new SentProblemResponse(p)).ToList(),
+                sentSpecialProblems.Select(p => new SentSpecialProblemResponse(p))
+                .ToList());
+            return Ok(Result<GetSentProblemsResponse>.Success(response));
+        }
+
         [HttpPost]
         [Route("competitions/{competitionId}/problems/{problemId}/send")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentProblemResponse>))]
@@ -332,6 +363,23 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             return null;
+        }
+
+        private async Task<bool> CanRead(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
+        {
+            string email = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Registration? registration = await _competitionsManager.GetRegistrationByEmailAsync(competitionId, email, cancellationToken);
+            if (registration is null)
+            {
+                return false;
+            }
+
+
+            if (registration.Email != email)
+            {
+                return false;
+            }
+            return true;
         }
 
         private string? GetUsernameFromJwtToken()

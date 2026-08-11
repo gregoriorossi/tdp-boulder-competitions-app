@@ -12,7 +12,7 @@ import { Errors } from "../../../../../consts/errors.consts";
 import { STRINGS } from "../../../../../consts/strings.consts";
 import type { IRegistration } from "../../../../../models/competitions.models";
 import { useDeleteRegistration } from "../../../../../queries/registrations.queries";
-import { BuildFullName } from "../../../../../utils/competitions.utils";
+import { buildFullName } from "../../../../../utils/competitions.utils";
 import { DateUtils } from "../../../../../utils/date.utils";
 import classNames from "../../../../../App.module.scss";
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
@@ -32,7 +32,7 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 	const { error: deleteError, mutateAsync: deleteRegistrationAsync, isPending: isDeletePending } = useDeleteRegistration(registration.competitionId);
 	const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
 
-	const fullName: string = BuildFullName(registration.competitor);
+	const fullName: string = buildFullName(registration.competitor);
 	const hasMinors: boolean = registration.minors.length > 0;
 
 	const onDeleteRegistrationHandler = async (): Promise<void> => {

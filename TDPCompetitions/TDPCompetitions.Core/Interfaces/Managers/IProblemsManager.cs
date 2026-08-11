@@ -22,7 +22,9 @@ namespace TDPCompetitions.Core.Interfaces.Managers
         Task<SpecialProblem> UpdateSpecialProblemAsync(SpecialProblem problem, CancellationToken cancellationToken);
         Task<ICollection<SpecialProblem>> GetSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
         Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
+        Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitorIdAsync(Guid competitionId, Guid competitorId, CancellationToken cancellationToken);
         Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitionIdAsync(Guid competitionId, CancellationToken cancellationToken);
+        Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitorIdAsync(Guid competitionId, Guid competitorId, CancellationToken cancellationToken);
         Task<SentProblem?> GetSentProblemByIdAsync(Guid sentProblemId, CancellationToken cancellationToken);
         Task<SentSpecialProblem?> GetSentSpecialProblemByIdAsync(Guid sentSpecialProblemId, CancellationToken cancellationToken);
     }

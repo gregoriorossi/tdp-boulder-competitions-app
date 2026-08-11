@@ -1,6 +1,6 @@
 import { useMutation, useQuery, type UseQueryResult } from "@tanstack/react-query";
 import CompetitorsService from "../services/competitors.service";
-import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetRankingResponse, ISendProblemData } from "../models/competitors.api.models";
+import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetRankingResponse, IGetSentProblemsResponse, ISendProblemData } from "../models/competitors.api.models";
 import { queryClient, queryKeys } from "../api/queryClient";
 import type { IResponse } from "../models/api.models";
 import type { Gender } from "../models/competitions.models";
@@ -41,6 +41,17 @@ export const useProblemsByCompetition = (id: string): UseQueryResult<IResponse<I
 			const result = await CompetitorsService.getProblemsByCompetitionId(id);
 			return result;
 		}
+	});
+}
+
+export const useSentProblems = (competitionId: string, competitorId: string, options?: { enabled?: boolean }): UseQueryResult<IResponse<IGetSentProblemsResponse>> => {
+	return useQuery({
+		queryKey: [...queryKeys.competitors.problems.sent(competitionId, competitorId)],
+		queryFn: async () => {
+			const result = await CompetitorsService.getSentProblems(competitionId, competitorId);
+			return result;
+		},
+		enabled: options?.enabled
 	});
 }
 

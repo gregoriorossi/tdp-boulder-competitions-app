@@ -31,8 +31,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModels\Competitors\Responses\GetRegistration\" />
-  </ItemGroup>
-
 </Project>

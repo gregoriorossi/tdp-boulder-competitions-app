@@ -1,9 +1,11 @@
+import { Tab, Tabs } from "@mui/material";
 import classNames from "../../../../../App.module.scss";
 import { ErrorMessage } from "../../../../../components/ErrorMessage";
 import { Spinner } from "../../../../../components/Spinner";
 import type { IRegistration } from "../../../../../models/competitors.models";
-import { useProblemsByCompetition } from "../../../../../queries/competitors.queries";
+import { useProblemsByCompetition, useSentProblems } from "../../../../../queries/competitors.queries";
 import { ProblemGroup } from "./ProblemGroup";
+import { useState } from "react";
 
 interface IProblemsProps {
 	competitionId: string;
@@ -14,6 +16,18 @@ interface IProblemsProps {
 export function Problems(props: IProblemsProps) {
 	const { competitionId, registration, disableSending } = props;
 	const { data: response, isLoading, error } = useProblemsByCompetition(competitionId);
+	const [tabValue, setTabValue] = useState<number>(0);
+
+	const competitors = [registration.competitor, ...(registration.minors ?? [])];
+	const selectedCompetitor = competitors[tabValue];
+
+	const { data: competitorData, isLoading: isLoadingCompetitorData } = useSentProblems(
+		competitionId,
+		selectedCompetitor?.id ?? "",
+		{
+			enabled: !!selectedCompetitor?.id
+		}
+	);
 
 	if (isLoading) {
 		return <Spinner />;
@@ -25,13 +39,27 @@ export function Problems(props: IProblemsProps) {
 
 	return <div className={classNames.problems}>
 		{
-			response.value.problemsGroups.map((group) => (
-				<ProblemGroup
-					group={group}
-					key={group.id}
-					competitorId={competitorId}
-					disableSending={disableSending} />
-			))
+			competitors.length > 1 &&
+			<Tabs value={tabValue}
+				className={classNames.tabs}
+				onChange={(_e, value) => setTabValue(value)}>
+				{
+					competitors.map(c => <Tab
+						key={`tab-${c.id}`}
+						label={`${c.lastName} ${c.firstName}`} />)
+				}
+			</Tabs>
 		}
+
+
+		{isLoadingCompetitorData ? (
+			<Spinner />
+		) : selectedCompetitor && (
+			<ProblemGroup
+				competitorId={selectedCompetitor.id}
+				groups={response.value.problemsGroups}
+				sentProblems={competitorData?.value?.sentProblems ?? []}
+				disableSending={disableSending} />
+		)}
 	</div>
 }

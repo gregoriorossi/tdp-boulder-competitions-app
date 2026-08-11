@@ -5,7 +5,7 @@ import { AuthConsts } from "../consts/auth.consts";
 import type { IResponse } from "../models/api.models";
 import type { ILoginCompetitorResponse } from "../models/auth.api.models";
 import type { Gender } from "../models/competitions.models";
-import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetCompetitionBySlugResponse, IGetRankingResponse, IRegistration, IRegistrationResponse, ISendProblemData } from "../models/competitors.api.models";
+import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetCompetitionBySlugResponse, IGetRankingResponse, IGetSentProblemsResponse, IRegistration, IRegistrationResponse, ISendProblemData } from "../models/competitors.api.models";
 import StorageService from "./storage.service";
 
 export default class CompetitorsService {
@@ -37,6 +37,11 @@ export default class CompetitorsService {
 	public static getProblemsByCompetitionId = async (id: string): Promise<IResponse<ICompetitionProblemsResponse>> => {
 		const data = await competitorsApi.get(CompetitorsEndpoints.getProblems(id));
 		return data.data as IResponse<ICompetitionProblemsResponse>;
+	}
+
+	public static getSentProblems = async (competitionId: string, competitorId: string): Promise<IResponse<IGetSentProblemsResponse>> => {
+		const data = await competitorsApi.get(CompetitorsEndpoints.getSentProblems(competitionId, competitorId));
+		return data.data as IResponse<IGetSentProblemsResponse>;
 	}
 
 	public static sendProblem = async (data: ISendProblemData): Promise<void> => {

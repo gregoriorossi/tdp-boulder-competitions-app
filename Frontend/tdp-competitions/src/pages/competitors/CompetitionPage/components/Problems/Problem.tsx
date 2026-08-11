@@ -9,10 +9,11 @@ interface IProblemProps {
 	competitorId: string;
 	disableSending: boolean;
 	color: string;
+	sent: boolean;
 }
 
 export function Problem(props: IProblemProps) {
-	const { problem, color, competitorId, disableSending } = props;
+	const { problem, color, competitorId, disableSending, sent } = props;
 	const textColor = getTextColor(color);
 	const borderColor = getBorderColor(color);
 
@@ -35,7 +36,7 @@ export function Problem(props: IProblemProps) {
 			{problem.name}
 		</div>
 		<Checkbox
-			checked={false}
+			checked={sent}
 			disabled={disableSending}
 			onChange={async (_event, checked: boolean) => {
 				if (!checked) {

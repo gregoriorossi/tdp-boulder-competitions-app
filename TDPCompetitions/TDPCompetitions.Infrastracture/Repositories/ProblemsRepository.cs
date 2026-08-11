@@ -142,5 +142,19 @@ namespace TDPCompetitions.Infrastracture.Repositories
              .Where(whereFn)
              .ToListAsync(cancellationToken);
         }
+
+        public async Task<ICollection<SentProblem>> GetAllSentProblemsAsync(Expression<Func<SentProblem, bool>> whereFn, CancellationToken cancellationToken)
+        {
+            return await _appDbContext.SentProblems
+                       .Where(whereFn)
+                       .ToListAsync(cancellationToken);
+        }
+
+        public async Task<ICollection<SentSpecialProblem>> GetAllSentSpecialProblemsAsync(Expression<Func<SentSpecialProblem, bool>> whereFn, CancellationToken cancellationToken)
+        {
+            return await _appDbContext.SentSpecialProblems
+                       .Where(whereFn)
+                       .ToListAsync(cancellationToken);
+        }
     }
 }

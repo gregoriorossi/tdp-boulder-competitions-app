@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using System.Linq.Expressions;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Exceptions;
 using TDPCompetitions.Core.Interfaces.Managers;
@@ -180,6 +181,20 @@ namespace TDPCompetitions.Infrastracture.Managers
         {
             IEnumerable<SentSpecialProblem> result = await _problemsRepository.GetSentSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
             return result;
+        }
+
+        public async Task<IEnumerable<SentProblem>> GetSentProblemsByCompetitorIdAsync(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
+        {
+            Expression<Func<SentProblem, bool>> whereFn = p => p.CompetitorId == competitorId && p.CompetitionId == competitionId;
+            ICollection<SentProblem> problems = await _problemsRepository.GetAllSentProblemsAsync(whereFn, cancellationToken);
+            return problems;
+        }
+
+        public async Task<IEnumerable<SentSpecialProblem>> GetSentSpecialProblemsByCompetitorIdAsync(Guid competitionId, Guid competitorId, CancellationToken cancellationToken)
+        {
+            Expression<Func<SentSpecialProblem, bool>> whereFn = p => p.CompetitorId == competitorId && p.CompetitionId == competitionId;
+            ICollection<SentSpecialProblem> problems = await _problemsRepository.GetAllSentSpecialProblemsAsync(whereFn, cancellationToken);
+            return problems;
         }
 
         public async Task<SentProblem?> GetSentProblemByIdAsync(Guid sentProblemId, CancellationToken cancellationToken)

@@ -1,28 +1,36 @@
 import classNames from "../../../../../App.module.scss";
-import type { IProblemsGroup } from "../../../../../models/competitors.api.models";
+import type { IProblemsGroup, ISentProblemResponse } from "../../../../../models/competitors.api.models";
 import { sortProblemsFn } from "../../../../../utils/competitions.utils";
 import { Problem } from "./Problem";
 
 interface IProblemGroupProps {
-	group: IProblemsGroup;
+	groups: IProblemsGroup[];
+	sentProblems: ISentProblemResponse[];
 	competitorId: string;
 	disableSending: boolean;
 }
 
 export function ProblemGroup(props: IProblemGroupProps) {
-	const { group, competitorId, disableSending } = props;
+	const { groups, competitorId, disableSending, sentProblems } = props;
 
-	return <div className={classNames.problemGroup}>
+	return <div>
 		{
-			group.problems
-				.sort(sortProblemsFn)
-				.map((p) =>
-					<Problem
-						problem={p}
-						color={group.colorCode}
-						competitorId={competitorId}
-						disableSending={disableSending}
-						key={p.id} />)
+			groups.map(group => (
+				<div key={group.id} className={classNames.problemGroup}>
+					{
+						group.problems
+							.sort(sortProblemsFn)
+							.map((p) =>
+								<Problem
+									problem={p}
+									color={group.colorCode}
+									competitorId={competitorId}
+									disableSending={disableSending}
+									sent={sentProblems.some(sp => sp.problemId === p.id)}
+									key={p.id} />)
+					}
+				</div>
+			))
 		}
 	</div>
 }

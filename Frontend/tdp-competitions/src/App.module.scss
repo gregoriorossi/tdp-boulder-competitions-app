@@ -62,6 +62,10 @@
         }
 
         .problems {
+            .infoMessage {
+                margin-bottom: 1rem;
+            }
+
             .problemGroup {
                 display: flex;
                 flex-direction: row;

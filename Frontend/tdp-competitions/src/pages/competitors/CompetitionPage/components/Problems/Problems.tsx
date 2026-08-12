@@ -1,4 +1,4 @@
-import { Tab, Tabs } from "@mui/material";
+import { Alert, Tab, Tabs } from "@mui/material";
 import classNames from "../../../../../App.module.scss";
 import { ErrorMessage } from "../../../../../components/ErrorMessage";
 import { Spinner } from "../../../../../components/Spinner";
@@ -6,6 +6,8 @@ import type { IRegistration } from "../../../../../models/competitors.models";
 import { useProblemsByCompetition, useSentProblems } from "../../../../../queries/competitors.queries";
 import { ProblemGroup } from "./ProblemGroup";
 import { useState } from "react";
+import WarningIcon from '@mui/icons-material/Warning';
+import { STRINGS } from "../../../../../consts/strings.consts";
 
 interface IProblemsProps {
 	competitionId: string;
@@ -50,7 +52,12 @@ export function Problems(props: IProblemsProps) {
 				}
 			</Tabs>
 		}
-
+		{
+			disableSending &&
+			<Alert severity="warning" icon={<WarningIcon />} className={classNames.infoMessage}>
+				{STRINGS.Pages.CompetitorCompetitionPage.Problems.SendDisabled}
+			</Alert>
+		}
 
 		{isLoadingCompetitorData ? (
 			<Spinner />

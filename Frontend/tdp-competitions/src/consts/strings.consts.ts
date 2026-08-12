@@ -36,6 +36,9 @@ export const STRINGS = {
 				Problems: 'Blocchi',
 				PersonalData: 'Dati personali',
 				Rankings: 'Classifiche'
+			},
+			Problems: {
+				SendDisabled: 'Non è più possibile registrare i blocchi, la gara è chiusa'
 			}
 		},
 		EditorsAllCompetitionsPage: { 

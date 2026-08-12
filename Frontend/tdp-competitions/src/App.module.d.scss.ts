@@ -10,6 +10,7 @@ declare const classNames: {
   readonly date: "date";
   readonly bannerImage: "bannerImage";
   readonly problems: "problems";
+  readonly infoMessage: "infoMessage";
   readonly problemGroup: "problemGroup";
   readonly problem: "problem";
   readonly problemName: "problemName";

@@ -26,7 +26,6 @@ export default class CompetitionsMappers {
 			status: status,
 			date: new Date(data.date),
 			isOpen: status === CompetitionStatus.OPEN,
-			bannerImageId: data.bannerImageId,
 			description: data.description,
 			emailSubject: data.emailSubject,
 			emailText: data.emailText,
@@ -70,8 +69,6 @@ export default class CompetitionsMappers {
 
 	public static ToIUpdateCompetitionRequest = (id: string, competition: ICompetitionInfoForm): IUpdateCompetitionRequest => {
 		return {
-			bannerImageId: competition.bannerImageId,
-			bannerImage: competition?.bannerImage ?? null,
 			date: competition.date,
 			description: competition.description,
 			emailSubject: competition.emailSubject,

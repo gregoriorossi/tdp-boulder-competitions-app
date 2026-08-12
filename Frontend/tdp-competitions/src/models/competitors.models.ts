@@ -5,7 +5,6 @@ export interface ICompetition {
 	description: string;
 	slug: string;
 	isOpen: boolean;
-	bannerImageId: string | null;
 	registrationsOpen: boolean;
 	rankingsVisible: boolean;
 	status: CompetitionStatus;

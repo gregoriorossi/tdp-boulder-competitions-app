@@ -48,7 +48,6 @@ export default class CompetitorsMappers {
 			date: new Date(data.date),
 			isOpen: status === CompetitionStatus.OPEN,
 			rankingsVisible: data.rankingsVisible,
-			bannerImageId: data.bannerImageId,
 			description: data.description,
 			slug: data.slug
 		};

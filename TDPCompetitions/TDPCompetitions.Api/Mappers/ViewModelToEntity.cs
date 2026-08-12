@@ -270,7 +270,6 @@ namespace TDPCompetitions.Api.Mappers
         internal static async Task<Competition> UpdateCompetitionRequesetToCompetitionAsync(UpdateCompetitionRequest model)
         {
             string slug = SlugHelper.Generate(model.Title);
-            Core.Entities.File? bannerImage = await BuildFile(model.BannerImage);
             Core.Entities.File? privacyAttachment = await BuildFile(model.PrivacyAttachment);
 
             return new Competition
@@ -280,8 +279,6 @@ namespace TDPCompetitions.Api.Mappers
                 Description = model.Description,
                 PrivacyText = model.PrivacyText,
                 Slug = slug,
-                BannerImageId = model.BannerImageId,
-                BannerImage = bannerImage,
                 Date = model.Date,
                 EmailSubject = model.EmailSubject,
                 EmailText = model.EmailText,

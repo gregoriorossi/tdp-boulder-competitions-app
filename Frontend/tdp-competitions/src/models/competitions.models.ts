@@ -12,7 +12,6 @@ export interface ICompetitionInfo {
 	title: string;
 	description: string;
 	slug: string;
-	bannerImageId: string | null;
 	registrationsOpen: boolean;
 	rankingsVisible: boolean;
 	date: Date;
@@ -127,8 +126,6 @@ export interface ICompetitionInfoForm {
 	privacyAttachmentText?: string | undefined;
 	privacyAttachmentId?: string | null;
 	privacyAttachment?: File | null | undefined;
-	bannerImage?: File | null | undefined;
-	bannerImageId?: string | null;
 }
 
 

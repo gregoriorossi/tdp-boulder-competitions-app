@@ -51,14 +51,6 @@
             .date {
                 margin-bottom: 10px;
             }
-
-            .bannerImage {
-                width: 400px;
-                background-repeat: no-repeat;
-                background-size: cover;
-                aspect-ratio: 16 / 9;
-                position: relative;
-            }
         }
 
         .problems {
@@ -133,26 +125,6 @@
 
             .textEditor {
                 min-height: 200px;
-            }
-
-            .bannerImage {
-                display: flex;
-                flex-direction: row;
-
-                .preview {
-                    width: 250px;
-                    background-repeat: no-repeat;
-                    background-size: cover;
-                    aspect-ratio: 16 / 9;
-                    position: relative;
-
-                    .deleteButton {
-                        position: absolute;
-                        top: 5px;
-                        right: 5px;
-                        background-color: rgba(0,0,0,0.6);
-                    }
-                }
             }
 
             .saveButtonContainer {

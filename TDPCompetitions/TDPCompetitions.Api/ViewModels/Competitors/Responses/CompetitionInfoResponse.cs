@@ -10,8 +10,7 @@ public sealed record CompetitionInfoResponse(
        string Slug,
        bool RegistrationsOpen,
        bool RankingsVisible,
-       int Status,
-       Guid? BannerImageId)
+       int Status)
 {
     public CompetitionInfoResponse(Competition competition)
         : this(
@@ -22,7 +21,6 @@ public sealed record CompetitionInfoResponse(
             competition.Slug,
             competition.RegistrationsOpen,
             competition.RankingsVisible,
-            (int)competition.Status,
-            competition.BannerImageId)
+            (int)competition.Status)
     { }
 }

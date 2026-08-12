@@ -238,7 +238,6 @@ export const STRINGS = {
 				EmailText: "Testo email",
 				RegistrationsOpen: "Registrazioni",
 				RankingsVisible: "Classifiche pubbliche",
-				BannerImage: "Immagine di copertina",
 				PrivacyAttachment: 'Allegato privacy',
 				PrivacyText: 'Testo informativa privacy'
 			},
@@ -284,10 +283,6 @@ export const STRINGS = {
 		DeleteProblemsGroup: {
 			Title: `Vuoi eliminare il gruppo?`,
 			Content: 'Una volta eliminato il gruppo i blocchi associati verranno persi'
-		},
-		DeleteBannerImage: {
-			Title: 'Vuoi cancellare l\'immagine di copertina?',
-			Content: ''
 		},
 		UpdateStatus: {
 			Title: (title: string, status: CompetitionStatus) => {

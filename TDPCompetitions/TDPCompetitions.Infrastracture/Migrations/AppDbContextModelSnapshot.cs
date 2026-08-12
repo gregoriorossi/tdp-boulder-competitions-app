@@ -28,9 +28,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid?>("BannerImageId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone");
 
@@ -71,8 +68,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BannerImageId");
 
                     b.HasIndex("PrivacyAttachmentId");
 
@@ -339,15 +334,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
 
             modelBuilder.Entity("TDPCompetitions.Core.Entities.Competition", b =>
                 {
-                    b.HasOne("TDPCompetitions.Core.Entities.File", "BannerImage")
-                        .WithMany()
-                        .HasForeignKey("BannerImageId");
-
                     b.HasOne("TDPCompetitions.Core.Entities.File", "PrivacyAttachment")
                         .WithMany()
                         .HasForeignKey("PrivacyAttachmentId");
-
-                    b.Navigation("BannerImage");
 
                     b.Navigation("PrivacyAttachment");
                 });

@@ -4,7 +4,6 @@ import { RegistrationForm } from "./components/RegistrationForm";
 import { Routes } from "../../../consts/routes.consts";
 import type { ICompetitionInfo } from "../../../models/competitions.models";
 import { Spinner } from "../../../components/Spinner";
-import FilesService from "../../../services/files.service";
 import { Errors } from "../../../consts/errors.consts";
 import { STRINGS } from "../../../consts/strings.consts";
 import classNames from "../../../App.module.scss";
@@ -31,16 +30,12 @@ export function RegistrationPage() {
 	}
 
 	const competition: ICompetitionInfo = response.value as ICompetitionInfo;
-	const bannerImageUrl: string | null = competition.bannerImageId ? FilesService.getFileUrl(competition.bannerImageId) : null;
 
 	const handleCloseSnackbar = () => {
 		setSnackbarOpen(false);
 	};
 
 	return <div className={classNames.registrationsPage}>
-		{
-			bannerImageUrl && <div className={classNames.banner} style={{ backgroundImage: `url("${bannerImageUrl}")` }}></div>
-		}
 		<h1>{competition.title}</h1>
 
 		<div dangerouslySetInnerHTML={{ __html: competition.description }}></div>

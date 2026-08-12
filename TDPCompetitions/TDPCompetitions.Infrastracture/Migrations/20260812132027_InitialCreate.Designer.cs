@@ -12,7 +12,7 @@ using TDPCompetitions.Infrastracture.Data;
 namespace TDPCompetitions.Infrastracture.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260812123248_InitialCreate")]
+    [Migration("20260812132027_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -29,9 +29,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid?>("BannerImageId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Date")
@@ -74,8 +71,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("BannerImageId");
 
                     b.HasIndex("PrivacyAttachmentId");
 
@@ -342,15 +337,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
 
             modelBuilder.Entity("TDPCompetitions.Core.Entities.Competition", b =>
                 {
-                    b.HasOne("TDPCompetitions.Core.Entities.File", "BannerImage")
-                        .WithMany()
-                        .HasForeignKey("BannerImageId");
-
                     b.HasOne("TDPCompetitions.Core.Entities.File", "PrivacyAttachment")
                         .WithMany()
                         .HasForeignKey("PrivacyAttachmentId");
-
-                    b.Navigation("BannerImage");
 
                     b.Navigation("PrivacyAttachment");
                 });

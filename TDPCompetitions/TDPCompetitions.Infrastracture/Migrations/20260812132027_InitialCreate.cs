@@ -77,7 +77,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     Title = table.Column<string>(type: "text", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
                     Slug = table.Column<string>(type: "text", nullable: false),
-                    BannerImageId = table.Column<Guid>(type: "uuid", nullable: true),
                     RegistrationsOpen = table.Column<bool>(type: "boolean", nullable: false),
                     RankingsVisible = table.Column<bool>(type: "boolean", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
@@ -90,11 +89,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Competitions", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Competitions_Files_BannerImageId",
-                        column: x => x.BannerImageId,
-                        principalTable: "Files",
-                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Competitions_Files_PrivacyAttachmentId",
                         column: x => x.PrivacyAttachmentId,
@@ -222,11 +216,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Competitions_BannerImageId",
-                table: "Competitions",
-                column: "BannerImageId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Competitions_PrivacyAttachmentId",
                 table: "Competitions",
                 column: "PrivacyAttachmentId");
@@ -279,10 +268,6 @@ namespace TDPCompetitions.Infrastracture.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Competitions_Files_BannerImageId",
-                table: "Competitions");
-
             migrationBuilder.DropForeignKey(
                 name: "FK_Competitions_Files_PrivacyAttachmentId",
                 table: "Competitions");

@@ -85,8 +85,6 @@ namespace TDPCompetitions.Infrastracture.Managers
             competition.Date = updateCompetition.Date;
             competition.EmailSubject = updateCompetition.EmailSubject;
             competition.EmailText = updateCompetition.EmailText;
-            competition.BannerImage = updateCompetition.BannerImage;
-            competition.BannerImageId = updateCompetition.BannerImageId;
             competition.PrivacyAttachmentId = updateCompetition.PrivacyAttachmentId;
             competition.PrivacyAttachment = updateCompetition.PrivacyAttachment;
             competition.PrivacyText = updateCompetition.PrivacyText;

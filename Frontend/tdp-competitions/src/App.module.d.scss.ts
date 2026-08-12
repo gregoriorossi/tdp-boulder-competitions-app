@@ -8,7 +8,6 @@ declare const classNames: {
   readonly tab: "tab";
   readonly info: "info";
   readonly date: "date";
-  readonly bannerImage: "bannerImage";
   readonly problems: "problems";
   readonly infoMessage: "infoMessage";
   readonly problemGroup: "problemGroup";
@@ -19,8 +18,6 @@ declare const classNames: {
   readonly competitionForm: "competitionForm";
   readonly registrationsToggle: "registrationsToggle";
   readonly textEditor: "textEditor";
-  readonly preview: "preview";
-  readonly deleteButton: "deleteButton";
   readonly saveButtonContainer: "saveButtonContainer";
   readonly manageResults: "manageResults";
   readonly specialProblemCell: "specialProblemCell";

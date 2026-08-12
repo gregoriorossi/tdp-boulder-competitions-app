@@ -12,10 +12,6 @@ public class UpdateCompetitionRequest
 
     public string Description { get; set; } = default!;
 
-    public Guid? BannerImageId { get; set; }
-
-    public IFormFile? BannerImage { get; set; } = default!;
-
     public bool RegistrationsOpen { get; set; }
 
     public bool RankingsVisible { get; set; }

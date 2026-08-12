@@ -38,11 +38,6 @@ export default class EditorsService {
 		formData.append('emailText', competition.emailText);
 		formData.append('privacyText', competition.privacyText ?? '');
 		formData.append('privacyAttachmentId', competition.privacyAttachmentId ?? '');
-		formData.append('bannerImageId', competition.bannerImageId ?? '');
-
-		if (competition?.bannerImage) {
-			formData.append('bannerImage', competition?.bannerImage, competition.bannerImage?.name);
-		}
 
 		if (competition?.privacyAttachment) {
 			formData.append('privacyAttachment', competition?.privacyAttachment, competition.privacyAttachment?.name);

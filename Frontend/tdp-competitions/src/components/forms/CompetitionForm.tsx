@@ -1,10 +1,10 @@
-import { Button, Chip, FormControl, FormControlLabel, FormLabel, Grid, IconButton, Switch, TextField, Typography } from "@mui/material";
+import { Button, Chip, FormControl, FormControlLabel, FormLabel, Grid, Switch, TextField, Typography } from "@mui/material";
 import type { ICompetitionInfo, ICompetitionInfoForm } from "../../models/competitions.models";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { STRINGS } from "../../consts/strings.consts";
 import { updateCompetitionSchema } from "../../form-schemas/competitions.schemas";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 
 import {
 	MenuButtonBold,
@@ -20,7 +20,6 @@ import {
 	type RichTextEditorRef,
 } from "mui-tiptap";
 import StarterKit from '@tiptap/starter-kit';
-import { ImagePicker } from "../input/ImagePicker";
 import { FilePicker } from "../input/FilePicker";
 import FilesService from "../../services/files.service";
 import { useUpdateCompetition } from "../../queries/competitions.queries";
@@ -31,8 +30,6 @@ import CompetitionsMappers from "../../mappers/competitions.mappers";
 import dayjs, { Dayjs } from "dayjs";
 import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import classNames from "../../App.module.scss";
-import DeleteIcon from '@mui/icons-material/Delete';
-import ConfirmationDialog from "../ConfirmationDialog";
 import { FormFieldsSeparator } from "./FormFieldsSeparator";
 import { fileToBase64 } from "../../utils/competitions.utils";
 
@@ -79,18 +76,7 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 	const { data: updateCompetitionData, error: updateCompetitionError, mutateAsync: updateCompetitionMutateAsync, isPending: updateCompetitionIsPending } = useUpdateCompetition(competition.id);
 	const errorCode: string | null = updateCompetitionData?.error?.code ?? (updateCompetitionError ? Errors.Generic : null);
 
-	const [isDeleteBannerDialogOpen, setIsDeleteBannerDialogOpen] = useState<boolean>(false);
-	const bannerImageUrl: string | null = competition?.bannerImageId ? FilesService.getFileUrl(competition.bannerImageId) : null;
 	const fileUrl: string | null = competition?.privacyAttachmentId ? FilesService.getFileUrl(competition.privacyAttachmentId) : null;
-
-	const onBannerImageChange = (file: File | null) => {
-		if (!file) {
-			setValue('bannerImage', null);
-			setValue('bannerImageId', null);
-		} else {
-			setValue('bannerImage', file, { shouldValidate: true, shouldDirty: true });
-		}
-	}
 
 	const onPrivacyAttachmentChange = (file: File | null) => {
 		if (!file) {
@@ -169,48 +155,6 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				/>
 			</FormControl>
 		</div>
-
-		<Controller
-			name='bannerImage'
-			control={control}
-			render={({ field }) => {
-				const previewImage = field?.value ? URL.createObjectURL(field.value) : null;
-
-				return (
-					<div className={`${classNames.fullWidth} ${classNames.bannerImage}`}>
-						<div>
-							<ImagePicker
-								fieldLabel={CompetitionStrings.Fields.BannerImage}
-								imageUrl={bannerImageUrl}
-								image={field?.value ?? null}
-								onChange={onBannerImageChange} />
-
-							{errors.bannerImage && (
-								<Typography variant="caption" color="error">
-									{errors.bannerImage.message}
-								</Typography>
-							)}
-						</div>
-
-
-						{
-							(previewImage || bannerImageUrl) &&
-							<div className={classNames.preview} style={{
-								backgroundImage: `url(${previewImage ?? bannerImageUrl})`
-							}}>
-
-								<IconButton
-									onClick={() => setIsDeleteBannerDialogOpen(true)}
-									className={classNames.deleteButton}
-									color="primary"
-									title={STRINGS.Delete}>
-									<DeleteIcon />
-								</IconButton>
-							</div>
-						}
-					</div>
-				)
-			}} />
 
 		<Controller
 			name="date"
@@ -363,15 +307,6 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 			}} />
 
 		<Controller
-			name="bannerImageId"
-			control={control}
-			defaultValue={competition.bannerImageId}
-			render={({ field }) => (
-				<input type="hidden" {...field} value={field.value ?? ''} />
-			)}
-		/>
-
-		<Controller
 			name="privacyAttachmentId"
 			control={control}
 			defaultValue={competition.privacyAttachmentId}
@@ -394,20 +329,5 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				{STRINGS.Save}
 			</Button>
 		</div>
-
-		<ConfirmationDialog
-			isOpen={isDeleteBannerDialogOpen}
-			title={STRINGS.Dialogs.DeleteBannerImage.Title}
-			cancelBtnLabel={STRINGS.Cancel}
-			confirmBtnLabel={STRINGS.Delete}
-			isLoading={false}
-			error={null}
-			content={STRINGS.Dialogs.DeleteBannerImage.Content}
-			onCancel={() => { setIsDeleteBannerDialogOpen(false) }}
-			onClose={() => { setIsDeleteBannerDialogOpen(false) }}
-			onConfirm={() => {
-				onBannerImageChange(null);
-				setIsDeleteBannerDialogOpen(false);
-			}} />
 	</Grid>;
 }

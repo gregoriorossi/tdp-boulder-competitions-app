@@ -44,12 +44,6 @@ export const updateCompetitionSchema = yup.object({
 		.nullable()
 		.optional()
 		.test('fileSize', STRINGS.Errors.FileTooLarge(`${MAX_IMAGE_SIZE}MB`), (file) => !file || file.size <= MAX_FILE_SIZE),
-	bannerImage: yup
-		.mixed<File>()
-		.nullable()
-		.optional()
-		.test('fileSize', STRINGS.Errors.ImageTooLarge(`${MAX_IMAGE_SIZE}MB`), (file) => !file || file.size <= MAX_IMAGE_SIZE),
-	bannerImageId: yup.string().nullable()
 });
 
 export const specialProblemSchema = yup.object({

@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { Alert } from "@mui/material";
+import { Alert, Snackbar } from "@mui/material";
 import { RegistrationForm } from "./components/RegistrationForm";
 import { Routes } from "../../../consts/routes.consts";
 import type { ICompetitionInfo } from "../../../models/competitions.models";
@@ -9,6 +9,7 @@ import { Errors } from "../../../consts/errors.consts";
 import { STRINGS } from "../../../consts/strings.consts";
 import classNames from "../../../App.module.scss";
 import { useCompetitionBySlug } from "../../../queries/competitors.queries";
+import { useState } from "react";
 
 const PageStrings = STRINGS.Pages.RegistrationPage;
 
@@ -16,6 +17,7 @@ export function RegistrationPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const slug: string = params.slug!;
+	const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
 
 	const { data: response, isLoading } = useCompetitionBySlug(slug);
 
@@ -30,6 +32,10 @@ export function RegistrationPage() {
 
 	const competition: ICompetitionInfo = response.value as ICompetitionInfo;
 	const bannerImageUrl: string | null = competition.bannerImageId ? FilesService.getFileUrl(competition.bannerImageId) : null;
+
+	const handleCloseSnackbar = () => {
+		setSnackbarOpen(false);
+	};
 
 	return <div className={classNames.registrationsPage}>
 		{
@@ -47,7 +53,22 @@ export function RegistrationPage() {
 				: <RegistrationForm
 					competitionId={competition.id}
 					privacyFileUrl={competition.privacyAttachmentId}
-					privacyText={competition.privacyText} />
+					privacyText={competition.privacyText}
+					onRegistration={() => setSnackbarOpen(true)} />
+		}
+
+		{
+			<Snackbar
+				open={snackbarOpen}
+				autoHideDuration={10000}
+				key="success-snackbar"
+				onClose={handleCloseSnackbar}
+				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
+				<Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
+					<h3>{PageStrings.SuccessMessage.Title}</h3>
+					<p>{PageStrings.SuccessMessage.Content}</p>
+				</Alert>
+			</Snackbar>
 		}
 	</div>
 }

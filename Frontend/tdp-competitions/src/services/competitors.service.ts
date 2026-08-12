@@ -11,8 +11,9 @@ import StorageService from "./storage.service";
 
 export default class CompetitorsService {
 
-	public static addCompetitorRegistration = async (data: IAddCompetitorRegistrationRequest, competitionId: string): Promise<void> => {
-		await publicApi.post(CompetitorsEndpoints.addRegistration(competitionId), data);
+	public static addCompetitorRegistration = async (data: IAddCompetitorRegistrationRequest, competitionId: string): Promise<IResponse<void>> => {
+		const response = await publicApi.post(CompetitorsEndpoints.addRegistration(competitionId), data);
+		return response.data as IResponse<void>;
 	}
 
 	public static getCompetitions = async (): Promise<IResponse<IGetAllCompetitionsResponse[]>> => {

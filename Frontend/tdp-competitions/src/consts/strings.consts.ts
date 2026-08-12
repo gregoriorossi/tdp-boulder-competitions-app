@@ -146,7 +146,7 @@ export const STRINGS = {
 			},
 			SuccessMessage: {
 				Title: 'Registrazione completata',
-				Content: 'Grazie per la registrazione! Riceverai una mail di conferma a breve.'
+				Content: 'Grazie per la registrazione! A breve riceverai una mail di conferma.'
 			}
 		}
 	},
@@ -388,7 +388,7 @@ ERROR_STRINGS[Errors.Competitions.SlugNotAvailable] = 'Esiste già una gara con 
 ERROR_STRINGS[Errors.Competitions.NotFound] = 'Competizione non trovata';
 ERROR_STRINGS[Errors.SpecialProblems.NotFound] = "Blocco non trovato";
 ERROR_STRINGS[Errors.Registrations.NotFound] = "Registrazione non trovata";
-ERROR_STRINGS[Errors.Registrations.AlreadyRegistered] = "Utente già registrato";
+ERROR_STRINGS[Errors.Registrations.AlreadyRegistered] = "Esiste già un utente registrato con questa email";
 ERROR_STRINGS[Errors.Registrations.NotRegistered] = "Utente non registrato";
 ERROR_STRINGS[Errors.Competitors.NotFound] = "Atleta non trovato";
 ERROR_STRINGS[Errors.Competitors.AdultDelete] = "Per eliminare un adulto è necessario eliminare l'intera registrazione";

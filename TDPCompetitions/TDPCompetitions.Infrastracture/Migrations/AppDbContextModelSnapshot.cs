@@ -53,6 +53,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<bool>("RankingsVisible")
+                        .HasColumnType("boolean");
+
                     b.Property<bool>("RegistrationsOpen")
                         .HasColumnType("boolean");
 
@@ -118,6 +121,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("GuardianOnly")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsMinor")
                         .HasColumnType("boolean");

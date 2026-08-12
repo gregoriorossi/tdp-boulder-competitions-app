@@ -79,6 +79,7 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     Slug = table.Column<string>(type: "text", nullable: false),
                     BannerImageId = table.Column<Guid>(type: "uuid", nullable: true),
                     RegistrationsOpen = table.Column<bool>(type: "boolean", nullable: false),
+                    RankingsVisible = table.Column<bool>(type: "boolean", nullable: false),
                     Date = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     EmailSubject = table.Column<string>(type: "text", nullable: false),
                     EmailText = table.Column<string>(type: "text", nullable: false),
@@ -178,6 +179,7 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     IsMinor = table.Column<bool>(type: "boolean", nullable: false),
                     CompetitionId = table.Column<Guid>(type: "uuid", nullable: false),
                     RegistrationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    GuardianOnly = table.Column<bool>(type: "boolean", nullable: false),
                     MinorRegistrationId = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>

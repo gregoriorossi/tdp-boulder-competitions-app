@@ -12,7 +12,7 @@ using TDPCompetitions.Infrastracture.Data;
 namespace TDPCompetitions.Infrastracture.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260807053622_InitialCreate")]
+    [Migration("20260812123248_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -55,6 +55,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     b.Property<string>("PrivacyText")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<bool>("RankingsVisible")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("RegistrationsOpen")
                         .HasColumnType("boolean");
@@ -121,6 +124,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
 
                     b.Property<int>("Gender")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("GuardianOnly")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IsMinor")
                         .HasColumnType("boolean");

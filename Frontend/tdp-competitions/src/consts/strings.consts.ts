@@ -311,6 +311,11 @@ export const STRINGS = {
 		Navy: '#000080',
 		Teal: '#008080'
 	},
+	DefaultFileNames: {
+		Report: 'classifiche.xlsx',
+		Waiver: 'delibera.pdf',
+		WaiverAll: 'delibere.pdf'
+	},
 	Rankings: {
 		Types: {
 			ALL: 'Tutti',

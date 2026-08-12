@@ -1,5 +1,6 @@
 import editorsApi from "../api/editorsAxios";
 import { EditorsEndpoints } from "../api/endpoints";
+import { STRINGS } from "../consts/strings.consts";
 import type { IAddCompetitionRequest, IMinorRequest, IAddProblemRequest, IAddSpecialProblemRequest, IGetAllCompetitionsResponse, IGetCompetitionResponse, IGetRankingResponse, IRegistrationResponse, IResponse, ISendProblemRequest, IUpdateCompetitionRequest, IUpdateCompetitionStatusRequest, IUpdateProblemRequest, IUpdateProblemsGroupsRequest, IRegistrationRequest, ISendSpecialProblemRequest } from "../models/api.models";
 import type { Gender, ICompetition, ICompetitionInfo, ICompetitionProblems, ICompetitor, IGetResultsResponse, IProblem, IProblemsGroup, IRegistration, ISendProblemData, ISendSpecialProblemData, ISpecialProblem, IUnsendProblemData, IUnsendSpecialProblemData } from "../models/competitions.models";
 
@@ -190,5 +191,56 @@ export default class EditorsService {
 	public static getRankingByCompetitionId = async (id: string, gender: Gender | null): Promise<IResponse<IGetRankingResponse[]>> => {
 		const data = await editorsApi.get(EditorsEndpoints.getRankings(id, gender));
 		return data.data as IResponse<IGetRankingResponse[]>;
+	}
+
+	public static downloadReport = async (competitionId: string) => {
+		const url: string = EditorsEndpoints.downloadReport(competitionId);
+		await this.downloadFile(url, STRINGS.DefaultFileNames.Report);
+	}
+
+	public static downloadWaiver = async (competitionId: string, registrationId: string) => {
+		const url: string = EditorsEndpoints.downloadWaiver(competitionId, registrationId);
+		await this.downloadFile(url, STRINGS.DefaultFileNames.Waiver);
+	}
+
+	public static downloadWaiverAll = async (competitionId: string) => {
+		const url: string = EditorsEndpoints.downloadWaiverAll(competitionId);
+		await this.downloadFile(url, STRINGS.DefaultFileNames.WaiverAll);
+	}
+
+	private static downloadFile = async (url: string, defaultFileName: string) => {
+		const response = await editorsApi.get(url, {
+			responseType: 'blob'
+		});
+
+		const objectUrl = window.URL.createObjectURL(response.data);
+
+		const a = document.createElement("a");
+		a.href = objectUrl;
+		const contentDisposition = response.headers['content-disposition'];
+		a.download = this.readFileNameFromContentDisposition(contentDisposition) || defaultFileName;
+		document.body.appendChild(a);
+		a.click();
+
+		a.remove();
+		window.URL.revokeObjectURL(objectUrl);
+	};
+
+	private static readFileNameFromContentDisposition = (contentDisposition: string): string | null => {
+		if (!contentDisposition) {
+			return null;
+		}
+
+		// Prima prova filename*
+		const filenameStar = contentDisposition.match(/filename\*=UTF-8''([^;]+)/i);
+
+		if (filenameStar?.[1]) {
+			return decodeURIComponent(filenameStar[1]);
+		}
+
+		// Fallback su filename
+		const filename = contentDisposition.match(/filename="?([^";]+)"?/i);
+
+		return filename?.[1] ?? null;
 	}
 }

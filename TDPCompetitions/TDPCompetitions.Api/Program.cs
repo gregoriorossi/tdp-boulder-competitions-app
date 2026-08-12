@@ -42,7 +42,7 @@ builder.Services.AddSwaggerGen(options =>
 {
     options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "TDPCompetitions API", Version = "v1" });
 
-    options.CustomSchemaIds(type => type.FullName); 
+    options.CustomSchemaIds(type => type.FullName);
 });
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -69,9 +69,10 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: "ALL", policy =>
     {
         policy
-        .AllowAnyOrigin()
-        .AllowAnyHeader()
-        .AllowAnyMethod();
+            .AllowAnyOrigin()
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .WithExposedHeaders("Content-Disposition");
     });
 });
 var app = builder.Build();

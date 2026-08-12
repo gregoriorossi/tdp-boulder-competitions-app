@@ -10,8 +10,8 @@ import { Spinner } from "../../../../../components/Spinner";
 import { STRINGS } from "../../../../../consts/strings.consts";
 import { useRegistrationsByCompetitionsId } from "../../../../../queries/registrations.queries";
 import { sortRegistrations } from "../../../../../utils/competitions.utils";
-import { EditorsEndpoints } from "../../../../../api/endpoints";
 import classNames from "../../../../../App.module.scss";
+import EditorsService from "../../../../../services/editors.service";
 const ManageRegistraionsStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations;
 
 interface IManageRegistrationsProps {
@@ -34,18 +34,18 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 	return <div className={classNames.manageRegistrations}>
 		<div className={classNames.actionsContainer}>
 			<Button
-				onClick={() => {
-					const url: string = EditorsEndpoints.downloadReport(competitionId);
-					window.open(url, "_blank");
+				onClick={async (e) => {
+					e.stopPropagation();
+					await EditorsService.downloadReport(competitionId);
 				}}
 				variant="contained"
 				endIcon={<DownloadIcon />}>
 				{ManageRegistraionsStrings.DownloadReport}
 			</Button>&nbsp;
 			<Button
-				onClick={() => {
-					const url: string = EditorsEndpoints.downloadWaiverAll(competitionId);
-					window.open(url, "_blank");
+				onClick={async (e) => {
+					e.stopPropagation();
+					await EditorsService.downloadWaiverAll(competitionId);	
 				}}
 				variant="contained"
 				endIcon={<PrintIcon />}>

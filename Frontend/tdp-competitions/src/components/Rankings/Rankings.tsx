@@ -8,7 +8,7 @@ import { STRINGS } from "../../consts/strings.consts";
 import { useState } from "react";
 import { Gender } from "../../models/competitions.models";
 import { Ranking } from "./Ranking";
-import { EditorsEndpoints } from "../../api/endpoints";
+import EditorsService from "../../services/editors.service";
 const RankingsPageStrings = STRINGS.Pages.EditorCompetitionPage.Ranking;
 const RankingsStrings = STRINGS.Rankings;
 
@@ -51,9 +51,8 @@ export function Rankings(props: IRankingsProps) {
 	return <div className={classNames.rankings}>
 		<div className={classNames.actionsContainer}>
 			<Button
-				onClick={() => {
-					const url: string = EditorsEndpoints.downloadReport(competitionId);
-					window.open(url, "_blank");
+				onClick={async () => {
+					await EditorsService.downloadReport(competitionId);
 				}}
 				title={RankingsPageStrings.DownloadRankings}
 				variant="contained"

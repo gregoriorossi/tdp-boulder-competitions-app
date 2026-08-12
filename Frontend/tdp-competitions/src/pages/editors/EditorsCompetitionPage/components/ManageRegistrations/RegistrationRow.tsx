@@ -5,7 +5,6 @@ import CreateIcon from '@mui/icons-material/Create';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { MinorRow } from "./MinorRow";
 import React from "react";
-import { EditorsEndpoints } from "../../../../../api/endpoints";
 import ConfirmationDialog from "../../../../../components/ConfirmationDialog";
 import { RegistrationModal } from "../../../../../components/modals/RegistrationModal";
 import { Errors } from "../../../../../consts/errors.consts";
@@ -17,6 +16,7 @@ import { DateUtils } from "../../../../../utils/date.utils";
 import classNames from "../../../../../App.module.scss";
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import { MinorModal } from "../../../../../components/modals/MinorModal";
+import EditorsService from "../../../../../services/editors.service";
 const RegistrationRowStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations.Table.RegistrationRow;
 
 interface IRegistrationRowProps {
@@ -71,9 +71,9 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 					</Button>
 					<Button
 						title={STRINGS.PrintWaiver}
-						onClick={() => {
-							const url: string = EditorsEndpoints.downloadWaiver(registration.competitionId, registration.id);
-							window.open(url, "_blank");
+						onClick={async (e) => {
+							e.stopPropagation();
+							await EditorsService.downloadWaiver(registration.competitionId, registration.id);
 						}}><PrintIcon />
 					</Button>
 					<Button

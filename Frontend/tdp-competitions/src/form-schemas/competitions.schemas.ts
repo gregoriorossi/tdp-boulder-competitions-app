@@ -32,6 +32,7 @@ export const updateCompetitionSchema = yup.object({
 		.string()
 		.required(STRINGS.Errors.Mandatory),
 	registrationsOpen: yup.boolean(),
+	rankingsVisible: yup.boolean(),
 	date: yup.date()
 		.required(UpdateCompetitionStrings.Errors.Date)
 		.transform(converDateInForm)

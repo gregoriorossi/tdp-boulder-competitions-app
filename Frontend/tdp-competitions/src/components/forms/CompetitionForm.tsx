@@ -125,6 +125,28 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 			</FormControl>
 		</div>
 
+		<div className={classNames.fullWidth}>
+			<FormControl className={classNames.registrationsToggle}>
+				<Controller
+					name="rankingsVisible"
+					defaultValue={competition.rankingsVisible}
+					control={control}
+					render={({ field }) => (
+						<>
+							<FormControlLabel
+								label={CompetitionStrings.Fields.RankingsVisible}
+								control={
+									<Switch
+										checked={field.value}
+										onChange={(_, checked) => field.onChange(checked)}
+									/>
+								} />
+						</>
+					)}
+				/>
+			</FormControl>
+		</div>
+
 		<Controller
 			name='bannerImage'
 			control={control}

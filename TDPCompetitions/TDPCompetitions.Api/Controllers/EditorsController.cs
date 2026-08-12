@@ -4,7 +4,6 @@ using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
 using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
-using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Api.ViewModels.Editors.Responses.GetResultsResponse;
@@ -118,9 +117,9 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> UpdateCompetition(Guid competitionId, [FromForm] UpdateCompetitionVM model, CancellationToken cancellationToken)
+        public async Task<IActionResult> UpdateCompetition(Guid competitionId, [FromForm] UpdateCompetitionRequest model, CancellationToken cancellationToken)
         {
-            Competition updateCompetition = await ViewModelToEntity.UpdateCompetitionVMToCompetitionAsync(model);
+            Competition updateCompetition = await ViewModelToEntity.UpdateCompetitionRequesetToCompetitionAsync(model);
             bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
             if (!competitionExists)
             {

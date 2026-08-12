@@ -10,10 +10,11 @@ public sealed record CompetitionInfoResponse(
     DateTime Date,
     string Slug,
     bool RegistrationsOpen,
+    bool RankingsVisible,
     Guid? BannerImageId,
     Guid? PrivacyAttachmentId,
     string PrivacyText,
-    string emailSubject,
+    string EmailSubject,
     string EmailText,
     CompetitionStatus Status)
 {
@@ -25,6 +26,7 @@ public sealed record CompetitionInfoResponse(
             competition.Date,
             competition.Slug,
             competition.RegistrationsOpen,
+            competition.RankingsVisible,
             competition.BannerImageId,
             competition.PrivacyAttachmentId,
             competition.PrivacyText,

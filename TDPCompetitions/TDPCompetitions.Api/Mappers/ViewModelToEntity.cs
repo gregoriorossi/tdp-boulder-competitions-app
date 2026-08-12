@@ -2,7 +2,6 @@
 using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Api.ViewModels.Competitors;
 using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
-using TDPCompetitions.Api.ViewModels.Editors;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
 using TDPCompetitions.Core.Entities;
 
@@ -209,7 +208,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static async Task<Competition> UpdateCompetitionVMToCompetitionAsync(UpdateCompetitionVM model)
+        internal static async Task<Competition> UpdateCompetitionRequesetToCompetitionAsync(UpdateCompetitionRequest model)
         {
             string slug = SlugHelper.Generate(model.Title);
             Core.Entities.File? bannerImage = await BuildFile(model.BannerImage);
@@ -229,7 +228,8 @@ namespace TDPCompetitions.Api.Mappers
                 EmailText = model.EmailText,
                 PrivacyAttachmentId = model.PrivacyAttachmentId,
                 PrivacyAttachment = privacyAttachment,
-                RegistrationsOpen = model.RegistrationsOpen
+                RegistrationsOpen = model.RegistrationsOpen,
+                RankingsVisible = model.RankingsVisible
             };
         }
 

@@ -7,6 +7,7 @@ export interface ICompetition {
 	isOpen: boolean;
 	bannerImageId: string | null;
 	registrationsOpen: boolean;
+	rankingsVisible: boolean;
 	status: CompetitionStatus;
 	date: Date;
 	id: string;

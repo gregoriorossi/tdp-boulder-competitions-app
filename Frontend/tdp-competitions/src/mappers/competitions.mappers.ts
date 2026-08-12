@@ -21,6 +21,7 @@ export default class CompetitionsMappers {
 		return {
 			id: data.id,
 			registrationsOpen: data.registrationsOpen,
+			rankingsVisible: data.rankingsVisible,
 			title: data.title,
 			status: status,
 			date: new Date(data.date),
@@ -76,10 +77,11 @@ export default class CompetitionsMappers {
 			emailText: competition.emailText,
 			id: id,
 			privacyAttachment: competition?.privacyAttachment ?? null,
-			privacyAttachmentId: competition.privacyAttacymentId,
+			privacyAttachmentId: competition.privacyAttachmentId,
 			privacyText: competition.privacyAttachmentText,
 			title: competition.title,
-			registrationsOpen: competition.registrationsOpen ?? false
+			registrationsOpen: competition.registrationsOpen ?? false,
+			rankingsVisible: competition.rankingsVisible ?? false
 		};
 	}
 

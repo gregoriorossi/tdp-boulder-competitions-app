@@ -14,6 +14,7 @@ export interface ICompetitionInfo {
 	slug: string;
 	bannerImageId: string | null;
 	registrationsOpen: boolean;
+	rankingsVisible: boolean;
 	date: Date;
 	emailSubject: string;
 	emailText: string;
@@ -118,11 +119,12 @@ export interface ICompetitionInfoForm {
 	title: string;
 	description?: string | undefined;
 	registrationsOpen?: boolean | undefined;
+	rankingsVisible?: boolean | undefined;
 	date: Date;
 	emailSubject: string;
 	emailText: string;
 	privacyAttachmentText?: string | undefined;
-	privacyAttacymentId?: string | null;
+	privacyAttachmentId?: string | null;
 	privacyAttachment?: File | null | undefined;
 	bannerImage?: File | null | undefined;
 	bannerImageId?: string | null;

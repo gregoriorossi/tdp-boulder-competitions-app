@@ -66,7 +66,10 @@ export function CompetitionPage() {
                 disableSending={!competition.isOpen} />
         }
         {
-            tabValue === TabValues.RANKINGS && <Rankings competitionId={competition.id} />
+            tabValue === TabValues.RANKINGS &&
+            <Rankings
+                competitionId={competition.id}
+                rankingsVisible={competition.rankingsVisible} />
         }
     </CompetitorsPageWrapper>
 }

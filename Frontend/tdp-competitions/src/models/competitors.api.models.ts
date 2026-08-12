@@ -39,6 +39,7 @@ export interface IGetCompetitionResponse {
 	slug: string;
 	bannerImageId: string | null;
 	registrationsOpen: boolean;
+	rankingsVisible: boolean;
 	status: number;
 	date: string;
 	id: string;

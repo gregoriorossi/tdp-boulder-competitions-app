@@ -9,6 +9,7 @@ public sealed record CompetitionInfoResponse(
        DateTime Date,
        string Slug,
        bool RegistrationsOpen,
+       bool RankingsVisible,
        int Status,
        Guid? BannerImageId)
 {
@@ -20,6 +21,7 @@ public sealed record CompetitionInfoResponse(
             competition.Date,
             competition.Slug,
             competition.RegistrationsOpen,
+            competition.RankingsVisible,
             (int)competition.Status,
             competition.BannerImageId)
     { }

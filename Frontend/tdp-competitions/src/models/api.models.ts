@@ -22,6 +22,7 @@ export interface IGetCompetitionResponse {
 	slug: string;
 	bannerImageId: string | null;
 	registrationsOpen: boolean;
+	rankingsVisible: boolean;
 	date: Date;
 	emailSubject: string;
 	emailText: string;
@@ -48,6 +49,7 @@ export interface IUpdateCompetitionRequest {
 	bannerImageId: string | null | undefined;
 	bannerImage: File | null | undefined;
 	registrationsOpen: boolean;
+	rankingsVisible: boolean;
 	date: Date;
 	emailSubject: string;
 	emailText: string;

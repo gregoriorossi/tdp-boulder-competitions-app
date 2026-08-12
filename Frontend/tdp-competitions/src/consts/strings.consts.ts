@@ -233,6 +233,7 @@ export const STRINGS = {
 				EmailSubject: "Oggetto email",
 				EmailText: "Testo email",
 				RegistrationsOpen: "Registrazioni",
+				RankingsVisible: "Classifiche pubbliche",
 				BannerImage: "Immagine di copertina",
 				PrivacyAttachment: 'Allegato privacy',
 				PrivacyText: 'Testo informativa privacy'
@@ -332,7 +333,8 @@ export const STRINGS = {
 			Name: 'Nome',
 			Surname: 'Cognome',
 			Score: 'Punteggio'
-		}
+		},
+		NotVisible: 'Le classifiche non sono ancora pubbliche, attendere la chiusura della gara'
 	},
 	CompetitionStatus: {
 		Draft: 'Bozza',

@@ -5,14 +5,18 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { STRINGS } from "../../consts/strings.consts";
 import { updateCompetitionSchema } from "../../form-schemas/competitions.schemas";
 import { useRef, useState } from "react";
+
 import {
 	MenuButtonBold,
 	MenuButtonBulletedList,
+	MenuButtonImageUpload,
 	MenuButtonItalic,
 	MenuControlsContainer,
 	MenuDivider,
 	MenuSelectHeading,
+	ResizableImage,
 	RichTextEditor,
+	
 	type RichTextEditorRef,
 } from "mui-tiptap";
 import StarterKit from '@tiptap/starter-kit';
@@ -30,12 +34,31 @@ import classNames from "../../App.module.scss";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ConfirmationDialog from "../ConfirmationDialog";
 import { FormFieldsSeparator } from "./FormFieldsSeparator";
+import { fileToBase64 } from "../../utils/competitions.utils";
 
 const CompetitionStrings = STRINGS.Forms.Competition;
 
 interface ICompetitionFormProps {
 	competition: ICompetitionInfo;
 }
+
+const descriptionEditorMenuControls = <MenuControlsContainer>
+	<MenuSelectHeading />
+	<MenuDivider />
+	<MenuButtonBold />
+	<MenuButtonItalic />
+	<MenuButtonBulletedList />
+	<MenuButtonImageUpload
+		onUploadFiles={async (files) => {
+			const base64Promises = files.map(async (file) => {
+				const base64String = await fileToBase64(file);
+				return { src: base64String };
+			});
+
+			return Promise.all(base64Promises);
+		}}
+	/>
+</MenuControlsContainer>;
 
 const textEditorMenuControls = <MenuControlsContainer>
 	<MenuSelectHeading />
@@ -235,13 +258,13 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 					<>
 						<RichTextEditor
 							ref={rteRef}
-							extensions={[StarterKit]}
+							extensions={[StarterKit, ResizableImage.configure({ inline: true, allowBase64: true })]}
 							className={`${classNames.fullWidth} ${classNames.textEditor}`}
 							content={value}
 							onUpdate={({ editor }) => {
 								onChange(editor.getHTML())
 							}}
-							renderControls={() => (textEditorMenuControls)} />
+							renderControls={() => (descriptionEditorMenuControls)} />
 						{errors.description && (
 							<Typography variant="caption" color="error">
 								{errors.description.message}
@@ -281,7 +304,7 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 							onUpdate={({ editor }) => {
 								onChange(editor.getHTML())
 							}}
-							renderControls={() => (textEditorMenuControls)} />
+						renderControls={() => (textEditorMenuControls)} />
 						{errors.emailText && (
 							<Typography variant="caption" color="error">
 								{errors.emailText.message}

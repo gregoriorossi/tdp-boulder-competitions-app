@@ -2,6 +2,7 @@
 using TDPCompetitions.Api.Helpers;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Interfaces.Services;
+using TDPCompetitions.Core.Models;
 using TDPCompetitions.Infrastracture.Helpers;
 using TDPCompetitions.Infrastracture.Models;
 
@@ -20,6 +21,19 @@ namespace TDPCompetitions.Infrastracture.Services
                 .ToList();
 
             var result = new CompetitorsExportBuilder()
+                .SetData(rows)
+                .Build();
+
+            return result;
+        }
+
+        public MemoryStream? CreateRankingReport(ICollection<RankingCompetitor> rankings)
+        {
+            List<RankingRow> rows = rankings.Select(r => new RankingRow(r.Position, r.Score, r.FirstName, r.LastName))
+                .OrderBy(r => r.Position)
+                .ToList();
+
+            var result = new RankingExportBuilder()
                 .SetData(rows)
                 .Build();
 

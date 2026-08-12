@@ -1,4 +1,5 @@
 ﻿using TDPCompetitions.Core.Entities;
+using TDPCompetitions.Core.Models;
 
 namespace TDPCompetitions.Core.Interfaces.Services
 {
@@ -7,5 +8,7 @@ namespace TDPCompetitions.Core.Interfaces.Services
         MemoryStream? CreateCompetitorsReport(ICollection<Registration> registrations);
 
         byte[] CreateWaiver(ICollection<Registration> registrations, Competition competition);
+
+        MemoryStream? CreateRankingReport(ICollection<RankingCompetitor> registrations);
     }
 }

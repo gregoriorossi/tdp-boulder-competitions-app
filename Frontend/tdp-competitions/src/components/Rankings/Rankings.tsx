@@ -52,7 +52,7 @@ export function Rankings(props: IRankingsProps) {
 		<div className={classNames.actionsContainer}>
 			<Button
 				onClick={async () => {
-					await EditorsService.downloadReport(competitionId);
+					await EditorsService.downloadRanking(competitionId, selectedGender);
 				}}
 				title={RankingsPageStrings.DownloadRankings}
 				variant="contained"

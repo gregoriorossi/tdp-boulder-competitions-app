@@ -208,6 +208,11 @@ export default class EditorsService {
 		await this.downloadFile(url, STRINGS.DefaultFileNames.WaiverAll);
 	}
 
+	public static downloadRanking = async (competitionId: string, gender: Gender | null) => {
+		const url: string = EditorsEndpoints.downloadRanking(competitionId, gender);
+		await this.downloadFile(url, STRINGS.DefaultFileNames.Ranking);
+	}
+
 	private static downloadFile = async (url: string, defaultFileName: string) => {
 		const response = await editorsApi.get(url, {
 			responseType: 'blob'

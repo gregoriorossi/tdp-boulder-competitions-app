@@ -40,7 +40,11 @@ export const EditorsEndpoints = {
 	unsendSpecialProblem: (competitionId: string, specialProblemId: string, sentSpecialProblemId: string) => `/Editors/competitions/${competitionId}/specialproblems/${specialProblemId}/send/${sentSpecialProblemId}`,
 	downloadWaiverAll: (competitionId: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${competitionId}/waiver`,
 	downloadWaiver: (competitionId: string, registrationId: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${competitionId}/waiver/${registrationId}`,
-	downloadReport: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${id}/report`
+	downloadReport: (id: string) => import.meta.env.VITE_API_URL + `/Editors/competitions/${id}/report`,
+	downloadRanking: (competitionId: string, gender: Gender | null) => {
+		const genderValue: string = genderToQueryParam(gender);
+		return `/Editors/competitions/${competitionId}/rankingsreport${genderValue}`;
+	}
 };
 
 export const CompetitorsEndpoints = {

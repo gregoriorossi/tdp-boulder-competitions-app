@@ -317,7 +317,8 @@ export const STRINGS = {
 	DefaultFileNames: {
 		Report: 'classifiche.xlsx',
 		Waiver: 'delibera.pdf',
-		WaiverAll: 'delibere.pdf'
+		WaiverAll: 'delibere.pdf',
+		Ranking: 'classifica.xlsx'
 	},
 	Rankings: {
 		Types: {

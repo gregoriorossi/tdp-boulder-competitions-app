@@ -278,6 +278,41 @@ namespace TDPCompetitions.Api.Controllers
             return Ok(Result<ICollection<RankingCompetitorResponse>>.Success(response));
         }
 
+        [HttpGet]
+        [Route("competitions/{competitionId}/rankingsreport")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(FileContentResult))]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> GenerateRankingReport(Guid competitionId, [FromQuery] string? gender, CancellationToken cancellationToken)
+        {
+            Gender? genderFilter = null;
+            if (!gender?.TryParseGender(out genderFilter) ?? false)
+            {
+                return BadRequest(Result<ICollection<RankingCompetitor>>.Failure(CompetitionsErrors.GenderNotExists));
+            }
+
+            Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
+            if (competition == null)
+            {
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            ICollection<RankingCompetitor> ranking = await _competitionsManager.GetRankingAsync(competitionId, genderFilter ?? Gender.ALL, cancellationToken);
+
+            var stream = _exportService.CreateRankingReport(ranking);
+
+            if (stream == null)
+            {
+                return StatusCode(500);
+            }
+
+            string timestamp = DateTime.Now.ToString(Constants.DATE_TIME_FILE_EXPORT_FORMAT);
+            return File(
+                stream.ToArray(),
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                $"Classifica_{competition.Slug}_{timestamp}.xlsx");
+        }
+
         #region Problems
         [HttpGet]
         [Route("competitions/{competitionId}/problems")]

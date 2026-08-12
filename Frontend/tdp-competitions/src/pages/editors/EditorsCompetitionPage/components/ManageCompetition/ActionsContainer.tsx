@@ -11,7 +11,7 @@ import { STRINGS } from "../../../../../consts/strings.consts";
 import { Errors } from "../../../../../consts/errors.consts";
 import classNames from "../../../../../App.module.scss";
 import { CopyUrlButton } from "./CopyUrlButton";
-
+import { LinkUtils } from "../../../../../utils/link.utils";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 interface IActionsContainerProps {
@@ -105,8 +105,15 @@ export function ActionsContainer(props: IActionsContainerProps) {
 			? STRINGS.Dialogs.UpdateStatus.Title(competition.title, dialog.newStatus)
 			: "";
 
+
+	const registrationFormUrl: string = LinkUtils.SlugToRegistrationFormUrl(competition.slug);
+	const loginPageUrl: string = LinkUtils.SlugToLoginPageUrl(competition.slug);
+
 	return <div className={classNames.actionsContainer}>
-		<CopyUrlButton competitionSlug={competition.slug} />
+		<div>
+			<CopyUrlButton url={registrationFormUrl} label={PageStrings.Actions.GetRegistrationUrl} />&nbsp;
+			<CopyUrlButton url={loginPageUrl} label={PageStrings.Actions.GetLoginPageUrl} />
+		</div>
 
 		<div>
 			{currentActions.map((a, idx) => (

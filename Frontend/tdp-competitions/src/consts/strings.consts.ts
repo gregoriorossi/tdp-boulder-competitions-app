@@ -70,6 +70,7 @@ export const STRINGS = {
 		EditorCompetitionPage: { 
 			Actions: {
 				GetRegistrationUrl: 'Url iscrizioni',
+				GetLoginPageUrl: 'Url login',
 				ClickToCopy: 'Clicca qui per copiare',
 				UrlCopied: 'Url copiato negli appunti!',
 				ToDraft: 'Riporta a bozza',

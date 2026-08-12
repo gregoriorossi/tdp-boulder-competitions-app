@@ -4,19 +4,19 @@ import LinkIcon from '@mui/icons-material/Link';
 import CheckIcon from '@mui/icons-material/Check';
 import { STRINGS } from "../../../../../consts/strings.consts";
 import classNames from "../../../../../App.module.scss";
-import { LinkUtils } from "../../../../../utils/link.utils";
 const FormString = STRINGS.Pages.EditorCompetitionPage.Actions;
 
 interface ICopyUrlButtonProps {
-	competitionSlug: string;
+	url: string;
+	label: string;
 }
 
 export function CopyUrlButton(props: ICopyUrlButtonProps) {
+	const { url, label } = props;
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 	const [alertVisible, setAlertVisible] = useState<boolean>(false);
 
 	const textRef = useRef<HTMLParagraphElement>(null);
-	const publicUrl: string = LinkUtils.SlugToRegistrationFormUrl(props.competitionSlug);
 
 	const closeModal = () => {
 		setModalOpen(false);
@@ -38,7 +38,7 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 		selection?.addRange(range);
 
 		try {
-			await navigator.clipboard.writeText(publicUrl);
+			await navigator.clipboard.writeText(url);
 			selection?.removeAllRanges();
 			setAlertVisible(true);
 		} catch(e) {
@@ -48,8 +48,8 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 
 
 	return <>
-		<Button onClick={() => setModalOpen(true)} title={FormString.GetRegistrationUrl} variant="contained">
-			<LinkIcon />&nbsp;{FormString.GetRegistrationUrl}
+		<Button onClick={() => setModalOpen(true)} title={label} variant="contained">
+			<LinkIcon />&nbsp;{label}
 		</Button>
 		<Modal open={modalOpen} onClose={closeModal}>
 			<div className={classNames.modal} title={FormString.ClickToCopy}>
@@ -57,7 +57,7 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 					ref={textRef}
 					onClick={onTextClick}>
 					<h5>{FormString.ClickToCopy}</h5>
-					{publicUrl}
+					{url}
 				</div>
 				{
 					alertVisible &&

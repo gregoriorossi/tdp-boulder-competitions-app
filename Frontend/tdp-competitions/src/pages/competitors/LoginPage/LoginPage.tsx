@@ -13,6 +13,7 @@ import { Spinner } from "../../../components/Spinner";
 import DangerousIcon from '@mui/icons-material/Dangerous';
 import { useCompetitions } from "../../../queries/competitors.queries";
 import { ErrorMessage } from "../../../components/ErrorMessage";
+import logoTesteDiPietra from '../../../assets/teste-di-pietra_logo.png';
 
 const LoginPageStrings = STRINGS.Pages.CompetitorsLoginPage;
 
@@ -62,7 +63,10 @@ export function LoginPage() {
 		.find(c => c.slug.toLowerCase() === hint?.toLocaleLowerCase())?.id;
 
 
-	return <Box className={classNames.loginPage}> 
+	return <Box className={classNames.loginPage}>
+		<div className={classNames.header}>
+			<img src={logoTesteDiPietra} className={classNames.logo} />
+		</div>
 		<Box component="form"
 			className={classNames.form}
 			onSubmit={(e) => {
@@ -72,14 +76,7 @@ export function LoginPage() {
 			<Typography variant="h5" component="h2">
 				<LoginIcon />&nbsp;{LoginPageStrings.Title}
 			</Typography>
-
-			<TextField
-				label={LoginPageStrings.Form.Email}
-				{...register("email")}
-				autoComplete="on"
-				error={!!errors.email}
-				fullWidth
-				helperText={errors.email?.message} />
+			
 
 			<FormControl error={!!errors.competitionId} className={classNames.select}>
 				<InputLabel>{LoginPageStrings.Form.Competition}</InputLabel>
@@ -107,6 +104,16 @@ export function LoginPage() {
 					</Typography>
 				)}
 			</FormControl>
+
+			<TextField
+				label={LoginPageStrings.Form.Email}
+				{...register("email")}
+				autoComplete="on"
+				error={!!errors.email}
+				fullWidth
+				helperText={errors.email?.message} />
+
+			<p>{LoginPageStrings.Subtitle}</p>
 
 			<Button type="submit" variant="contained">
 				{LoginPageStrings.Form.Submit}

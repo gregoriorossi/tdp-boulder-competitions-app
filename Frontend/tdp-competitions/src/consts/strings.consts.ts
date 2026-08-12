@@ -18,7 +18,8 @@ export const STRINGS = {
 			}
 		},
 		CompetitorsLoginPage: {
-			Title: 'Accedi all\'area riservata',
+			Title: 'Accedi alla tua area personale',
+			Subtitle: 'Seleziona la gara a cui vuoi accedere e inserisci la tua email di registrazione per visualizzare i tuoi dati e i tuoi blocchi',
 			Form: {
 				Email: 'Email',
 				Competition: 'Gara',

@@ -58,7 +58,8 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 			<div>{fullName}</div>
 			<div>{registration.email}</div>
 			<div>{DateUtils.ToDateOnly(registration.competitor.birthDate)}</div>
-			<div>{hasMinors ? registration.minors.length : "No"}</div>
+			<div>{registration.competitor.guardianOnly ? STRINGS.Yes : STRINGS.No}</div>
+			<div>{hasMinors ? registration.minors.length : STRINGS.No}</div>
 			<div>
 				<ButtonGroup variant="contained">
 					<Button title={STRINGS.Details}

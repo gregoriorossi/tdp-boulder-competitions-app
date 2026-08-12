@@ -1,4 +1,4 @@
-import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField, Typography } from "@mui/material";
 import { GENDERS, type IRegistration } from "../../models/competitions.models";
 import { STRINGS } from "../../consts/strings.consts";
 import classNames from "../../App.module.scss";
@@ -52,7 +52,8 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			birthDate: data.birthDate,
 			birthPlace: data.birthPlace,
 			birthProvince: data.birthProvince,
-			phoneNumber: data.phoneNumber
+			phoneNumber: data.phoneNumber,
+			guardianOnly: data.guardianOnly ?? false
 		};
 
 		const result = registration
@@ -64,7 +65,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			onChange(result.value!);
 		}
 	}
-	console.log("phoneNumber", registration);
+
 	return <Box
 		className={classNames.form}
 		component="form"
@@ -192,6 +193,26 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			error={!!errors.phoneNumber}
 			helperText={errors.phoneNumber?.message} />
 
+		
+		<FormControl className={classNames.registrationsToggle}>
+			<Controller
+				name="guardianOnly"	
+				defaultValue={registration?.competitor.guardianOnly}
+				control={control}
+				render={({ field }) => (
+					<>
+						<FormControlLabel
+							label={FieldsStrings.GuardianOnlyEditors}
+							control={
+								<Switch
+									checked={field.value}
+									onChange={(_, checked) => field.onChange(checked)}
+								/>
+							} />
+					</>
+				)}
+			/>
+		</FormControl>
 		{
 			addRegistrationIsPending && <Spinner />
 		}

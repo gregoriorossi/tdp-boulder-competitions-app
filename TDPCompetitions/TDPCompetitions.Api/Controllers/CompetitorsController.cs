@@ -26,7 +26,7 @@ namespace TDPCompetitions.Api.Controllers
     {
         private readonly IProblemsManager _problemsManager;
         private readonly ICompetitionsManager _competitionsManager;
-        private readonly IEmailService emailService;
+        private readonly IEmailService _emailService;
 
         public CompetitorsController(
             IProblemsManager problemsManager,
@@ -35,7 +35,7 @@ namespace TDPCompetitions.Api.Controllers
         {
             _problemsManager = problemsManager ?? throw new ArgumentNullException(nameof(problemsManager));
             _competitionsManager = competitionsManager ?? throw new ArgumentNullException(nameof(competitionsManager));
-            this.emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
+            _emailService = emailService ?? throw new ArgumentNullException(nameof(emailService));
         }
 
         [HttpGet]
@@ -83,7 +83,7 @@ namespace TDPCompetitions.Api.Controllers
             Registration registration = ViewModelToEntity.AddRegistrationRequestToRegistration(model, competitionId);
             Registration result = await _competitionsManager.AddRegistrationAsync(registration, cancellationToken);
 
-            await emailService.SendEmailAsync(new EmailMessageSettings(competition, registration, EmailTemplate.REGISTRATION_CONFIRMATION), cancellationToken);
+            await _emailService.SendEmailAsync(new EmailMessageSettings(competition, registration, EmailTemplate.REGISTRATION_CONFIRMATION), cancellationToken);
             return NoContent();
         }
 

@@ -42,7 +42,7 @@ namespace TDPCompetitions.Api.Mappers
 
         internal static Registration AddRegistrationRequestToRegistration(AddRegistrationRequest model, Guid competitionId)
         {
-            Competitor competitor = AddRegistrationVMToCompetitor(model);
+            Competitor competitor = AddRegistrationVMToCompetitor(model, model.Minors.Any());
             ICollection <Competitor> minors = model.Minors.Select(AddMinorVMToCompetitor).ToList();
 
             return new Registration
@@ -56,7 +56,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        internal static Competitor AddMinorRequestToCompetitor(AddMinorRequest model, Guid competitionId, Registration registration)
+        internal static Competitor AddMinorRequestToCompetitor(AddMinorRequest model, Registration registration, Guid competitionId)
         {
             return new Competitor
             {
@@ -73,6 +73,42 @@ namespace TDPCompetitions.Api.Mappers
                 AddressStreet = model.AddressStreet,
                 BirthDate = model.BirthDate,
                 BirthPlace = model.BirthPlace,
+            };
+        }
+
+        internal static Registration AddRegistrationRequestToRegistration(ViewModels.Editors.Requests.AddRegistration.AddRegistrationRequest model, Guid competitionId)
+        {
+            Competitor competitor = AddRegistrationVMToCompetitor(model);
+            ICollection<Competitor> minors = model.Minors.Select(m => AddMinorRequestToCompetitor(m, competitionId)).ToList();
+
+            return new Registration
+            {
+                CompetitionId = competitionId,
+                CreatedAt = DateTime.UtcNow,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
+                Competitor = competitor,
+                Minors = minors
+            };
+        }
+
+        internal static Competitor AddMinorRequestToCompetitor(ViewModels.Editors.Requests.AddRegistration.AddMinorRequest model, Guid competitionId)
+        {
+            return new Competitor
+            {
+                CompetitionId = competitionId,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsMinor = true,
+                Gender = model.Gender.IntToGender(),
+                BirthProvince = model.BirthProvince,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressProvince = model.AddressProvince,
+                AddressStreet = model.AddressStreet,
+                BirthDate = model.BirthDate,
+                BirthPlace = model.BirthPlace,
+                GuardianOnly = true
             };
         }
 
@@ -94,6 +130,7 @@ namespace TDPCompetitions.Api.Mappers
                 AddressStreet = model.AddressStreet,
                 BirthDate = model.BirthDate,
                 BirthPlace = model.BirthPlace,
+                GuardianOnly = true
             };
         }
 
@@ -112,7 +149,7 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        private static Competitor AddRegistrationVMToCompetitor(AddRegistrationRequest model)
+        private static Competitor AddRegistrationVMToCompetitor(AddRegistrationRequest model, bool hasMinors)
         {
             return new Competitor
             {
@@ -126,7 +163,27 @@ namespace TDPCompetitions.Api.Mappers
                 AddressProvince = model.AddressProvince,
                 AddressStreet = model.AddressStreet,
                 BirthDate = model.BirthDate,
-                BirthPlace = model.BirthPlace
+                BirthPlace = model.BirthPlace,
+                GuardianOnly = hasMinors ? model.GuardianOnly : false
+            };
+        }
+
+        private static Competitor AddRegistrationVMToCompetitor(ViewModels.Editors.Requests.AddRegistration.AddRegistrationRequest model)
+        {
+            return new Competitor
+            {
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                IsMinor = false,
+                Gender = model.Gender.IntToGender(),
+                BirthProvince = model.BirthProvince,
+                AddressCity = model.AddressCity,
+                AddressNumber = model.AddressNumber,
+                AddressProvince = model.AddressProvince,
+                AddressStreet = model.AddressStreet,
+                BirthDate = model.BirthDate,
+                BirthPlace = model.BirthPlace,
+                GuardianOnly = model.GuardianOnly
             };
         }
 
@@ -144,7 +201,8 @@ namespace TDPCompetitions.Api.Mappers
                 AddressProvince = model.AddressProvince,
                 AddressStreet = model.AddressStreet,
                 BirthDate = model.BirthDate,
-                BirthPlace = model.BirthPlace
+                BirthPlace = model.BirthPlace,
+                GuardianOnly = model.GuardianOnly
             };
         }
 
@@ -162,7 +220,8 @@ namespace TDPCompetitions.Api.Mappers
                 AddressProvince = model.AddressProvince,
                 AddressStreet = model.AddressStreet,
                 BirthDate = model.BirthDate,
-                BirthPlace = model.BirthPlace
+                BirthPlace = model.BirthPlace,
+                GuardianOnly = false
             };
         }
 

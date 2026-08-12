@@ -1,23 +1,17 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TDPCompetitions.Api.ViewModels.Editors.Requests;
+namespace TDPCompetitions.Api.ViewModels.Editors.Requests.AddRegistration;
 
-public class UpdateRegistrationRequest
+public sealed record class AddMinorRequest
 {
     [Required]
-    public required Guid Id { get; set; }
+    public required string FirstName { get; set; } = default!;
 
     [Required]
-    public required string FirstName { get; set; }
-
-    [Required]
-    public required string LastName { get; set; }
+    public required string LastName { get; set; } = default!;
 
     [Required]
     public DateTime BirthDate { get; set; }
-
-    [Required]
-    public required string Email { get; set; }
 
     [Required]
     public required int Gender { get; set; }
@@ -39,10 +33,4 @@ public class UpdateRegistrationRequest
 
     [Required]
     public required string AddressNumber { get; set; }
-
-    [Required]
-    public required string PhoneNumber { get; set; } = default!;
-
-    [Required]
-    public required bool GuardianOnly { get; set; }
 }

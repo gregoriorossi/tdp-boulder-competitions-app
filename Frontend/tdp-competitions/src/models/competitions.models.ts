@@ -113,6 +113,7 @@ export interface ICompetitor {
 	isMinor: boolean;
 	competitionId: string;
 	registrationId: string;
+	guardianOnly: boolean;
 }
 
 export interface ICompetitionInfoForm {

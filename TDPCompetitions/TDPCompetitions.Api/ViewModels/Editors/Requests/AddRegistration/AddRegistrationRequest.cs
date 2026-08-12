@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration
+namespace TDPCompetitions.Api.ViewModels.Editors.Requests.AddRegistration
 {
     public record class AddRegistrationRequest
     {
@@ -43,6 +43,6 @@ namespace TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration
         [Required]
         public required bool GuardianOnly { get; set; }
 
-        public ICollection<Minor> Minors { get; set; } = [];
+        public ICollection<AddMinorRequest> Minors { get; set; } = [];
     }
 }

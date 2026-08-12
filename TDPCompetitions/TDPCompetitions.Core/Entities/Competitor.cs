@@ -34,6 +34,8 @@ public class Competitor : BaseEntity<Guid>
 
     public Guid RegistrationId { get; set; }
 
+    public bool GuardianOnly { get; set; }
+
     public Registration Registration { get; set; } = default!;
 
     public void Update(Competitor competitor)
@@ -48,5 +50,6 @@ public class Competitor : BaseEntity<Guid>
         Gender = competitor.Gender;
         FirstName = competitor.FirstName;
         LastName = competitor.LastName;
+        GuardianOnly = competitor.GuardianOnly;
     }
 }

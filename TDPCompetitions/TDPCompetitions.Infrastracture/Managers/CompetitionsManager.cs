@@ -236,7 +236,7 @@ namespace TDPCompetitions.Infrastracture.Managers
 
         public async Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken)
         {
-            Expression<Func<Competitor, bool>> whereFn = c => c.CompetitionId == competitionId;
+            Expression<Func<Competitor, bool>> whereFn = c => c.CompetitionId == competitionId && !c.GuardianOnly;
             ICollection<Competitor> competitors = await _competitionsRepository.GetAllCompetitorsAsync(whereFn, cancellationToken);
 
             return competitors

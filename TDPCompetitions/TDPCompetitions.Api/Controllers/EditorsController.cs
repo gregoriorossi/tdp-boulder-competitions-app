@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using TDPCompetitions.Api.Extensions;
 using TDPCompetitions.Api.Mappers;
 using TDPCompetitions.Api.ViewModels;
-using TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Editors.Requests;
+using TDPCompetitions.Api.ViewModels.Editors.Requests.AddRegistration;
 using TDPCompetitions.Api.ViewModels.Editors.Responses;
 using TDPCompetitions.Api.ViewModels.Editors.Responses.GetResultsResponse;
 using TDPCompetitions.Core.Entities;
@@ -703,7 +703,7 @@ namespace TDPCompetitions.Api.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> AddMinorToRegistration(Guid competitionId, Guid registrationId, [FromBody] AddMinorRequest model, CancellationToken cancellationToken)
+        public async Task<IActionResult> AddMinorToRegistration(Guid competitionId, Guid registrationId, [FromBody] ViewModels.Editors.Requests.AddMinorRequest model, CancellationToken cancellationToken)
         {
             Competition? competition = await _competitionsManager.GetByIdAsync(competitionId, cancellationToken);
             if (competition == null)
@@ -719,7 +719,7 @@ namespace TDPCompetitions.Api.Controllers
 
             // controllo se il minor è già registrato per questa competizione
 
-            Competitor minor = ViewModelToEntity.AddMinorRequestToCompetitor(model, competitionId, registration);
+            Competitor minor = ViewModelToEntity.AddMinorRequestToCompetitor(model, registration, competitionId);
 
             Competitor result = await _competitionsManager.AddMinorToRegistrationAsync(minor, registration, cancellationToken);
 

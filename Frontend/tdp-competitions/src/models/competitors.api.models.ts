@@ -11,6 +11,7 @@ export interface IAddCompetitorRegistrationRequest {
 	addressStreet: string;
 	addressNumber: string;
 	phoneNumber: string;
+	guardianOnly: boolean;
 	minors: IAddRegistrationMinorRequest[]
 }
 

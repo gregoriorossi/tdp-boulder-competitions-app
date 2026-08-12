@@ -64,6 +64,7 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 				<div>{ManageRegistraionsStrings.Table.Name}</div>
 				<div>{ManageRegistraionsStrings.Table.Email}</div>
 				<div>{ManageRegistraionsStrings.Table.BirthDate}</div>
+				<div>{ManageRegistraionsStrings.Table.GuardinOnly}</div>
 				<div>{ManageRegistraionsStrings.Table.Minors}</div>
 			</div>
 

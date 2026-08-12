@@ -74,9 +74,9 @@ export function LoginPage() {
 			}}>
 
 			<Typography variant="h5" component="h2">
-				<LoginIcon />&nbsp;{LoginPageStrings.Title}
+				{LoginPageStrings.Title}
 			</Typography>
-			
+			<p>{LoginPageStrings.Subtitle}</p>
 
 			<FormControl error={!!errors.competitionId} className={classNames.select}>
 				<InputLabel>{LoginPageStrings.Form.Competition}</InputLabel>
@@ -112,8 +112,6 @@ export function LoginPage() {
 				error={!!errors.email}
 				fullWidth
 				helperText={errors.email?.message} />
-
-			<p>{LoginPageStrings.Subtitle}</p>
 
 			<Button type="submit" variant="contained">
 				{LoginPageStrings.Form.Submit}

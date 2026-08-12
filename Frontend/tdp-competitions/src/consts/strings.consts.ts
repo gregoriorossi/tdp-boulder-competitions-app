@@ -18,8 +18,8 @@ export const STRINGS = {
 			}
 		},
 		CompetitorsLoginPage: {
-			Title: 'Accedi alla tua area personale',
-			Subtitle: 'Seleziona la gara a cui vuoi accedere e inserisci la tua email di registrazione per visualizzare i tuoi dati e i tuoi blocchi',
+			Title: 'Accedi alla gara',
+			Subtitle: 'Seleziona la gara e inserisci la tua email di registrazione per visualizzare i tuoi dati e i tuoi blocchi',
 			Form: {
 				Email: 'Email',
 				Competition: 'Gara',
@@ -102,6 +102,7 @@ export const STRINGS = {
 					Email: 'Email',
 					BirthDate: 'Data di nascita',
 					Minors: 'Minori',
+					GuardinOnly: 'Accompagnatore',
 					RegistrationRow: {
 						AddMinor: 'Aggiungi minore'
 					}
@@ -190,7 +191,7 @@ export const STRINGS = {
 		},
 		Registration: {
 			TitleNew: 'Aggiungi registrazione',
-			TitleEdit: (fullName: string) => `Vuoi modificare la prenotazione di ${fullName}?`,
+			TitleEdit: (fullName: string) => `Vuoi modificare la registrazione di ${fullName}?`,
 			Fields: {
 				FirstName: 'Nome',
 				LastName: 'Cognome',
@@ -203,7 +204,9 @@ export const STRINGS = {
 				AddressProvince: 'Provincia di residenza',
 				AddressStreet: 'Via di residenza',
 				AddressNumber: 'Numero civico di residenza',
-				PhoneNumber: 'Numero di telefono'
+				PhoneNumber: 'Numero di telefono',
+				GuardianOnlyEditors: 'Solo accompagnatore (non considerato come un/a partecipante)',
+				GuardianOnlyCompetitors: 'Solo accompagnatore (non parteciperò alla gara)',
 			},
 			Errors: {
 				Email: 'Il valore inserito deve essere una email'
@@ -268,7 +271,7 @@ export const STRINGS = {
 		},
 		DeleteRegistration: {
 			Title: (email: string) => `Vuoi eliminare la registrazione di ${email}?`,
-			Content: 'Una volta eliminata, non sarà possibile recuperare i dati associati alla persona e ai minori legati alla prenotazione'
+			Content: 'Una volta eliminata, non sarà possibile recuperare i dati associati alla persona e ai minori legati alla registrazione'
 		},
 		DeleteSpecialProblem: {
 			Title: (title: string) => `Vuoi eliminare il blocco ${title}?`,

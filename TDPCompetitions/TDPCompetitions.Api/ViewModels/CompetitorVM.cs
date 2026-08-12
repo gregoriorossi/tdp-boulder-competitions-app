@@ -27,7 +27,7 @@ namespace TDPCompetitions.Api.ViewModels
 
         public string AddressNumber { get; set; } = default!;
 
-        public string PhoneNumber { get; set; } = default!;
+        public bool GuardianOnly { get; set; }
 
         public bool IsMinor { get; set; }
 
@@ -49,8 +49,9 @@ namespace TDPCompetitions.Api.ViewModels
             AddressStreet = competitor.AddressStreet;
             AddressNumber = competitor.AddressNumber;
             IsMinor = competitor.IsMinor;
+            GuardianOnly = competitor.GuardianOnly;
             CompetitionId = competitor.CompetitionId;
             RegistrationId = competitor.RegistrationId;
         }
-    }
+    }   
 }

@@ -118,6 +118,7 @@ export interface ICompetitorResponse {
 	isMinor: boolean;
 	competitionId: string;
 	registrationId: string;
+	guardianOnly: boolean;
 }
 
 export interface IRegistrationRequest {
@@ -134,6 +135,7 @@ export interface IRegistrationRequest {
 	addressStreet: string;
 	addressNumber: string;
 	phoneNumber: string;
+	guardianOnly: boolean;
 }
 
 export interface IMinorRequest {
@@ -162,7 +164,8 @@ export interface IUpdateCompetitorRegistrationRequest {
 	addressProvince: string;
 	addressStreet: string;
 	addressNumber: string;
-	phoneNumber: string;
+	phoneNumber: string;	
+	guardianOnly: boolean;
 	minors: IUpdateRegistrationMinorRequest[]
 }
 

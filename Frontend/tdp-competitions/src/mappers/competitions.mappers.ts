@@ -63,7 +63,8 @@ export default class CompetitionsMappers {
 			gender: numberToGender(value.gender),
 			isMinor: value.isMinor,
 			lastName: value.lastName,
-			registrationId: value.registrationId
+			registrationId: value.registrationId,
+			guardianOnly: value.guardianOnly
 		};
 	}
 

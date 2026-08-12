@@ -49,6 +49,7 @@ export const registrationSchema = yup.object({
 	phoneNumber: yup.string()
 		.required(Errors.Mandatory)
 		.min(7, (Errors.MinLength(7))),
+	guardianOnly: yup.boolean(),	
 	acceptPrivacy: yup.boolean()
 		.oneOf([true], Errors.PrivacyMandatory)
 });
@@ -108,6 +109,7 @@ export interface IRegistrationForm {
 	addressStreet: string;
 	addressNumber: string;
 	phoneNumber: string;
+	guardianOnly?: boolean;
 }
 
 export interface IMinorForm {

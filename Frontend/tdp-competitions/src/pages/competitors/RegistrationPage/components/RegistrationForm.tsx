@@ -1,4 +1,4 @@
-import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Snackbar, TextField, Typography } from "@mui/material";
+import { Box, Button, Checkbox, FormControl, FormControlLabel, InputLabel, MenuItem, Select, Switch, TextField, Typography } from "@mui/material";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Controller, useForm } from "react-hook-form";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
@@ -67,6 +67,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			birthPlace: data.birthPlace,
 			birthProvince: data.birthProvince,
 			phoneNumber: data.phoneNumber,
+			guardianOnly: data.guardianOnly ?? false,
 			minors: minors
 		};
 
@@ -212,6 +213,29 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 				error={!!errors.phoneNumber}
 				helperText={errors.phoneNumber?.message} />
 
+			{
+				minors.length > 0 &&
+				<FormControl>
+					<Controller
+						name="guardianOnly"
+						defaultValue={false}
+						control={control}
+						render={({ field }) => (
+							<>
+								<FormControlLabel
+									label={FieldsStrings.GuardianOnlyCompetitors}
+									control={
+										<Switch
+											checked={field.value}
+											onChange={(_, checked) => field.onChange(checked)}
+										/>
+									} />
+							</>
+						)}
+					/>
+				</FormControl>
+			}
+
 			<Controller
 				name="acceptPrivacy"
 				control={control}
@@ -222,8 +246,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 							control={
 								<Checkbox
 									{...field}
-									checked={field.value}
-								/>
+									checked={field.value} />
 							}
 							label={<PrivacyText
 								fileId={props.privacyFileUrl}

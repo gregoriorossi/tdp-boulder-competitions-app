@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TDPCompetitions.Api.Attributes;
 
 namespace TDPCompetitions.Api.ViewModels.Editors.Requests;
 
@@ -14,6 +15,7 @@ public class UpdateRegistrationRequest
     public required string LastName { get; set; }
 
     [Required]
+    [AdultAge(ErrorMessage = "The competitor must be 18 years old or older.")]
     public DateTime BirthDate { get; set; }
 
     [Required]

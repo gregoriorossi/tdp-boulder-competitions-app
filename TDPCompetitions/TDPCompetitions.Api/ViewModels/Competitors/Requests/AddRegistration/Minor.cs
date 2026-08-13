@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TDPCompetitions.Api.Attributes;
 
 namespace TDPCompetitions.Api.ViewModels.Competitors.Requests.AddRegistration;
 
@@ -11,6 +12,7 @@ public sealed record class Minor
     public required string LastName { get; set; } = default!;
 
     [Required]
+    [MinorAge(ErrorMessage = "The minor must be under 18 years old.")]
     public DateTime BirthDate { get; set; }
 
     [Required]

@@ -148,7 +148,7 @@ namespace TDPCompetitions.Infrastracture.Managers
                 competition.ProblemGroups.Add(g);
             });
 
-            var existingGroupsById = competition.ProblemGroups.ToDictionary(f => f.Id);
+            var existingGroupsById = competition.ProblemGroups.Where(g => g.Id != Guid.Empty).ToDictionary(f => f.Id);
             foreach (var updatedSection in updatedGroups.ToList())
             {
                 if (existingGroupsById.TryGetValue(updatedSection.Id, out var groupToUpdate))

@@ -73,6 +73,7 @@ namespace TDPCompetitions.Infrastracture.Data
                 entity.HasKey(c => c.Id);
                 entity.Property(c => c.FirstName).IsRequired();
                 entity.Property(c => c.LastName).IsRequired();
+                entity.Property(c => c.RegistrationId).IsRequired(false);
                 entity.HasOne(c => c.Registration)
                 .WithOne(r => r.Competitor)
                 .HasForeignKey<Registration>(r => r.CompetitorId);

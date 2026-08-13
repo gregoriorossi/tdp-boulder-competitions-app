@@ -33,7 +33,7 @@ namespace TDPCompetitions.Api.ViewModels
 
         public Guid CompetitionId { get; set; }
 
-        public Guid RegistrationId { get; set; }
+        public Guid? RegistrationId { get; set; }
 
         public CompetitorVM(Competitor competitor)
         {

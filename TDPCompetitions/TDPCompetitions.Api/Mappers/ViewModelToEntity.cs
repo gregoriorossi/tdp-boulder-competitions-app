@@ -42,8 +42,8 @@ namespace TDPCompetitions.Api.Mappers
 
         internal static Registration AddRegistrationRequestToRegistration(AddRegistrationRequest model, Guid competitionId)
         {
-            Competitor competitor = AddRegistrationVMToCompetitor(model, model.Minors.Any());
-            ICollection <Competitor> minors = model.Minors.Select(AddMinorVMToCompetitor).ToList();
+            Competitor competitor = AddRegistrationVMToCompetitor(model, model.Minors.Any(), competitionId);
+            ICollection <Competitor> minors = model.Minors.Select(m => AddMinorVMToCompetitor(m, competitionId)).ToList();
 
             return new Registration
             {
@@ -149,10 +149,11 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        private static Competitor AddRegistrationVMToCompetitor(AddRegistrationRequest model, bool hasMinors)
+        private static Competitor AddRegistrationVMToCompetitor(AddRegistrationRequest model, bool hasMinors, Guid competitionId)
         {
             return new Competitor
             {
+                CompetitionId = competitionId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 IsMinor = false,
@@ -206,13 +207,14 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        private static Competitor AddMinorVMToCompetitor(Minor model)
+        private static Competitor AddMinorVMToCompetitor(Minor model, Guid competitionId)
         {
             return new Competitor
             {
+                CompetitionId = competitionId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                IsMinor = false,
+                IsMinor = true,
                 Gender = model.Gender.IntToGender(),
                 BirthProvince = model.BirthProvince,
                 AddressCity = model.AddressCity,

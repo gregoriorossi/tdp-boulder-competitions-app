@@ -32,11 +32,11 @@ public class Competitor : BaseEntity<Guid>
 
     public Competition Competition { get; set; } = default!;
 
-    public Guid RegistrationId { get; set; }
+    public Guid? RegistrationId { get; set; }
 
     public bool GuardianOnly { get; set; }
 
-    public Registration Registration { get; set; } = default!;
+    public Registration? Registration { get; set; }
 
     public void Update(Competitor competitor)
     {

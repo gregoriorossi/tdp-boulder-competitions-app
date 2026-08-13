@@ -12,7 +12,7 @@ using TDPCompetitions.Infrastracture.Data;
 namespace TDPCompetitions.Infrastracture.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260813063456_InitialCreate")]
+    [Migration("20260813151123_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -130,10 +130,10 @@ namespace TDPCompetitions.Infrastracture.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("MinorRegistrationId")
+                    b.Property<Guid?>("MinorRegistrationId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("RegistrationId")
+                    b.Property<Guid?>("RegistrationId")
                         .HasColumnType("uuid");
 
                     b.HasKey("Id");
@@ -358,8 +358,7 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     b.HasOne("TDPCompetitions.Core.Entities.Registration", null)
                         .WithMany("Minors")
                         .HasForeignKey("MinorRegistrationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Competition");
                 });
@@ -427,8 +426,7 @@ namespace TDPCompetitions.Infrastracture.Migrations
 
             modelBuilder.Entity("TDPCompetitions.Core.Entities.Competitor", b =>
                 {
-                    b.Navigation("Registration")
-                        .IsRequired();
+                    b.Navigation("Registration");
                 });
 
             modelBuilder.Entity("TDPCompetitions.Core.Entities.ProblemsGroup", b =>

@@ -172,9 +172,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     AddressNumber = table.Column<string>(type: "text", nullable: false),
                     IsMinor = table.Column<bool>(type: "boolean", nullable: false),
                     CompetitionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    RegistrationId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RegistrationId = table.Column<Guid>(type: "uuid", nullable: true),
                     GuardianOnly = table.Column<bool>(type: "boolean", nullable: false),
-                    MinorRegistrationId = table.Column<Guid>(type: "uuid", nullable: false)
+                    MinorRegistrationId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {

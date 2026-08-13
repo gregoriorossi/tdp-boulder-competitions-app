@@ -17,7 +17,7 @@ public sealed record CompetitorResponse(
     string AddressNumber,
     bool IsMinor,
     Guid CompetitionId,
-    Guid RegistrationId)
+    Guid? RegistrationId)
 {
     public CompetitorResponse(Competitor competitor)
         : this(

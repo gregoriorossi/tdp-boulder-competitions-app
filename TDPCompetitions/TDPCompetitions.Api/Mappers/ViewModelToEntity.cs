@@ -78,7 +78,7 @@ namespace TDPCompetitions.Api.Mappers
 
         internal static Registration AddRegistrationRequestToRegistration(ViewModels.Editors.Requests.AddRegistration.AddRegistrationRequest model, Guid competitionId)
         {
-            Competitor competitor = AddRegistrationVMToCompetitor(model);
+            Competitor competitor = AddRegistrationVMToCompetitor(model, competitionId);
             ICollection<Competitor> minors = model.Minors.Select(m => AddMinorRequestToCompetitor(m, competitionId)).ToList();
 
             return new Registration
@@ -169,10 +169,11 @@ namespace TDPCompetitions.Api.Mappers
             };
         }
 
-        private static Competitor AddRegistrationVMToCompetitor(ViewModels.Editors.Requests.AddRegistration.AddRegistrationRequest model)
+        private static Competitor AddRegistrationVMToCompetitor(ViewModels.Editors.Requests.AddRegistration.AddRegistrationRequest model, Guid competitionId)
         {
             return new Competitor
             {
+                CompetitionId = competitionId,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
                 IsMinor = false,

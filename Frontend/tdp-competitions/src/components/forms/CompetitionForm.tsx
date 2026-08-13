@@ -5,10 +5,11 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { STRINGS } from "../../consts/strings.consts";
 import { updateCompetitionSchema } from "../../form-schemas/competitions.schemas";
 import { useRef } from "react";
+import TextAlign from '@tiptap/extension-text-align';
 
 import {
 	MenuButtonBold,
-	MenuButtonBulletedList,
+	MenuButtonBulletedList, 
 	MenuButtonImageUpload,
 	MenuButtonItalic,
 	MenuControlsContainer,
@@ -16,7 +17,9 @@ import {
 	MenuSelectHeading,
 	ResizableImage,
 	RichTextEditor,
-	
+	MenuButtonAlignCenter,
+	MenuButtonAlignLeft,
+	MenuButtonAlignRight,
 	type RichTextEditorRef,
 } from "mui-tiptap";
 import StarterKit from '@tiptap/starter-kit';
@@ -45,6 +48,9 @@ const descriptionEditorMenuControls = <MenuControlsContainer>
 	<MenuButtonBold />
 	<MenuButtonItalic />
 	<MenuButtonBulletedList />
+	<MenuButtonAlignLeft />
+	<MenuButtonAlignCenter />
+	<MenuButtonAlignRight />
 	<MenuButtonImageUpload
 		onUploadFiles={async (files) => {
 			const base64Promises = files.map(async (file) => {
@@ -63,6 +69,9 @@ const textEditorMenuControls = <MenuControlsContainer>
 	<MenuButtonBold />
 	<MenuButtonItalic />
 	<MenuButtonBulletedList />
+	<MenuButtonAlignLeft />
+	<MenuButtonAlignCenter />
+	<MenuButtonAlignRight />
 </MenuControlsContainer>;
 
 export function CompetitionForm(props: ICompetitionFormProps) {
@@ -202,7 +211,12 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 					<>
 						<RichTextEditor
 							ref={rteRef}
-							extensions={[StarterKit, ResizableImage.configure({ inline: true, allowBase64: true })]}
+							extensions={[
+								StarterKit,
+								TextAlign.configure({
+									types: ['heading', 'paragraph'],
+								}),
+								ResizableImage.configure({ inline: true, allowBase64: true })]}
 							className={`${classNames.fullWidth} ${classNames.textEditor}`}
 							content={value}
 							onUpdate={({ editor }) => {
@@ -242,7 +256,10 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 					<>
 						<RichTextEditor
 							ref={rteRef}
-							extensions={[StarterKit]}
+							extensions={[StarterKit,
+								TextAlign.configure({
+								types: ['heading', 'paragraph'],
+							})]}
 							content={value}
 							className={`${classNames.fullWidth} ${classNames.textEditor}`}
 							onUpdate={({ editor }) => {
@@ -276,7 +293,9 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 					<>
 						<RichTextEditor
 							ref={rteRef}
-							extensions={[StarterKit]}
+							extensions={[StarterKit, TextAlign.configure({
+								types: ['heading', 'paragraph'],
+							})]}
 							content={value}
 							className={`${classNames.fullWidth} ${classNames.textEditor}`}
 							onUpdate={({ editor }) => {

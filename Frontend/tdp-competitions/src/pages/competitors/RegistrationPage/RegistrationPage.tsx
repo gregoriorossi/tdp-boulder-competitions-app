@@ -1,5 +1,5 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { Alert, Snackbar } from "@mui/material";
+import { Alert, AlertTitle, Button } from "@mui/material";
 import { RegistrationForm } from "./components/RegistrationForm";
 import { Routes } from "../../../consts/routes.consts";
 import type { ICompetitionInfo } from "../../../models/competitions.models";
@@ -16,7 +16,7 @@ export function RegistrationPage() {
 	const params = useParams();
 	const navigate = useNavigate();
 	const slug: string = params.slug!;
-	const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+	const [successMessageOpen, setSuccessMessageOpen] = useState<boolean>(false);
 
 	const { data: response, isLoading } = useCompetitionBySlug(slug);
 
@@ -31,39 +31,51 @@ export function RegistrationPage() {
 
 	const competition: ICompetitionInfo = response.value as ICompetitionInfo;
 
-	const handleCloseSnackbar = () => {
-		setSnackbarOpen(false);
-	};
-
 	return <div className={classNames.registrationsPage}>
 		<h1>{competition.title}</h1>
 
 		<div dangerouslySetInnerHTML={{ __html: competition.description }}></div>
 
 		{
-			!competition.registrationsOpen ?
-				<Alert severity="warning">
-					{PageStrings.RegistrationsClosed}
-				</Alert>
-				: <RegistrationForm
-					competitionId={competition.id}
-					privacyFileUrl={competition.privacyAttachmentId}
-					privacyText={competition.privacyText}
-					onRegistration={() => setSnackbarOpen(true)} />
+			!competition.registrationsOpen &&
+			<Alert severity="warning">
+				{PageStrings.RegistrationsClosed}
+			</Alert>
 		}
 
 		{
-			<Snackbar
-				open={snackbarOpen}
-				autoHideDuration={10000}
-				key="success-snackbar"
-				onClose={handleCloseSnackbar}
-				anchorOrigin={{ vertical: 'top', horizontal: 'center' }}>
-				<Alert onClose={handleCloseSnackbar} severity="success" sx={{ width: '100%' }}>
-					<h3>{PageStrings.SuccessMessage.Title}</h3>
+			competition.registrationsOpen && !successMessageOpen &&
+			<RegistrationForm
+				competitionId={competition.id}
+				privacyFileUrl={competition.privacyAttachmentId}
+				privacyText={competition.privacyText}
+				onRegistration={() => setSuccessMessageOpen(true)} />
+		}
+
+		{
+			successMessageOpen &&
+			<Alert
+				icon={false}
+				sx={{
+					justifyContent: 'center',
+					'& .MuiAlert-message': {
+						textAlign: 'center',
+					},
+				}}
+				severity="success" className={classNames.successMessage}>
+				<div>
+					<AlertTitle>{PageStrings.SuccessMessage.Title}</AlertTitle>
 					<p>{PageStrings.SuccessMessage.Content}</p>
-				</Alert>
-			</Snackbar>
+
+					<Button
+						title={PageStrings.SuccessMessage.NewRegistration}
+						variant="contained"
+						color="success"
+						onClick={() => { setSuccessMessageOpen(false) }}>
+						{PageStrings.SuccessMessage.NewRegistration}
+					</Button>
+				</div>
+			</Alert>
 		}
 	</div>
 }

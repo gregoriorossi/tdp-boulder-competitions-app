@@ -153,7 +153,8 @@ export const STRINGS = {
 			},
 			SuccessMessage: {
 				Title: 'Registrazione completata',
-				Content: 'Grazie per la registrazione! A breve riceverai una mail di conferma.'
+				Content: 'Grazie per la registrazione! A breve riceverai una mail di conferma.',
+				NewRegistration: 'Fai una nuova registrazione'
 			}
 		}
 	},

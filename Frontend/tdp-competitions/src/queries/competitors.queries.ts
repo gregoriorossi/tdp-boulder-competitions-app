@@ -5,7 +5,7 @@ import { queryClient, queryKeys } from "../api/queryClient";
 import type { IResponse } from "../models/api.models";
 import type { Gender } from "../models/competitions.models";
 import CompetitorsMappers from "../mappers/competitors.mappers";
-import type { ICompetition, IDeleteRegistrationData, IGetCompetitionAndRegistrationDataBySlugModel, ISendProblemData, IUnsendProblemData } from "../models/competitors.models";
+import type { ICompetition, IDeleteRegistrationData, IGetCompetitionAndRegistrationDataBySlugModel, ISendProblemData, ISendSpecialProblemData, IUnsendProblemData, IUnsendSpecialProblemData } from "../models/competitors.models";
 
 export const useAddCompetitorRegistration = (competitionId: string) => {
 	return useMutation({
@@ -106,6 +106,24 @@ export const useSendProblem = (competitionId: string, competitorId: string) => {
 export const useUnsendProblem = (competitionId: string, competitorId: string) => {
 	return useMutation({
 		mutationFn: async (sendProblemRequest: IUnsendProblemData) => CompetitorsService.unsendProblem(sendProblemRequest),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitors.problems.sent(competitionId, competitorId) });
+		}
+	});
+}
+
+export const useSendSpecialProblem = (competitionId: string, competitorId: string) => {
+	return useMutation({
+		mutationFn: async (sendProblemRequest: ISendSpecialProblemData) => CompetitorsService.sendSpecialProblem(sendProblemRequest),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.competitors.problems.sent(competitionId, competitorId) });
+		}
+	});
+}
+
+export const useUnsendSpecialProblem = (competitionId: string, competitorId: string) => {
+	return useMutation({
+		mutationFn: async (sendProblemRequest: IUnsendSpecialProblemData) => CompetitorsService.unsendSpecialProblem(sendProblemRequest),
 		onSuccess: () => {
 			queryClient.invalidateQueries({ queryKey: queryKeys.competitors.problems.sent(competitionId, competitorId) });
 		}

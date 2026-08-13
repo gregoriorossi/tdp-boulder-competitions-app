@@ -55,6 +55,17 @@ export interface IUnsendProblemData {
 	sentProblemId: string;
 }
 
+export interface ISendSpecialProblemData {
+	competitionId: string;
+	specialProblemId: string;
+	competitorId: string;
+}
+
+export interface IUnsendSpecialProblemData {
+	competitionId: string;
+	sentSpecialProblemId: string;
+}
+
 export interface IDeleteRegistrationData {
 	competitionId: string;
 	registrationId: string;

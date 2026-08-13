@@ -45,7 +45,7 @@ export function Problem(props: IProblemProps) {
 	//setSnackbarOpen(true);
 		}
 	}
-	console.log("sent", sent);
+
 	return <div className={classNames.problem} >
 		<div className={classNames.problemName}
 			style={{ backgroundColor: color, color: textColor, borderColor: borderColor }}>

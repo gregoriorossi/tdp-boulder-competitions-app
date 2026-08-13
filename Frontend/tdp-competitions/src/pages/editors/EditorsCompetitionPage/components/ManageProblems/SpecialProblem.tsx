@@ -9,6 +9,7 @@ import { STRINGS } from "../../../../../consts/strings.consts";
 import type { ISpecialProblem } from "../../../../../models/competitions.models";
 import { useDeleteSpecialProblem } from "../../../../../queries/competitions.queries";
 import classNames from "../../../../../App.module.scss";
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 
 interface ISpecialProblemProps {
 	problem: ISpecialProblem;
@@ -40,6 +41,7 @@ export function SpecialProblem(props: ISpecialProblemProps) {
 	const errorMessageStr: string | null = errorMessage ?? (deleteError ? Errors.Generic : null);
 
 	return <div className={classNames.specialProblem}>
+		<EmojiEventsIcon />&nbsp;
 		{props.problem.name}&nbsp;
 		<IconButton
 			onClick={() => setIsProblemModalOpen(true)}

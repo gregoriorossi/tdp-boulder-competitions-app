@@ -6,7 +6,7 @@ import type { IResponse } from "../models/api.models";
 import type { ILoginCompetitorResponse } from "../models/auth.api.models";
 import type { Gender } from "../models/competitions.models";
 import type { IAddCompetitorRegistrationRequest, ICompetitionProblemsResponse, IGetAllCompetitionsResponse, IGetCompetitionAndRegistrationDataBySlug, IGetCompetitionResponse, IGetRankingResponse, IGetSentProblemsResponse, ISendProblemRequest, ISendProblemResponse } from "../models/competitors.api.models";
-import type { ISendProblemData, IUnsendProblemData } from "../models/competitors.models";
+import type { ISendProblemData, ISendSpecialProblemData, IUnsendProblemData, IUnsendSpecialProblemData } from "../models/competitors.models";
 import StorageService from "./storage.service";
 
 export default class CompetitorsService {
@@ -59,8 +59,22 @@ export default class CompetitorsService {
 		return response.data as IResponse<ISendProblemResponse>;
 	}
 
-	public static unsendProblem = async (data: IUnsendProblemData): Promise<void> => {
-		await competitorsApi.delete(CompetitorsEndpoints.unsendProblem(data.competitionId, data.sentProblemId));
+	public static unsendProblem = async (data: IUnsendProblemData): Promise<IResponse<void>> => {
+		const response = await competitorsApi.delete(CompetitorsEndpoints.unsendProblem(data.competitionId, data.sentProblemId));
+		return response.data as IResponse<void>;
+	}
+
+	public static sendSpecialProblem = async (data: ISendSpecialProblemData): Promise<IResponse<ISendProblemResponse>> => {
+		const body: ISendProblemRequest = {
+			competitorId: data.competitorId
+		};
+		const response = await competitorsApi.post(CompetitorsEndpoints.sendSpecialProblem(data.competitionId, data.specialProblemId), body);
+		return response.data as IResponse<ISendProblemResponse>;
+	}
+
+	public static unsendSpecialProblem = async (data: IUnsendSpecialProblemData): Promise<IResponse<void>> => {
+		const response = await competitorsApi.delete(CompetitorsEndpoints.unsendSpecialProblem(data.competitionId, data.sentSpecialProblemId));
+		return response.data as IResponse<void>;
 	}
 
 	public static getLoginInfo = (): ILoginCompetitorResponse | null => {

@@ -11,6 +11,8 @@ declare const classNames: {
   readonly date: "date";
   readonly problems: "problems";
   readonly infoMessage: "infoMessage";
+  readonly specialProblems: "specialProblems";
+  readonly specialProblem: "specialProblem";
   readonly problemGroup: "problemGroup";
   readonly problem: "problem";
   readonly problemName: "problemName";
@@ -22,8 +24,6 @@ declare const classNames: {
   readonly saveButtonContainer: "saveButtonContainer";
   readonly manageResults: "manageResults";
   readonly specialProblemCell: "specialProblemCell";
-  readonly specialProblems: "specialProblems";
-  readonly specialProblem: "specialProblem";
   readonly competitors: "competitors";
   readonly table: "table";
   readonly stickyCell: "stickyCell";

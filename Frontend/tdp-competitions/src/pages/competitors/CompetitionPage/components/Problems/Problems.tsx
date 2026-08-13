@@ -8,6 +8,7 @@ import { ProblemGroup } from "./ProblemGroup";
 import { useState } from "react";
 import WarningIcon from '@mui/icons-material/Warning';
 import { STRINGS } from "../../../../../consts/strings.consts";
+import { SpecialProblems } from "./SpecialProblems";
 
 interface IProblemsProps {
 	competitionId: string;
@@ -61,12 +62,19 @@ export function Problems(props: IProblemsProps) {
 
 		{isLoadingCompetitorData ? (
 			<Spinner />
-		) : selectedCompetitor && (
+		) : selectedCompetitor && (<>
+				<SpecialProblems
+					competitorId={selectedCompetitor.id}
+					disableSending={disableSending}
+					sent={competitorData?.value?.sentSpecialProblems ?? []}
+					specialProblems={response.value.specialProblems}
+				/>
 			<ProblemGroup
 				competitorId={selectedCompetitor.id}
 				groups={response.value.problemsGroups}
 				sentProblems={competitorData?.value?.sentProblems ?? []}
 				disableSending={disableSending} />
+		</>
 		)}
 	</div>
 }

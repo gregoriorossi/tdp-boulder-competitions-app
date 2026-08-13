@@ -241,8 +241,13 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [Route("competitions/{competitionId}/problems/sends/{sentProblemId}")]
-        public async Task<IActionResult> RemoveSentProblem(Guid competitionId, Guid problemId, Guid sentProblemId, CancellationToken cancellationToken)
+        public async Task<IActionResult> RemoveSentProblem(Guid competitionId, Guid sentProblemId, CancellationToken cancellationToken)
         {
             SentProblem? sentProblem = await _problemsManager.GetSentProblemByIdAsync(sentProblemId, cancellationToken);
             if (sentProblem is null)
@@ -260,7 +265,59 @@ namespace TDPCompetitions.Api.Controllers
 
 
             await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
-            return Ok();
+            return Ok(Result.Success());
+        }
+
+        [HttpPost]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
+        [Route("competitions/{competitionId}/specialProblems/{specialProblemId}/send")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentProblemResponse>))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> SendSpecialProblem(Guid competitionId, Guid specialProblemId, [FromBody] SendSpecialProblemRequest model, CancellationToken cancellationToken)
+        {
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(competitionId, username, model.CompetitorId, cancellationToken);
+
+            if (canSend != null)
+            {
+                return Ok(canSend);
+            }
+
+            SentSpecialProblem send = new SentSpecialProblem(competitionId, model.CompetitorId, specialProblemId, DateTime.UtcNow);
+            SentSpecialProblem result = await _problemsManager.SendSpecialProblemAsync(send, cancellationToken);
+
+            var response = new SentSpecialProblemResponse(result);
+            return Ok(Result<SentSpecialProblemResponse>.Success(response));
+        }
+
+        [HttpDelete]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
+        [Route("competitions/{competitionId}/specialProblems/sends/{sentSpecialProblemId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> RemoveSentSpecialProblem(Guid competitionId, Guid sentSpecialProblemId, CancellationToken cancellationToken)
+        {
+            SentSpecialProblem? sentSpecialProblem = await _problemsManager.GetSentSpecialProblemByIdAsync(sentSpecialProblemId, cancellationToken);
+            if (sentSpecialProblem is null)
+            {
+                return NotFound(Result.Failure(SentSpecialProblemsErrors.NotFound));
+            }
+
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            Result? canSend = await CanSend(competitionId, username, sentSpecialProblem.CompetitorId, cancellationToken);
+
+            if (canSend != null)
+            {
+                return Ok(canSend);
+            }
+
+
+            await _problemsManager.DeleteSentSpecialProblemAsync(sentSpecialProblem, cancellationToken);
+            return Ok(Result.Success());
         }
 
         [HttpDelete]

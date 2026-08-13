@@ -21,6 +21,8 @@ namespace TDPCompetitions.Core.Entities
 
         public ICollection<Competitor> Minors { get; set; } = [];
 
+        public DateTime? LastWaiverDownload { get; set; }
+
         public void Update(Registration registration)
         {
             Email = registration.Email;

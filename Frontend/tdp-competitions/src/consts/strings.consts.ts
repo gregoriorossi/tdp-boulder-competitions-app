@@ -349,7 +349,7 @@ export const STRINGS = {
 	Document: 'Documento',
 	Details: 'Dettagli',
 	Print: 'Stampa',
-	PrintWaiver: 'Stampa delibera',
+	PrintWaiver: (lastDownload: Date | null) => !lastDownload ? "Stampa delibera" : `Stampa delibera (Ultimo download: ${DateUtils.ToDateTime(lastDownload)})`,
 	Edit: 'Modifica',
 	Register: 'Registrati',
 	Save: 'Salva',

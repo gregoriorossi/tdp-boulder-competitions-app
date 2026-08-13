@@ -254,5 +254,11 @@ namespace TDPCompetitions.Infrastracture.Managers
         {
             await _competitionsRepository.DeleteCompetitorAsync(competitor, cancellationToken);
         }
+
+        public async Task UpdateWaiverDownloadDate(Registration registration, DateTime now, CancellationToken cancellationToken)
+        {
+            registration.LastWaiverDownload = now;
+            await _competitionsRepository.UpdateRegistrationAsync(registration, cancellationToken);
+        }
     }
 }

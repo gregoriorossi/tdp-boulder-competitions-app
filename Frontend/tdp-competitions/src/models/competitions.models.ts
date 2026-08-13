@@ -94,6 +94,7 @@ export interface IRegistration {
 	competitionId: string;
 	competitor: ICompetitor;
 	phoneNumber: string;
+	lastWaiverDownload: Date | null;
 	minors: ICompetitor[];
 }
 

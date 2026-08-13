@@ -43,6 +43,7 @@ export default class CompetitionsMappers {
 			createdAt: new Date(value.createdAt),
 			email: value.email,
 			phoneNumber: value.phoneNumber,
+			lastWaiverDownload: value.lastWaiverDownload ? new Date(value.lastWaiverDownload) : null,
 			minors: value.minors.map(m => this.ToCompetitor(m))
 		}
 	}

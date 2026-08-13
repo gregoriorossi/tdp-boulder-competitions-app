@@ -9,6 +9,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
         Guid CompetitionId,
         CompetitorVM Competitor,
         string PhoneNumber,
+        DateTime? LastWaiverDownload,
         IReadOnlyCollection<CompetitorVM> Minors)
     {
         public RegistrationResponse(Registration model)
@@ -19,6 +20,7 @@ namespace TDPCompetitions.Api.ViewModels.Editors.Responses
                 model.CompetitionId,
                 new CompetitorVM(model.Competitor),
                 model.PhoneNumber,
+                model.LastWaiverDownload,
                 model.Minors
                     .Select(m => new CompetitorVM(m))
                     .ToList())

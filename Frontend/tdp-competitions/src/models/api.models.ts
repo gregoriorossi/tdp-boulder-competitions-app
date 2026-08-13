@@ -96,6 +96,7 @@ export interface IRegistrationResponse {
 	competitionId: string;
 	competitor: ICompetitorResponse;
 	phoneNumber: string;
+	lastWaiverDownload: string | null;
 	minors: ICompetitorResponse[];
 }
 

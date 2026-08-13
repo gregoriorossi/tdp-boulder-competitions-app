@@ -345,6 +345,10 @@
                 padding: 1rem;
                 background-color: #f7f7f7;
 
+                .alreadyDownloaded {
+                    background-color: #d32f2f
+                }
+
                 & > div {
                     text-align: center;
                     align-items: center;

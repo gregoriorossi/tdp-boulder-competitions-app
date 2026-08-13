@@ -12,7 +12,7 @@ using TDPCompetitions.Infrastracture.Data;
 namespace TDPCompetitions.Infrastracture.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260812132027_InitialCreate")]
+    [Migration("20260813063456_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -235,6 +235,9 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime?>("LastWaiverDownload")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("PhoneNumber")
                         .IsRequired()

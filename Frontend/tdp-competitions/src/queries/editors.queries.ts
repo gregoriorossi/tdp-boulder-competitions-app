@@ -39,3 +39,12 @@ export const useUnsendSpecialProblem = (competitionId: string) => {
 		}
 	});
 }
+
+export const useDownloadWaiver = (competitionId: string, registrationId: string) => {
+	return useMutation({
+		mutationFn: () => EditorsService.downloadWaiver(competitionId, registrationId),
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: queryKeys.registrations.byCompetitionId(competitionId) });
+		}
+	});
+}

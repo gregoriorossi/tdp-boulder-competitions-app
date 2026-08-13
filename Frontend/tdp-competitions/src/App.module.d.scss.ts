@@ -44,6 +44,7 @@ declare const classNames: {
   readonly addIcon: "addIcon";
   readonly manageRegistrations: "manageRegistrations";
   readonly row: "row";
+  readonly alreadyDownloaded: "alreadyDownloaded";
   readonly hasMinors: "hasMinors";
   readonly minorRow: "minorRow";
   readonly registrationsPage: "registrationsPage";

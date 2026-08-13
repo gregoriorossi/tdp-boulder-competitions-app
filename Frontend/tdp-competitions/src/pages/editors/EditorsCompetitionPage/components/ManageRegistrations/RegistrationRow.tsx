@@ -17,6 +17,7 @@ import classNames from "../../../../../App.module.scss";
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import { MinorModal } from "../../../../../components/modals/MinorModal";
 import EditorsService from "../../../../../services/editors.service";
+import { useDownloadWaiver } from "../../../../../queries/editors.queries";
 const RegistrationRowStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations.Table.RegistrationRow;
 
 interface IRegistrationRowProps {
@@ -31,6 +32,7 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 	const [deleteRegistrationDialogOpen, setDeleteRegistrationDialogOpen] = React.useState<boolean>(false);
 	const { error: deleteError, mutateAsync: deleteRegistrationAsync, isPending: isDeletePending } = useDeleteRegistration(registration.competitionId);
 	const [errorMessage, setErrorMessage] = React.useState<string | null>(null);
+	const { mutateAsync: downloadWaiverAsync } = useDownloadWaiver(registration.competitionId, registration.id);
 
 	const fullName: string = buildFullName(registration.competitor);
 	const hasMinors: boolean = registration.minors.length > 0;
@@ -71,10 +73,11 @@ export function RegistrationRow(props: IRegistrationRowProps) {
 						<DeleteIcon />
 					</Button>
 					<Button
-						title={STRINGS.PrintWaiver}
+						title={STRINGS.PrintWaiver(registration.lastWaiverDownload)}
+						className={registration.lastWaiverDownload ? classNames.alreadyDownloaded : ''}
 						onClick={async (e) => {
 							e.stopPropagation();
-							await EditorsService.downloadWaiver(registration.competitionId, registration.id);
+							await downloadWaiverAsync();
 						}}><PrintIcon />
 					</Button>
 					<Button

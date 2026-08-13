@@ -2,33 +2,33 @@
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Models;
 
-namespace TDPCompetitions.Core.Interfaces.Managers
+namespace TDPCompetitions.Core.Interfaces.Managers;
+
+public interface ICompetitionsManager
 {
-    public interface ICompetitionsManager
-    {
-        Task<ICollection<Competition>> GetAllCompetitionsAsync(CancellationToken cancellationToken);
-        Task<bool> CompetitionExists(Guid id, CancellationToken cancellationToken);
-        Task<Competition> AddAsync(Competition competition, CancellationToken cancellationToken);
-        Task DeleteAsync(Competition competition, CancellationToken cancellationToken);
-        Task<Competition?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-        Task<Competition?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
-        Task<bool> IsSlugAvailableAsync(Competition competition, CancellationToken cancellationToken);
-        Task<Competition> UpdateAsync(Competition updateCompetition, CancellationToken cancellationToken);
-        Task<Competition> UpdateCompetitionStatusAsync(Guid competitionId, CompetitionStatus status, CancellationToken cancellationToken);
-        Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId, CancellationToken cancellationToken);
-        Task<bool> IsCompetitorRegisteredAsync(string competitorEmail, Guid competitionId, CancellationToken cancellationToken);
-        Task<Registration> AddRegistrationAsync(Registration registration, CancellationToken cancellationToken);
-        Task<Registration> UpdateRegistrationAsync(Registration registration, Registration registrationToUpdate, CancellationToken cancellationToken);
-        Task<Competitor> AddMinorToRegistrationAsync(Competitor competitor, Registration registration, CancellationToken cancellationToken);
-        Task<Competitor> UpdateMinorToRegistrationAsync(Competitor minor, Competitor minorToUpdate, Registration registration, CancellationToken cancellationToken);
-        Task<Registration?> GetRegistrationByIdAsync(Guid registrationId, CancellationToken cancellationToken);
-        Task<Registration?> GetRegistrationByEmailAsync(Guid competitionId, string email, CancellationToken cancellationToken);
-        Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken);
-        Task<Competitor?> GetCompetitorAsync(Guid competitorId, CancellationToken cancellationToken);
-        Task<Competitor> UpdateCompetitorAsync(Competitor competitorUpdated, CancellationToken cancellationToken);
-        Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, Gender gender, CancellationToken cancellationToken);
-        Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken);
-        Task<ICollection<Registration>> GetRegistrationsAsync(Guid id, CancellationToken cancellationToken);
-        Task DeleteCompetitorAsync(Competitor competitor, CancellationToken cancellationToken);
-    }
+    Task<ICollection<Competition>> GetAllCompetitionsAsync(CancellationToken cancellationToken);
+    Task<bool> CompetitionExists(Guid id, CancellationToken cancellationToken);
+    Task<Competition> AddAsync(Competition competition, CancellationToken cancellationToken);
+    Task DeleteAsync(Competition competition, CancellationToken cancellationToken);
+    Task<Competition?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task<Competition?> GetBySlugAsync(string slug, CancellationToken cancellationToken);
+    Task<bool> IsSlugAvailableAsync(Competition competition, CancellationToken cancellationToken);
+    Task<Competition> UpdateAsync(Competition updateCompetition, CancellationToken cancellationToken);
+    Task<Competition> UpdateCompetitionStatusAsync(Guid competitionId, CompetitionStatus status, CancellationToken cancellationToken);
+    Task<bool> IsCompetitorRegisteredAsync(Guid competitorId, Guid competitionId, CancellationToken cancellationToken);
+    Task<bool> IsCompetitorRegisteredAsync(string competitorEmail, Guid competitionId, CancellationToken cancellationToken);
+    Task<Registration> AddRegistrationAsync(Registration registration, CancellationToken cancellationToken);
+    Task<Registration> UpdateRegistrationAsync(Registration registration, Registration registrationToUpdate, CancellationToken cancellationToken);
+    Task<Competitor> AddMinorToRegistrationAsync(Competitor competitor, Registration registration, CancellationToken cancellationToken);
+    Task<Competitor> UpdateMinorToRegistrationAsync(Competitor minor, Competitor minorToUpdate, Registration registration, CancellationToken cancellationToken);
+    Task<Registration?> GetRegistrationByIdAsync(Guid registrationId, CancellationToken cancellationToken);
+    Task<Registration?> GetRegistrationByEmailAsync(Guid competitionId, string email, CancellationToken cancellationToken);
+    Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken);
+    Task<Competitor?> GetCompetitorAsync(Guid competitorId, CancellationToken cancellationToken);
+    Task<Competitor> UpdateCompetitorAsync(Competitor competitorUpdated, CancellationToken cancellationToken);
+    Task<ICollection<RankingCompetitor>> GetRankingAsync(Guid competitionId, Gender gender, CancellationToken cancellationToken);
+    Task<ICollection<Competitor>> GetCompetitorsAsync(Guid competitionId, CancellationToken cancellationToken);
+    Task<ICollection<Registration>> GetRegistrationsAsync(Guid id, CancellationToken cancellationToken);
+    Task DeleteCompetitorAsync(Competitor competitor, CancellationToken cancellationToken);
+    Task UpdateWaiverDownloadDate(Registration registration, DateTime now, CancellationToken cancellationToken);
 }

@@ -243,6 +243,8 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result.Failure(RegistrationsErrors.NotFound));
             }
 
+            await _competitionsManager.UpdateWaiverDownloadDate(registration, DateTime.Now, cancellationToken);
+
             var result = _exportService.CreateWaiver(new List<Registration> {registration}, competition);
 
             string timestamp = DateTime.Now.ToString(Constants.DATE_TIME_FILE_EXPORT_FORMAT);

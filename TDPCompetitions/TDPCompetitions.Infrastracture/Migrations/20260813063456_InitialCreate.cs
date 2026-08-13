@@ -196,7 +196,8 @@ namespace TDPCompetitions.Infrastracture.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     PhoneNumber = table.Column<string>(type: "text", nullable: false),
                     CompetitionId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CompetitorId = table.Column<Guid>(type: "uuid", nullable: false)
+                    CompetitorId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LastWaiverDownload = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {

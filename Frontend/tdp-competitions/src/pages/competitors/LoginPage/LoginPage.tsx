@@ -1,7 +1,6 @@
 import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import classNames from "../../../App.module.scss";
 import { STRINGS } from "../../../consts/strings.consts";
-import LoginIcon from '@mui/icons-material/Login';
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useCompetitorLogin } from "../../../queries/auth.queries";
 import { competitorLoginFormSchema } from "../../../form-schemas/auth.schemas";

@@ -43,6 +43,8 @@ namespace TDPCompetitions.Infrastracture.Repositories
         public async Task DeleteRegistrationAsync(Registration registration, CancellationToken cancellationToken)
         {
             _appDbContext.Registrations.Remove(registration);
+            _appDbContext.Competitors.Remove(registration.Competitor);
+            _appDbContext.Competitors.RemoveRange(registration.Minors);
             await _appDbContext.SaveChangesAsync(cancellationToken);
         }
 

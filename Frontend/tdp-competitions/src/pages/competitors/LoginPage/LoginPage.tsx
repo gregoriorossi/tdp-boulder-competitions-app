@@ -42,7 +42,7 @@ export function LoginPage() {
 		});
 
 
-		if (result) {
+		if (result?.isSuccess) {
 			const slug = useCompetitionsResponse?.value?.find(c => c.id === data.competitionId)?.slug;
 			navigate(Routes.Competition(slug!));
 			return;

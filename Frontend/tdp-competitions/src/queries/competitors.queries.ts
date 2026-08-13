@@ -5,12 +5,19 @@ import { queryClient, queryKeys } from "../api/queryClient";
 import type { IResponse } from "../models/api.models";
 import type { Gender } from "../models/competitions.models";
 import CompetitorsMappers from "../mappers/competitors.mappers";
-import type { ICompetition, IGetCompetitionAndRegistrationDataBySlugModel, ISendProblemData, IUnsendProblemData } from "../models/competitors.models";
+import type { ICompetition, IDeleteRegistrationData, IGetCompetitionAndRegistrationDataBySlugModel, ISendProblemData, IUnsendProblemData } from "../models/competitors.models";
 
 export const useAddCompetitorRegistration = (competitionId: string) => {
 	return useMutation({
 		mutationFn: (data: IAddCompetitorRegistrationRequest) => CompetitorsService.addCompetitorRegistration(data, competitionId),
 		onSuccess: () => {}
+	});
+}
+
+export const useDeleteRegistration = () => {
+	return useMutation({
+		mutationFn: (data: IDeleteRegistrationData) => CompetitorsService.deleteRegistration(data.competitionId, data.registrationId),
+		onSuccess: () => { }
 	});
 }
 

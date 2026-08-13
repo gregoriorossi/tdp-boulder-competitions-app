@@ -49,6 +49,7 @@ export const EditorsEndpoints = {
 
 export const CompetitorsEndpoints = {
 	addRegistration: (competitionId: string) => `/Competitors/register/${competitionId}`,
+	deleteRegistration: (competitionId: string, registrationId: string) => `/Competitors/competitions/${competitionId}/registrations/${registrationId}`,
 	getCompetitionBySlug: (slug: string) => `/Competitors/competitions/getBySlug/${slug}`,
 	getCompetitionAndRegistrationDataBySlug: (slug: string) => `/Competitors/competitions/getBySlug/${slug}/registration`,
 	getCompetitions: '/Competitors/competitions',

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TDPCompetitions.Api.Extensions;
@@ -126,8 +127,7 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result<RegistrationResponse>.Failure(CompetitionsErrors.NotFound));
             }
 
-
-            if (registration.Email != email)
+            if (!registration.IsRegistrationOwner(email))
             {
                 return Unauthorized();
             }
@@ -140,8 +140,8 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
-        [Route("competitions/{competitionId}/rankings")]
         [Authorize(Roles = Constants.Roles.COMPETITOR)]
+        [Route("competitions/{competitionId}/rankings")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<ICollection<RankingCompetitorResponse>>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -165,6 +165,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
         [Route("competitions/{competitionId}/problems")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetProblemsResponse>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -186,6 +187,7 @@ namespace TDPCompetitions.Api.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
         [Route("competitions/{competitionId}/problems/competitors/{competitorId}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<GetSentProblemsResponse>))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -215,6 +217,7 @@ namespace TDPCompetitions.Api.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
         [Route("competitions/{competitionId}/problems/{problemId}/send")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result<SentProblemResponse>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -255,19 +258,37 @@ namespace TDPCompetitions.Api.Controllers
                 return Ok(canSend);
             }
 
-            
+
             await _problemsManager.DeleteSentProblemAsync(sentProblem, cancellationToken);
             return Ok();
         }
 
         [HttpDelete]
-        [Route("register/{registrationId}")]
-        public async Task<IActionResult> DeleteRegistration(Guid registrationId, CancellationToken cancellationToken)
+        [Authorize(Roles = Constants.Roles.COMPETITOR)]
+        [Route("competitions/{competitionId}/registrations/{registrationId}")]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteRegistration(Guid competitionId, Guid registrationId, CancellationToken cancellationToken)
         {
-            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
-            if (registration == null)
+            bool competitionExists = await _competitionsManager.CompetitionExists(competitionId, cancellationToken);
+            if (!competitionExists)
             {
-                return Ok(Result<Registration>.Failure(RegistrationsErrors.NotRegistered));
+                return NotFound(Result.Failure(CompetitionsErrors.NotFound));
+            }
+
+            Registration? registration = await _competitionsManager.GetRegistrationByIdAsync(registrationId, cancellationToken);
+            if (registration is null)
+            {
+                return NotFound(Result.Failure(RegistrationsErrors.NotFound));
+            }
+
+            string username = GetUsernameFromJwtToken() ?? throw new UnauthorizedAccessException("Username not found in JWT token.");
+            if (!registration.IsRegistrationOwner(username))
+            {
+                return Unauthorized();
             }
 
             await _competitionsManager.DeleteRegistrationAsync(registration, cancellationToken);
@@ -328,8 +349,7 @@ namespace TDPCompetitions.Api.Controllers
                 return false;
             }
 
-
-            if (registration.Email != email)
+            if (!registration.IsRegistrationOwner(email))
             {
                 return false;
             }

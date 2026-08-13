@@ -27,11 +27,16 @@ export const STRINGS = {
 				Errors: {
 					EmailMandatory: 'Inserire l\'email',
 					CompetitionMandatory: 'Inserire la gara',
-					WrongCredentials: 'Email o gara non corrette'
+					WrongCredentials: 'Credenziali non corrette'
 				}
 			}
 		},
 		CompetitorCompetitionPage: {
+			DeleteRegistration: {
+				ButtonText: 'ANNULLA REGISTRAZIONE',
+				ConfirmationDialogTitle: 'Vuoi annullare la registrazione?',
+				ConfirmationDialogContent: 'Una volta annullata la registrazione non sarà più possibile accedere ai dati e i blocchi registrati verranno persi'
+			},
 			Tabs: {
 				Info: 'Informazioni',
 				Problems: 'Blocchi',

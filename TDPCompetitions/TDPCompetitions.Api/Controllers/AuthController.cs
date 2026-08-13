@@ -9,6 +9,7 @@ using TDPCompetitions.Core.Interfaces.Repositories;
 using TDPCompetitions.Core.Interfaces.Managers;
 
 using JWTConsts = TDPCompetitions.Api.Constants.Config.JWT;
+using TDPCompetitions.Core.Errors;
 
 namespace TDPCompetitions.Api.Controllers
 {
@@ -64,7 +65,7 @@ namespace TDPCompetitions.Api.Controllers
             var registration = await _competitionsManager.GetRegistrationByEmailAsync(model.CompetitionId, model.Email, cancellationToken);
             if (registration is null)
             {
-                return Unauthorized();
+                return Ok(Result.Failure(RegistrationsErrors.NotRegistered));
             }
 
             var token = TokenHelper.CreateToken(registration.Email, _configuration[JWTConsts.Key]!, _configuration[JWTConsts.Issuer]!, Constants.Roles.COMPETITOR);

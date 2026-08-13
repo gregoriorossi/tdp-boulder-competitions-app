@@ -16,6 +16,11 @@ export default class CompetitorsService {
 		return response.data as IResponse<void>;
 	}
 
+	public static deleteRegistration = async (competitionId: string, registrationId: string): Promise<IResponse<void>> => {
+		const response = await competitorsApi.delete(CompetitorsEndpoints.deleteRegistration(competitionId, registrationId));
+		return response.data as IResponse<void>;
+	}
+
 	public static getCompetitions = async (): Promise<IResponse<IGetAllCompetitionsResponse[]>> => {
 		const data = await publicApi.get(CompetitorsEndpoints.getCompetitions);
 		return data.data as IResponse<IGetAllCompetitionsResponse[]>;

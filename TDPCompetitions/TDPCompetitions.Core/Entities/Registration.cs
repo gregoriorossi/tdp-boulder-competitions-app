@@ -29,5 +29,10 @@ namespace TDPCompetitions.Core.Entities
             PhoneNumber = registration.PhoneNumber;
             Competitor.Update(registration.Competitor);
         }
+
+        public bool IsRegistrationOwner(string email)
+        {
+            return Email.Equals(email, StringComparison.OrdinalIgnoreCase);
+        }
     }
 }

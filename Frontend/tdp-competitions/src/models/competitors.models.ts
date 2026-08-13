@@ -54,3 +54,8 @@ export interface IUnsendProblemData {
 	competitionId: string;
 	sentProblemId: string;
 }
+
+export interface IDeleteRegistrationData {
+	competitionId: string;
+	registrationId: string;
+}

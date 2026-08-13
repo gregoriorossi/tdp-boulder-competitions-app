@@ -4,6 +4,7 @@ declare const classNames: {
   readonly header: "header";
   readonly logo: "logo";
   readonly container: "container";
+  readonly actionsContainer: "actionsContainer";
   readonly tabs: "tabs";
   readonly tab: "tab";
   readonly info: "info";
@@ -27,7 +28,6 @@ declare const classNames: {
   readonly table: "table";
   readonly stickyCell: "stickyCell";
   readonly rankings: "rankings";
-  readonly actionsContainer: "actionsContainer";
   readonly imagePicker: "imagePicker";
   readonly actions: "actions";
   readonly deleteButtonContainer: "deleteButtonContainer";

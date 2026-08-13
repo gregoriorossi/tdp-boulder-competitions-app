@@ -16,7 +16,6 @@ import { DateUtils } from "../../../../../utils/date.utils";
 import classNames from "../../../../../App.module.scss";
 import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import { MinorModal } from "../../../../../components/modals/MinorModal";
-import EditorsService from "../../../../../services/editors.service";
 import { useDownloadWaiver } from "../../../../../queries/editors.queries";
 const RegistrationRowStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations.Table.RegistrationRow;
 

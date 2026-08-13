@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TDPCompetitions.Api.Attributes;
 using TDPCompetitions.Core.Entities;
 using TDPCompetitions.Core.Enums;
 using TDPCompetitions.Core.Interfaces.Managers;
@@ -7,6 +8,7 @@ using TDPCompetitions.Core.Models;
 
 namespace TDPCompetitions.Api.Controllers
 {
+    [DevelopmentOnly]  // ⬅️ Attributo che rende il controller disponibile solo in dev
     [ApiController]
     [Route(Constants.DefaultApiRoute)]
     public class TestController : ControllerBase

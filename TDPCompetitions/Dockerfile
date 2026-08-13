@@ -31,6 +31,7 @@ COPY --from=build /app/publish .
 
 # Cloud Run utilizza la porta indicata dalla variabile PORT.
 ENV ASPNETCORE_URLS=http://0.0.0.0:8080
+ENV ASPNETCORE_ENVIRONMENT=Production
 
 EXPOSE 8080
 

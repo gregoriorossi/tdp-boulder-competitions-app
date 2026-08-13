@@ -678,7 +678,7 @@ namespace TDPCompetitions.Api.Controllers
 
         [HttpDelete]
         [Route("competitions/{competitionId}/registrations/{registrationId}")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Result))]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteRegistration(Guid competitionId, Guid registrationId, CancellationToken cancellationToken)
@@ -696,7 +696,7 @@ namespace TDPCompetitions.Api.Controllers
             }
 
             await _competitionsManager.DeleteRegistrationAsync(registration, cancellationToken);
-            return NoContent();
+            return Ok(Result.Success());
         }
 
         [HttpPost]

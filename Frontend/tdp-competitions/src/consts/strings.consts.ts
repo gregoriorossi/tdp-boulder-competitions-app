@@ -250,7 +250,8 @@ export const STRINGS = {
 				Title: "Il titolo della gara è obbligatorio",
 				TitleLength: "Il titolo deve essere lungo almeno 5 caratteri",
 				Date: "La data è obbligatoria",
-				DateValid: "Inserisci una data valida"
+				DateValid: "Inserisci una data valida",
+				Description: "La descrizione è obbligatoria"
 			},
 			Separators: {
 				Email: {

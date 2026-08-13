@@ -96,7 +96,7 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 		container
 		spacing={2}
 		className={classNames.competitionForm}
-		onSubmit={handleSubmit((data) => onSubmit(data))}>
+		onSubmit={handleSubmit(onSubmit)}>
 		<TextField
 			label={CompetitionStrings.Fields.Title}
 			{...register("title")}
@@ -179,7 +179,7 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 									}
 								}}
 								ampm={false}
-								format="DD/MM/YYYY HH:mm" />
+								format={STRINGS.DateFormats.DateTime} />
 
 							{errors.date && (
 								<Typography variant="caption" color="error">

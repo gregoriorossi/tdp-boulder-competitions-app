@@ -24,7 +24,8 @@ export const updateCompetitionSchema = yup.object({
 	title: yup.string()
 		.min(5, UpdateCompetitionStrings.Errors.TitleLength)
 		.required(UpdateCompetitionStrings.Errors.Title),
-	description: yup.string(),
+	description: yup.string()
+		.required(UpdateCompetitionStrings.Errors.Description),
 	emailSubject: yup
 		.string()
 		.required(STRINGS.Errors.Mandatory),
@@ -37,7 +38,8 @@ export const updateCompetitionSchema = yup.object({
 		.required(UpdateCompetitionStrings.Errors.Date)
 		.transform(converDateInForm)
 		.typeError(UpdateCompetitionStrings.Errors.DateValid),
-	privacyAttachmentText: yup.string(),
+	privacyAttachmentText: yup.string()
+		.required(STRINGS.Errors.Mandatory),
 	privacyAttachmentId: yup.string().nullable(),
 	privacyAttachment: yup
 		.mixed<File>()

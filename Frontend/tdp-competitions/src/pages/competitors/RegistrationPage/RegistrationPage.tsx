@@ -2,7 +2,6 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Alert, AlertTitle, Button } from "@mui/material";
 import { RegistrationForm } from "./components/RegistrationForm";
 import { Routes } from "../../../consts/routes.consts";
-import type { ICompetitionInfo } from "../../../models/competitions.models";
 import { Spinner } from "../../../components/Spinner";
 import { Errors } from "../../../consts/errors.consts";
 import { STRINGS } from "../../../consts/strings.consts";
@@ -29,7 +28,7 @@ export function RegistrationPage() {
 		return null;
 	}
 
-	const competition: ICompetitionInfo = response.value as ICompetitionInfo;
+	const competition = response.value;
 
 	return <div className={classNames.registrationsPage}>
 		<h1>{competition.title}</h1>

@@ -49,7 +49,9 @@ export default class CompetitorsMappers {
 			isOpen: status === CompetitionStatus.OPEN,
 			rankingsVisible: data.rankingsVisible,
 			description: data.description,
-			slug: data.slug
+			slug: data.slug,
+			privacyAttachmentId: data.privacyAttachmentId,
+			privacyText: data.privacyText
 		};
 	}
 }

@@ -43,6 +43,8 @@ export interface IGetCompetitionResponse {
 	status: number;
 	date: string;
 	id: string;
+	privacyAttachmentId: string;
+	privacyText: string;
 }
 
 export interface IGetCompetitionAndRegistrationDataBySlug {

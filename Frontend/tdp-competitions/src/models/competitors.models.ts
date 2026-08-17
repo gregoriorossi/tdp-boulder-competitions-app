@@ -10,6 +10,8 @@ export interface ICompetition {
 	status: CompetitionStatus;
 	date: Date;
 	id: string;
+	privacyAttachmentId: string;
+	privacyText: string;
 }
 
 export interface IRegistration {

@@ -1,4 +1,3 @@
-import classNames from "../../../../App.module.scss";
 import { STRINGS } from "../../../../consts/strings.consts";
 import FilesService from "../../../../services/files.service";
 
@@ -12,7 +11,7 @@ export function PrivacyText(props: IPrivacyTextProps) {
 	const { fileId, privacyText } = props;
 	const fileLink = fileId ? FilesService.getFileUrl(fileId) : null;
 
-	return <div className={classNames.privacyText}>
+	return <div>
 		<span dangerouslySetInnerHTML={{ __html: privacyText ?? STRINGS.Pages.RegistrationPage.AcceptPrivacy }}></span>
 		{
 			fileLink &&

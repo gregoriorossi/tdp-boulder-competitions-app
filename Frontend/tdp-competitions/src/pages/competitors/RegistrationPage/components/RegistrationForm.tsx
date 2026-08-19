@@ -248,9 +248,11 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 									{...field}
 									checked={field.value} />
 							}
-							label={<PrivacyText
-								fileId={props.privacyFileUrl}
-								privacyText={props.privacyText} />}
+							label={
+								<PrivacyText
+									privacyText={props.privacyText}
+									fileId={props.privacyFileUrl} />
+							}
 						/>
 
 						{errors.acceptPrivacy && (

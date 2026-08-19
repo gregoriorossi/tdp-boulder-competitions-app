@@ -428,12 +428,6 @@
             max-width: 800px;
             width: 100%;
 
-            .privacyText {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-            }
-
             .minors {
                 .header {
                     display: flex;
@@ -544,6 +538,14 @@
     padding: 2rem;
     max-height: 80vh;
     overflow-y: auto;
+
+    @media screen and (max-width: 480px) {
+        width: 350px;
+    }
+
+    @media screen and (max-width: 380px) {
+        width: 280px;
+    }
 
     .modalHeader {
         h2 {

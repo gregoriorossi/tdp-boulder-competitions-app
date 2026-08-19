@@ -13,7 +13,7 @@ import { MinorForm } from "./MinorForm";
 import { Minor } from "./Minor";
 import { STRINGS } from "../../../../consts/strings.consts";
 import { Errors } from "../../../../consts/errors.consts";
-import { registrationSchema, type IMinorForm, type IRegistrationForm } from "../../../../form-schemas/registrations.schemas";
+import { registrationSchemaCompetitors, type IMinorForm, type IRegistrationForm } from "../../../../form-schemas/registrations.schemas";
 import { GENDERS } from "../../../../models/competitions.models";
 import { genderToString } from "../../../../utils/competitions.utils";
 import { useAddCompetitorRegistration } from "../../../../queries/competitors.queries";
@@ -41,7 +41,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 	const [errorMessageState, setErrorMessageState] = useState<IErrorMessageState>({ open: false, errorCode: "" });
 
 	const { handleSubmit, register, control, formState: { errors }, reset } = useForm({
-		resolver: yupResolver(registrationSchema)
+		resolver: yupResolver(registrationSchemaCompetitors)
 	});
 
 	const [minors, setMinors] = useState<IMinorForm[]>([]);

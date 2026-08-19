@@ -4,7 +4,7 @@ import { STRINGS } from "../../consts/strings.consts";
 import classNames from "../../App.module.scss";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { registrationSchema, type IRegistrationForm } from "../../form-schemas/registrations.schemas";
+import { registrationSchemaEditors, type IRegistrationForm } from "../../form-schemas/registrations.schemas";
 import dayjs, { Dayjs } from "dayjs";
 import { genderToString } from "../../utils/competitions.utils";
 import { useAddRegistration, useUpdateRegistration } from "../../queries/registrations.queries";
@@ -25,7 +25,7 @@ interface IRegistrationFormProps {
 export function RegistrationForm(props: IRegistrationFormProps) {
 	const { registration, competitionId, onChange } = props;
 	const { handleSubmit, register, control, formState: { errors }, reset } = useForm({
-		resolver: yupResolver(registrationSchema)
+		resolver: yupResolver(registrationSchemaEditors)
 	});
 
 	const { data: addRegistrationData, error: addRegistrationError, mutateAsync: addRegistrationMutateAsync, isPending: addRegistrationIsPending } = useAddRegistration(competitionId);

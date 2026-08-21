@@ -19,7 +19,7 @@ public static class TokenHelper
             issuer: issuer,
             audience: issuer,
             claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(30),
+            expires: DateTime.UtcNow.AddMinutes(120),
             signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
         );
 

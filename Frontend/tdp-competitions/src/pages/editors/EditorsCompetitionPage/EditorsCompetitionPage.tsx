@@ -49,6 +49,9 @@ export function EditorsCompetitionPage() {
 		<div className={classNames.editorsCompetitionPage}>
 			<ActionsContainer competition={competition!} />
 			<Tabs value={tabValue}
+				variant="scrollable"
+				scrollButtons
+				allowScrollButtonsMobile
 				className={classNames.tabs}
 				onChange={(_e, value) => setTabValue(value)}>
 				<Tab className={classNames.tab} label={PageStrings.Tabs.Info} />

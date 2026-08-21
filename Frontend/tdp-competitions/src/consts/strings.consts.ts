@@ -40,7 +40,6 @@ export const STRINGS = {
 			Tabs: {
 				Info: 'Informazioni',
 				Problems: 'Blocchi',
-				PersonalData: 'Dati personali',
 				Rankings: 'Classifiche'
 			},
 			Problems: {

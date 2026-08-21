@@ -51,7 +51,6 @@ declare const classNames: {
   readonly banner: "banner";
   readonly formContainer: "formContainer";
   readonly form: "form";
-  readonly privacyText: "privacyText";
   readonly minors: "minors";
   readonly buttonsContainer: "buttonsContainer";
   readonly minor: "minor";

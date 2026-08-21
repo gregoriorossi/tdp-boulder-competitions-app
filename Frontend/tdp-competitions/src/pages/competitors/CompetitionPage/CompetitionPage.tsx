@@ -19,8 +19,7 @@ import ConfirmationDialog from "../../../components/ConfirmationDialog";
 const TabValues = {
     INFO: 0,
     PROBLEMS: 1,
-    RANKINGS: 2,
-    PERSONAL_DATA: 3
+    RANKINGS: 2
 }
 
 
@@ -90,7 +89,6 @@ export function CompetitionPage() {
             <Tab className={classNames.tab} label={PageStrings.Tabs.Info} />
             <Tab className={classNames.tab} label={PageStrings.Tabs.Problems} />
             <Tab className={classNames.tab} label={PageStrings.Tabs.Rankings} />
-            <Tab className={classNames.tab} label={PageStrings.Tabs.PersonalData} />
         </Tabs>
 
         {

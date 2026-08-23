@@ -72,7 +72,7 @@ export function CompetitionPage() {
     const registration = response.value.registration;
     const errorMessageStr: string | null = errorMessage ?? (deleteError ? Errors.Generic : null);
 
-    return <CompetitorsPageWrapper title={competition.title}>
+    return <CompetitorsPageWrapper title={competition.title} status={competition.status}>
         <div className={classNames.actionsContainer}>
             <Button
                 title={PageStrings.DeleteRegistration.ButtonText}

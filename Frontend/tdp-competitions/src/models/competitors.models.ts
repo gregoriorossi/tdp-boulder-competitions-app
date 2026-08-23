@@ -32,6 +32,7 @@ export interface ICompetitor {
 	gender: number;
 	birthPlace: string;
 	birthProvince: string;
+	guardianOnly: boolean;
 	addressCity: string;
 	addressProvince: string;
 	addressStreet: string;

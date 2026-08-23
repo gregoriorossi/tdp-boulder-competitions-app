@@ -31,6 +31,7 @@ export default class CompetitorsMappers {
 			competitionId: value.competitionId,
 			firstName: value.firstName,
 			gender: numberToGender(value.gender),
+			guardianOnly: value.guardianOnly,
 			isMinor: value.isMinor,
 			lastName: value.lastName,
 			registrationId: value.registrationId

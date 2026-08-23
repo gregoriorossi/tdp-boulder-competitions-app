@@ -3,6 +3,7 @@ declare const classNames: {
   readonly competitorsPageWrapper: "competitorsPageWrapper";
   readonly header: "header";
   readonly logo: "logo";
+  readonly titleContainer: "titleContainer";
   readonly container: "container";
   readonly actionsContainer: "actionsContainer";
   readonly tabs: "tabs";

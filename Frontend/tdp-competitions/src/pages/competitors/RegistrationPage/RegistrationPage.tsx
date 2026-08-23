@@ -3,11 +3,12 @@ import { Alert, AlertTitle, Button } from "@mui/material";
 import { RegistrationForm } from "./components/RegistrationForm";
 import { Routes } from "../../../consts/routes.consts";
 import { Spinner } from "../../../components/Spinner";
-import { Errors } from "../../../consts/errors.consts";
 import { STRINGS } from "../../../consts/strings.consts";
 import classNames from "../../../App.module.scss";
 import { useCompetitionBySlug } from "../../../queries/competitors.queries";
 import { useState } from "react";
+import { ErrorPage } from "../../ErrorPage";
+import axios from "axios";
 
 const PageStrings = STRINGS.Pages.RegistrationPage;
 
@@ -17,16 +18,21 @@ export function RegistrationPage() {
 	const slug: string = params.slug!;
 	const [successMessageOpen, setSuccessMessageOpen] = useState<boolean>(false);
 
-	const { data: response, isLoading } = useCompetitionBySlug(slug);
+	const { data: response, isLoading, error } = useCompetitionBySlug(slug);
 
 	if (isLoading) {
 		return <Spinner />
 	}
 
-	if ((response?.error && response.error.code === Errors.Competitions.NotFound) || !response?.value) {
+	if (axios.isAxiosError(error) && error.response?.status === 404) {
 		navigate(Routes.NotFound);
 		return null;
 	}
+
+	if (error || !response?.value) {
+		return <ErrorPage errorCode="" />;
+	}
+
 
 	const competition = response.value;
 

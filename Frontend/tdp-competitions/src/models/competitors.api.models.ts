@@ -105,6 +105,7 @@ export interface ICompetitorResponse {
 	lastName: string;
 	birthDate: string;
 	gender: number;
+	guardianOnly: boolean;
 	birthPlace: string;
 	birthProvince: string;
 	addressCity: string;

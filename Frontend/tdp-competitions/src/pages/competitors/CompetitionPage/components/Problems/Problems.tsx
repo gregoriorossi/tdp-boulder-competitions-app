@@ -21,7 +21,10 @@ export function Problems(props: IProblemsProps) {
 	const { data: response, isLoading, error } = useProblemsByCompetition(competitionId);
 	const [tabValue, setTabValue] = useState<number>(0);
 
-	const competitors = [registration.competitor, ...(registration.minors ?? [])];
+	const competitors = registration.competitor.guardianOnly
+		? [...(registration.minors ?? [])]
+		: [registration.competitor, ...(registration.minors ?? [])];
+
 	const selectedCompetitor = competitors[tabValue];
 
 	const { data: competitorData, isLoading: isLoadingCompetitorData } = useSentProblems(
@@ -45,6 +48,19 @@ export function Problems(props: IProblemsProps) {
 			competitors.length > 1 &&
 			<Tabs value={tabValue}
 				className={classNames.tabs}
+				sx={{
+					"& .MuiTab-root": {
+						backgroundColor: "#fff",
+						color: "#ff8f00",
+					},
+					"& .MuiTab-root.Mui-selected": {
+						backgroundColor: "#ff8f00",
+						color: "#fff",
+					},
+					"& .MuiTabs-indicator": {
+						display: "none",
+					}
+				}}
 				onChange={(_e, value) => setTabValue(value)}>
 				{
 					competitors.map(c => <Tab
@@ -63,12 +79,12 @@ export function Problems(props: IProblemsProps) {
 		{isLoadingCompetitorData ? (
 			<Spinner />
 		) : selectedCompetitor && (<>
-				<SpecialProblems
-					competitorId={selectedCompetitor.id}
-					disableSending={disableSending}
-					sent={competitorData?.value?.sentSpecialProblems ?? []}
-					specialProblems={response.value.specialProblems}
-				/>
+			<SpecialProblems
+				competitorId={selectedCompetitor.id}
+				disableSending={disableSending}
+				sent={competitorData?.value?.sentSpecialProblems ?? []}
+				specialProblems={response.value.specialProblems}
+			/>
 			<ProblemGroup
 				competitorId={selectedCompetitor.id}
 				groups={response.value.problemsGroups}

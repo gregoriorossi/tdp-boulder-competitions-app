@@ -16,6 +16,7 @@ import { ActionsContainer } from "./components/ManageCompetition/ActionsContaine
 import { ManageCompetition } from "./components/ManageCompetition/ManageCompetition";
 import { ManageProblems } from "./components/ManageProblems/ManageProblems";
 import { ManageResults } from "./components/ManageResults/ManageResults";
+import { ErrorPage } from "../../ErrorPage";
 const PageStrings = STRINGS.Pages.EditorCompetitionPage;
 
 const TabValues = {
@@ -27,12 +28,11 @@ const TabValues = {
 }
 
 export function EditorsCompetitionPage() {
-	const params = useParams();
 	const navigate = useNavigate();
-	const id: string = params.id!;
+	const { id } = useParams<{ id: string }>();
 	const [tabValue, setTabValue] = useState<number>(TabValues.INFO);
 
-	const { data: response, isLoading, error } = useCompetitionById(id);
+	const { data: response, isLoading, error } = useCompetitionById(id!);
 
 	if (response?.error && response.error.code === Errors.Competitions.NotFound) {
 		navigate(Routes.NotFound);
@@ -45,41 +45,45 @@ export function EditorsCompetitionPage() {
 		return <Spinner />
 	}
 
+	if (error) {
+		return <ErrorPage errorCode="" />;
+	}
+
 	return <EditorsPageWrapper title={competition?.title} status={competition?.status}>
-		<div className={classNames.editorsCompetitionPage}>
-			<ActionsContainer competition={competition!} />
-			<Tabs value={tabValue}
-				variant="scrollable"
-				scrollButtons
-				allowScrollButtonsMobile
-				className={classNames.tabs}
-				onChange={(_e, value) => setTabValue(value)}>
-				<Tab className={classNames.tab} label={PageStrings.Tabs.Info} />
-				<Tab className={classNames.tab} label={PageStrings.Tabs.Problems} />
-				<Tab className={classNames.tab} label={PageStrings.Tabs.Registrations} />
-				<Tab className={classNames.tab} label={PageStrings.Tabs.Results} />
-				<Tab className={classNames.tab} label={PageStrings.Tabs.Rankings} />
-			</Tabs>
+		{
+			error
+				? <ErrorMessage errorCode="" />
+				: <div className={classNames.editorsCompetitionPage}>
+					<ActionsContainer competition={competition!} />
+					<Tabs value={tabValue}
+						variant="scrollable"
+						scrollButtons
+						allowScrollButtonsMobile
+						className={classNames.tabs}
+						onChange={(_e, value) => setTabValue(value)}>
+						<Tab className={classNames.tab} label={PageStrings.Tabs.Info} />
+						<Tab className={classNames.tab} label={PageStrings.Tabs.Problems} />
+						<Tab className={classNames.tab} label={PageStrings.Tabs.Registrations} />
+						<Tab className={classNames.tab} label={PageStrings.Tabs.Results} />
+						<Tab className={classNames.tab} label={PageStrings.Tabs.Rankings} />
+					</Tabs>
 
-			{
-				error && <ErrorMessage errorCode="" />
-			}
-
-			{
-				tabValue === TabValues.INFO && <ManageCompetition competitionId={competition.id} />
-			}
-			{
-				tabValue === TabValues.PROBLEMS && <ManageProblems competitionId={competition.id} />
-			}
-			{
-				tabValue === TabValues.REGISTRATIONS && <ManageRegistrations competitionId={competition.id} />
-			}
-			{
-				tabValue === TabValues.RESULTS && <ManageResults competitionId={competition.id} />
-			}
-			{
-				tabValue === TabValues.RANKINGS && <Rankings competitionId={competition.id} />
-			}
-		</div>
+					{
+						tabValue === TabValues.INFO && <ManageCompetition competitionId={competition.id} />
+					}
+					{
+						tabValue === TabValues.PROBLEMS && <ManageProblems competitionId={competition.id} />
+					}
+					{
+						tabValue === TabValues.REGISTRATIONS && <ManageRegistrations competitionId={competition.id} />
+					}
+					{
+						tabValue === TabValues.RESULTS && <ManageResults competitionId={competition.id} />
+					}
+					{
+						tabValue === TabValues.RANKINGS && <Rankings competitionId={competition.id} />
+					}
+				</div>
+		}
 	</EditorsPageWrapper>;
 }

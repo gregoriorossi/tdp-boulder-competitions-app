@@ -235,7 +235,7 @@ namespace TDPCompetitions.Api.Mappers
                 ProblemId = problemId,
                 CompetitorId = model.CompetitorId,
                 CompetitionId = competitionId,
-                SentAt = DateTime.Now
+                SentAt = DateTime.UtcNow
             };
         }
 

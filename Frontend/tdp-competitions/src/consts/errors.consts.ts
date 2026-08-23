@@ -1,4 +1,7 @@
 export const Errors = {
+    Pages: {
+		NotFound: "PagesError.NotFound",
+    },
 	Competitions: {
         NotFound: "CompetitionError.NotFound",
         SlugNotAvailable:"CompetitionError.SlugNotAvailable",

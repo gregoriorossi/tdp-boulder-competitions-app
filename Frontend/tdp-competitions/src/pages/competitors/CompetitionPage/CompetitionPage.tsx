@@ -81,7 +81,7 @@ export function CompetitionPage() {
                 onClick={() => { setDeleteRegistrationDialogOpen(true) }}>
                 <DeleteIcon />&nbsp;
                 {PageStrings.DeleteRegistration.ButtonText}
-            </Button>
+            </Button> 
         </div>
         <Tabs value={tabValue}
             className={classNames.tabs}
@@ -100,9 +100,8 @@ export function CompetitionPage() {
         {
             tabValue === TabValues.PROBLEMS &&
             <Problems
-                competitionId={competition.id}
-                registration={registration}
-                disableSending={!competition.isOpen} />
+                competition={competition}
+                registration={registration} />
         }
         {
             tabValue === TabValues.RANKINGS &&

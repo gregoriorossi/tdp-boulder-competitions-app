@@ -9,16 +9,17 @@ import { useState } from "react";
 import WarningIcon from '@mui/icons-material/Warning';
 import { STRINGS } from "../../../../../consts/strings.consts";
 import { SpecialProblems } from "./SpecialProblems";
+import type { ICompetition } from "../../../../../models/competitors.models";
+import { CompetitionStatus } from "../../../../../models/competitions.models";
 
 interface IProblemsProps {
-	competitionId: string;
+	competition: ICompetition;
 	registration: IRegistration;
-	disableSending: boolean;
 }
 
 export function Problems(props: IProblemsProps) {
-	const { competitionId, registration, disableSending } = props;
-	const { data: response, isLoading, error } = useProblemsByCompetition(competitionId);
+	const { competition, registration } = props;
+	const { data: response, isLoading, error } = useProblemsByCompetition(competition.id);
 	const [tabValue, setTabValue] = useState<number>(0);
 
 	const competitors = registration.competitor.guardianOnly
@@ -28,7 +29,7 @@ export function Problems(props: IProblemsProps) {
 	const selectedCompetitor = competitors[tabValue];
 
 	const { data: competitorData, isLoading: isLoadingCompetitorData } = useSentProblems(
-		competitionId,
+		competition.id,
 		selectedCompetitor?.id ?? "",
 		{
 			enabled: !!selectedCompetitor?.id
@@ -42,6 +43,8 @@ export function Problems(props: IProblemsProps) {
 	if (error || response?.isFailure || !response?.value) {
 		return <ErrorMessage errorCode={response?.error?.code ?? ''} />
 	}
+
+	const disableSending = !competition.isOpen;
 
 	return <div className={classNames.problems}>
 		{
@@ -72,7 +75,8 @@ export function Problems(props: IProblemsProps) {
 		{
 			disableSending &&
 			<Alert severity="warning" icon={<WarningIcon />} className={classNames.infoMessage}>
-				{STRINGS.Pages.CompetitorCompetitionPage.Problems.SendDisabled}
+				{competition.status === CompetitionStatus.CLOSED && STRINGS.Pages.CompetitorCompetitionPage.Problems.SendDisabledClosed}
+				{competition.status === CompetitionStatus.DRAFT && STRINGS.Pages.CompetitorCompetitionPage.Problems.SendDisabledDraft}
 			</Alert>
 		}
 

@@ -1,5 +1,6 @@
 import Chip from "@mui/material/Chip";
 import { CompetitionStatus } from "../models/competitions.models";
+import { STRINGS } from "../consts/strings.consts";
 
 
 interface IStatusProps {
@@ -9,13 +10,13 @@ interface IStatusProps {
 export function Status(props: IStatusProps) {
 
 	if (props.status === CompetitionStatus.CLOSED)
-		return <Chip label="Chiusa" color="error" />;
+		return <Chip label={STRINGS.CompetitionStatus.Closed} color="error" />;
 
 	if (props.status === CompetitionStatus.OPEN)
-		return <Chip label="Aperta" color="success" />;
+		return <Chip label={STRINGS.CompetitionStatus.Open} color="success" />;
 
 	if (props.status === CompetitionStatus.DRAFT)
-		return <Chip label="Bozza" color="warning" />;
+		return <Chip label={STRINGS.CompetitionStatus.Draft} color="warning" />;
 	return null;
 
 }

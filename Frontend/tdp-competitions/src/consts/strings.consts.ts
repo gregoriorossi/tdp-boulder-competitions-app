@@ -43,7 +43,8 @@ export const STRINGS = {
 				Rankings: 'Classifiche'
 			},
 			Problems: {
-				SendDisabled: 'Non è più possibile registrare i blocchi, la gara è chiusa'
+				SendDisabledClosed: 'Non è più possibile registrare i blocchi, la gara è chiusa',
+				SendDisabledDraft: 'Non è possibile registrare i blocchi, la gara è in preparazione'
 			}
 		},
 		EditorsAllCompetitionsPage: { 
@@ -78,7 +79,7 @@ export const STRINGS = {
 				GetLoginPageUrl: 'Url login',
 				ClickToCopy: 'Clicca qui per copiare',
 				UrlCopied: 'Url copiato negli appunti!',
-				ToDraft: 'Riporta a bozza',
+				ToDraft: "Riporta a 'In Preparazione'",
 				Start: 'Inizia gara',
 				Close: 'Chiudi gara',
 				Reopen: 'Riapri gara'
@@ -294,7 +295,7 @@ export const STRINGS = {
 			Title: (title: string, status: CompetitionStatus) => {
 				switch (status) {
 					case CompetitionStatus.DRAFT:
-						return `Vuoi mettere in stato bozza la gara ${title}?`;
+						return `Vuoi mettere in stato 'In Preparazione' la gara ${title}?`;
 					case CompetitionStatus.OPEN:
 						return `Vuoi iniziare la gara ${title}?`;
 					case CompetitionStatus.CLOSED:
@@ -342,8 +343,8 @@ export const STRINGS = {
 		NotVisible: 'Le classifiche non sono ancora pubbliche, attendere la chiusura della gara'
 	},
 	CompetitionStatus: {
-		Draft: 'Bozza',
-		Open: 'Aperta',
+		Draft: 'In Preparazione',
+		Open: 'Aperta',	
 		Closed: 'Chiusa'
 	},
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',

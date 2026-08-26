@@ -398,3 +398,5 @@ ERROR_STRINGS[Errors.Registrations.NotRegistered] = "Utente non registrato";
 ERROR_STRINGS[Errors.Competitors.NotFound] = "Atleta non trovato";
 ERROR_STRINGS[Errors.Competitors.AdultDelete] = "Per eliminare un adulto è necessario eliminare l'intera registrazione";
 ERROR_STRINGS[Errors.Pages.NotFound] = "Pagina non trovata";
+ERROR_STRINGS[Errors.Auth.EditorInvalidCredentials] = 'Username o password non corretti';
+ERROR_STRINGS[Errors.Auth.CompetitorInvalidCredentials] = 'Utente non registrato alla gara';

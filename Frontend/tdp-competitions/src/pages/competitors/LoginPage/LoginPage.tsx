@@ -1,4 +1,4 @@
-import { Alert, Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Box, Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import classNames from "../../../App.module.scss";
 import { STRINGS } from "../../../consts/strings.consts";
 import { useNavigate, useSearchParams } from "react-router-dom";
@@ -6,10 +6,8 @@ import { useCompetitorLogin } from "../../../queries/auth.queries";
 import { competitorLoginFormSchema } from "../../../form-schemas/auth.schemas";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { QueryParams, Routes } from "../../../consts/routes.consts";
-import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Spinner } from "../../../components/Spinner";
-import DangerousIcon from '@mui/icons-material/Dangerous';
 import { useCompetitions } from "../../../queries/competitors.queries";
 import { ErrorMessage } from "../../../components/ErrorMessage";
 import logoTesteDiPietra from '../../../assets/teste-di-pietra_logo.png';
@@ -26,8 +24,7 @@ export function LoginPage() {
 	const [searchParams] = useSearchParams();
 	const hint = searchParams.get(QueryParams.Hint);
 
-	const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
-	const { isPending, mutateAsync: competitorLoginAsync } = useCompetitorLogin();
+	const { data: competitorLoginData, isPending, mutateAsync: competitorLoginAsync } = useCompetitorLogin();
 
 	const { data: useCompetitionsResponse, isLoading, error: useCompetitionsError } = useCompetitions();
 	const { control, register, handleSubmit, formState: { errors } } = useForm({
@@ -46,16 +43,10 @@ export function LoginPage() {
 			navigate(Routes.Competition(slug!));
 			return;
 		}
-
-		setShowErrorMessage(true);
 	}
 
 	if (isLoading) {
 		return <Spinner />
-	}
-
-	if (useCompetitionsError || !useCompetitionsResponse || useCompetitionsResponse?.isFailure || !useCompetitionsResponse?.value) {
-		return <ErrorMessage errorCode={useCompetitionsResponse?.error?.code ?? ''} />
 	}
 
 	const defaultCompetitionId = (useCompetitionsResponse?.value ?? [])
@@ -89,7 +80,7 @@ export function LoginPage() {
 							key={field.value || "empty"}
 							label="type" {...field}>
 							{
-								(useCompetitionsResponse.value || []).map((g) =>
+								(useCompetitionsResponse?.value || []).map((g) =>
 									<MenuItem value={g.id} key={g.id}>
 										{g.title}
 									</MenuItem>
@@ -121,10 +112,8 @@ export function LoginPage() {
 			}
 
 			{
-				(showErrorMessage && !isPending) &&
-				<Alert severity="error" icon={<DangerousIcon />}>
-					{LoginPageStrings.Form.Errors.WrongCredentials}
-				</Alert>
+				((competitorLoginData?.error || useCompetitionsError) && !isPending) &&
+				<ErrorMessage errorCode={competitorLoginData?.error?.code ?? useCompetitionsResponse?.error?.code ?? ''} />
 			}
 		</Box>
 	</Box>;

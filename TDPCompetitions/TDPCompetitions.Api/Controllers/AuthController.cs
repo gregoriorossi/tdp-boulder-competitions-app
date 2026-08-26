@@ -65,7 +65,7 @@ namespace TDPCompetitions.Api.Controllers
             var registration = await _competitionsManager.GetRegistrationByEmailAsync(model.CompetitionId, model.Email, cancellationToken);
             if (registration is null)
             {
-                return Ok(Result.Failure(RegistrationsErrors.NotRegistered));
+                return Unauthorized(Result.Failure(RegistrationsErrors.NotRegistered));
             }
 
             var token = TokenHelper.CreateToken(registration.Email, _configuration[JWTConsts.Key]!, _configuration[JWTConsts.Issuer]!, Constants.Roles.COMPETITOR);

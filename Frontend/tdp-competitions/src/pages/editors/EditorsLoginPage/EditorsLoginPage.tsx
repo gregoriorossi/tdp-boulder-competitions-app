@@ -1,9 +1,7 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useNavigate } from "react-router-dom";
 import { useEditorLogin } from "../../../queries/auth.queries";
-import { useState } from "react";
-import { Alert, Box, Button, TextField, Typography } from "@mui/material";
-import DangerousIcon from '@mui/icons-material/Dangerous';
+import { Box, Button, TextField, Typography } from "@mui/material";
 import LoginIcon from '@mui/icons-material/Login';
 import classNames from "../../../App.module.scss";
 import { Routes } from "../../../consts/routes.consts";
@@ -11,6 +9,7 @@ import { STRINGS } from "../../../consts/strings.consts";
 import { useForm } from "react-hook-form";
 import { editorLoginFormSchema } from "../../../form-schemas/auth.schemas";
 import { Spinner } from "../../../components/Spinner";
+import { ErrorMessage } from "../../../components/ErrorMessage";
 const LoginPage = STRINGS.Pages.EditorsLoginPage;
 
 interface ILoginFormValues {
@@ -21,26 +20,24 @@ interface ILoginFormValues {
 export function EditorsLoginPage() {
 
 	const navigate = useNavigate();
-	const { isPending,  mutateAsync: editorLoginAsync } = useEditorLogin();
-	const [showErrorMessage, setShowErrorMessage] = useState<boolean>(false);
+	const { data: loginData, isPending, mutateAsync: editorLoginAsync } = useEditorLogin();
 
 	const { register, handleSubmit, formState: { errors } } = useForm({
 		resolver: yupResolver(editorLoginFormSchema)
 	});
 
 	const onSubmitLogin = async (data: ILoginFormValues) => {
+
 		const result = await editorLoginAsync({
 			password: data.password,
 			username: data.username
 		});
 
 
-		if (result) {
+		if (result.isSuccess) {
 			navigate(Routes.EditorsHome);
 			return;
 		}
-
-		setShowErrorMessage(true);
 	}
 
 	return <Box className={classNames.loginPage}>
@@ -80,10 +77,8 @@ export function EditorsLoginPage() {
 			}
 
 			{
-				(showErrorMessage && !isPending) &&
-				<Alert severity="error" icon={<DangerousIcon />}>
-					{LoginPage.Form.Errors.WrongCredentials}
-				</Alert>
+				(loginData?.error && !isPending) &&
+				<ErrorMessage errorCode={loginData?.error?.code} />
 			}
 		</Box>
 	</Box>;

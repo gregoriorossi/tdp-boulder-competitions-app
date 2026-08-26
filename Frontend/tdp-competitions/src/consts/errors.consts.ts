@@ -19,5 +19,9 @@ export const Errors = {
     SpecialProblems: {
         NotFound: "SpecialProblem.NotFount"
     },
-    Generic: "Generic"
+    Generic: "Generic",
+    Auth: {
+        EditorInvalidCredentials: "Auth.EditorInvalidCredentials",
+		CompetitorInvalidCredentials: "Auth.CompetitorInvalidCredentials"
+    }
 }

@@ -2,6 +2,8 @@ import { AuthEndpoints } from "../api/endpoints";
 import type { ILoginCompetitorRequest, ILoginCompetitorResponse, ILoginEditorRequest, ILoginEditorResponse } from "../models/auth.api.models";
 import axiosPublicClient from "../api/axiosPublic";
 import type { IResponse } from "../models/api.models";
+import { AxiosError } from "axios";
+import { Errors } from "../consts/errors.consts";
 
 export default class AuthService {
 
@@ -13,15 +15,21 @@ export default class AuthService {
 
 			return response;
 		} catch (error) {
-			console.error('Error logging in:', error);
+			let statusCode = '';
+			let errorMessage = `Error: ${error}`;
+
+			if (error instanceof AxiosError) {
+				statusCode = error.response?.status?.toString() || '';
+				errorMessage = error.response?.data?.error?.description || error.message || errorMessage;
+			}
 
 			return {
 				isSuccess: false,
 				isFailure: true,
 				value: null,
 				error: {
-					code: '',
-					description: `Error: ${error}`,
+					code: statusCode === '401' ? Errors.Auth.EditorInvalidCredentials : Errors.Generic,
+					description: errorMessage,
 				}
 			}
 		}
@@ -35,15 +43,21 @@ export default class AuthService {
 
 			return response;
 		} catch (error) {
-			console.error('Error logging in:', error);
+			let statusCode = '';
+			let errorMessage = `Error: ${error}`;
+
+			if (error instanceof AxiosError) {
+				statusCode = error.response?.status?.toString() || '';
+				errorMessage = error.response?.data?.error?.description || error.message || errorMessage;
+			}
 
 			return {
 				isSuccess: false,
 				isFailure: true,
 				value: null,
 				error: {
-					code: '',
-					description: `Error: ${error}`,
+					code: statusCode === '401' ? Errors.Auth.CompetitorInvalidCredentials : Errors.Generic,
+					description: errorMessage,
 				}
 			}
 		}

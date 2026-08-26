@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { AuthConsts } from '../consts/auth.consts';
 import StorageService from '../services/storage.service';
 import type { ILoginCompetitorResponse } from '../models/auth.api.models';
+import { Routes } from '../consts/routes.consts';
 
 
 export interface IUseAuthOptions {
@@ -44,4 +45,15 @@ export function useCompetitorAuth(options: IUseAuthOptions) {
 	return {
 		isAuthenticated
 	};
+}
+
+export function useCompetitorLogout() {
+	const navigate = useNavigate();
+
+	const logout = () => {
+		StorageService.removeItem(AuthConsts.LOCAL_STORAGE_COMPETITOR_LOGIN_INFO);
+		navigate(Routes.CompetitorLogin);
+	};
+
+	return { logout };
 }

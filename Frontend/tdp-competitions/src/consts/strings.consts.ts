@@ -348,6 +348,7 @@ export const STRINGS = {
 		Closed: 'Chiusa'
 	},
 	GenericError: 'C\'è stato un errore, riprovare più tardi.',
+	Logout: 'Logout',
 	Add: 'Aggiungi',
 	Cancel: 'Annulla',
 	Confirm: 'Conferma',

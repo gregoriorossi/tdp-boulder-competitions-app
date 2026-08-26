@@ -392,6 +392,7 @@ interface IErrorStrings {
 export const ERROR_STRINGS: IErrorStrings = {};
 ERROR_STRINGS[Errors.Competitions.SlugNotAvailable] = 'Esiste già una gara con lo stesso nome';
 ERROR_STRINGS[Errors.Competitions.NotFound] = 'Gara non trovata';
+ERROR_STRINGS[Errors.Competitions.NotOpen] = 'Non è possibile registrare i blocchi';
 ERROR_STRINGS[Errors.SpecialProblems.NotFound] = "Blocco non trovato";
 ERROR_STRINGS[Errors.Registrations.NotFound] = "Registrazione non trovata";
 ERROR_STRINGS[Errors.Registrations.AlreadyRegistered] = "Esiste già un utente registrato con questa email";

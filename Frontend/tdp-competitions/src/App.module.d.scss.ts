@@ -56,6 +56,7 @@ declare const classNames: {
   readonly minor: "minor";
   readonly successMessage: "successMessage";
   readonly loginPage: "loginPage";
+  readonly subtitle: "subtitle";
   readonly react: "react";
   readonly card: "card";
   readonly greenIcon: "greenIcon";

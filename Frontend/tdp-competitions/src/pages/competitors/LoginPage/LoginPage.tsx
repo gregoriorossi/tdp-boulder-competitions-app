@@ -67,7 +67,7 @@ export function LoginPage() {
 			<Typography variant="h5" component="h2">
 				{LoginPageStrings.Title}
 			</Typography>
-			<p>{LoginPageStrings.Subtitle}</p>
+			<p className={classNames.subtitle}>{LoginPageStrings.Subtitle}</p>
 
 			<FormControl error={!!errors.competitionId} className={classNames.select}>
 				<InputLabel>{LoginPageStrings.Form.Competition}</InputLabel>

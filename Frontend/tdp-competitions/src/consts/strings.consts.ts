@@ -33,9 +33,9 @@ export const STRINGS = {
 		},
 		CompetitorCompetitionPage: {
 			DeleteRegistration: {
-				ButtonText: 'ANNULLA REGISTRAZIONE',
-				ConfirmationDialogTitle: 'Vuoi annullare la registrazione?',
-				ConfirmationDialogContent: 'Una volta annullata la registrazione non sarà più possibile accedere ai dati e i blocchi registrati verranno persi'
+				ButtonText: 'Cancellami',
+				ConfirmationDialogTitle: 'Vuoi cancellare la registrazione?',
+				ConfirmationDialogContent: 'Una volta eliminata la registrazione non sarà più possibile accedere ai tuoi dati e i blocchi registrati verranno persi.'
 			},
 			Tabs: {
 				Info: 'Informazioni',

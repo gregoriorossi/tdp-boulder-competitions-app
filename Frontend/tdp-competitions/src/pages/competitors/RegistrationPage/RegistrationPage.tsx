@@ -9,6 +9,7 @@ import { useCompetitionBySlug } from "../../../queries/competitors.queries";
 import { useState } from "react";
 import { ErrorPage } from "../../ErrorPage";
 import axios from "axios";
+import { Footer } from "../../../components/Footer";
 
 const PageStrings = STRINGS.Pages.RegistrationPage;
 
@@ -82,5 +83,6 @@ export function RegistrationPage() {
 				</div>
 			</Alert>
 		}
+		<Footer />
 	</div>
 }

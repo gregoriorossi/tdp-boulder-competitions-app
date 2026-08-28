@@ -11,6 +11,7 @@ import { Spinner } from "../../../components/Spinner";
 import { useCompetitions } from "../../../queries/competitors.queries";
 import { ErrorMessage } from "../../../components/ErrorMessage";
 import logoTesteDiPietra from '../../../assets/teste-di-pietra_logo.png';
+import { Footer } from "../../../components/Footer";
 
 const LoginPageStrings = STRINGS.Pages.CompetitorsLoginPage;
 
@@ -116,5 +117,6 @@ export function LoginPage() {
 				<ErrorMessage errorCode={competitorLoginData?.error?.code ?? useCompetitionsResponse?.error?.code ?? ''} />
 			}
 		</Box>
+		<Footer />
 	</Box>;
 }

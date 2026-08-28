@@ -212,7 +212,7 @@ export const STRINGS = {
 				AddressNumber: 'Numero civico di residenza',
 				PhoneNumber: 'Numero di telefono',
 				GuardianOnlyEditors: 'Solo accompagnatore (non considerato come un/a partecipante)',
-				GuardianOnlyCompetitors: 'Solo accompagnatore (non parteciperò alla gara)',
+				GuardianOnlyCompetitors: 'Solo accompagnatore minori (non parteciperò alla gara)',
 			},
 			Errors: {
 				Email: 'Il valore inserito deve essere una email'

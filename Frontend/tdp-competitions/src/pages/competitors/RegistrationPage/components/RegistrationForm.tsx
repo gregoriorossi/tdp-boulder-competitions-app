@@ -213,6 +213,32 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 				error={!!errors.phoneNumber}
 				helperText={errors.phoneNumber?.message} />
 
+			<div className={classNames.minors}>
+				<div className={classNames.header}>
+					<h3>{RegistrationPageStrings.MinorsSectionTitle}</h3>
+					<Button
+						type="submit"
+						variant="contained"
+						onClick={(e) => {
+							e.preventDefault();
+							setIsMinorModalOpen(true);
+						}}
+						title={RegistrationPageStrings.AddMinor}>
+						<AddIcon />
+					</Button>
+				</div>
+				<p>{RegistrationPageStrings.MinorsSectionText}</p>
+				<div className={classNames.buttonsContainer}>
+					{minors.map((m, idx) =>
+						<Minor
+							index={idx}
+							minor={m}
+							onDelete={onMinorDelete}
+							onChange={onMinorChange}
+							key={`${idx}${m.firstName}`} />)}
+				</div>
+			</div>
+
 			{
 				minors.length > 0 &&
 				<FormControl>
@@ -262,32 +288,6 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 						)}
 					</>
 				)} />
-
-			<div className={classNames.minors}>
-				<div className={classNames.header}>
-					<h3>{RegistrationPageStrings.MinorsSectionTitle}</h3>
-					<Button
-						type="submit"
-						variant="contained"
-						onClick={(e) => {
-							e.preventDefault();
-							setIsMinorModalOpen(true);
-						}}
-						title={RegistrationPageStrings.AddMinor}>
-						<AddIcon />
-					</Button>
-				</div>
-				<p>{RegistrationPageStrings.MinorsSectionText}</p>
-				<div className={classNames.buttonsContainer}>
-					{minors.map((m, idx) =>
-						<Minor
-							index={idx}
-							minor={m}
-							onDelete={onMinorDelete}
-							onChange={onMinorChange}
-							key={`${idx}${m.firstName}`} />)}
-				</div>
-			</div>
 
 			{
 				addRegistrationIsPending && <Spinner />

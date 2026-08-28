@@ -426,11 +426,20 @@
 }
 
 .registrationsPage {
-    .banner {
-        width: 100%;
-        background-size: cover;
-        background-repeat: no-repeat;
-        aspect-ratio: 5;
+    .titleContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        img {
+            height: 5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            flex-grow: 1;
+            text-align: center;
+        }
     }
 
     .formContainer {

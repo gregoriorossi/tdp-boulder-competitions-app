@@ -10,6 +10,7 @@ import { useState } from "react";
 import { ErrorPage } from "../../ErrorPage";
 import axios from "axios";
 import { Footer } from "../../../components/Footer";
+import logoTesteDiPietra from '../../../assets/teste-di-pietra_logo.png';
 
 const PageStrings = STRINGS.Pages.RegistrationPage;
 
@@ -38,7 +39,12 @@ export function RegistrationPage() {
 	const competition = response.value;
 
 	return <div className={classNames.registrationsPage}>
-		<h1>{competition.title}</h1>
+		<div className={classNames.titleContainer}>
+			<img src={logoTesteDiPietra}
+				className={classNames.logo} />
+			<h1>{competition.title}</h1>
+		</div>
+		
 
 		<div dangerouslySetInnerHTML={{ __html: competition.description }}></div>
 

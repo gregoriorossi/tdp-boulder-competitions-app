@@ -49,7 +49,6 @@ declare const classNames: {
   readonly hasMinors: "hasMinors";
   readonly minorRow: "minorRow";
   readonly registrationsPage: "registrationsPage";
-  readonly banner: "banner";
   readonly formContainer: "formContainer";
   readonly form: "form";
   readonly minors: "minors";

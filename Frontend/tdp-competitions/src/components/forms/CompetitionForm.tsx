@@ -9,7 +9,7 @@ import TextAlign from '@tiptap/extension-text-align';
 
 import {
 	MenuButtonBold,
-	MenuButtonBulletedList, 
+	MenuButtonBulletedList,
 	MenuButtonImageUpload,
 	MenuButtonItalic,
 	MenuControlsContainer,
@@ -21,6 +21,9 @@ import {
 	MenuButtonAlignLeft,
 	MenuButtonAlignRight,
 	type RichTextEditorRef,
+	MenuButtonEditLink,
+	LinkBubbleMenuHandler,
+	LinkBubbleMenu,
 } from "mui-tiptap";
 import StarterKit from '@tiptap/starter-kit';
 import { FilePicker } from "../input/FilePicker";
@@ -35,6 +38,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import classNames from "../../App.module.scss";
 import { FormFieldsSeparator } from "./FormFieldsSeparator";
 import { fileToBase64 } from "../../utils/competitions.utils";
+import Link from "@tiptap/extension-link";
 
 const CompetitionStrings = STRINGS.Forms.Competition;
 
@@ -45,6 +49,7 @@ interface ICompetitionFormProps {
 const descriptionEditorMenuControls = <MenuControlsContainer>
 	<MenuSelectHeading />
 	<MenuDivider />
+	<MenuButtonEditLink />
 	<MenuButtonBold />
 	<MenuButtonItalic />
 	<MenuButtonBulletedList />
@@ -66,6 +71,7 @@ const descriptionEditorMenuControls = <MenuControlsContainer>
 const textEditorMenuControls = <MenuControlsContainer>
 	<MenuSelectHeading />
 	<MenuDivider />
+	<MenuButtonEditLink />
 	<MenuButtonBold />
 	<MenuButtonItalic />
 	<MenuButtonBulletedList />
@@ -213,8 +219,14 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 							ref={rteRef}
 							extensions={[
 								StarterKit,
+								LinkBubbleMenuHandler,
 								TextAlign.configure({
 									types: ['heading', 'paragraph'],
+								}),
+								Link.configure({
+									openOnClick: false,
+									autolink: true,
+									linkOnPaste: true,
 								}),
 								ResizableImage.configure({ inline: true, allowBase64: true })]}
 							className={`${classNames.fullWidth} ${classNames.textEditor}`}
@@ -222,7 +234,11 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 							onUpdate={({ editor }) => {
 								onChange(editor.getHTML())
 							}}
-							renderControls={() => (descriptionEditorMenuControls)} />
+							renderControls={() => (descriptionEditorMenuControls)}>
+							{() => (
+								<LinkBubbleMenu />
+							)}
+						</RichTextEditor>
 						{errors.description && (
 							<Typography variant="caption" color="error">
 								{errors.description.message}
@@ -256,16 +272,28 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 					<>
 						<RichTextEditor
 							ref={rteRef}
-							extensions={[StarterKit,
+							extensions={[
+								StarterKit,
+								LinkBubbleMenuHandler,
 								TextAlign.configure({
-								types: ['heading', 'paragraph'],
-							})]}
+									types: ['heading', 'paragraph'],
+								}),
+								Link.configure({
+									openOnClick: false,
+									autolink: true,
+									linkOnPaste: true,
+								}),
+							]}
 							content={value}
 							className={`${classNames.fullWidth} ${classNames.textEditor}`}
 							onUpdate={({ editor }) => {
 								onChange(editor.getHTML())
 							}}
-						renderControls={() => (textEditorMenuControls)} />
+							renderControls={() => (textEditorMenuControls)}>
+							{() => (
+								<LinkBubbleMenu />
+							)}
+						</RichTextEditor>
 						{errors.emailText && (
 							<Typography variant="caption" color="error">
 								{errors.emailText.message}
@@ -293,15 +321,27 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 					<>
 						<RichTextEditor
 							ref={rteRef}
-							extensions={[StarterKit, TextAlign.configure({
-								types: ['heading', 'paragraph'],
-							})]}
+							extensions={[
+								StarterKit,
+								LinkBubbleMenuHandler,
+								TextAlign.configure({
+									types: ['heading', 'paragraph'],
+								}),
+								Link.configure({
+									openOnClick: false,
+									autolink: true,
+									linkOnPaste: true,
+								})]}
 							content={value}
 							className={`${classNames.fullWidth} ${classNames.textEditor}`}
 							onUpdate={({ editor }) => {
 								onChange(editor.getHTML())
 							}}
-							renderControls={() => (textEditorMenuControls)} />
+							renderControls={() => (textEditorMenuControls)}>
+							{() => (
+								<LinkBubbleMenu />
+							)}
+						</RichTextEditor>
 						{errors.privacyAttachmentText && (
 							<Typography variant="caption" color="error">
 								{errors.privacyAttachmentText.message}
@@ -348,5 +388,6 @@ export function CompetitionForm(props: ICompetitionFormProps) {
 				{STRINGS.Save}
 			</Button>
 		</div>
+
 	</Grid>;
 }

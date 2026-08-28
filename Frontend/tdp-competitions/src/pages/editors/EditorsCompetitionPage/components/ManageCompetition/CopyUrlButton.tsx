@@ -1,4 +1,4 @@
-import { Alert, Button, Modal } from "@mui/material";
+import { Alert, Box, Button, Modal } from "@mui/material";
 import { useRef, useState } from "react";
 import LinkIcon from '@mui/icons-material/Link';
 import CheckIcon from '@mui/icons-material/Check';
@@ -41,7 +41,7 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 			await navigator.clipboard.writeText(url);
 			selection?.removeAllRanges();
 			setAlertVisible(true);
-		} catch(e) {
+		} catch (e) {
 			console.log(e);
 		}
 	}
@@ -52,7 +52,13 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 			<LinkIcon />&nbsp;{label}
 		</Button>
 		<Modal open={modalOpen} onClose={closeModal}>
-			<div className={classNames.modal} title={FormString.ClickToCopy}>
+			<Box
+				className={classNames.modal}
+				sx={{
+					backgroundColor: "background.paper",
+					color: "text.primary",
+				}}
+				title={FormString.ClickToCopy}>
 				<div className={classNames.copyUrl}
 					ref={textRef}
 					onClick={onTextClick}>
@@ -62,10 +68,10 @@ export function CopyUrlButton(props: ICopyUrlButtonProps) {
 				{
 					alertVisible &&
 					<Alert icon={<CheckIcon fontSize="inherit" />} severity="success">
-							{FormString.UrlCopied}
+						{FormString.UrlCopied}
 					</Alert>
 				}
-			</div>
+			</Box>
 		</Modal>
 	</>
 }

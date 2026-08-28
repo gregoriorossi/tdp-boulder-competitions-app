@@ -50,13 +50,21 @@ const router = createBrowserRouter([
 	}
 ]);
 
+const isDarkMode = window.matchMedia(
+	"(prefers-color-scheme: dark)"
+).matches;
+
 const theme = createTheme({
 	palette: {
+		mode: isDarkMode ? 'dark' : 'light',
 		primary: {
 			main: "#ff8f00"
 		},
 		secondary: {
 			main: '#ffcc80'
+		},
+		background: {
+			default: isDarkMode ? '#121212' : '#ffffff'
 		}
 	}
 });

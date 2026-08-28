@@ -1,8 +1,8 @@
-import { Modal } from "@mui/material";
+import { Box, Modal } from "@mui/material";
 import classNames from "../../App.module.scss";
 import type { ReactNode } from "react";
 
-export interface IBaseModalProps{
+export interface IBaseModalProps {
 	title?: string;
 	subtitle?: string;
 	className?: string | undefined;
@@ -13,7 +13,12 @@ export interface IBaseModalProps{
 
 export function BaseModal(props: IBaseModalProps) {
 	return <Modal open={props.open} onClose={props.onClose} className={props.className}>
-		<div className={classNames.modal}>
+		<Box
+			className={classNames.modal}
+			sx={{
+				backgroundColor: "background.paper",
+				color: "text.primary",
+			}}>
 			<div className={classNames.modalHeader}>
 				{
 					props.title && <h2>{props.title}</h2>
@@ -25,6 +30,6 @@ export function BaseModal(props: IBaseModalProps) {
 			<div className={classNames.modalBody}>
 				{props.children}
 			</div>
-		</div>
+		</Box>
 	</Modal>;
 }

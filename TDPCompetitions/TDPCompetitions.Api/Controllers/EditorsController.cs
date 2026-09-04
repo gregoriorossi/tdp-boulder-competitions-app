@@ -243,7 +243,7 @@ namespace TDPCompetitions.Api.Controllers
                 return NotFound(Result.Failure(RegistrationsErrors.NotFound));
             }
 
-            await _competitionsManager.UpdateWaiverDownloadDate(registration, DateTime.Now, cancellationToken);
+            await _competitionsManager.UpdateWaiverDownloadDate(registration, DateTime.UtcNow, cancellationToken);
 
             var result = _exportService.CreateWaiver(new List<Registration> {registration}, competition);
 

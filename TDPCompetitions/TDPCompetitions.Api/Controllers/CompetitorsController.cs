@@ -1,5 +1,4 @@
-﻿using Azure;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using TDPCompetitions.Api.Extensions;
@@ -49,7 +48,7 @@ namespace TDPCompetitions.Api.Controllers
             var competitions = await _competitionsManager.GetAllCompetitionsAsync(cancellationToken);
 
             var result = competitions
-                .Where(c => c.Status == CompetitionStatus.OPEN || c.Status == CompetitionStatus.CLOSED)
+                .Where(c => c.Status == CompetitionStatus.OPEN || c.Status == CompetitionStatus.CLOSED || c.RegistrationsOpen)
                 .OrderByDescending(c => c.Date)
                 .Select(c => new GetCompetitionsResponse(c));
 

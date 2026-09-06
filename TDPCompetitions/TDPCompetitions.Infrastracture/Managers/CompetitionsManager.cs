@@ -114,7 +114,7 @@ namespace TDPCompetitions.Infrastracture.Managers
 
         public async Task<bool> IsCompetitorRegisteredAsync(string competitorEmail, Guid competitionId, CancellationToken cancellationToken)
         {
-            Expression<Func<Registration, bool>> whereFn = c => c.Email.ToLower() == competitorEmail.ToLower();
+            Expression<Func<Registration, bool>> whereFn = c => c.Email.ToLower() == competitorEmail.ToLower() && c.CompetitionId == competitionId;
             ICollection<Registration> result = await _competitionsRepository.GetAllRegistrationsAsync(whereFn, cancellationToken);
             return result.Count > 0;
         }

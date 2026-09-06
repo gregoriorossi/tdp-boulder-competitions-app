@@ -198,6 +198,7 @@ export const STRINGS = {
 		Registration: {
 			TitleNew: 'Aggiungi registrazione',
 			TitleEdit: (fullName: string) => `Vuoi modificare la registrazione di ${fullName}?`,
+			AdultField: 'Dati adulto',
 			Fields: {
 				FirstName: 'Nome',
 				LastName: 'Cognome',

@@ -70,14 +70,13 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 		className={classNames.form}
 		component="form"
 		onSubmit={handleSubmit(onSubmit)}>
-
+		<h3 className={classNames.adultsHeader}>{FormStrings.AdultField}</h3>
 		<TextField
 			label={FieldsStrings.FirstName}
 			{...register("firstName")}
 			defaultValue={registration?.competitor?.firstName}
 			error={!!errors.firstName}
 			helperText={errors.firstName?.message} />
-
 		<TextField
 			label={FieldsStrings.LastName}
 			{...register("lastName")}

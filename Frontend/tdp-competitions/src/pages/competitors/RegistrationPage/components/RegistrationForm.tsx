@@ -102,7 +102,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			className={classNames.form}
 			component="form"
 			onSubmit={handleSubmit(onSubmit)}>
-
+			<h3 className={classNames.adultsHeader}>{FormStrings.AdultField}</h3>
 			<TextField
 				label={FieldsStrings.FirstName}
 				{...register("firstName")}
@@ -300,7 +300,7 @@ export function RegistrationForm(props: IRegistrationFormProps) {
 			{
 				errorMessageState.open && <ErrorMessage errorCode={errorMessageState.errorCode} />
 			}
-			
+
 
 			<Button type="submit" variant="contained">
 				{STRINGS.Register}

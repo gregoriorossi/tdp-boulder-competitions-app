@@ -24,7 +24,7 @@ namespace TDPCompetitions.Api.Helpers
                 page.Size(PageSizes.A4);
                 page.MarginTop(15);
                 page.MarginRight(20);
-                page.MarginLeft(15);
+                page.MarginLeft(20);
                 page.MarginBottom(15);
                 page.DefaultTextStyle(TextStyle.Default
                     .FontSize(10)
@@ -159,14 +159,21 @@ namespace TDPCompetitions.Api.Helpers
 
             // Paragrafo privacy lungo
             col.Item().Text(
-                "Ai sensi dell'art. 13 del D.Lgs. 196 del 30/06/2003 Vi informiamo che i Vs. dati personali sono e verranno da noi trattati " +
-                "ed inseriti in una banca dati, essendoci indispensabile per il corretto svolgimento dei nostri rapporti. Tutti i dati suddetti " +
-                "finora raccolti, nonchè quelli che saranno in futuro raccolti verranno trattati sia in forma cartacea che con strumenti " +
-                "informatici e/o telematici, in modo lecito e per finalità di legge connessi a norme civilistiche, fiscali, contabili, etc. e " +
-                "gestione del rapporto associativo. Informiamo inoltre che il titolare dei dati personali a norma di legge è l'Associazione " +
-                "Sportiva Dilettantistica Teste di Pietra con sede in Cavasso Nuovo (PN) Via Borgo Zamboni, 11."
+                "Ai sensi dell’art. 13 del D.Lgs. 196 del 30/06/2003 Vi informiamo che i Vs. dati personali sono e verranno da noi trattati " +
+                "ed inseriti in una banca dati nel rispetto delle misure di sicurezza previste dal GDPR, i dati saranno conservati per il " +
+                "tempo necessario al raggiungimento delle finalità (es. gestione della gara e adempimenti amministrativi) e, per quanto " +
+                "riguarda le classifiche e l'albo d'oro della gara, potranno essere conservati a fini storici e di archivio dell'Associazione. " +
+                "I dati non saranno diffusi a terzi indeterminati. Potranno essere comunicati a personale interno dell'Associazione " +
+                "(es. comitato organizzatore) formalmente autorizzato."
             )
             .AlignLeft();
+
+            col.Item().Text(
+               "In ogni momento, Lei potrà esercitare i diritti previsti dagli artt. 15 e seguenti del GDPR, tra cui il diritto di accedere ai propri " +
+               "dati, chiederne la rettifica, la cancellazione o la limitazione, opporsi al trattamento (per il legittimo interesse) o revocare il " +
+               "consenso eventualmente prestato, inviando una comunicazione scritta ai recapiti del Titolare."
+           )
+           .AlignLeft();
         }
 
         private void ComposeFirma(ColumnDescriptor col)
@@ -183,11 +190,12 @@ namespace TDPCompetitions.Api.Helpers
             col.Item().PaddingTop(10).AlignCenter().Text("INOLTRE").Bold();
 
             col.Item().Text(
-                "A titolo gratuito, senza limiti di tempo, anche ai sensi degli artt. 10 e 320 cod. civ. e degli artt. 96 e 97 legge 22.4.1941, n. " +
-                "633, Legge sul diritto d’autore, alla pubblicazione e/o diffusione in qualsiasi forma delle proprie immagini sul sito internet " +
-                "della Società/Ente A.S.D. TESTE DI PIETRA, sui canali social istituzionali (Facebook, Twitter, Youtube, ecc...) e/o su qualsiasi " +
-                "altro mezzo di diffusione, nonché autorizza la conservazione dei video stessi negli archivi informatici della Società/Ente e " +
-                "prende atto che la finalità di tali pubblicazioni sono meramente di carattere informativo ed eventualmente promozionale."
+                "Ai sensi dell'art. 13 del D.Lgs. 196 del 30/06/2003 Vi informiamo che i Vs. dati personali sono e verranno da noi trattati " +
+                "ed inseriti in una banca dati, essendoci indispensabile per il corretto svolgimento dei nostri rapporti. Tutti i dati suddetti " +
+                "finora raccolti, nonchè quelli che saranno in futuro raccolti verranno trattati sia in forma cartacea che con strumenti " +
+                "informatici e/o telematici, in modo lecito e per finalità di legge connessi a norme civilistiche, fiscali, contabili, etc. e " +
+                "gestione del rapporto associativo. Informiamo inoltre che il titolare dei dati personali a norma di legge e I’Associazione " +
+                "Sportiva Dilettantistica Teste di Pietra con sede in San Quirino (PN) Via S. Eurosia, 32."
             )
             .AlignLeft();
 

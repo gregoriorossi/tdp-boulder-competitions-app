@@ -27,7 +27,7 @@ namespace TDPCompetitions.Api.Helpers
                 page.MarginLeft(20);
                 page.MarginBottom(15);
                 page.DefaultTextStyle(TextStyle.Default
-                    .FontSize(10)
+                    .FontSize(9)
                     .FontFamily("Verdana")
                 );
 
@@ -50,7 +50,10 @@ namespace TDPCompetitions.Api.Helpers
                         ComposeConsenso(col);
                         ComposeFirma(col);
 
-                        col.Item().PageBreak();
+                        if (_models.Count() > 1)
+                        {
+                            col.Item().PageBreak();
+                        }
                     }
                 });
             });
@@ -153,7 +156,7 @@ namespace TDPCompetitions.Api.Helpers
             .AlignLeft(); // se vuoi justify e hai QuestPDF recente, dimmi versione e lo impostiamo [4](https://github.com/QuestPDF/QuestPDF/issues/159)
 
             // Riga sottolineata
-            col.Item().Text("D.Lgs 30/06/2003 n.196 Tutela delle persone e di altri soggetti rispetto il trattamento dei dati personali.")
+            col.Item().Text("D.Lgs 30/06/2003 n. 196 Tutela delle persone e di altri soggetti rispetto il trattamento dei dati personali.")
                 .Underline()
                 .AlignLeft();
 
@@ -163,7 +166,7 @@ namespace TDPCompetitions.Api.Helpers
                 "ed inseriti in una banca dati nel rispetto delle misure di sicurezza previste dal GDPR, i dati saranno conservati per il " +
                 "tempo necessario al raggiungimento delle finalità (es. gestione della gara e adempimenti amministrativi) e, per quanto " +
                 "riguarda le classifiche e l'albo d'oro della gara, potranno essere conservati a fini storici e di archivio dell'Associazione. " +
-                "I dati non saranno diffusi a terzi indeterminati. Potranno essere comunicati a personale interno dell'Associazione " +
+                "I dati non saranno diffusi a terzi indeterminati, potranno essere comunicati a personale interno dell'Associazione " +
                 "(es. comitato organizzatore) formalmente autorizzato."
             )
             .AlignLeft();
@@ -171,7 +174,7 @@ namespace TDPCompetitions.Api.Helpers
             col.Item().Text(
                "In ogni momento, Lei potrà esercitare i diritti previsti dagli artt. 15 e seguenti del GDPR, tra cui il diritto di accedere ai propri " +
                "dati, chiederne la rettifica, la cancellazione o la limitazione, opporsi al trattamento (per il legittimo interesse) o revocare il " +
-               "consenso eventualmente prestato, inviando una comunicazione scritta ai recapiti del Titolare."
+               "consenso eventualmente prestato inviando una comunicazione scritta via posta elettronica."
            )
            .AlignLeft();
         }
@@ -187,20 +190,19 @@ namespace TDPCompetitions.Api.Helpers
 
         private void ComposeInoltre(ColumnDescriptor col)
         {
-            col.Item().PaddingTop(10).AlignCenter().Text("INOLTRE").Bold();
+            col.Item().PaddingTop(5).AlignCenter().Text("INOLTRE").Bold();
 
             col.Item().Text(
-                "Ai sensi dell'art. 13 del D.Lgs. 196 del 30/06/2003 Vi informiamo che i Vs. dati personali sono e verranno da noi trattati " +
-                "ed inseriti in una banca dati, essendoci indispensabile per il corretto svolgimento dei nostri rapporti. Tutti i dati suddetti " +
-                "finora raccolti, nonchè quelli che saranno in futuro raccolti verranno trattati sia in forma cartacea che con strumenti " +
-                "informatici e/o telematici, in modo lecito e per finalità di legge connessi a norme civilistiche, fiscali, contabili, etc. e " +
-                "gestione del rapporto associativo. Informiamo inoltre che il titolare dei dati personali a norma di legge e I’Associazione " +
-                "Sportiva Dilettantistica Teste di Pietra con sede in San Quirino (PN) Via S. Eurosia, 32."
+                "Ai sensi degli artt. 10 e 320 cod. civ. e degli artt. 96 e 97 legge 22.4.1941, n. 633, Legge sul diritto d’autore, alla pubblicazione " +
+                "e/o diffusione in qualsiasi forma delle proprie immagini sul sito internet della Società/Ente A.S.D. TESTE DI PIETRA, sui canali " +
+                "social istituzionali nonché autorizza la conservazione dei video stessi negli archivi informatici della Società/Ente e prende " +
+                "atto che la finalità di tali pubblicazioni sono meramente di carattere informativo ed eventualmente promozionale, senza " +
+                "alcuna pretesa economica."
             )
             .AlignLeft();
 
             col.Item().Text(
-                "La presente liberatoria/autorizzazione potrà essere revocata in ogni tempo con comunicazione scritta da inviare via posta comune o e-mail."
+                "La presente liberatoria/autorizzazione potrà essere revocata in ogni tempo con comunicazione scritta da inviare via posta elettronica."
             )
             .AlignLeft();
         }

@@ -24,10 +24,6 @@ export function EditorsPageWrapper(props: IEditorsPageWrapperProps) {
 		redirectRoute: Routes.EditorsLogin
 	});
 
-	const onLogoClick = () => {
-		navigate(Routes.EditorsHome);
-	}
-
 	if (!isAuthenticated) {
 		navigate(Routes.EditorsLogin);
 	}
@@ -36,7 +32,9 @@ export function EditorsPageWrapper(props: IEditorsPageWrapperProps) {
 	
 	return <Box className={classNames.editorsPageWrapper}>
 		<div className={classNames.header}>
-			<img src={logoTesteDiPietra} className={classNames.logo} onClick={onLogoClick} />
+			<a href={Routes.EditorsHome}>
+				<img src={logoTesteDiPietra} className={classNames.logo} />
+			</a>
 			<h2>{props.title}&nbsp;<Status status={props.status} />
 			</h2>
 

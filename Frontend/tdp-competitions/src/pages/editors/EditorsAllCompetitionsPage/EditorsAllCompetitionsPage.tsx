@@ -127,7 +127,7 @@ export function EditorsAllCompetitionsPage() {
 												<Status status={competition.status} />
 											</StyledTableCell>
 											<StyledTableCell align="right">
-												<ButtonGroup variant="contained" aria-label="Azioni form">
+												<ButtonGroup variant="contained">
 													<Link to={LinkUtils.IdToRelativeUrl(competition.id)}>
 														<Button title="Dettagli"><CreateIcon /></Button>
 													</Link>

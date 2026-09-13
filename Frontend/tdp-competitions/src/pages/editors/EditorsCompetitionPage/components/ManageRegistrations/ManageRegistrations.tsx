@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Chip } from "@mui/material";
 import { RegistrationRow } from "./RegistrationRow";
 import { useState } from "react";
 import AddIcon from '@mui/icons-material/Add';
@@ -12,6 +12,8 @@ import { useRegistrationsByCompetitionsId } from "../../../../../queries/registr
 import { sortRegistrations } from "../../../../../utils/competitions.utils";
 import classNames from "../../../../../App.module.scss";
 import EditorsService from "../../../../../services/editors.service";
+import GroupsIcon from '@mui/icons-material/Groups';
+import AppRegistrationIcon from '@mui/icons-material/AppRegistration';
 const ManageRegistraionsStrings = STRINGS.Pages.EditorCompetitionPage.ManageRegistrations;
 
 interface IManageRegistrationsProps {
@@ -31,6 +33,12 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 		return <ErrorMessage errorCode={response?.error?.code ?? ''} />
 	}
 
+	const allParticipantsCount = (response?.value ?? [])
+		.map(r => ([r.competitor, ...r.minors]))
+		.flat()
+		.filter(c => !c.guardianOnly)
+		.length;
+
 	return <div className={classNames.manageRegistrations}>
 		<div className={classNames.actionsContainer}>
 			<Button
@@ -45,7 +53,7 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 			<Button
 				onClick={async (e) => {
 					e.stopPropagation();
-					await EditorsService.downloadWaiverAll(competitionId);	
+					await EditorsService.downloadWaiverAll(competitionId);
 				}}
 				variant="contained"
 				endIcon={<PrintIcon />}>
@@ -58,13 +66,23 @@ export function ManageRegistrations(props: IManageRegistrationsProps) {
 				{ManageRegistraionsStrings.NewRegistration}
 			</Button>
 		</div>
-
+		<div className={classNames.totalsContainer}>
+			<Chip
+				label={ManageRegistraionsStrings.TotalRegistrations(response?.value?.length ?? 0)}
+				color="info"
+				icon={<AppRegistrationIcon />} />
+			&nbsp;
+			<Chip
+				label={ManageRegistraionsStrings.TotalParticipants(allParticipantsCount)}
+				color="success"
+				icon={<GroupsIcon />} />
+		</div>
 		<div className={classNames.table} role="table">
 			<div className={`${classNames.row} ${classNames.header}`}>
 				<div>{ManageRegistraionsStrings.Table.Name}</div>
 				<div>{ManageRegistraionsStrings.Table.Email}</div>
 				<div>{ManageRegistraionsStrings.Table.BirthDate}</div>
-				<div>{ManageRegistraionsStrings.Table.GuardinOnly}</div>
+				<div>{ManageRegistraionsStrings.Table.GuardianOnly}</div>
 				<div>{ManageRegistraionsStrings.Table.Minors}</div>
 			</div>
 

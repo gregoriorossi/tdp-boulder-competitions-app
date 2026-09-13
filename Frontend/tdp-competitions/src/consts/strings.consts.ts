@@ -102,12 +102,14 @@ export const STRINGS = {
 				NewRegistration: 'Aggiungi registrazione',
 				PrintAll: 'Stampa delibere',
 				DownloadReport: 'Report Excel', 
+				TotalRegistrations: (count: number) => `Totale registrazioni: ${count}`,
+				TotalParticipants: (count: number) => `Totale partecipanti: ${count}`,
 				Table: {
 					Name: 'Nome',
 					Email: 'Email',
 					BirthDate: 'Data di nascita',
 					Minors: 'Minori',
-					GuardinOnly: 'Accompagnatore',
+					GuardianOnly: 'Accompagnatore',
 					RegistrationRow: {
 						AddMinor: 'Aggiungi minore'
 					}

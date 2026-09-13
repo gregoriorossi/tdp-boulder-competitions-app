@@ -44,6 +44,7 @@ declare const classNames: {
   readonly colorMarker: "colorMarker";
   readonly addIcon: "addIcon";
   readonly manageRegistrations: "manageRegistrations";
+  readonly totalsContainer: "totalsContainer";
   readonly row: "row";
   readonly alreadyDownloaded: "alreadyDownloaded";
   readonly hasMinors: "hasMinors";

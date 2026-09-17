@@ -3,6 +3,7 @@ import classNames from "../../../../../App.module.scss";
 import type { IGetResultsCompetitor, IGetResultsProblemsGroup, IGetResultsSentSpecialProblem, IGetResultsSpecialProblem } from "../../../../../models/competitions.models";
 import { ProblemHeaderCell } from "./ProblemHeaderCell";
 import { SpecialProblemCell } from "./SpecialFolderCell/SpecialProblemCell";
+import { sortResultProblemsFn } from "../../../../../utils/competitions.utils";
 
 interface IResultsProps {
 	competitionId: string;
@@ -23,12 +24,14 @@ export interface IResultProblem {
 
 const flatAllProblems = (problemsGroups: IGetResultsProblemsGroup[], scores: { [key: string]: number }): IResultProblem[] => {
 	return problemsGroups.flatMap(pg =>
-		pg.problems.map(p => ({
-			colorCode: pg.colorCode,
-			id: p.id,
-			name: p.name,
-			score: scores[p.id] ?? 0
-		}))
+		pg.problems
+			.map(p => ({
+				colorCode: pg.colorCode,
+				id: p.id,
+				name: p.name,
+				score: scores[p.id] ?? 0
+			}))
+			.sort(sortResultProblemsFn)
 	);
 }
 

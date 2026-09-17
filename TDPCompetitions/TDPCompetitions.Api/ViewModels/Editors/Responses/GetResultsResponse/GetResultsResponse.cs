@@ -2,11 +2,13 @@
 
 public sealed record GetResultsResponse
 {
-    public IEnumerable<GetResultsCompetitionResponse> Competitors { get; set; } = new List<GetResultsCompetitionResponse>();
+    public required IEnumerable<GetResultsCompetitionResponse> Competitors { get; set; } = new List<GetResultsCompetitionResponse>();
 
-    public IEnumerable<ProblemsGroupResponse> ProblemsGroups { get; set; } = new List<ProblemsGroupResponse>();
+    public required IEnumerable<ProblemsGroupResponse> ProblemsGroups { get; set; } = new List<ProblemsGroupResponse>();
 
-    public IEnumerable<GetResultsSpecialProblemResponse> SpecialProblems { get; set; } = new List<GetResultsSpecialProblemResponse>();
+    public required IEnumerable<GetResultsSpecialProblemResponse> SpecialProblems { get; set; } = new List<GetResultsSpecialProblemResponse>();
+
+    public required Dictionary<Guid, int> ProblemsScores { get; set; } = new Dictionary<Guid, int>();
 }
 
 public class GetResultsSpecialProblemSentByVM

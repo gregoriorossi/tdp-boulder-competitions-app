@@ -8,6 +8,7 @@ interface IResultsProps {
 	competitionId: string;
 	competitors: IGetResultsCompetitor[];
 	problemsGroups: IGetResultsProblemsGroup[];
+	problemsScores: { [key: string]: number }
 	specialProblems: IGetResultsSpecialProblem[];
 	onProblemSent: (competitorId: string, problemId: string) => Promise<void>;
 	onProblemUnsent: (problemId: string, sentProblemId: string) => Promise<void>;
@@ -17,21 +18,23 @@ export interface IResultProblem {
 	id: string;
 	name: string;
 	colorCode: string;
+	score: number;
 }
 
-const flatAllProblems = (problemsGroups: IGetResultsProblemsGroup[]): IResultProblem[] => {
+const flatAllProblems = (problemsGroups: IGetResultsProblemsGroup[], scores: { [key: string]: number }): IResultProblem[] => {
 	return problemsGroups.flatMap(pg =>
 		pg.problems.map(p => ({
 			colorCode: pg.colorCode,
 			id: p.id,
-			name: p.name
+			name: p.name,
+			score: scores[p.id] ?? 0
 		}))
 	);
 }
 
 export function Results(props: IResultsProps) {
-	const { competitionId, competitors, problemsGroups, specialProblems, onProblemSent, onProblemUnsent } = props;
-	const flatProblems = flatAllProblems(problemsGroups);
+	const { competitionId, competitors, problemsGroups, specialProblems, onProblemSent, onProblemUnsent, problemsScores } = props;
+	const flatProblems = flatAllProblems(problemsGroups, problemsScores);
 
 	const isProblemSentFn = (competitor: IGetResultsCompetitor, problemId: string): boolean => {
 		return competitor.sentProblems.some(sp => sp.problemId === problemId);
@@ -49,7 +52,7 @@ export function Results(props: IResultsProps) {
 					<TableRow>
 						<TableCell className={classNames.stickyCell}>&nbsp;</TableCell>
 						{specialProblems.map(sp => <ProblemHeaderCell colorCode={"#EEF527"} name={sp.name} key={sp.id} />) }
-						{flatProblems.map(p => <ProblemHeaderCell colorCode={p.colorCode} name={p.name} key={p.id} />)}
+						{flatProblems.map(p => <ProblemHeaderCell colorCode={p.colorCode} name={p.name} key={p.id} score={p.score ?? 0} />)}
 					</TableRow>
 				</TableHead>
 				<TableBody>

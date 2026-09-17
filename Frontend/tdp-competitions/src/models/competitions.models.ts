@@ -134,6 +134,7 @@ export interface IGetResultsResponse {
 	competitors: IGetResultsCompetitor[];
 	problemsGroups: IGetResultsProblemsGroup[];
 	specialProblems: IGetResultsSpecialProblem[];
+	problemsScores: { [key: string]: number }
 }
 
 export interface IGetResultsCompetitor {

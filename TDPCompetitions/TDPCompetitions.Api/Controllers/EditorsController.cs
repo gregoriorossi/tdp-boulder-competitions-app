@@ -816,12 +816,21 @@ namespace TDPCompetitions.Api.Controllers
             var specialProblems = await _problemsManager.GetSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
             IEnumerable<SentProblem> sentProblems = await _problemsManager.GetSentProblemsByCompetitionIdAsync(competitionId, cancellationToken);
             IEnumerable<SentSpecialProblem> sentSpecialProblems = await _problemsManager.GetSentSpecialProblemsByCompetitionIdAsync(competitionId, cancellationToken);
+            Dictionary<Guid, int> scores = sentProblems
+                .GroupBy(sp => sp.ProblemId)
+                .ToDictionary(g => g.Key, g =>
+                {
+                    var sends=  g.Count();
+                    var score = sends != 0 ? 1000 / sends : 0;
+                    return score;
+                });
 
             return Ok(Result<GetResultsResponse>.Success(new GetResultsResponse
             {
                 Competitors = competitors.Select(c => new GetResultsCompetitionResponse(c, sentProblems, sentSpecialProblems)),
                 ProblemsGroups = problemsGoups.Select(p => new ProblemsGroupResponse(p)),
                 SpecialProblems = specialProblems.Select(sp => new GetResultsSpecialProblemResponse(sp, sentSpecialProblems, competitors)),
+                ProblemsScores = scores
             }));
         }
         #endregion

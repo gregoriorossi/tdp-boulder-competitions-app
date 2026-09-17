@@ -70,16 +70,17 @@ export function ManageResults(props: IManageResultsProps) {
 			problemsGroups={response.value.problemsGroups}
 			specialProblems={response.value.specialProblems}
 			onProblemUnsent={onProblemUnsent}
+			problemsScores={response.value.problemsScores}
 			onProblemSent={onProblemSent} />
 
-			<Snackbar
-				open={snackbarOpen}
-				autoHideDuration={5000}
-				onClose={handleCloseSnackbar}
-				anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
-				<Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
-					{STRINGS.Errors.Generic}
-				</Alert>
-			</Snackbar>
+		<Snackbar
+			open={snackbarOpen}
+			autoHideDuration={5000}
+			onClose={handleCloseSnackbar}
+			anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+			<Alert onClose={handleCloseSnackbar} severity="error" sx={{ width: '100%' }}>
+				{STRINGS.Errors.Generic}
+			</Alert>
+		</Snackbar>
 	</div >
 }

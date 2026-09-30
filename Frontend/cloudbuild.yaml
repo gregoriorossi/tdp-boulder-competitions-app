@@ -8,8 +8,8 @@ steps:
       - '--build-arg'
       - 'VITE_API_URL=https://api-737720691967.europe-west1.run.app/api'
       - '-f'
-      - 'Frontend/tdp-competitions/Dockerfile'
-      - 'Frontend/tdp-competitions'
+      - 'Frontend/Dockerfile'
+      - 'Frontend'
 
   # Push Docker image
   - name: 'gcr.io/cloud-builders/docker'

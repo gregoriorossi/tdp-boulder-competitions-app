@@ -1,0 +1,137 @@
+{
+  "backendType": "SECOND_GEN",
+  "connectionName": "teste-di-pietra:europe-west8:tdp-database",
+  "createTime": "2026-08-07T12:11:35.870Z",
+  "databaseInstalledVersion": "POSTGRES_18_6",
+  "databaseVersion": "POSTGRES_18",
+  "dnsNames": [
+    {
+      "connectionType": "PRIVATE_SERVICES_ACCESS",
+      "dnsScope": "CLUSTER",
+      "name": "3u56wkwzp0f0b.3aefyihy526il.global.sql-psa.goog.",
+      "recordManager": "CLOUD_SQL_AUTOMATION"
+    }
+  ],
+  "etag": "6c82a0b08818b174bd937fa1deff7c37b86c372ba4d1fc231f1de3f4ee114603",
+  "gceZone": "europe-west8-b",
+  "geminiConfig": {
+    "activeQueryEnabled": false,
+    "entitled": false,
+    "googleVacuumMgmtEnabled": false,
+    "indexAdvisorEnabled": false,
+    "oomSessionCancelEnabled": true
+  },
+  "includeReplicasForMajorVersionUpgrade": false,
+  "instanceType": "CLOUD_SQL_INSTANCE",
+  "ipAddresses": [
+    {
+      "ipAddress": "34.154.211.66",
+      "type": "PRIMARY"
+    },
+    {
+      "ipAddress": "34.154.153.36",
+      "type": "OUTGOING"
+    },
+    {
+      "ipAddress": "10.65.0.3",
+      "type": "PRIVATE"
+    }
+  ],
+  "kind": "sql#instance",
+  "maintenanceVersion": "POSTGRES_18_6.R20260712.01_33",
+  "name": "tdp-database",
+  "project": "teste-di-pietra",
+  "region": "europe-west8",
+  "replicationCluster": {
+    "psaWriteEndpoint": "3u56wkwzp0f0b.3aefyihy526il.global.sql-psa.goog."
+  },
+  "satisfiesPzi": false,
+  "selfLink": "https://sqladmin.googleapis.com/sql/v1beta4/projects/teste-di-pietra/instances/tdp-database",
+  "serverCaCert": {
+    "cert": "-----BEGIN CERTIFICATE-----\nMIIDcTCCAlmgAwIBAgIBADANBgkqhkiG9w0BAQsFADBwMS0wKwYDVQQuEyQwYzFj\nOTYxNS03Mjk0LTQ1OTgtYjVjOS05NzJlZDNhY2VjNGExHDAaBgNVBAMTE0Nsb3Vk\nIFNRTCBTZXJ2ZXIgQ0ExFDASBgNVBAoTC0dvb2dsZSwgSW5jMQswCQYDVQQGEwJV\nUzAeFw0yNjA4MDcxMjEyMDhaFw0zNjA4MDQxMjEzMDhaMHAxLTArBgNVBC4TJDBj\nMWM5NjE1LTcyOTQtNDU5OC1iNWM5LTk3MmVkM2FjZWM0YTEcMBoGA1UEAxMTQ2xv\ndWQgU1FMIFNlcnZlciBDQTEUMBIGA1UEChMLR29vZ2xlLCBJbmMxCzAJBgNVBAYT\nAlVTMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA6Dfhm+DbNaaoW0uW\n0WKWWLrFNSfp3c+h8aw99J0TWgvZAC9qT//z3fXqyIu//adI7ZNyVcuwKBFI/U6+\nyT5t7RLffFvlL1dw34XAB35f5gMWFx9kF0uUQ/p3uOxV8nfeHdCsiGMx4+8cHj6Z\nPm+swACy0L542VzWiRd4nvhO4kyFIfmX9gSdDRzCex1Pde2JELcedqpr2eSAhAA/\niZgyYUBAiyG5YS6x0sYHbhCZCBK0+mueXQN/9DifG+Cqcmvy+OGPC6VjYI6QDy8O\nI1uQgiN9c4SeUdDUL0Vj+1N9uwR3LC++8+rSZ6jwRLy5tSsSHSJLz0Ci3pGVZyCX\nL2rCdQIDAQABoxYwFDASBgNVHRMBAf8ECDAGAQH/AgEAMA0GCSqGSIb3DQEBCwUA\nA4IBAQDeZOJxB5kwxea9BwNTEOhxmZ5tp4xDC7Yg0ziTFxAADYBxrR8WjyetM9Rn\nEIBHGtu220mGytl2oRhV67COX20ZuyUrCauUDcSiO52g+OTkR8xGADuX3r8wnjM4\n6fSVK+zSZE/LMOz0m1cT0LtuF3dBk9IWpjOVnQjQlNO9rnUKv/S/r+iUUTpZHM9x\n9KU9ICaDVVISD90JvIKFSOk76J1jAXPbymetSQibI3qRYVjWpvtGh6Ew6bkxo/e2\njDIp+1v3nOpUxrhJ+YNDYiRIKe+x8CdOiHdqbw0kZSbt4ZKX+gOUAeIXOIi+80mb\n2BzKenguFTlVyj3vwwFYuia9MQKv\n-----END CERTIFICATE-----",
+    "certSerialNumber": "0",
+    "commonName": "C=US,O=Google\\, Inc,CN=Cloud SQL Server CA,dnQualifier=0c1c9615-7294-4598-b5c9-972ed3acec4a",
+    "createTime": "2026-08-07T12:12:08.593Z",
+    "expirationTime": "2036-08-04T12:13:08.593Z",
+    "instance": "tdp-database",
+    "kind": "sql#sslCert",
+    "sha1Fingerprint": "b5b03916051833296e302b1a77ae411bc4f1f11d"
+  },
+  "serviceAccountEmailAddress": "p737720691967-gfxb9h@gcp-sa-cloud-sql.iam.gserviceaccount.com",
+  "settings": {
+    "activationPolicy": "ALWAYS",
+    "availabilityType": "ZONAL",
+    "backupConfiguration": {
+      "backupRetentionSettings": {
+        "retainedBackups": 1,
+        "retentionUnit": "COUNT"
+      },
+      "backupTier": "STANDARD",
+      "enabled": false,
+      "kind": "sql#backupConfiguration",
+      "pointInTimeRecoveryEnabled": false,
+      "replicationLogArchivingEnabled": false,
+      "startTime": "22:00",
+      "transactionLogRetentionDays": 7,
+      "transactionalLogStorageState": "TRANSACTIONAL_LOG_STORAGE_STATE_UNSPECIFIED"
+    },
+    "connectorEnforcement": "NOT_REQUIRED",
+    "dataDiskSizeGb": "100",
+    "dataDiskType": "PD_SSD",
+    "databaseFlags": [
+      {
+        "name": "cloudsql.iam_authentication",
+        "value": "on"
+      }
+    ],
+    "deletionProtectionEnabled": false,
+    "edition": "ENTERPRISE",
+    "enableDataplexIntegration": true,
+    "enableGoogleMlIntegration": false,
+    "finalBackupConfig": {
+      "enabled": false
+    },
+    "insightsConfig": {},
+    "ipConfiguration": {
+      "authorizedNetworks": [
+        {
+          "kind": "sql#aclEntry",
+          "name": "mio",
+          "value": "87.10.75.45"
+        },
+        {
+          "kind": "sql#aclEntry",
+          "name": "",
+          "value": "95.248.233.146"
+        }
+      ],
+      "enablePrivatePathForGoogleCloudServices": true,
+      "ipv4Enabled": true,
+      "privateNetwork": "projects/teste-di-pietra/global/networks/default",
+      "requireSsl": false,
+      "serverCaMode": "GOOGLE_MANAGED_INTERNAL_CA",
+      "serverCertificateRotationMode": "SERVER_CERTIFICATE_ROTATION_MODE_UNSPECIFIED",
+      "sslMode": "ALLOW_UNENCRYPTED_AND_ENCRYPTED"
+    },
+    "kind": "sql#settings",
+    "locationPreference": {
+      "kind": "sql#locationPreference",
+      "zone": "europe-west8-b"
+    },
+    "maintenanceWindow": {
+      "day": 0,
+      "hour": 0,
+      "kind": "sql#maintenanceWindow"
+    },
+    "pricingPlan": "PER_USE",
+    "replicationLagMaxSeconds": 31536000,
+    "replicationType": "SYNCHRONOUS",
+    "retainBackupsOnDelete": false,
+    "settingsVersion": "158",
+    "storageAutoResize": false,
+    "storageAutoResizeLimit": "0",
+    "tier": "db-custom-1-3840"
+  },
+  "sqlNetworkArchitecture": "NEW_NETWORK_ARCHITECTURE",
+  "state": "RUNNABLE"
+}

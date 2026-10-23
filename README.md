@@ -13,9 +13,8 @@ A full-stack web application for organizing and running **boulder competitions**
 5. [Running Locally](#5-running-locally)
 6. [Cloud Deployment](#6-cloud-deployment)
 7. [Testing](#7-testing)
-8. [Contributing](#8-contributing)
-9. [License](#9-license)
-10. [Author / Contacts](#10-author--contacts)
+8. [License](#8-license)
+9. [Author / Contacts](#9-author--contacts)
 
 ---
 
@@ -236,13 +235,13 @@ dotnet build TDPCompetitions.sln
 
 ---
 
-## 9. License
+## 8. License
 
 This project is released under the MIT License. See [LICENSE](LICENSE) for details.
 
 ---
 
-## 10. Author / Contacts
+## 9. Author / Contacts
 
 - **Author:** [gregoriorossi](https://github.com/gregoriorossi)
 - **Repository:** [github.com/gregoriorossi/tdp-boulder-competitions-app](https://github.com/gregoriorossi/tdp-boulder-competitions-app)
